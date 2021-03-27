@@ -1,0 +1,190 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<%- include('menu.ejs') %>
+			</div>	
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<h1>Music</h1>
+			</div>
+			
+			<div class="col-12 text-right">
+				<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#id_modal_add">Add</button>
+			</div>		
+		</div>
+
+		<div class="row" id="id_div_music_list">
+		</div>
+	</div>
+</body>
+</html>
+
+<!-- Modal -->
+<div class="modal fade" id="id_modal_add" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Music</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<form>
+					<div class="form-group row">
+						<label for="id_text_artist_name" class="col-sm-2 col-form-label">Artist</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="id_text_artist_name">
+						</div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-sm btn-primary" id="id_btn_artist_search">Search</button>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-2"></div>
+						<div class="col-10" id="id_label_artist_search_result"></div>
+					</div>
+					<div class="form-group row">
+						<label for="id_text_title" class="col-sm-2 col-form-label">Title</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="id_text_title">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="id_text_video_id" class="col-sm-2 col-form-label">Video ID</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="id_text_video_id">
+						</div>
+					</div>
+				</form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-primary" id="id_btn_add_ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+	var _searched_artist_id = null;
+
+	$('document').ready(function(){
+		$('#id_btn_add_ok').on('click', AddMusic);
+		$('#id_btn_artist_search').on('click', SearchArtist);
+
+		GetMusicList();
+	});
+
+	function SearchArtist(){
+		var artist_name = $('#id_text_artist_name').val();
+		if(artist_name == ''){
+			$('#id_label_artist_search_result').html('Empty');
+			return;
+		}
+		var data = {
+			artist_name: artist_name
+		};
+
+		$.ajax({
+			url: '/cherry_api/search_artist',
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					if(res.data.found){
+						$('#id_label_artist_search_result').html('Found');
+						console.log('res.artist_id ' + res.data.artist_id);
+						_searched_artist_id = res.data.artist_id;
+					}else{
+						$('#id_label_artist_search_result').html('Not Found');
+						_searched_artist_id = null;
+					}
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	}
+
+	function AddMusic(){
+		if(_searched_artist_id == null){
+			alert('Search artist first.');
+			return;
+		}
+
+		var title = $('#id_text_title').val();
+		title = title.trim();
+		if(title == ''){
+			alert('Enter title');
+			return;
+		}
+
+		var video_id = $('#id_text_video_id').val();
+		video_id = video_id.trim();
+		if(video_id == ''){
+			alert('Enter video ID');
+			return;
+		}
+
+		var music = {
+			artist_id: _searched_artist_id,
+			title: title,
+			video_id: video_id
+		};
+
+		$.ajax({
+			url: '/cherry_api/add_music',
+			type: 'POST',
+			data: JSON.stringify(music),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					alert('Success');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+
+		//TODO : reload music list
+
+		$('#id_modal_add').modal('hide');
+	}
+
+	function GetMusicList(){
+		$.ajax({
+			url: '/cherry_api/get_music_list',
+			type: 'GET',
+			data: null,
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					DisplayMusicList(res.music_list);
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	}
+
+	function DisplayMusicList(music_list){
+		var html = '';
+		for(var i=0 ; i<music_list.length ; i++){
+			var music = music_list[i];
+			html += '<div class="col-12">' + music.artist + ' | ' + music.title + '</div>';
+		}
+		$('#id_div_music_list').html(html);
+	}
+</script>

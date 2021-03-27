@@ -146,7 +146,7 @@ function YoutubePlayer(){
 
 	this.Stop = function(){
 		self._player.stopVideo();
-	}
+	};
 
 	this.Pause = function(){
 		if(self._is_playing){

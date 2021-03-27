@@ -14,7 +14,7 @@ var body_parser = require('body-parser');
 // 	database: 'beat',
 // });
 
-// var beat_api = require('./server/beat_api');
+var cherry_api = require('./server/cherry_api');
 // var auth_api = require('./server/auth_api');
 
 var view_router = require('./server/view_router');
@@ -49,8 +49,8 @@ http.createServer(app).listen(80);
 
 app.use(express.static(__dirname + '/public'));
 app.use(body_parser.json());
-// //-- APIs-------------------------------------
-// app.use('/beat_api', beat_api);
+//-- APIs-------------------------------------
+app.use('/cherry_api', cherry_api);
 // app.use('/auth_api', auth_api);
 // //-- Routers----------------------------------
 app.use('/', view_router);

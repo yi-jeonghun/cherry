@@ -1,0 +1,56 @@
+div{
+	border: 1px solid #eeeeee;
+}
+
+.player_div{
+	position: fixed; 
+	bottom: 0; 
+	width: 100%;
+	display: flex;
+	z-index: 100;
+}
+
+.player_video_div{
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+}
+
+.player_info_div{
+	display: inline-block;
+	width: calc(100% - 300px);
+	padding: 5px;
+	/* width: 100%; */
+}
+
+.controller_div{
+	/* display: inline-block; */
+	position: fixed;
+	right: 0;
+	width: 200px;
+}
+
+.music_info_div{
+	height: 40px;
+}
+
+.slider_div{
+	height: 40px;
+}
+
+.slider{
+	width: 100%;
+}
+
+.player_music_list{
+	position: fixed;
+	bottom: 100; 
+	width: 100%;
+	height: 60%;
+	z-index: 99;
+}
+
+#id_div_music_list{
+	overflow-y: auto;
+	height: 100%;
+}

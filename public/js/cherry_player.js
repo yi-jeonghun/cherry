@@ -1,10 +1,6 @@
 $('document').ready(function(){
-	window._cherry_player = new KpopControl().Init();
+	window._cherry_player = new CherryPlayer().Init();
 });
-
-function SelectMusic(id){
-	window._cherry_player.SelectMusic(id);
-}
 
 const SEQ_TYPE = {
 	Sequence : 0,
@@ -17,7 +13,7 @@ const REPEAT_TYPE = {
 	END : 2
 };
 
-function KpopControl(){
+function CherryPlayer(){
 	var self = this;
 	this._music_list = [];
 	this._video_id = null;
@@ -25,28 +21,11 @@ function KpopControl(){
 	this._play_time_ms = 0;
 	this._seq_type = SEQ_TYPE.Sequence;
 	this._repeat_type = REPEAT_TYPE.ALL;
+	this._b_play_list_show = false;
 
 	this.Init = function(){
+		$('#id_player_music_list_div').hide();
 		self.InitHandle();
-
-		self._music_list.push({
-			artist: 'Queen',
-			title: 'I was born to love you',
-			video_id: 'Fna56a_r41s'
-		});
-		self._music_list.push({
-			artist: 'Scolpions',
-			title: 'Still loving you',
-			video_id: 'CjRas1yOWvo'
-		});
-		self._music_list.push({
-			artist: 'Bon Jovi',
-			title: 'It\'s my life',
-			video_id: 'vx2u5uUu3DE'
-		});
-
-		self.DisplayMusicList();
-
 		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
 		return self;
 	};
@@ -57,6 +36,32 @@ function KpopControl(){
 		$('#id_btn_pause').on('click', self.Pause);
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
+		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
+	};
+
+	this.TogglePlayList = function(){
+		if(self._b_play_list_show){
+			$('#id_player_music_list_div').hide();
+			self._b_play_list_show = false;
+		}else{
+			$('#id_player_music_list_div').show();
+			self._b_play_list_show = true;
+		}
+	};
+
+	this.LoadMusicList = function(music_list){
+		self._music_list = music_list;
+		self.DisplayMusicList();
+	};
+
+	this.DisplayMusicList = function(){
+		var htm = '';
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i]; 
+			var id = 'id_music_' + i;
+			htm += '<div style="cursor:pointer" id="' + id + '" onclick="SelectMusic(' + i + ')">' + m.artist + ' - ' + m.title + '</div>';
+		}
+		$('#id_div_music_list').html(htm);
 	};
 
 	this.ToggleSeqType = function(){
@@ -97,16 +102,6 @@ function KpopControl(){
 		}
 	};
 
-	this.DisplayMusicList = function(){
-		var htm = '';
-		for(var i=0 ; i<self._music_list.length ; i++){
-			var m = self._music_list[i]; 
-			var id = 'id_music_' + i;
-			htm += '<div style="cursor:pointer" id="' + id + '" onclick="SelectMusic(' + i + ')">' + m.artist + ' - ' + m.title + '</div>';
-		}
-		$('#id_div_music_list').html(htm);
-	};
-	
 	this.Play = function(){
 		__yt_player.Play();
 	};
@@ -216,8 +211,8 @@ function KpopControl(){
 		var seconds = parseInt(duration % 60);
 
 		var htm = '';
-		htm += duration;
-		htm += ' - ';
+		// htm += duration;
+		// htm += ' - ';
 		htm += minutes + ':' + seconds;
 
 		$('#id_div_duration').html(htm);

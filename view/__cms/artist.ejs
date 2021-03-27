@@ -1,0 +1,117 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<%- include('menu.ejs') %>
+			</div>	
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<h1>Artist</h1>
+			</div>
+			
+			<div class="col-12 text-right">
+				<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#id_modal_add">Add</button>
+			</div>		
+		</div>
+
+		<div class="row" id="id_div_artist_list">
+		</div>
+	</div>
+</body>
+</html>
+
+<!-- Modal -->
+<div class="modal fade" id="id_modal_add" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Artist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<form>
+					<div class="form-group row">
+						<label for="id_text_artist_name" class="col-sm-2 col-form-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="id_text_artist_name">
+						</div>
+					</div>
+				</form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button type="button" class="btn btn-primary" id="id_btn_add_ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+	$('document').ready(function(){
+		$('#id_btn_add_ok').on('click', AddArtist)
+
+		GetArtistList();
+	});
+
+	function AddArtist(){
+		var artist_name = $('#id_text_artist_name').val();
+		if(artist_name == ''){
+			alert('empty artist name');
+			return;
+		}
+
+		var data = {
+			artist_name: artist_name
+		};
+
+		$.ajax({
+			url: '/cherry_api/add_artist',
+			type: 'POST',
+			data: JSON.stringify(data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					alert('Success');
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+
+		$('#id_modal_add').modal('hide');
+	}
+
+	function GetArtistList(){
+		$.ajax({
+			url: '/cherry_api/get_artist_list',
+			type: 'GET',
+			data: null,
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					DisplayArtistList(res.artist_list);
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	}
+
+	function DisplayArtistList(artist_list){
+		var html = '';
+		for(var i=0 ; i<artist_list.length ; i++){
+			html += '<div class="col-12">' + artist_list[i].name + '</div>';
+		}
+		$('#id_div_artist_list').html(html);
+	}
+</script>
