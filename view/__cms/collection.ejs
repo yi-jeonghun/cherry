@@ -1,6 +1,7 @@
 <html>
 <head>
 	<%- include('../common_resources.ejs') %>
+	<script type="text/javascript" src="/js/__cms/collection_control.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -16,9 +17,22 @@
 			</div>
 			
 			<div class="col-12 text-right">
-				<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#id_modal_add">Add</button>
+				<!-- <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#id_modal_add_collection">Add Collection</button> -->
+				<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#id_modal_add_music">Add Music</button>
+				<button type="button" class="btn btn-sm btn-primary" id="id_btn_save">Save</button>
 			</div>		
 		</div>
+
+		<div class="row">
+			<div class="col-4" style="border-right: 1px solid #aaaaaa;">
+				<a style="cursor: pointer;" onclick="LoadKPopTop100()">KPop Top 100</a>
+			</div>
+			<div class="col-6">
+				<div class="container-fluid" id="id_div_music_list">
+				</div>
+			</div>
+		</div>
+
 
 		<div class="row" id="id_div_collection_list">
 		</div>
@@ -26,8 +40,8 @@
 </body>
 </html>
 
-<!-- Modal -->
-<div class="modal fade" id="id_modal_add" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Add Collection -->
+<div class="modal fade" id="id_modal_add_collection" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,71 +61,41 @@
 				</form>
       </div>
       <div class="modal-footer">
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
         <button type="button" class="btn btn-primary" id="id_btn_add_ok">OK</button>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-	$('document').ready(function(){
-		$('#id_btn_add_ok').on('click', AddCollection)
-
-		GetCollectionList();
-	});
-
-	function AddCollection(){
-		var collection_name = $('#id_text_collection_name').val();
-		if(collection_name == ''){
-			alert('empty collection name');
-			return;
-		}
-
-		var data = {
-			collection_name: collection_name
-		};
-
-		$.ajax({
-			url: '/cherry_api/add_collection',
-			type: 'POST',
-			data: JSON.stringify(data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					alert('Success');
-				}else{
-					alert(res.err);
-				}
-			}
-		});	
-
-		$('#id_modal_add').modal('hide');
-	}
-
-	function GetCollectionList(){
-		$.ajax({
-			url: '/cherry_api/get_collection_list',
-			type: 'GET',
-			data: null,
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					DisplayCollectionList(res.collection_list);
-				}else{
-					alert(res.err);
-				}
-			}
-		});	
-	}
-
-	function DisplayCollectionList(collection_list){
-		var html = '';
-		for(var i=0 ; i<collection_list.length ; i++){
-			html += '<div class="col-12">' + collection_list[i].name + '</div>';
-		}
-		$('#id_div_collection_list').html(html);
-	}
-</script>
+<!-- Modal Add Music -->
+<div class="modal fade" id="id_modal_add_music" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Music</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<form>
+					<div class="form-group row">
+						<!-- <label for="id_text_artist_name" class="col-sm-2 col-form-label">Name</label> -->
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="id_text_keyword" placeholder="Search">
+						</div>
+						<div class="col-4">
+							<button type="button" class="btn-sm btn-primary" id="id_btn_search_artist">Artist</button>
+							<button type="button" class="btn-sm btn-primary" id="id_btn_search_title">Title</button>
+						</div>
+					</div>
+				</form>
+				<div class="container-fluid" id="id_searched_music_list">
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="id_btn_add_music_ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

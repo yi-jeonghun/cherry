@@ -51,7 +51,9 @@ function CherryPlayer(){
 
 	this.LoadMusicList = function(music_list){
 		self._music_list = music_list;
+		console.log('LoadMusicList len ' + self._music_list.length);
 		self.DisplayMusicList();
+		self.SelectMusic(0);
 	};
 
 	this.DisplayMusicList = function(){
@@ -125,7 +127,9 @@ function CherryPlayer(){
 		self._cur_music_idx = id;
 		var video_id = self._music_list[self._cur_music_idx].video_id;
 		__yt_player.LoadVideo(video_id);
-		__yt_player.Play();
+		if(__yt_player._is_player_ready){
+			__yt_player.Play();
+		}
 		self.HighlightCurrentMusic();
 	};
 
@@ -136,6 +140,7 @@ function CherryPlayer(){
 	};
 
 	this.Next = function(){
+		console.log('next ' );
 		__yt_player.Stop();
 
 		if(self._repeat_type == REPEAT_TYPE.ONE){
@@ -173,8 +178,8 @@ function CherryPlayer(){
 
 	this.OnYoutubeReady = function(){
 		self._cur_music_idx = 0;
-		self.HighlightCurrentMusic();
-		__yt_player.LoadVideo(self._music_list[0].video_id);
+		// self.HighlightCurrentMusic();
+		// __yt_player.LoadVideo(self._music_list[0].video_id);
 	};
 	
 	this.OnFlowEvent = function(play_time){
@@ -186,6 +191,7 @@ function CherryPlayer(){
 	this.OnPlayerReady = function(pb_rates, duration, volume){
 		console.log('duration ' + duration);
 		self.DisplayDuration(duration);
+		__yt_player.Play();
 	};
 	
 	this.OnPlayerStateChange = function(player_state, duration){
