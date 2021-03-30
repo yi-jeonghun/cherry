@@ -218,45 +218,52 @@ function CherryService(){
 		});
 	};
 
-	this.GetKpopTop100 = async function(){
+	this.GetTop100 = async function(type){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			var sql = '';
+			var type_enum = type;
 			try{
 				conn = await db_conn.GetConnection();
 				sql += 'SELECT k.ranking, k.music_id, m.title, m.artist_id, a.name as artist, m.video_id ';
-				sql += 'FROM kpop_top_100 AS k ';
+				sql += 'FROM top_100 AS k ';
 				sql += 'JOIN music m ';
 				sql += 'ON m.music_id = k.music_id ';
 				sql += 'JOIN artist a ';
 				sql += 'ON m.artist_id = a.artist_id ';
-				var val = [];
+				sql += 'WHERE k.type = ?';
+
+				console.log('type_enum ' + type_enum);
+				console.log('sql ' + sql);
+				var val = [type_enum];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
-						reject('FAIL CherryService GetKpopTop100 #0');
+						reject('FAIL CherryService GetTop100 #0');
 					}else{
 						resolve(result);
 					}
 				});
 			}catch(err){
 				console.error(err);
-				reject('FAIL CherryService GetKpopTop100 #1');
+				reject('FAIL CherryService GetTop100 #1');
 			}finally{
 				if(conn) conn.release();
 			}
 		});
 	};
 
-	this.ClearKpopTop100 = async function(){
+	this.ClearTop100 = async function(type){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
 			var sql = '';
+			var type_enum = type;
+
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'DELETE FROM kpop_top_100 ';
-				var val = [];
+				sql += 'DELETE FROM top_100 WHERE type=?';
+				var val = [type_enum];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -274,15 +281,16 @@ function CherryService(){
 		});
 	};
 
-	this.SaveKpopTop100 = async function(kpop_top_100){
+	this.SaveTop100 = async function(type, top_100){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
+			var type_enum = type;
 
 			try{
 				conn = await db_conn.GetConnection();
-				for(var i=0 ; i<kpop_top_100.length ; i++){
-					var k = kpop_top_100[i];
-					await self.UpdateKpopTop100_OneRecord(conn, k.ranking, k.music_id);
+				for(var i=0 ; i<top_100.length ; i++){
+					var k = top_100[i];
+					await self.UpdateTop100_OneRecord(conn, type_enum, k.ranking, k.music_id);
 				}
 				resolve();
 			}catch(err){
@@ -294,14 +302,14 @@ function CherryService(){
 		});
 	};
 
-	this.UpdateKpopTop100_OneRecord = async function(conn, ranking, music_id){
+	this.UpdateTop100_OneRecord = async function(conn, type_enum, ranking, music_id){
 		return new Promise(async function(resolve, reject){
-			sql = 'INSERT INTO kpop_top_100(ranking, music_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE ranking=?, music_id=?';
-			var val = [ranking, music_id, ranking, music_id];
+			sql = 'INSERT INTO top_100(ranking, music_id, type) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE ranking=?, music_id=?, type=?';
+			var val = [ranking, music_id, type_enum, ranking, music_id, type_enum];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);
-					reject('FAIL CherryService UpdateKpopTop100_OneRecord #0');
+					reject('FAIL CherryService UpdateTop100_OneRecord #0');
 				}else{
 					resolve();
 				}

@@ -7,13 +7,24 @@ $('document').ready(function(){
 	// GetCollectionList();
 });
 
-var _kpop_top_100 = [];
+const COLLECTION_TYPE = {
+	KPOP:0,
+	BILLBOARD:1
+};
+
+var _collection_type = -1;
+var _top_100 = [];
 
 function Save(){
+	if(_collection_type == -1){
+		alert('select collection type first');
+		return;
+	}
+
 	$.ajax({
-		url: '/cherry_api/collection/save',
+		url: '/cherry_api/collection/save?type='+_collection_type,
 		type: 'POST',
-		data: JSON.stringify(_kpop_top_100),
+		data: JSON.stringify(_top_100),
 		contentType: 'application/json; charset=utf-8',
 		dataType: 'json',
 		success: function (res) {
@@ -81,8 +92,22 @@ function DisplayCollectionList(collection_list){
 }
 
 function LoadKPopTop100(){
+	$('#id_link_kpop_top_100').css("background-color", "gray");
+	$('#id_link_billboard_top_100').css("background-color", "white");
+	LoadTop100(COLLECTION_TYPE.KPOP);
+	_collection_type = COLLECTION_TYPE.KPOP;
+}
+
+function LoadBillboardTop100(){
+	$('#id_link_kpop_top_100').css("background-color", "white");
+	$('#id_link_billboard_top_100').css("background-color", "gray");
+	LoadTop100(COLLECTION_TYPE.BILLBOARD);
+	_collection_type = COLLECTION_TYPE.BILLBOARD;
+}
+
+function LoadTop100(type){
 	$.ajax({
-		url: '/cherry_api/collection/get_kpop_top_100',
+		url: '/cherry_api/collection/get_top_100?type='+type,
 		type: 'GET',
 		data: null,
 		contentType: 'application/json; charset=utf-8',
@@ -90,7 +115,8 @@ function LoadKPopTop100(){
 		success: function (res) {
 			if(res.ok){
 				// DisplaySearchedMusicList(res.music_list);
-				_kpop_top_100 = res.music_list;
+				console.log('res.music_list length ' + res.music_list.length);
+				_top_100 = res.music_list;
 				DisplayKpopTop100();
 				// console.log('music list ' + res.music_list);
 			}else{
@@ -103,9 +129,8 @@ function LoadKPopTop100(){
 function DisplayKpopTop100(){
 	var htm = '';
 
-	console.log('_kpop_top_100 len ' + _kpop_top_100.length);
-	for(var i=0 ; i<_kpop_top_100.length ; i++){
-		var m = _kpop_top_100[i];
+	for(var i=0 ; i<_top_100.length ; i++){
+		var m = _top_100[i];
 		console.log('m ' + JSON.stringify(m));
 		htm += '<div class="row">';
 		htm += '	<div class="col-1">' + m.ranking + '</div>';
@@ -170,8 +195,8 @@ function DisplaySearchedMusicList(music_list){
 function AddMusicIntoCollection(artist, music_id, title){
 	$('#id_modal_add_music').modal('hide');
 
-	var ranking = _kpop_top_100.length + 1;
-	_kpop_top_100.push({
+	var ranking = _top_100.length + 1;
+	_top_100.push({
 		ranking:ranking,
 		music_id:music_id,
 		artist: artist,

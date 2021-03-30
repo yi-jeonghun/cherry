@@ -146,9 +146,11 @@ router.post('/search_music_by_artist', async function(req, res){
 	}
 });
 
-router.get('/collection/get_kpop_top_100', async function(req, res){
+router.get('/collection/get_top_100', async function(req, res){
 	try{
-		var music_list = await cherry_service.GetKpopTop100();
+		var type = req.query.type;
+		console.log('type ' + type);
+		var music_list = await cherry_service.GetTop100(type);
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -164,9 +166,10 @@ router.get('/collection/get_kpop_top_100', async function(req, res){
 
 router.post('/collection/save', async function(req, res){
 	try{
-		var kpop_top_100 = req.body;
-		await cherry_service.ClearKpopTop100();
-		await cherry_service.SaveKpopTop100(kpop_top_100);
+		var type = req.query.type;
+		var top_100 = req.body;
+		await cherry_service.ClearTop100(type);
+		await cherry_service.SaveTop100(type, top_100);
 		res.send({
 			ok: 1
 		});	

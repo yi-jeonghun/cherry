@@ -1,7 +1,7 @@
 <html>
 <head>
 	<%- include('../common_resources.ejs') %>
-	<script type="text/javascript" src="/js/__cms/collection_control.js"></script>
+	<script type="text/javascript" src="/js/__cms/cms_collection_control.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -25,7 +25,12 @@
 
 		<div class="row">
 			<div class="col-4" style="border-right: 1px solid #aaaaaa;">
-				<a style="cursor: pointer;" onclick="LoadKPopTop100()">KPop Top 100</a>
+				<div id="id_link_kpop_top_100">
+					<a style="cursor: pointer;" onclick="LoadKPopTop100()">KPop Top 100</a>
+				</div>
+				<div id="id_link_billboard_top_100">
+					<a style="cursor: pointer;" onclick="LoadBillboardTop100()">Billboard Top 100</a>
+				</div>
 			</div>
 			<div class="col-6">
 				<div class="container-fluid" id="id_div_music_list">

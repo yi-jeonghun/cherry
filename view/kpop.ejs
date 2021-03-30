@@ -2,10 +2,16 @@
 
 
 <div class="text-right">
-	<button type="button" class="btn btn-sm btn-primary" id="id_btn_listen_all">전체듣기</button>
+	<button type="button" class="btn btn-sm btn-primary" id="id_btn_listen_all_kpop">전체듣기</button>
 </div>
 
 <div class="container" id="id_div_kpop_list">
 </div>
 
-<script type="text/javascript" src="js/kpop_control.js"></script>
+<script type="text/javascript" src="js/collection_control.js"></script>
+<script>
+$('document').ready(function(){
+	window._kpop_collection_control = new CollectionControl(0).Init();
+	$('#id_btn_listen_all_kpop').on('click', window._kpop_collection_control.ListenAll);
+});
+</script>
