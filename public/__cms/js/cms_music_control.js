@@ -43,6 +43,7 @@ function SearchArtist(){
 
 function AddMusic(){
 	var artist = $('#id_text_artist_name').val();
+	artist = UTIL_Escape(artist);
 	artist = artist.trim();
 	if(artist == ''){
 		alert('No artist');
@@ -50,6 +51,7 @@ function AddMusic(){
 	}
 
 	var title = $('#id_text_title').val();
+	title = UTIL_Escape(title);
 	title = title.trim();
 	if(title == ''){
 		alert('Enter title');
@@ -57,6 +59,7 @@ function AddMusic(){
 	}
 
 	var video_id = $('#id_text_video_id').val();
+	video_id = UTIL_Escape(video_id);
 	video_id = video_id.trim();
 	if(video_id == ''){
 		alert('Enter video ID');

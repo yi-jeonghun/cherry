@@ -12,6 +12,7 @@ const COLLECTION_TYPE = {
 
 var _collection_type = -1;
 var _top_100 = [];
+var _searched_music_list = [];
 
 function Save(){
 	if(_collection_type == -1){
@@ -233,9 +234,8 @@ function SearchMusicByArtist(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				// DisplayCollectionList(res.collection_list);
-				// console.log('res ' + res.music_list.length);
-				DisplaySearchedMusicList(res.music_list);
+				_searched_music_list = res.music_list;
+				DisplaySearchedMusicList();
 			}else{
 				alert(res.err);
 			}
@@ -261,7 +261,8 @@ function SearchMusicTitle(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				DisplaySearchedMusicList(res.music_list);
+				_searched_music_list = res.music_list;
+				DisplaySearchedMusicList();
 			}else{
 				alert(res.err);
 			}
@@ -269,12 +270,12 @@ function SearchMusicTitle(){
 	});	
 }
 
-function DisplaySearchedMusicList(music_list){
+function DisplaySearchedMusicList(){
 	$('#id_searched_music_list').empty();
 	var h = '';
-	for(var i=0 ; i<music_list.length ; i++){
-		var m = music_list[i];
-		h += '<div class="row" style="cursor:pointer" onclick="AddMusicIntoCollection(\'' + m.artist + '\',' + m.music_id + ',\'' + m.title + '\')">';
+	for(var i=0 ; i<_searched_music_list.length ; i++){
+		var m = _searched_music_list[i];
+		h += '<div class="row" style="cursor:pointer" onclick="AddMusicIntoCollection(' + i + ')">';
 		h += '<div class="col-4">' + m.artist + '</div>';
 		h += '<div class="col-8">' + m.title + '</div>';
 		h += '</div>';
@@ -283,15 +284,15 @@ function DisplaySearchedMusicList(music_list){
 	$('#id_searched_music_list').html(h);
 }
 
-function AddMusicIntoCollection(artist, music_id, title){
+function AddMusicIntoCollection(idx){
 	$('#id_modal_add_music').modal('hide');
 
 	var ranking = _top_100.length + 1;
 	_top_100.push({
-		ranking:ranking,
-		music_id:music_id,
-		artist: artist,
-		title: title
+		ranking:  ranking,
+		music_id: _searched_music_list[idx].music_id,
+		artist:   _searched_music_list[idx].artist,
+		title:    _searched_music_list[idx].title
 	});
 	DisplayTop100();
 	NeedToSave();
