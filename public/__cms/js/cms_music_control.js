@@ -63,6 +63,11 @@ function AddMusic(){
 		return;
 	}
 
+	var idx = video_id.indexOf('watch?v=');
+	if(idx != -1){
+		video_id = video_id.substr(idx + 'watch?v='.length);
+	}
+
 	var music = {
 		artist: artist,
 		title: title,
@@ -115,6 +120,7 @@ function DisplayMusicList(music_list){
 	h += '<tr>';
 	h += '<th>Artist</th>';
 	h += '<th>Title</th>';
+	h += '<th>Video ID</th>';
 	h += '<th>Del</th>';
 	h += '</tr>';
 	for(var i=0 ; i<music_list.length ; i++){
@@ -122,6 +128,7 @@ function DisplayMusicList(music_list){
 		h += '<tr>';
 		h += '	<td>' + m.artist + '</td>';
 		h += '	<td>' + m.title + '</td>';
+		h += '	<td>' + m.video_id + '</td>';
 		h += '	<td>';
 		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic('+m.music_id+')"> X </span>';
 		h += '	</td>';
