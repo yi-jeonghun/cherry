@@ -2,6 +2,12 @@ div{
 	border: 1px solid #eeeeee;
 }
 
+.main_div{
+	width: 100%;
+	height: calc(100% - 100px);
+	overflow-y: auto;
+}
+
 .player_div{
 	position: fixed; 
 	bottom: 0; 

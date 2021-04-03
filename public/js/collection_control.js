@@ -35,14 +35,21 @@ function CollectionControl(type){
 	};
 
 	this.DisplayMusicList = function(){
-		var htm = '';
+		var h = '<table class="table table-sm table-striped">';
+		h += '<tr>';
+		h += '	<th>No.</th>';
+		h += '	<th>Artist</th>';
+		h += '	<th>Title</th>';
+		h += '</tr>';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
-			htm += '<div class="row">';
-			htm += '<div class="col-4">' + m.artist + '</div>';
-			htm += '<div class="col-8">' + m.title + '</div>';
-			htm += '</div>';
+			h += '<tr>';
+			h += '	<td>' + new Number(i+1) + '</td>';
+			h += '	<td>' + m.artist + '</td>';
+			h += '	<td>' + m.title + '</td>';
+			h += '</tr>';
 		}
+		h += '</table>';
 
 		var div_id = '';
 		if(self._type == 0){
@@ -51,6 +58,6 @@ function CollectionControl(type){
 			div_id = 'id_div_billboard_list';
 		}
 
-		$('#'+div_id).html(htm);
+		$('#'+div_id).html(h);
 	};
 }
