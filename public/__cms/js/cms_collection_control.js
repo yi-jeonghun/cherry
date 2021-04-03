@@ -141,9 +141,7 @@ function DisplayTop100(){
 		var m = _top_100[i];
 		h += '<tr>';
 		h += '	<td>';
-		h += '		<span class="input-group input-group-sm">';
-		h += '			<input onChange="EditRank('+i+', this)" style="width:5px" class="form-control" type="text" value="' + m.ranking +'">';
-		h += '		</span>';
+		h += '		<input onChange="EditRank('+i+', this)" style="font-size:12px; padding:0px; width:35px" type="text" value="' + m.ranking +'">';
 		h += '	</td>';
 		h += '	<td>' + m.artist + '</td>';
 		h += '	<td>' + m.title + '</td>';
