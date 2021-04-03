@@ -3,8 +3,6 @@ $('document').ready(function(){
 	$('#id_btn_search_artist').on('click', SearchMusicByArtist);
 	$('#id_btn_search_title').on('click', SearchMusicTitle);
 	$('#id_btn_save').on('click', Save);
-
-	// GetCollectionList();
 });
 
 const COLLECTION_TYPE = {
@@ -29,7 +27,7 @@ function Save(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				alert('Success');
+				SaveComplete();
 			}else{
 				alert(res.err);
 			}
@@ -96,6 +94,7 @@ function LoadKPopTop100(){
 	$('#id_link_billboard_top_100').css("background-color", "white");
 	LoadTop100(COLLECTION_TYPE.KPOP);
 	_collection_type = COLLECTION_TYPE.KPOP;
+	SaveComplete();
 }
 
 function LoadBillboardTop100(){
@@ -103,6 +102,7 @@ function LoadBillboardTop100(){
 	$('#id_link_billboard_top_100').css("background-color", "gray");
 	LoadTop100(COLLECTION_TYPE.BILLBOARD);
 	_collection_type = COLLECTION_TYPE.BILLBOARD;
+	SaveComplete();
 }
 
 function LoadTop100(type){
@@ -117,7 +117,7 @@ function LoadTop100(type){
 				// DisplaySearchedMusicList(res.music_list);
 				console.log('res.music_list length ' + res.music_list.length);
 				_top_100 = res.music_list;
-				DisplayKpopTop100();
+				DisplayTop100();
 				// console.log('music list ' + res.music_list);
 			}else{
 				alert(res.err);
@@ -126,20 +126,92 @@ function LoadTop100(type){
 	});
 }
 
-function DisplayKpopTop100(){
-	var htm = '';
+function DisplayTop100(){
+	$('#id_div_music_list').empty();
+	var h = '<table class="table table-sm table-striped">';
+	h += '<tr>';
+	h += '	<th>No.</th>';
+	h += '	<th>Artist</th>';
+	h += '	<th>Title</th>';
+	h += '	<th>Del</th>';
+	h += '</tr>';
 
 	for(var i=0 ; i<_top_100.length ; i++){
 		var m = _top_100[i];
-		console.log('m ' + JSON.stringify(m));
-		htm += '<div class="row">';
-		htm += '	<div class="col-1">' + m.ranking + '</div>';
-		htm += '	<div class="col-5">' + m.artist + '</div>';
-		htm += '	<div class="col-6">' + m.title + '</div>';
-		htm += '</div>';
+		h += '<tr>';
+		h += '	<td>';
+		h += '		<span class="input-group input-group-sm">';
+		h += '			<input onChange="EditRank('+i+', this)" style="width:5px" class="form-control" type="text" value="' + m.ranking +'">';
+		h += '		</span>';
+		h += '	</td>';
+		h += '	<td>' + m.artist + '</td>';
+		h += '	<td>' + m.title + '</td>';
+		h += '	<td>' + '<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic(' + i + ')">X</span>' + '</td>';
+		h += '</tr>';
+	}
+	h += '</table>';
+
+	$('#id_div_music_list').html(h);
+}
+
+function EditRank(idx, obj){
+	var new_rank = obj.value;
+	if(isNaN(new_rank)){
+		obj.value = idx+1;
+		return;
 	}
 
-	$('#id_div_music_list').html(htm);
+	if(new_rank < 1){
+		obj.value = idx+1;
+		return;
+	}
+
+	if(new_rank > _top_100.length){
+		obj.value = _top_100.length;
+		new_rank = _top_100.length;
+	}
+
+	var cur_rank = idx + 1;
+
+	var music_copy = {
+		ranking:  _top_100[idx].ranking,
+		music_id: _top_100[idx].music_id,
+		artist:   _top_100[idx].artist,
+		title:    _top_100[idx].title
+	};
+
+	if(new_rank < cur_rank){
+		//위로 올라가는 경우
+		//지우기
+		_top_100.splice(idx, 1);
+		//추가하기
+		_top_100.splice(new_rank-1, 0, music_copy);
+	}else{
+		//아래로 내려가는 경우
+		console.log('아래로 ');
+		//추가하기
+		_top_100.splice(new_rank, 0, music_copy);
+		//지우기
+		_top_100.splice(idx, 1);
+	}
+
+	ReOrderRank();
+	NeedToSave();
+	DisplayTop100();
+}
+
+function DeleteMusic(idx){
+	_top_100.splice(idx, 1);
+	ReOrderRank();
+	NeedToSave();
+	DisplayTop100();
+}
+
+function ReOrderRank(){
+	for(var i=0 ; i<_top_100.length ; i++){
+		var m = _top_100[i];
+		m.ranking = i+1;
+	}
 }
 
 function SearchMusicByArtist(){
@@ -177,19 +249,38 @@ function SearchMusicTitle(){
 		alert('Keyword Empty');
 		return;
 	}
+
+	var req_data = {
+		keyword: keyword
+	};
+	$.ajax({
+		url: '/cherry_api/search_music_by_title',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				DisplaySearchedMusicList(res.music_list);
+			}else{
+				alert(res.err);
+			}
+		}
+	});	
 }
 
 function DisplaySearchedMusicList(music_list){
-	var htm = '';
+	$('#id_searched_music_list').empty();
+	var h = '';
 	for(var i=0 ; i<music_list.length ; i++){
 		var m = music_list[i];
-		htm += '<div class="row" style="cursor:pointer" onclick="AddMusicIntoCollection(\'' + m.artist + '\',' + m.music_id + ',\'' + m.title + '\')">';
-		htm += '<div class="col-4">' + m.artist + '</div>';
-		htm += '<div class="col-8">' + m.title + '</div>';
-		htm += '</div>';
+		h += '<div class="row" style="cursor:pointer" onclick="AddMusicIntoCollection(\'' + m.artist + '\',' + m.music_id + ',\'' + m.title + '\')">';
+		h += '<div class="col-4">' + m.artist + '</div>';
+		h += '<div class="col-8">' + m.title + '</div>';
+		h += '</div>';
 	}
 	
-	$('#id_searched_music_list').html(htm);
+	$('#id_searched_music_list').html(h);
 }
 
 function AddMusicIntoCollection(artist, music_id, title){
@@ -202,6 +293,16 @@ function AddMusicIntoCollection(artist, music_id, title){
 		artist: artist,
 		title: title
 	});
-	DisplayKpopTop100();
+	DisplayTop100();
+	NeedToSave();
 }
 
+function NeedToSave(){
+	$('#id_btn_save').removeClass('btn-primary');
+	$('#id_btn_save').addClass('btn-danger');
+}
+
+function SaveComplete(){
+	$('#id_btn_save').removeClass('btn-danger');
+	$('#id_btn_save').addClass('btn-primary');
+}

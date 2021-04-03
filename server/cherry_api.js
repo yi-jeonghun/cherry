@@ -165,11 +165,29 @@ router.post('/search_music_by_artist', async function(req, res){
 	try{
 		var music_list = [];
 		var keyword = req.body.keyword;
-		console.log('keyword ' + keyword);
 		var ret_data = await cherry_service.SearchArtist(keyword);
 		if(ret_data.found){
 			music_list = await cherry_service.GetMusicListByArtist(ret_data.artist_id);
 		}
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to search_music_by_artist'
+		});
+	}
+});
+
+router.post('/search_music_by_title', async function(req, res){
+	try{
+		var music_list = [];
+		var keyword = req.body.keyword;
+		music_list = await cherry_service.SearchMusicListByTitle(keyword);
+
 		res.send({
 			ok: 1,
 			music_list: music_list
