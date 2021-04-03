@@ -161,16 +161,41 @@ function CherryService(){
 		});
 	};
 
+	this.DeleteMusic = async function(music_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'DELETE FROM music WHERE music_id=?';
+				var val = [music_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.GetMusicList = async function(music){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT a.name AS artist, m.title, m.video_id ';
+				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id';
+				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'ORDER BY m.music_id DESC ';
 				var val = [];
 				conn.query(sql, val, function(err, result){
 					if(err){
@@ -195,7 +220,7 @@ function CherryService(){
 			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT a.name AS artist, m.title, m.video_id, m.music_id ';
+				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
 				sql += 'ON m.artist_id = a.artist_id ';
