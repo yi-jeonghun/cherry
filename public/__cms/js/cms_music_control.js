@@ -1,44 +1,18 @@
 $('document').ready(function(){
 	$('#id_btn_add_ok').on('click', AddMusic);
-	$('#id_btn_artist_search').on('click', SearchArtist);
-	$('#id_text_artist_name').on('focusout', SearchArtist);
+	{
+		$('#id_text_artist_name').on('keypress', OnEnterKeyPressed);
+		$('#id_text_title').on('keypress', OnEnterKeyPressed);
+		$('#id_text_video_id').on('keypress', OnEnterKeyPressed);
+	}
 
 	GetMusicList();
 });
 
-var _searched_artist_id = null;
-
-function SearchArtist(){
-	var artist_name = $('#id_text_artist_name').val();
-	if(artist_name == ''){
-		$('#id_label_artist_search_result').html('Empty');
-		return;
+function OnEnterKeyPressed(e){
+	if(e.keyCode == 13){
+		AddMusic();
 	}
-	var data = {
-		artist_name: artist_name
-	};
-
-	$.ajax({
-		url: '/cherry_api/search_artist',
-		type: 'POST',
-		data: JSON.stringify(data),
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'json',
-		success: function (res) {
-			if(res.ok){
-				if(res.data.found){
-					$('#id_label_artist_search_result').html('Found');
-					console.log('res.artist_id ' + res.data.artist_id);
-					_searched_artist_id = res.data.artist_id;
-				}else{
-					$('#id_label_artist_search_result').html('Not Found');
-					_searched_artist_id = null;
-				}
-			}else{
-				alert(res.err);
-			}
-		}
-	});	
 }
 
 function AddMusic(){
@@ -113,7 +87,7 @@ function GetMusicList(){
 				alert(res.err);
 			}
 		}
-	});	
+	});
 }
 
 function DisplayMusicList(music_list){
@@ -121,6 +95,7 @@ function DisplayMusicList(music_list){
 
 	var h = '<table class="table table-sm">';
 	h += '<tr>';
+	h += '<th>ID</th>';
 	h += '<th>Artist</th>';
 	h += '<th>Title</th>';
 	h += '<th>Video ID</th>';
@@ -129,6 +104,7 @@ function DisplayMusicList(music_list){
 	for(var i=0 ; i<music_list.length ; i++){
 		var m = music_list[i];
 		h += '<tr>';
+		h += '	<td>' + m.music_id + '</td>';
 		h += '	<td>' + m.artist + '</td>';
 		h += '	<td>' + m.title + '</td>';
 		h += '	<td>' + m.video_id + '</td>';
