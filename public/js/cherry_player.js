@@ -150,6 +150,10 @@ function CherryPlayer(){
 		console.log('id ' + id);
 		self._cur_music_idx = id;
 		var video_id = self._music_list[self._cur_music_idx].video_id;
+		{
+			$('#id_label_title').html(self._music_list[self._cur_music_idx].title);
+			$('#id_label_artist').html(self._music_list[self._cur_music_idx].artist);
+		}
 		__yt_player.LoadVideo(video_id);
 		if(__yt_player._is_player_ready){
 			__yt_player.Play();
