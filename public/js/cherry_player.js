@@ -26,6 +26,7 @@ function CherryPlayer(){
 	this.Init = function(){
 		$('#id_player_music_list_div').hide();
 		self.InitHandle();
+		self.InitKeyHandle();
 		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
 		return self;
 	};
@@ -37,6 +38,22 @@ function CherryPlayer(){
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
 		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
+	};
+
+	this.InitKeyHandle = function(){
+		document.addEventListener('keydown', function(e){
+			switch(e.keyCode){
+				case 32:
+					if(__yt_player._is_player_ready){
+						if(__yt_player._is_playing){
+							self.Pause();
+						}else{
+							self.Play();
+						}
+					}
+				break;
+			}
+		});
 	};
 
 	this.TogglePlayList = function(){
