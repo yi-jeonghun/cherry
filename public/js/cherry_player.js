@@ -66,6 +66,13 @@ function CherryPlayer(){
 		}
 	};
 
+	this.AddMusic = function(music){
+		self._music_list.push(music);
+		var last_idx = self._music_list.length-1;
+		self.DisplayMusicList();
+		self.SelectMusic(last_idx);
+	};
+
 	this.LoadMusicList = function(music_list){
 		self._music_list = music_list;
 		console.log('LoadMusicList len ' + self._music_list.length);

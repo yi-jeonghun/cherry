@@ -1,7 +1,7 @@
 
-function CollectionControl(type){
+function CollectionControl(collection_type){
 	var self = this;
-	this._type = type;
+	this._collection_type = collection_type;
 	this._music_list = [];
 
 	this.Init = function(){
@@ -10,15 +10,12 @@ function CollectionControl(type){
 	};
 
 	this.ListenAll = function(){
-		console.log('listen all len ' + self._music_list.length);
-		console.log('type ' + self._type);
 		window._cherry_player.LoadMusicList(self._music_list);
 	};
 
 	this.GetMusicList = function(){
-		console.log('self._type ' + self._type);
 		$.ajax({
-			url: '/cherry_api/collection/get_top_100?type=' + self._type,
+			url: '/cherry_api/collection/get_top_100?type=' + self._collection_type,
 			type: 'GET',
 			data: null,
 			contentType: 'application/json; charset=utf-8',
@@ -40,6 +37,7 @@ function CollectionControl(type){
 		h += '	<th>No.</th>';
 		h += '	<th>Artist</th>';
 		h += '	<th>Title</th>';
+		h += '	<th></th>';
 		h += '</tr>';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
@@ -47,14 +45,17 @@ function CollectionControl(type){
 			h += '	<td>' + new Number(i+1) + '</td>';
 			h += '	<td>' + m.artist + '</td>';
 			h += '	<td>' + m.title + '</td>';
+			h += '	<td>';
+			h += '		<i onclick="ListenMusic(' + self._collection_type + ', ' + i + ')" style="cursor:pointer" class="fas fa-play"></i>';
+			h += '	</td>';
 			h += '</tr>';
 		}
 		h += '</table>';
 
 		var div_id = '';
-		if(self._type == 0){
+		if(self._collection_type == COLLECTION_TYPE.KPOP){
 			div_id = 'id_div_kpop_list';
-		}else if(self._type == 1){
+		}else if(self._collection_type == COLLECTION_TYPE.BILLBOARD){
 			div_id = 'id_div_billboard_list';
 		}
 
