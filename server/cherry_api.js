@@ -112,11 +112,19 @@ router.post('/add_music', async function(req, res){
 			video_id:  music.video_id
 		};
 
-		await cherry_service.AddMusic(music_info_for_add);
+		var found = await cherry_service.FindSameMusic(music_info_for_add);
+		if(found){
+			res.send({
+				ok: 0,
+				err: '이미 등록됨'
+			});
+		}else{
+			await cherry_service.AddMusic(music_info_for_add);
 
-		res.send({
-			ok: 1
-		});
+			res.send({
+				ok: 1
+			});
+		}
 	}catch(err){
 		console.error(err);
 		res.send({
@@ -150,11 +158,18 @@ router.post('/update_music', async function(req, res){
 			video_id:  music.video_id
 		};
 
-		await cherry_service.UpdateMusic(music_info);
-
-		res.send({
-			ok: 1
-		});
+		var found = await cherry_service.FindSameMusic(music_info);
+		if(found){
+			res.send({
+				ok: 0,
+				err: '이미 등록됨'
+			});
+		}else{
+			await cherry_service.UpdateMusic(music_info);
+			res.send({
+				ok: 1
+			});
+		}
 	}catch(err){
 		console.error(err);
 		res.send({
