@@ -161,6 +161,40 @@ function CherryService(){
 		});
 	};
 
+	this.UpdateMusic = async function(music){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'UPDATE music SET ? WHERE ?';
+				var val = [
+					{
+						artist_id: music.artist_id,
+						title:     music.title,
+						video_id:  music.video_id,
+					},
+					{
+						music_id: music.music_id
+					}
+				];
+
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddMusic #0');
+					}else{
+						resolve(result.insertId);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.DeleteMusic = async function(music_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

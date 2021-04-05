@@ -1,5 +1,5 @@
 $('document').ready(function(){
-	$('#id_btn_add_ok').on('click', AddMusic);
+	$('#id_btn_add_ok').on('click', OnOKClicked);
 	{
 		$('#id_text_artist_name').on('keypress', OnEnterKeyPressed);
 		$('#id_text_title').on('keypress', OnEnterKeyPressed);
@@ -9,19 +9,43 @@ $('document').ready(function(){
 	GetMusicList();
 });
 
+const EDIT_MODE = {
+	ADD: 0,
+	UPDATE: 1
+};
+
+var _music_list = [];
+var _cur_mode = EDIT_MODE.ADD;
+var _music_id_for_edit = -1;
+var _music_id_for_update = null;
+
 function OnEnterKeyPressed(e){
 	if(e.keyCode == 13){
-		AddMusic();
+		if(_cur_mode == EDIT_MODE.ADD){
+			AddMusic();
+		}else if(_cur_mode == EDIT_MODE.UPDATE){
+			UpdateMusic();
+		}
 	}
 }
 
-function AddMusic(){
+function OnOKClicked(){
+	if(_cur_mode == EDIT_MODE.ADD){
+		console.log('MODE ADD');
+		AddMusic();
+	}else if(_cur_mode == EDIT_MODE.UPDATE){
+		console.log('MODE UPDATE');
+		UpdateMusic();
+	}
+}
+
+function FormValidation(){
 	var artist = $('#id_text_artist_name').val();
 	artist = UTIL_Escape(artist);
 	artist = artist.trim();
 	if(artist == ''){
 		alert('No artist');
-		return;
+		return null;
 	}
 
 	var title = $('#id_text_title').val();
@@ -29,7 +53,7 @@ function AddMusic(){
 	title = title.trim();
 	if(title == ''){
 		alert('Enter title');
-		return;
+		return null;
 	}
 
 	var video_id = $('#id_text_video_id').val();
@@ -37,7 +61,7 @@ function AddMusic(){
 	video_id = video_id.trim();
 	if(video_id == ''){
 		alert('Enter video ID');
-		return;
+		return null;
 	}
 
 	var idx = video_id.indexOf('watch?v=');
@@ -46,10 +70,25 @@ function AddMusic(){
 	}
 
 	var music = {
-		artist: artist,
-		title: title,
+		artist:   artist,
+		title:    title,
 		video_id: video_id
 	};
+
+	return music;	
+}
+
+function ClearForm(){
+	$('#id_text_artist_name').val('');
+	$('#id_text_title').val('');
+	$('#id_text_video_id').val('');
+}
+
+function AddMusic(){
+	var music = FormValidation();
+	if(music == null){
+		return;
+	}
 
 	$.ajax({
 		url: '/cherry_api/add_music',
@@ -61,19 +100,17 @@ function AddMusic(){
 			if(res.ok){
 				GetMusicList();
 				alert('Success');
-				$('#id_text_artist_name').val('');
-				$('#id_text_title').val('');
-				$('#id_text_video_id').val('');
+				ClearForm();
 			}else{
 				alert(res.err);
 			}
 		}
 	});
-
-	$('#id_modal_add').modal('hide');
 }
 
 function GetMusicList(){
+	_music_list = [];
+
 	$.ajax({
 		url: '/cherry_api/get_music_list',
 		type: 'GET',
@@ -82,7 +119,8 @@ function GetMusicList(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				DisplayMusicList(res.music_list);
+				_music_list = res.music_list;
+				DisplayMusicList();
 			}else{
 				alert(res.err);
 			}
@@ -90,7 +128,7 @@ function GetMusicList(){
 	});
 }
 
-function DisplayMusicList(music_list){
+function DisplayMusicList(){
 	$('#id_div_music_list').empty();
 
 	var h = '<table class="table table-sm">';
@@ -99,17 +137,22 @@ function DisplayMusicList(music_list){
 	h += '<th>Artist</th>';
 	h += '<th>Title</th>';
 	h += '<th>Video ID</th>';
-	h += '<th>Del</th>';
+	h += '<th></th>';
 	h += '</tr>';
-	for(var i=0 ; i<music_list.length ; i++){
-		var m = music_list[i];
+	for(var i=0 ; i<_music_list.length ; i++){
+		var m = _music_list[i];
 		h += '<tr>';
 		h += '	<td>' + m.music_id + '</td>';
 		h += '	<td>' + m.artist + '</td>';
 		h += '	<td>' + m.title + '</td>';
 		h += '	<td>' + m.video_id + '</td>';
 		h += '	<td>';
-		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic('+m.music_id+')"> X </span>';
+		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic('+m.music_id+')">';
+		h += '			<i class="fas fa-trash-alt"></i>';
+		h += '		</span>';
+		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="OnEditMusic('+i+')">';
+		h += '			<i class="fas fa-pencil-alt"></i>';
+		h += '		</span>';
 		h += '	</td>';
 		h += '</tr>';
 	}
@@ -143,4 +186,48 @@ function DeleteMusic(music_id){
 			}
 		}
 	});
+}
+
+function OnEditMusic(idx){
+	_music_id_for_update = _music_list[idx].music_id;
+	_cur_mode = EDIT_MODE.UPDATE;
+	$('#id_text_artist_name').val(_music_list[idx].artist);
+	$('#id_text_title').val(_music_list[idx].title);
+	$('#id_text_video_id').val(_music_list[idx].video_id);
+	$('#id_btn_add_ok').html('UPDATE');
+}
+
+function UpdateMusic(){
+	var music = FormValidation();
+	if(music == null){
+		return;
+	}
+
+	var req_data = {
+		music_id: _music_id_for_update,
+		music:    music
+	};
+
+	console.log('req music_id ' + req_data.music_id);
+
+	$.ajax({
+		url: '/cherry_api/update_music',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				_music_id_for_update = null;
+				_cur_mode = EDIT_MODE.ADD;
+				$('#id_btn_add_ok').html('OK');
+				alert('Success');
+				ClearForm();
+				GetMusicList();
+			}else{
+				alert(res.err);
+			}
+		}
+	});
+
 }
