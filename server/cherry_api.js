@@ -254,6 +254,34 @@ router.post('/search_music_by_title', async function(req, res){
 	}
 });
 
+router.post('/search_music_smart', async function(req, res){
+	try{
+		var artist_name = req.body.artist_name;
+		var title = req.body.title;
+		var list1 = [];
+		var list2 = [];
+
+		if(artist_name != ''){
+			list1 = await cherry_service.GetMusicListByArtistSearch(artist_name);
+		}
+		if(title != ''){
+			list2 = await cherry_service.SearchMusicListByTitle(title);
+		}
+
+		res.send({
+			ok: 1,
+			list1: list1,
+			list2: list2
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to search_music_by_artist'
+		});
+	}
+});
+
 router.get('/collection/get_top_100', async function(req, res){
 	try{
 		var type = req.query.type;

@@ -5,8 +5,23 @@ $('document').ready(function(){
 		$('#id_text_title').on('keypress', OnEnterKeyPressed);
 		$('#id_text_video_id').on('keypress', OnEnterKeyPressed);
 	}
+	{
+		$('#id_text_artist_name').on('focusout', SearchMusic);
+		$('#id_text_title').on('focusout', SearchMusic);
+		$('#id_text_artist_name').on('focusout', SearchYoutube);
+		$('#id_text_title').on('focusout', SearchYoutube);
+	}
 
-	GetMusicList();
+	{
+		$('#id_text_video_id').on('focusout', TestVideoID);
+	}
+
+	$('#id_btn_stop').on('click', function(){
+		console.log('stop ' );
+		__yt_player.Stop();
+	});
+
+	// GetMusicList();
 });
 
 const EDIT_MODE = {
@@ -37,6 +52,22 @@ function OnOKClicked(){
 		console.log('MODE UPDATE');
 		UpdateMusic();
 	}
+}
+
+function TestVideoID(){
+	var video_id = $('#id_text_video_id').val();
+	video_id = UTIL_Escape(video_id);
+	video_id = video_id.trim();
+	if(video_id == ''){
+		return null;
+	}
+
+	var idx = video_id.indexOf('watch?v=');
+	if(idx != -1){
+		video_id = video_id.substr(idx + 'watch?v='.length);
+		$('#id_text_video_id').val(video_id);
+	}
+	__yt_player.LoadVideo(video_id);
 }
 
 function FormValidation(){
@@ -229,5 +260,60 @@ function UpdateMusic(){
 			}
 		}
 	});
+}
 
+function SearchMusic(){
+	var artist_name = $('#id_text_artist_name').val().trim();
+	var title = $('#id_text_title').val().trim();
+	var req_data = {
+		artist_name: artist_name,
+		title:       title
+	};
+
+	if(artist_name == '' && title == ''){
+		return;
+	}
+
+	$.ajax({
+		url: '/cherry_api/search_music_smart',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				var list1 = res.list1;
+				var list2 = res.list2;
+
+				// console.log('list1 len ' + list1.length);
+				// console.log('list2 len ' + list2.length);
+
+				for(var i1=0 ; i1<list1.length ; i1++){
+					var m1 = list1[i1];
+					for(var i2=0 ; i2<list2.length ; i2++){
+						var m2 = list2[i2];
+						if(m1.music_id == m2.music_id){
+							list2.splice(i2, 1);
+							break;
+						}
+					}
+				}
+				// console.log('list2 len ' + list2.length);
+
+				_music_list = list1.concat(list2);
+
+				console.log('_music_list len ' + _music_list.length);
+				DisplayMusicList();
+			}else{
+				alert(res.err);
+			}
+		}
+	});
+}
+
+function SearchYoutube(){
+	var artist_name = $('#id_text_artist_name').val().trim();
+	var title = $('#id_text_title').val().trim();
+	var keyword = artist_name + "+" + title;
+	top.document.getElementById('id_iframe_youtube').src = "https://www.youtube.com/results?search_query="+keyword;
 }

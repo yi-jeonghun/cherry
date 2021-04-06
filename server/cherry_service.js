@@ -260,6 +260,7 @@ function CherryService(){
 				sql += 'JOIN artist a ';
 				sql += 'ON m.artist_id = a.artist_id ';
 				sql += 'ORDER BY m.music_id DESC ';
+				sql += 'LIMIT 10 ';
 				var val = [];
 				conn.query(sql, val, function(err, result){
 					if(err){
@@ -307,7 +308,69 @@ function CherryService(){
 		});
 	};
 
+	this.GetMusicListByArtistSearch = async function(keyword){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			var sql = '';
+			try{
+				conn = await db_conn.GetConnection();
+				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
+				sql += 'FROM music m ';
+				sql += 'JOIN artist a ';
+				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'WHERE m.artist_id IN ( ';
+				sql += '	SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%' + keyword + '%" ';
+				sql += ') ';
+
+				var val = [];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicListByArtistSearch #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicListByArtistSearch #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.SearchMusicListByTitle = async function(keyword){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			var sql = '';
+			try{
+				conn = await db_conn.GetConnection();
+				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
+				sql += 'FROM music m ';
+				sql += 'JOIN artist a ';
+				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'WHERE m.title LIKE "%' + keyword + '%" ';
+
+				var val = [];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService SearchMusicListByTitle #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService SearchMusicListByTitle #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.SearchMusicSmart = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			var sql = '';
