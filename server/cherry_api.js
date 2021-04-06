@@ -318,4 +318,21 @@ router.post('/collection/save', async function(req, res){
 	}
 });
 
+router.post('/get_music_by_id', async function(req, res){
+	try{
+		var music_id = req.body.music_id;
+		var music_list = await cherry_service.GetMusicById(music_id);
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to get_music_by_id'
+		});
+	}
+});
+
 module.exports = router;

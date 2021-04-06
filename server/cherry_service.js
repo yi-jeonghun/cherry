@@ -278,6 +278,35 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.GetMusicById = async function(music_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			var sql = '';
+			try{
+				conn = await db_conn.GetConnection();
+				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id ';
+				sql += 'FROM music m ';
+				sql += 'JOIN artist a ';
+				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'WHERE m.music_id = ? ';
+				var val = [music_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicById #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicById #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 	
 	this.GetMusicListByArtist = async function(artist_id){
 		return new Promise(async function(resolve, reject){

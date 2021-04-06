@@ -3,6 +3,7 @@ $('document').ready(function(){
 	$('#id_btn_search_artist').on('click', SearchMusicByArtist);
 	$('#id_btn_search_title').on('click', SearchMusicTitle);
 	$('#id_btn_save').on('click', Save);
+	$('#id_btn_add_by_id').on('click', AddByMusicID);
 });
 
 const COLLECTION_TYPE = {
@@ -304,4 +305,48 @@ function NeedToSave(){
 function SaveComplete(){
 	$('#id_btn_save').removeClass('btn-danger');
 	$('#id_btn_save').addClass('btn-primary');
+}
+
+function AddByMusicID(){
+	if(_collection_type == -1){
+		return;
+	}
+
+	var music_id = $('#id_text_music_id_input').val().trim();
+	if(music_id == ''){
+		alert("music id");
+		return;
+	}
+
+	var req_data = {
+		music_id: music_id
+	};
+
+	$.ajax({
+		url: '/cherry_api/get_music_by_id',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				var music_list = res.music_list;
+				if(music_list.length > 0){
+					var ranking = _top_100.length + 1;
+					_top_100.push({
+						ranking:  ranking,
+						music_id: music_list[0].music_id,
+						artist:   music_list[0].artist,
+						title:    music_list[0].title
+					});
+					DisplayTop100();
+					NeedToSave();
+				}else{
+					alert('music not found');
+				}
+			}else{
+				alert(res.err);
+			}
+		}
+	});	
 }
