@@ -40,6 +40,18 @@ function Router(){
 	};
 
 	this.Go = function(path){
+		{
+			$('#nav_kpop').removeClass('active');
+			$('#nav_pop').removeClass('active');
+			switch(path){
+				case 'kpop':
+					$('#nav_kpop').addClass('active');
+					break;
+				case 'pop':
+					$('#nav_pop').addClass('active');
+					break;
+			}
+		}
 		self.LoadRoute(path);
 		history.pushState(null, '', "#"+path);
 	};

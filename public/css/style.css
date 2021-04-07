@@ -2,6 +2,19 @@ div{
 	/* border: 1px solid red; */
 }
 
+.cherry_title{
+	/* color: #ff0033; */
+}
+
+.menu_bar{
+	/* border-top: 1px solid #710013;
+	border-bottom: 1px solid #710013; */
+}
+
+.hand{
+	cursor: pointer;
+}
+
 .play_button{
 	font-size: 2em;
 	cursor:pointer;
