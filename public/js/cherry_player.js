@@ -22,12 +22,14 @@ function CherryPlayer(){
 	this._seq_type = SEQ_TYPE.Sequence;
 	this._repeat_type = REPEAT_TYPE.ALL;
 	this._b_play_list_show = false;
+	this._id_slider_fill = null;
 
 	this.Init = function(){
 		$('#id_player_music_list_div').hide();
 		self.InitHandle();
 		self.InitKeyHandle();
 		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
+		self._id_slider_fill = $('#id_slider_fill');
 		return self;
 	};
 
@@ -258,7 +260,11 @@ function CherryPlayer(){
 	this.OnFlowEvent = function(play_time){
 		var ms = parseInt(play_time * 1000);
 		var progress_rate = (ms / self._play_time_ms) * 100;
-		$('#id_slider').val(progress_rate);
+
+		console.log('progress_rate ' + progress_rate);
+		self._id_slider_fill.width(progress_rate + "%");
+
+		// $('#id_slider').val(progress_rate);
 	};
 	
 	this.OnPlayerReady = function(pb_rates, duration, volume){

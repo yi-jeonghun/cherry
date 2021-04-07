@@ -19,6 +19,20 @@ div{
 	overflow-y: auto;
 }
 
+.slider_line_div{
+	position: fixed; 
+	bottom: 101; 
+	width: 100%;
+	z-index: 100;
+	/* border-top: 1px solid black; */
+}
+
+.slider_fill{
+	width: 0%;
+	background-color: red;
+	font-size: 2px;
+}
+
 .player_div{
 	position: fixed; 
 	bottom: 0; 
