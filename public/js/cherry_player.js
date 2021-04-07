@@ -261,7 +261,7 @@ function CherryPlayer(){
 		var ms = parseInt(play_time * 1000);
 		var progress_rate = (ms / self._play_time_ms) * 100;
 
-		console.log('progress_rate ' + progress_rate);
+		// console.log('progress_rate ' + progress_rate);
 		self._id_slider_fill.width(progress_rate + "%");
 
 		// $('#id_slider').val(progress_rate);
