@@ -1,5 +1,16 @@
 div{
-	/* border: 1px solid #eeeeee; */
+	/* border: 1px solid red; */
+}
+
+.play_button{
+	font-size: 2em;
+	cursor:pointer;
+}
+
+.play_button_disabled{
+	font-size: 2em;
+	cursor:pointer;
+	color: gray;
 }
 
 .main_div{
@@ -18,27 +29,25 @@ div{
 }
 
 .player_video_div{
-	display: inline-block;
+	/* display: inline-block; */
 	width: 100px;
 	height: 100px;
 }
 
 .player_info_div{
-	display: inline-block;
-	width: calc(100% - 300px);
+	/* display: inline-block; */
+	width: calc(100% - 205px);
 	padding: 5px;
 	/* width: 100%; */
 }
 
 .controller_div{
 	/* display: inline-block; */
-	position: fixed;
-	right: 0;
-	width: 200px;
-}
-
-.music_info_div{
-	height: 40px;
+	/* position: fixed;
+	right: 0; */
+	width: 105px;
+	padding-top: 5px;
+	padding-right: 5px;
 }
 
 .slider_div{
@@ -61,4 +70,8 @@ div{
 #id_div_music_list{
 	overflow-y: auto;
 	height: 100%;
+}
+
+.label_artist{
+	font-size: 0.8em;
 }

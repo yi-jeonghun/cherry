@@ -32,12 +32,56 @@ function CherryPlayer(){
 	};
 
 	this.InitHandle = function(){
-		$('#id_btn_play').on('click', self.Play);
+		$('#id_btn_play_pause').on('click', self.PlayPause);
+		$('#id_btn_prev').on('click', self.Next);
 		$('#id_btn_next').on('click', self.Next);
-		$('#id_btn_pause').on('click', self.Pause);
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
 		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
+	};
+
+	this.UpdatePlayPauseButton = function(){
+		if(__yt_player._is_playing){
+			$('#id_btn_play_pause').removeClass('fa-play');
+			$('#id_btn_play_pause').removeClass('fa-pause');
+			$('#id_btn_play_pause').addClass('fa-pause');
+		}else{
+			$('#id_btn_play_pause').removeClass('fa-play');
+			$('#id_btn_play_pause').removeClass('fa-pause');
+			$('#id_btn_play_pause').addClass('fa-play');
+		}
+
+		$('#id_btn_prev').removeClass("play_button");
+		$('#id_btn_prev').removeClass("play_button_disabled");
+		$('#id_btn_play_pause').removeClass("play_button");
+		$('#id_btn_play_pause').removeClass("play_button_disabled");
+		$('#id_btn_next').removeClass("play_button");
+		$('#id_btn_next').removeClass("play_button_disabled");
+
+		if(self._music_list.length > 0){
+			$('#id_btn_prev').addClass("play_button");
+			$('#id_btn_play_pause').addClass("play_button");
+			$('#id_btn_next').addClass("play_button");
+		}else{
+			$('#id_btn_prev').addClass("play_button_disabled");
+			$('#id_btn_play_pause').addClass("play_button_disabled");
+			$('#id_btn_next').addClass("play_button_disabled");
+		}
+	};
+
+	this.PlayPause = function(){
+		if(self._music_list.length == 0){
+			return;
+		}
+
+		if(__yt_player._is_player_ready == false){
+			return;
+		}
+		if(__yt_player._is_playing){
+			__yt_player.Pause();
+		}else{
+			__yt_player.Play();
+		}
 	};
 
 	this.InitKeyHandle = function(){
@@ -71,6 +115,7 @@ function CherryPlayer(){
 		var last_idx = self._music_list.length-1;
 		self.DisplayMusicList();
 		self.SelectMusic(last_idx);
+		self.UpdatePlayPauseButton()
 	};
 
 	this.LoadMusicList = function(music_list){
@@ -78,6 +123,7 @@ function CherryPlayer(){
 		console.log('LoadMusicList len ' + self._music_list.length);
 		self.DisplayMusicList();
 		self.SelectMusic(0);
+		self.UpdatePlayPauseButton();
 	};
 
 	this.DisplayMusicList = function(){
@@ -168,7 +214,6 @@ function CherryPlayer(){
 	};
 
 	this.Next = function(){
-		console.log('next ' );
 		__yt_player.Stop();
 
 		if(self._repeat_type == REPEAT_TYPE.ONE){
@@ -237,6 +282,7 @@ function CherryPlayer(){
 			case YT.PlayerState.CUED:
 				break;
 		}
+		self.UpdatePlayPauseButton();
 	};
 	
 	this.DisplayDuration = function(duration){
