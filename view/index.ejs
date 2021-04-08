@@ -8,6 +8,7 @@
 	<%- include('common_resources.ejs') %>
 
 	<script type="text/javascript" src="js/const.js"></script>
+	<script type="text/javascript" src="js/util.js"></script>
 	<script type="text/javascript" src="js/youtube_iframe_player.js"></script>
 
 </head>
@@ -38,14 +39,19 @@
 		
 			<!-- id를 router라는 단어가 들어가게 만들기. -->
 			<div id="id_dst_kpop" style="display: none; padding: 5px;">
-				kpop
 			</div>
 			<div id="id_dst_pop" style="display: none; padding: 5px;">
-				pop
 			</div>
 		</div>	
 	</div>
 
+	<!-- toast -->
+	<div class="cherry_toast">
+		<div id="id_cherry_toast_text" style="width:auto;	background-color: white;	border: 1px solid gray;		border-radius: 1em;	">
+			
+		</div>
+	</div>
+	
 	<!-- PLAYER -->
 	<div class="slider_line_div">
 		<div class="slider_fill" id="id_slider_fill">&nbsp</div>
@@ -57,12 +63,6 @@
 		<div class="player_info_div">
 			<div id="id_label_title">Title</div>
 			<div id="id_label_artist" class="label_artist">Artist</div>
-			<!-- <div class="slider_div">
-				<div class="text-right" id="id_div_duration">00:00</div>
-				<div>
-					<input class="slider" id="id_slider" type="range" min="0" max="100" value="0" step="0.01">
-				</div>
-			</div> -->
 		</div>	
 		<div class="controller_div text-right">
 			<div>
@@ -88,7 +88,7 @@
 			<div class="" id="id_div_music_list">
 		</div>
 	</div>
-	
+
 </body>
 </html>
 

@@ -141,8 +141,10 @@ function CherryPlayer(){
 	this.ToggleSeqType = function(){
 		if(self._seq_type == SEQ_TYPE.Sequence){
 			self._seq_type = SEQ_TYPE.Shuffle;
+			UTIL_ShowCherryToast('Random Play');
 		}else{
 			self._seq_type = SEQ_TYPE.Sequence;
+			UTIL_ShowCherryToast('Sequence Play');
 		}
 		self.UpdateSeqType();
 	};

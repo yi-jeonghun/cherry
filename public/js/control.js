@@ -23,6 +23,10 @@ function Control(){
 	var self = this;
 
 	this.Init = function(){
+		// $('#liveToastBtn').on('click', function(){
+		// 	console.log('toast show ');
+		// 	$('#liveToast').toast('show');
+		// });
 		return self;
 	};
 }
