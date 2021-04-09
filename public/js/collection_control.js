@@ -32,25 +32,27 @@ function CollectionControl(collection_type){
 	};
 
 	this.DisplayMusicList = function(){
-		var h = '<table class="table table-sm table-striped">';
-		h += '<tr>';
-		h += '	<th>No.</th>';
-		h += '	<th>Artist</th>';
-		h += '	<th>Title</th>';
-		h += '	<th></th>';
-		h += '</tr>';
+		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
-			h += '<tr>';
-			h += '	<td>' + new Number(i+1) + '</td>';
-			h += '	<td>' + m.artist + '</td>';
-			h += '	<td>' + m.title + '</td>';
-			h += '	<td>';
-			h += '		<i onclick="ListenMusic(' + self._collection_type + ', ' + i + ')" style="cursor:pointer" class="fas fa-play"></i>';
-			h += '	</td>';
-			h += '</tr>';
+			var num = (i*1) + 1;
+
+			h += '<div class="row my-2 border">';
+			h += '	<div class="col-1">' + num + '</div>';
+			h += '	<div class="col-9 col-sm-10 d-flex">';
+			h += '		<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/'+m.video_id+'/0.jpg">';
+			h += '		<div class="pl-1">';
+			h += '			<div class="text-dark">' + m.title + '</div>';
+			h += '			<div class="text-secondary" style="font-size:0.8em">' + m.artist + '</div>';
+			h += '		</div>';
+			h += '	</div>';
+			h += '	<div class="col-1">';
+			h += '		<button class="btn" type="button" onclick="ListenMusic(' + self._collection_type + ', ' + i + ')">';
+			h += '			<i class="fas fa-play"></i>';
+			h += '		</button>';
+			h += '	</div>';
+			h += '</div>';
 		}
-		h += '</table>';
 
 		var div_id = '';
 		if(self._collection_type == COLLECTION_TYPE.KPOP){
