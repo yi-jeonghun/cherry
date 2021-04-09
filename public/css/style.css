@@ -95,18 +95,24 @@ div{
 
 .player_music_list{
 	position: fixed;
-	bottom: 100; 
+	top: 0; 
 	width: 100%;
-	height: 60%;
+	height: calc(100% - 100px);
 	z-index: 98;
-	background-color: azure;
+	background-color: white;
+	display: none;
+	overflow-y: auto;
 }
 
-#id_div_music_list{
+/* #id_div_music_list{
 	overflow-y: auto;
 	height: 100%;
-}
+} */
 
 .label_artist{
 	font-size: 0.8em;
+}
+
+.playlist_music_highlight{
+	background-color:beige;
 }

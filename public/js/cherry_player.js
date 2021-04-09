@@ -40,6 +40,7 @@ function CherryPlayer(){
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
 		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
+		$('#id_btn_playlist_hide').on('click', self.TogglePlayList);
 	};
 
 	this.UpdatePlayPauseButton = function(){
@@ -129,13 +130,34 @@ function CherryPlayer(){
 	};
 
 	this.DisplayMusicList = function(){
-		var htm = '';
+		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i]; 
 			var id = 'id_music_' + i;
-			htm += '<div style="cursor:pointer" id="' + id + '" onclick="SelectMusic(' + i + ')">' + m.artist + ' - ' + m.title + '</div>';
+			var id_title = 'id_music_title_'+i;
+
+			h += '<div class="row my-1 py-1">';
+			h += '	<div class="col-12 d-flex" style="cursor:pointer;" id="' + id + '" onclick="SelectMusic(' + i + ')">';
+			h += '		<div style="width:50px; height:50px">';
+			h += '			<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/'+m.video_id+'/0.jpg">';
+			h += '		</div>';
+			h += '		<div class="pl-2" style="width:100%" id="' + id_title + '">';
+			h += '			<div class="text-dark">' + m.title + '</div>';
+			h += '			<div class="text-secondary" style="font-size:0.8em">' + m.artist + '</div>';
+			h += '		</div>';
+			h += '	</div>';
+			h += '</div>';
 		}
-		$('#id_div_music_list').html(htm);
+		$('#id_div_music_list').html(h);
+	};
+
+	this.HighlightCurrentMusic = function(){
+		for(var i=0 ; i<self._music_list.length ; i++){
+			$('#id_music_title_' + i).removeClass('playlist_music_highlight');	
+		}
+
+		var id = '#id_music_title_' + self._cur_music_idx;
+		$(id).addClass('playlist_music_highlight');
 	};
 
 	this.ToggleSeqType = function(){
@@ -175,16 +197,6 @@ function CherryPlayer(){
 
 	this.Pause = function(){
 		__yt_player.Pause();
-	};
-
-	this.HighlightCurrentMusic = function(){
-		for(var i=0 ; i<self._music_list.length ; i++){
-			var id = '#id_music_' + i;
-			$(id).css('color', 'black');	
-		}
-
-		var id = '#id_music_' + self._cur_music_idx;
-		$(id).css('color', 'red');
 	};
 
 	this.SelectMusic = function(id){
