@@ -133,15 +133,17 @@ function CherryPlayer(){
 		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i]; 
-			var id = 'id_music_' + i;
+			// var id = 'id_music_' + i;
 			var id_title = 'id_music_title_'+i;
+			var num = (i*1) + 1;
 
-			h += '<div class="row my-1 py-1">';
-			h += '	<div class="col-12 d-flex" style="cursor:pointer;" id="' + id + '" onclick="SelectMusic(' + i + ')">';
-			h += '		<div style="width:50px; height:50px">';
+			h += '<div class="row my-1 py-1" id="' + id_title + '">';
+			h += '	<div class="col-12" style="display:flex ; cursor:pointer;" onclick="SelectMusic(' + i + ')">';
+			h += '		<div class="px-2">' + num + '</div>';
+			h += '		<div class="" style="width:50px; height:50px">';
 			h += '			<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/'+m.video_id+'/0.jpg">';
 			h += '		</div>';
-			h += '		<div class="pl-2" style="width:100%" id="' + id_title + '">';
+			h += '		<div class="pl-2 " style="width:100%">';
 			h += '			<div class="text-dark">' + m.title + '</div>';
 			h += '			<div class="text-secondary" style="font-size:0.8em">' + m.artist + '</div>';
 			h += '		</div>';
