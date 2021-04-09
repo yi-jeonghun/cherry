@@ -139,42 +139,33 @@ function CherryPlayer(){
 	};
 
 	this.ToggleSeqType = function(){
+		$('#id_icon_seq_type').removeClass('fa-sort-numeric-down');
+		$('#id_icon_seq_type').removeClass('fa-random');
+
 		if(self._seq_type == SEQ_TYPE.Sequence){
 			self._seq_type = SEQ_TYPE.Shuffle;
 			UTIL_ShowCherryToast('Random Play');
+			$('#id_icon_seq_type').addClass('fa-random');
 		}else{
 			self._seq_type = SEQ_TYPE.Sequence;
 			UTIL_ShowCherryToast('Sequence Play');
+			$('#id_icon_seq_type').addClass('fa-sort-numeric-down');
 		}
 		self.UpdateSeqType();
 	};
 
 	this.ToggleRepeatType = function(){
+		$('#id_icon_repeat_type').removeClass('fa-reply-all');
+		$('#id_icon_repeat_type').removeClass('fa-reply');
+
 		if(self._repeat_type == REPEAT_TYPE.ALL){
 			self._repeat_type = REPEAT_TYPE.ONE;
+			$('#id_icon_repeat_type').addClass('fa-reply');
+			UTIL_ShowCherryToast('Repeat Current Music');
 		}else if(self._repeat_type == REPEAT_TYPE.ONE){
-			self._repeat_type = REPEAT_TYPE.END;
-		}else if(self._repeat_type == REPEAT_TYPE.END){
 			self._repeat_type = REPEAT_TYPE.ALL;
-		}
-		self.UpdateRepeatType();
-	};
-
-	this.UpdateSeqType = function(){
-		if(self._seq_type == SEQ_TYPE.Sequence){
-			$('#id_btn_seq_type').html('Seq');
-		}else{
-			$('#id_btn_seq_type').html('Shuffle');
-		}
-	};
-
-	this.UpdateRepeatType = function(){
-		if(self._repeat_type == REPEAT_TYPE.ALL){
-			$('#id_btn_repeat_type').html('All');
-		}else if(self._repeat_type == REPEAT_TYPE.ONE){
-			$('#id_btn_repeat_type').html('One');
-		}else if(self._repeat_type == REPEAT_TYPE.END){
-			$('#id_btn_repeat_type').html('End');
+			$('#id_icon_repeat_type').addClass('fa-reply-all');
+			UTIL_ShowCherryToast('Repeat Every Music');
 		}
 	};
 
