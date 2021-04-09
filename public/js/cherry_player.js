@@ -183,11 +183,11 @@ function CherryPlayer(){
 		if(self._repeat_type == REPEAT_TYPE.ALL){
 			self._repeat_type = REPEAT_TYPE.ONE;
 			$('#id_icon_repeat_type').addClass('fa-reply');
-			UTIL_ShowCherryToast('Repeat Current Music');
+			UTIL_ShowCherryToast('Repeat Single');
 		}else if(self._repeat_type == REPEAT_TYPE.ONE){
 			self._repeat_type = REPEAT_TYPE.ALL;
 			$('#id_icon_repeat_type').addClass('fa-reply-all');
-			UTIL_ShowCherryToast('Repeat Every Music');
+			UTIL_ShowCherryToast('Repeat All');
 		}
 	};
 
