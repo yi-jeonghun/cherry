@@ -4,6 +4,7 @@ var router = express.Router();
 var cherry_service = require('./cherry_service');
 // var permission_service = require('./permission_service');
 // var sitemap_service = require('./sitemap_service');
+var cms_service = require('./cms_service');
 
 router.post('/add_artist', async function(req, res){
 	try{
@@ -332,6 +333,23 @@ router.post('/get_music_by_id', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Failed to get_music_by_id'
+		});
+	}
+});
+
+router.post('/top_rank/fetch_release_data', async function(req, res){
+	try{
+		var data = req.body;
+		var music_list = await cms_service.GetTopRankReleaseData(data.country_code);
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail /top_rank/fetch_release_data'
 		});
 	}
 });

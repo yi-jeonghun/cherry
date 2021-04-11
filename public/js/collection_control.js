@@ -14,10 +14,24 @@ function CollectionControl(collection_type){
 	};
 
 	this.GetMusicList = function(){
+		var url = '';
+		var req_data = null;
+		var http_method = 'GET';
+		if(self._collection_type == COLLECTION_TYPE.KPOP){
+			http_method = 'GET';
+			url = '/cherry_api/collection/get_top_100?type=' + self._collection_type;
+		}else{
+			http_method = 'POST';
+			req_data = {
+				country_code: 'GLO'
+			}
+			url = '/cherry_api/top_rank/fetch_release_data';
+		}
+
 		$.ajax({
-			url: '/cherry_api/collection/get_top_100?type=' + self._collection_type,
-			type: 'GET',
-			data: null,
+			url: url,
+			type: http_method,
+			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function (res) {
