@@ -119,10 +119,11 @@ router.post('/add_music', async function(req, res){
 				err: '이미 등록됨'
 			});
 		}else{
-			await cherry_service.AddMusic(music_info_for_add);
+			var music_id = await cherry_service.AddMusic(music_info_for_add);
 
 			res.send({
-				ok: 1
+				ok: 1,
+				music_id: music_id
 			});
 		}
 	}catch(err){

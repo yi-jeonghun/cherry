@@ -15,7 +15,7 @@ var body_parser = require('body-parser');
 // });
 
 var cherry_api = require('./server/cherry_api');
-// var auth_api = require('./server/auth_api');
+var cms_api = require('./server/cms_api');
 
 var view_router = require('./server/view_router');
 // var cms_router = require('./server/cms_router');
@@ -51,7 +51,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(body_parser.json());
 //-- APIs-------------------------------------
 app.use('/cherry_api', cherry_api);
-// app.use('/auth_api', auth_api);
+app.use('/__cms_api', cms_api);
 // //-- Routers----------------------------------
 app.use('/', view_router);
 // app.use('/', cms_router);

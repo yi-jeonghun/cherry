@@ -48,6 +48,10 @@ router.get('/__cms/collection.vu', async function(req, res){
 	res.render('__cms/collection', null);
 });
 
+router.get('/__cms/top_rank.vu', async function(req, res){
+	res.render('__cms/top_rank', null);
+});
+
 router.get('/__cms/music.vu', async function(req, res){
 	res.render('__cms/music', null);
 });
