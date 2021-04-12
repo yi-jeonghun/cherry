@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="/__cms/js/cms_top_rank_control.js"></script>
 </head>
 <body>
-	<div class="container-fluid" style="height: 60%; overflow: hidden;">
+	<div id="id_div_main" class="container-fluid" style="height: 60%; overflow: hidden;">
 		<div class="row" style="height: 25px;">
 			<div class="col-12">
 				<%- include('menu.ejs') %>
@@ -20,8 +20,9 @@
 				<div><h5 id="id_label_rank_title">Choose Rank</h5></div>
 			</div>
 			<div class="col-4 my-auto text-right">
+				<button type="button" class="btn btn-sm btn-primary" onclick="ArrangeWindow()">ㅁ</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="Auto()">Auto</button>
-				<button type="button" class="btn btn-sm btn-primary" onclick="Save()">Save</button>
+				<button type="button" class="btn btn-sm btn-primary" onclick="Save()" id="id_btn_save">Save</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="Release()">Release</button>
 			</div>
 		</div>
@@ -59,5 +60,4 @@
 	</div>
 	<iframe id="id_iframe_youtube" style="display:none; height: 40%; width: 100%; border-top: 1px solid black;">
 	</iframe>
-
 </body>

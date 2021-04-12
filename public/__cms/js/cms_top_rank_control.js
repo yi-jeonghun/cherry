@@ -1,5 +1,6 @@
 $('document').ready(function(){
 	InitHandle();
+	InitKeyHandle();
 	UpdateReleaseModeBtn();
 });
 
@@ -18,11 +19,78 @@ var _country_code = COUNTRY.GLOBAL;
 var _music_list_draft = [];
 var _music_list_release = [];
 var _searched_music_list = [];
+var _working_idx = -1;
+var _win_arrange = 0;
 
 //-----------------------------------------------------------------
 
 function InitHandle(){
 
+}
+
+function ArrangeWindow(){
+	if(_win_arrange == 0){
+
+		//좌우 배치
+		_win_arrange = 1;
+		$('body').addClass('d-flex');
+
+		$('#id_div_main').css('height', '100%');
+		$('#id_div_main').css('width', '50%');
+		$('#id_iframe_youtube').css('height', '100%');
+		$('#id_iframe_youtube').css('width', '50%');
+		$('#id_div_bottom').css('height', '100%');
+		$('#id_div_bottom').css('width', '50%');
+	}else{
+		//상하 배치
+		_win_arrange = 0;
+		$('body').removeClass('d-flex');
+
+		$('#id_div_main').css('height', '60%');
+		$('#id_div_main').css('width', '100%');
+		$('#id_iframe_youtube').css('height', '40%');
+		$('#id_iframe_youtube').css('width', '100%');
+		$('#id_div_bottom').css('height', '40%');
+		$('#id_div_bottom').css('width', '100%');
+	}
+}
+
+function InitKeyHandle(){
+	document.addEventListener('keydown', function(e){
+		console.log('key ' + e.keyCode);
+		switch(e.keyCode){
+			case 83://s
+				Save();
+			break;
+			case 88://x
+				SearchYoutube(_working_idx);
+			break;
+			case 67://c
+			{
+				navigator.clipboard.readText()
+				.then(text => {
+					// console.log('Pasted content: ', text);
+					AutoMusicRegisterProcess(text);
+				})
+				.catch(err => {
+					console.error('Failed to read clipboard contents: ', err);
+				});
+			}
+				break;
+		}
+	});
+}
+
+function AutoMusicRegisterProcess(txt){
+	var video_id = ExtractVideoIDFromUrl(txt);
+	if(video_id == null){
+		return;
+	}
+
+	console.log('video_id ' + video_id);
+	_music_list_draft[_working_idx].video_id = video_id;
+	$(`#id_text_video_id_${_working_idx}`).val(video_id);
+	RegisterMusic(_working_idx);
 }
 
 function ToggleReleaseType(){
@@ -261,7 +329,7 @@ function DisplayMusicList_Draft(){
 		var img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 
 		h += `
-		<tr>
+		<tr onclick="ChooseMusicForWorking(${i})" id="id_row_music_${i}">
 			<td class="bd-danger">${m.rank_num}</td>
 			<td>${m.artist}</td>
 			<td>${m.title}</td>
@@ -317,6 +385,20 @@ function DisplayMusicList_Release(){
 	$('#id_div_music_list').html(h);
 }
 
+function ChooseMusicForWorking(idx){
+	_working_idx = idx;
+	console.log('idx ' + idx);
+	for(var i=0 ; i<_music_list_draft.length ; i++){
+		if((i%2) == 1){
+			$(`#id_row_music_${i}`).css('background-color', '#eeeeee');
+		}else{
+			$(`#id_row_music_${i}`).css('background-color', 'white');
+		}
+	}
+
+	$(`#id_row_music_${idx}`).css('background-color', 'yellow');
+}
+
 function RegisterMusic(idx){
 	if(_music_list_draft[idx].video_id == null){
 		alert('video id null');
@@ -336,9 +418,10 @@ function RegisterMusic(idx){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				alert('success');
+				// alert('success');
 				_music_list_draft[idx].music_id = res.music_id;
 				$('#id_label_music_id_'+idx).html(res.music_id);
+				NeedToSave();
 			}else{
 				alert(res.err);
 			}
@@ -346,8 +429,8 @@ function RegisterMusic(idx){
 	});
 }
 
-function CheckVideoID(ele, idx){
-	var video_id = $(ele).val();
+function ExtractVideoIDFromUrl(url){
+	var video_id = url;
 
 	video_id = UTIL_Escape(video_id);
 	video_id = video_id.trim();
@@ -358,9 +441,20 @@ function CheckVideoID(ele, idx){
 	var str_idx = video_id.indexOf('watch?v=');
 	if(str_idx != -1){
 		video_id = video_id.substr(str_idx + 'watch?v='.length);
-		$(ele).val(video_id);
 	}
+	return video_id;
+}
 
+function CheckVideoID(ele, idx){
+	var url = $(ele).val();
+	var extract = ExtractVideoIDFromUrl(url);
+
+	if(extract == null){
+		return null;
+	}
+	var video_id = extract;
+
+	$(ele).val(video_id);
 	_music_list_draft[idx].video_id = video_id;
 	DisplayVideoImage(idx);
 }
@@ -372,6 +466,10 @@ function DisplayVideoImage(idx){
 }
 
 function SearchYoutube(idx){
+	if(idx == -1){
+		return;
+	}
+
 	$('#id_div_bottom').hide();
 	$('#id_iframe_youtube').show();
 
@@ -422,6 +520,7 @@ function SearchMusic(idx){
 					$('#id_label_music_id_'+idx).html(_searched_music_list[0].music_id);
 					$('#id_text_video_id_'+idx).val(_searched_music_list[0].video_id);
 					DisplayVideoImage(idx);
+					NeedToSave();
 				}
 				DisplaySearchedMusicList();
 			}else{
@@ -482,7 +581,8 @@ function Save(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				alert('success');
+				// alert('success');
+				CompleteSave();
 			}else{
 				alert(res.err);
 			}
@@ -515,4 +615,14 @@ function Release(){
 			}
 		}
 	});
+}
+
+function NeedToSave(){
+	$('#id_btn_save').removeClass('btn-primary');
+	$('#id_btn_save').addClass('btn-danger');
+}
+
+function CompleteSave(){
+	$('#id_btn_save').removeClass('btn-danger');
+	$('#id_btn_save').addClass('btn-primary');
 }
