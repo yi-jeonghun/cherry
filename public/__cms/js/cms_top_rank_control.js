@@ -12,7 +12,8 @@ const RELEASE_MODE = {
 
 const COUNTRY = {
 	GLOBAL: 'GLO',
-	USA: 'USA'
+	USA: 'USA',
+	KOR: 'KOR'
 };
 
 var _release_mode = RELEASE_MODE.DRAFT;
@@ -190,6 +191,9 @@ function Auto(){
 			break;
 		case COUNTRY.USA:
 			url = 'https://music.apple.com/us/playlist/top-100-usa/pl.606afcbb70264d2eb2b51d8dbcfa6a12';
+			break;
+		case COUNTRY.KOR:
+			url = 'https://music.apple.com/kr/playlist/%EC%98%A4%EB%8A%98%EC%9D%98-top-100-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/pl.d3d10c32fbc540b38e266367dc8cb00c';
 			break;
 		}
 
