@@ -63,21 +63,24 @@ function InitKeyHandle(){
 		switch(e.keyCode){
 			case 83://s
 				Save();
-			break;
+				break;
 			case 88://x
 				SearchYoutube(_working_idx);
-			break;
+				break;
 			case 67://c
-			{
-				navigator.clipboard.readText()
-				.then(text => {
-					// console.log('Pasted content: ', text);
-					AutoMusicRegisterProcess(text);
-				})
-				.catch(err => {
-					console.error('Failed to read clipboard contents: ', err);
-				});
-			}
+				{
+					navigator.clipboard.readText()
+					.then(text => {
+						// console.log('Pasted content: ', text);
+						AutoMusicRegisterProcess(text);
+					})
+					.catch(err => {
+						console.error('Failed to read clipboard contents: ', err);
+					});
+				}
+				break;
+			case 86://v
+				SearchMusic(_working_idx);
 				break;
 		}
 	});
@@ -515,14 +518,14 @@ function SearchMusic(idx){
 
 				_searched_music_list = list1.concat(list2);
 
-				if(_searched_music_list.length > 0){
-					_music_list_draft[idx].video_id = _searched_music_list[0].video_id;
-					_music_list_draft[idx].music_id = _searched_music_list[0].music_id;
-					$('#id_label_music_id_'+idx).html(_searched_music_list[0].music_id);
-					$('#id_text_video_id_'+idx).val(_searched_music_list[0].video_id);
-					DisplayVideoImage(idx);
-					NeedToSave();
-				}
+				// if(_searched_music_list.length > 0){
+				// 	_music_list_draft[idx].video_id = _searched_music_list[0].video_id;
+				// 	_music_list_draft[idx].music_id = _searched_music_list[0].music_id;
+				// 	$('#id_label_music_id_'+idx).html(_searched_music_list[0].music_id);
+				// 	$('#id_text_video_id_'+idx).val(_searched_music_list[0].video_id);
+				// 	DisplayVideoImage(idx);
+				// 	NeedToSave();
+				// }
 				DisplaySearchedMusicList();
 			}else{
 				alert(res.err);
@@ -550,6 +553,9 @@ function DisplaySearchedMusicList(){
 			<td>${m.artist}</td>
 			<td>${m.title}</td>
 			<td>${m.video_id}</td>
+			<td>
+				<button type="button" class="btn btn-sm btn-primary" onClick="UseThisMusicID(${i})">OK</button>
+			</td>
 		</tr>`;
 	}
 
@@ -559,8 +565,18 @@ function DisplaySearchedMusicList(){
 
 	h += '</table>';
 
-
 	$('#id_div_bottom').html(h);
+}
+
+function UseThisMusicID(searched_music_idx){
+	console.log('searched_music_idx ' + searched_music_idx);
+
+	_music_list_draft[_working_idx].video_id = _searched_music_list[searched_music_idx].video_id;
+	_music_list_draft[_working_idx].music_id = _searched_music_list[searched_music_idx].music_id;
+	$('#id_label_music_id_'+_working_idx).html(_searched_music_list[searched_music_idx].music_id);
+	$('#id_text_video_id_'+_working_idx).val(_searched_music_list[searched_music_idx].video_id);
+	DisplayVideoImage(_working_idx);
+	NeedToSave();
 }
 
 function Save(){
