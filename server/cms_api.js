@@ -8,6 +8,7 @@ router.post('/fetch_content_from_url', async function(req, res){
 	try{
 		var req_data = req.body;
 		var url = req_data.url;
+		console.log('url ' + url);
 
 		var request = https.request(url, function (response) {
 			var data = '';

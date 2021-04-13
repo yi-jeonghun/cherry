@@ -6,12 +6,33 @@ function SelectMusic(id){
 	window._cherry_player.SelectMusic(id);
 }
 
-function ListenMusic(collection_type, idx){
+function ListenAll(country_code){
+	switch(country_code){
+		case 'GLO':
+			window._top_rank_control_GLO.ListenAll();
+			break;
+		case 'USA':
+			window._top_rank_control_USA.ListenAll();
+			break;
+		case 'KOR':
+			window._top_rank_control_KOR.ListenAll();
+			break;
+	}
+}
+
+function ListenMusic(country_code, idx){
 	var music = null;
-	if(collection_type == COLLECTION_TYPE.KPOP){
-		music = window._kpop_collection_control._music_list[idx];
-	}else{
-		music = window._billboard_collection_control._music_list[idx];
+
+	switch(country_code){
+		case 'GLO':
+			music = window._top_rank_control_GLO._music_list[idx];
+			break;
+		case 'USA':
+			music = window._top_rank_control_USA._music_list[idx];
+			break;
+		case 'KOR':
+			music = window._top_rank_control_KOR._music_list[idx];
+			break;
 	}
 
 	if(music != null){
@@ -23,10 +44,6 @@ function Control(){
 	var self = this;
 
 	this.Init = function(){
-		// $('#liveToastBtn').on('click', function(){
-		// 	console.log('toast show ');
-		// 	$('#liveToast').toast('show');
-		// });
 		return self;
 	};
 }

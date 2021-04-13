@@ -4,14 +4,19 @@ $('document').ready(function(){
 
 const _route_info = [
 	{
-		name:'kpop',
-		target:'id_dst_kpop',
-		view:'/kpop.vu'
+		name:'GLO',
+		target:'id_router_GLO',
+		view:'/top_rank.vu?country_code=GLO'
 	},
 	{
-		name:'pop',
-		target:'id_dst_pop',
-		view:'/pop.vu'
+		name:'KOR',
+		target:'id_router_KOR',
+		view:'/top_rank.vu?country_code=KOR'
+	},
+	{
+		name:'USA',
+		target:'id_router_USA',
+		view:'/top_rank.vu?country_code=USA'
 	},
 ];
 
@@ -41,16 +46,20 @@ function Router(){
 
 	this.Go = function(path){
 		{
-			$('#nav_kpop').removeClass('active');
-			$('#nav_pop').removeClass('active');
+			$('#nav_GLO').removeClass('active');
+			$('#nav_USA').removeClass('active');
+			$('#nav_KOR').removeClass('active');
 			switch(path){
-				case 'kpop':
-					$('#nav_kpop').addClass('active');
+				case 'GLO':
+					$('#nav_GLO').addClass('active');
 					break;
-				case 'pop':
-					$('#nav_pop').addClass('active');
+				case 'KOR':
+					$('#nav_KOR').addClass('active');
 					break;
-			}
+				case 'USA':
+					$('#nav_USA').addClass('active');
+					break;
+				}
 		}
 		self.LoadRoute(path);
 		history.pushState(null, '', "#"+path);
@@ -71,6 +80,7 @@ function Router(){
 		}
 
 		if(route != null){
+			console.log('load route ' + route.view);
 			$('#'+route.target).load(route.view);
 			$('#'+route.target).css('display', '');
 		}

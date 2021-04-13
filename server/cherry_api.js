@@ -340,6 +340,7 @@ router.post('/get_music_by_id', async function(req, res){
 router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
 		var data = req.body;
+		console.log('data.country_code ' + data.country_code);
 		var music_list = await cms_service.GetTopRankReleaseData(data.country_code);
 		res.send({
 			ok: 1,

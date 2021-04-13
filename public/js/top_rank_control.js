@@ -1,0 +1,84 @@
+function TopRankControl(){
+	var self = this;
+	this._country_code = null;
+	this._music_list = [];
+
+	this.Init = function(){
+		self._country_code = self.GetHash();
+		console.log('self._country_code ' + self._country_code);
+		self.GetMusicList();
+		self.InitComponentHanele();
+		return self;
+	};
+
+	this.InitComponentHanele = function(){
+		$('#id_btn_top_rank_listen_all').on('click', self.ListenAll);
+	};
+
+	this.ListenAll = function(){
+		console.log('TopRankControl listen all  ' + self._country_code);
+		window._cherry_player.LoadMusicList(self._music_list);
+	};
+
+	this.GetHash = function(){
+		var hash = document.location.hash;
+		var path = null;
+
+		var arr = hash.split('#');
+		if(arr.length > 1){
+			path = arr[1];
+		}
+		return path;
+	};
+
+	this.GetMusicList = function(){
+		var req_data = {
+			country_code: self._country_code
+		};
+
+		$.ajax({
+			url: '/cherry_api/top_rank/fetch_release_data',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._music_list = res.music_list;
+					console.log('res.music_list ' + res.music_list.length);
+					self.DisplayMusicList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	this.DisplayMusicList = function(){
+		var h = '';
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i];
+			var num = (i*1) + 1;
+
+			h += `
+			<div class="row my-2 border">
+				<div class="col-1">${num}</div>
+				<div class="col-9 col-sm-10 d-flex">
+					<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+					<div class="pl-1">
+						<div class="text-dark">${m.title}</div>
+						<div class="text-secondary" style="font-size:0.8em">${m.artist}</div>
+					</div>
+				</div>
+				<div class="col-1">
+					<button class="btn" type="button" onclick="ListenMusic('${self._country_code}', ${i})">
+						<i class="fas fa-play"></i>
+					</button>
+				</div>
+			</div>
+			`;
+		}
+
+		$('#id_div_top_rank_music_list_'+self._country_code).html(h);
+	};
+}

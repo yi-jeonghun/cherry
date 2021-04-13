@@ -11,7 +11,8 @@ const RELEASE_MODE = {
 };
 
 const COUNTRY = {
-	GLOBAL: 'GLO'
+	GLOBAL: 'GLO',
+	USA: 'USA'
 };
 
 var _release_mode = RELEASE_MODE.DRAFT;
@@ -132,14 +133,7 @@ function OpenWork(){
 }
 
 function DisplayRankTitle(){
-	var title = '';
-	switch(_country_code){
-		case COUNTRY.GLOBAL:
-			title = 'Global';
-			break;
-	}
-	console.log('title ' + title);
-
+	var title = _country_code;
 	if(_release_mode == RELEASE_MODE.DRAFT){
 		title += '[Draft]';
 	}else{
@@ -194,7 +188,10 @@ function Auto(){
 		case COUNTRY.GLOBAL:
 			url = 'https://music.apple.com/us/playlist/top-100-global/pl.d25f5d1181894928af76c85c967f8f31';
 			break;
-	}
+		case COUNTRY.USA:
+			url = 'https://music.apple.com/us/playlist/top-100-usa/pl.606afcbb70264d2eb2b51d8dbcfa6a12';
+			break;
+		}
 
 	var req_data = {
 		url: url

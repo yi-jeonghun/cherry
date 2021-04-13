@@ -29,6 +29,14 @@ router.get('/pop.vu', async function(req, res){
 	res.render('pop', null);
 });
 
+router.get('/top_rank.vu', async function(req, res){
+	var country_code = req.query.country_code;
+	var data = {
+		country_code:country_code
+	}
+	res.render('top_rank', data);
+});
+
 
 //####################################################################################//
 

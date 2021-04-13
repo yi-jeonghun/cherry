@@ -1,0 +1,28 @@
+
+<div class="container">
+	<div class="row">
+		<div class="col-12 text-right">
+			<!-- FIXME -->
+			<button type="button" class="btn btn-primary" onclick="ListenAll('<%=country_code%>')">
+				<span>All</span>
+				<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<!-- FIXME -->
+			<div class="container-fluid" id="id_div_top_rank_music_list_<%=country_code%>">
+			</div>			
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="js/top_rank_control.js"></script>
+<script>
+$('document').ready(function(){
+	console.log('top rank control');
+	window._top_rank_control_<%=country_code%> = new TopRankControl().Init();
+});
+</script>

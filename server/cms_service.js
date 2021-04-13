@@ -91,6 +91,8 @@ function CMS_Service(){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
+			console.log('country_code ' + country_code);
+
 			var sql = `
 			SELECT t.rank_num, m.music_id, m.title, a.name artist, m.video_id
 			FROM top_rank_list t

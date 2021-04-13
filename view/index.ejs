@@ -24,13 +24,18 @@
 				<div class="col-12">
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link hand active" id="nav_kpop" onclick='_router.Go("kpop")'>
-								KPop Top 100
+							<a class="nav-link hand" id="nav_GLO" onclick='_router.Go("GLO")'>
+								Global
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hand" id="nav_pop" onclick='_router.Go("pop")'>
-								Billboard Top 100
+							<a class="nav-link hand" id="nav_USA" onclick='_router.Go("USA")'>
+								USA
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hand" id="nav_KOR" onclick='_router.Go("KOR")'>
+								Korea
 							</a>
 						</li>
 					</ul>
@@ -38,10 +43,11 @@
 			</div>
 		</div>
 
-		<!-- id를 router라는 단어가 들어가게 만들기. -->
-		<div id="id_dst_kpop" style="display: none;">
+		<div id="id_router_GLO" style="display: none;">
 		</div>
-		<div id="id_dst_pop" style="display: none;">
+		<div id="id_router_KOR" style="display: none;">
+		</div>
+		<div id="id_router_USA" style="display: none;">
 		</div>
 	</div>
 
@@ -96,7 +102,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="container-fluid" id="id_div_music_list">
+			<div class="container-fluid" id="id_div_cherry_player_music_list">
 		</div>
 	</div>
 
@@ -109,6 +115,7 @@
 
 <script>
 	$('document').ready(function(){
-		_router.Go("kpop");
+		//FIXME 항상 GLO가 두번 호출되는 문제있음.
+		_router.Go("GLO");
 	});
 </script>

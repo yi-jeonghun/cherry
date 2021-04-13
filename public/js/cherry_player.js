@@ -150,7 +150,7 @@ function CherryPlayer(){
 			h += '	</div>';
 			h += '</div>';
 		}
-		$('#id_div_music_list').html(h);
+		$('#id_div_cherry_player_music_list').html(h);
 	};
 
 	this.HighlightCurrentMusic = function(){
