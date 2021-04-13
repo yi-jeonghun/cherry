@@ -39,8 +39,14 @@ function Router(){
 			path = arr[1];
 		}
 
+		console.log('path ' + path);
+
 		if(path != null){
-			self.LoadRoute(path);
+			// self.LoadRoute(path);
+			self.Go(path);
+		}else{
+			self.Go('GLO');
+			// self.LoadRoute('GLO');
 		}
 	};
 
