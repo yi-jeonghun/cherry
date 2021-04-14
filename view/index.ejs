@@ -24,17 +24,17 @@
 				<div class="col-12">
 					<ul class="nav nav-tabs">
 						<li class="nav-item">
-							<a class="nav-link hand" id="nav_GLO" onclick='_router.Go("GLO")'>
+							<a class="nav-link hand" id="nav_GLO" href="/#GLO">
 								Global
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hand" id="nav_USA" onclick='_router.Go("USA")'>
+							<a class="nav-link hand" id="nav_USA" href="/#USA">
 								USA
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hand" id="nav_KOR" onclick='_router.Go("KOR")'>
+							<a class="nav-link hand" id="nav_KOR" href="/#KOR">
 								Korea
 							</a>
 						</li>
@@ -112,10 +112,3 @@
 <script type="text/javascript" src="js/router.js"></script>
 <script type="text/javascript" src="js/cherry_player.js"></script>
 <script type="text/javascript" src="js/control.js"></script>
-
-<script>
-	$('document').ready(function(){
-		//FIXME 항상 GLO가 두번 호출되는 문제있음.
-		// _router.Go("GLO");
-	});
-</script>

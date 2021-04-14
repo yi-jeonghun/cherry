@@ -42,11 +42,9 @@ function Router(){
 		console.log('path ' + path);
 
 		if(path != null){
-			// self.LoadRoute(path);
 			self.Go(path);
 		}else{
 			self.Go('GLO');
-			// self.LoadRoute('GLO');
 		}
 	};
 
@@ -58,17 +56,19 @@ function Router(){
 			switch(path){
 				case 'GLO':
 					$('#nav_GLO').addClass('active');
+					console.log('glo act ');
 					break;
 				case 'KOR':
 					$('#nav_KOR').addClass('active');
+					console.log('kor act ');
 					break;
 				case 'USA':
+					console.log('usa act ');
 					$('#nav_USA').addClass('active');
 					break;
 				}
 		}
 		self.LoadRoute(path);
-		history.pushState(null, '', "#"+path);
 	};
 
 	/*
@@ -93,6 +93,7 @@ function Router(){
 	};
 
 	this.OnPopState = function(event){
+		console.log('OnPopState ' );
 		var hash = document.location.hash;
 		var path = null;
 
@@ -103,7 +104,7 @@ function Router(){
 		}
 
 		if(path != null){
-			self.LoadRoute(path);
+			self.Go(path);
 		}
 	};
 }
