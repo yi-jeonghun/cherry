@@ -44,7 +44,7 @@ function Router(){
 		if(path != null){
 			self.Go(path);
 		}else{
-			self.Go('GLO');
+			document.location.href = "/#GLO";
 		}
 	};
 
