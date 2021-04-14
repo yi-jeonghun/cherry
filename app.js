@@ -27,8 +27,8 @@ app.set('views', './view');
 http.createServer(app).listen(80);
 
 https.createServer({
-	key: fs.readFileSync('/etc/letsencrypt/live/candyaudio.com/privkey.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/candyaudio.com/fullchain.pem')
+	key: fs.readFileSync('/etc/letsencrypt/live/cherrymusic.io/privkey.pem'),
+	cert: fs.readFileSync('/etc/letsencrypt/live/cherrymusic.io/fullchain.pem')
 }, app).listen(443);
 
 app.use(function (req, res, next) {
