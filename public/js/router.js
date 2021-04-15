@@ -49,6 +49,8 @@ function Router(){
 	};
 
 	this.Go = function(path){
+		var title = '';
+		var keyword = '';
 		{
 			$('#nav_GLO').removeClass('active');
 			$('#nav_USA').removeClass('active');
@@ -56,17 +58,31 @@ function Router(){
 			switch(path){
 				case 'GLO':
 					$('#nav_GLO').addClass('active');
-					console.log('glo act ');
+					title = 'Global Top 100';
+					keyword = 'Global Top 100';
 					break;
 				case 'KOR':
 					$('#nav_KOR').addClass('active');
-					console.log('kor act ');
+					title = 'Korea Top 100';
+					keyword = 'Korea Top 100';
 					break;
 				case 'USA':
-					console.log('usa act ');
 					$('#nav_USA').addClass('active');
+					title = 'USA Top 100';
+					keyword = 'USA Top 100';
 					break;
 				}
+		}
+		{
+			$('title').text(title);
+			$("meta[property='og:title']").attr("content", title);
+
+			// $("meta[name=description]").attr("content", desc);
+			// $("meta[property='og:description']").attr("content", desc);
+
+			var org_keywords = $("meta[name=keywords]").attr("content");
+			var new_keywords = keyword + ', ' + org_keywords;
+			$("meta[name=keywords]").attr("content", new_keywords);
 		}
 		self.LoadRoute(path);
 	};
