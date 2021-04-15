@@ -62,13 +62,10 @@ function InitKeyHandle(){
 	document.addEventListener('keydown', function(e){
 		console.log('key ' + e.keyCode);
 		switch(e.keyCode){
-			case 83://s
-				Save();
-				break;
-			case 88://x
+			case 49://1
 				SearchYoutube(_working_idx);
 				break;
-			case 67://c
+			case 50://2
 				{
 					navigator.clipboard.readText()
 					.then(text => {
@@ -80,7 +77,7 @@ function InitKeyHandle(){
 					});
 				}
 				break;
-			case 86://v
+			case 51://3
 				SearchMusic(_working_idx);
 				break;
 		}
