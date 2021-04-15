@@ -479,8 +479,12 @@ function SearchYoutube(idx){
 	$('#id_iframe_youtube').show();
 
 	var artist_name = _music_list_draft[idx].artist;
+	artist_name = artist_name.replace('&amp;', '');
 	var title = _music_list_draft[idx].title;
+	title = title.replace('&amp;', '');
 	var keyword = artist_name + "+" + title;
+	// console.log('keyword ' + keyword);
+	// console.log("https://www.youtube.com/results?search_query="+keyword);
 	top.document.getElementById('id_iframe_youtube').src = "https://www.youtube.com/results?search_query="+keyword;
 }
 
