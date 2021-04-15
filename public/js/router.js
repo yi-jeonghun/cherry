@@ -9,14 +9,19 @@ const _route_info = [
 		view:'/top_rank.vu?country_code=GLO'
 	},
 	{
-		name:'KOR',
-		target:'id_router_KOR',
-		view:'/top_rank.vu?country_code=KOR'
-	},
-	{
 		name:'USA',
 		target:'id_router_USA',
 		view:'/top_rank.vu?country_code=USA'
+	},
+	{
+		name:'UK',
+		target:'id_router_UK',
+		view:'/top_rank.vu?country_code=UK'
+	},
+	{
+		name:'KOR',
+		target:'id_router_KOR',
+		view:'/top_rank.vu?country_code=KOR'
 	},
 ];
 
@@ -54,22 +59,32 @@ function Router(){
 		{
 			$('#nav_GLO').removeClass('active');
 			$('#nav_USA').removeClass('active');
+			$('#nav_UK').removeClass('active');
 			$('#nav_KOR').removeClass('active');
+			
 			switch(path){
 				case 'GLO':
 					$('#nav_GLO').addClass('active');
 					title = 'Global Top 100';
 					keyword = 'Global Top 100';
 					break;
-				case 'KOR':
-					$('#nav_KOR').addClass('active');
-					title = 'Korea Top 100';
-					keyword = 'Korea Top 100';
-					break;
+
 				case 'USA':
 					$('#nav_USA').addClass('active');
 					title = 'USA Top 100';
 					keyword = 'USA Top 100';
+					break;
+
+				case 'UK':
+					$('#nav_UK').addClass('active');
+					title = 'UK Top 100';
+					keyword = 'UK Top 100';
+					break;
+	
+				case 'KOR':
+					$('#nav_KOR').addClass('active');
+					title = 'Korea Top 100';
+					keyword = 'Korea Top 100';
 					break;
 				}
 		}
