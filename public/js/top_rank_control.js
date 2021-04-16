@@ -5,7 +5,6 @@ function TopRankControl(){
 
 	this.Init = function(){
 		self._country_code = self.GetHash();
-		console.log('self._country_code ' + self._country_code);
 		self.GetMusicList();
 		self.InitComponentHanele();
 		return self;
@@ -16,7 +15,6 @@ function TopRankControl(){
 	};
 
 	this.ListenAll = function(){
-		console.log('TopRankControl listen all  ' + self._country_code);
 		window._cherry_player.LoadMusicList(self._music_list);
 	};
 
@@ -45,7 +43,6 @@ function TopRankControl(){
 			success: function (res) {
 				if(res.ok){
 					self._music_list = res.music_list;
-					console.log('res.music_list ' + res.music_list.length);
 					self.DisplayMusicList();
 				}else{
 					alert(res.err);
@@ -71,7 +68,7 @@ function TopRankControl(){
 					</div>
 				</div>
 				<div class="col-1">
-					<button class="btn" type="button" onclick="ListenMusic('${self._country_code}', ${i})">
+					<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
 						<i class="fas fa-play"></i>
 					</button>
 				</div>
@@ -79,6 +76,6 @@ function TopRankControl(){
 			`;
 		}
 
-		$('#id_div_top_rank_music_list_'+self._country_code).html(h);
+		$('#id_div_top_rank_music_list').html(h);
 	};
 }

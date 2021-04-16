@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="col-12 text-right">
 			<!-- FIXME -->
-			<button type="button" class="btn btn-primary" onclick="ListenAll('<%=country_code%>')">
+			<button type="button" class="btn btn-primary" id="id_btn_top_rank_listen_all">
 				<span>All</span>
 				<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
 			</button>
@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-12">
 			<!-- FIXME -->
-			<div class="container-fluid" id="id_div_top_rank_music_list_<%=country_code%>">
+			<div class="container-fluid" id="id_div_top_rank_music_list">
 			</div>			
 		</div>
 	</div>
@@ -23,6 +23,14 @@
 <script>
 $('document').ready(function(){
 	console.log('top rank control');
-	window._top_rank_control_<%=country_code%> = new TopRankControl().Init();
+	window._top_rank_control = new TopRankControl().Init();
 });
+
+function Top_Rank_ListenMusic(idx){
+	var music = window._top_rank_control._music_list[idx];
+	if(music != null){
+		window._cherry_player.AddMusic(music);
+	}
+}
+
 </script>
