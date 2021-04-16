@@ -2,25 +2,6 @@ $('document').ready(function(){
 	window._router = new Router().Init();
 });
 
-const _route_info = [
-	{
-		name:'GLO',
-		view:'/top_rank.vu?country_code=GLO'
-	},
-	{
-		name:'USA',
-		view:'/top_rank.vu?country_code=USA'
-	},
-	{
-		name:'GBR',
-		view:'/top_rank.vu?country_code=GBR'
-	},
-	{
-		name:'KOR',
-		view:'/top_rank.vu?country_code=KOR'
-	},
-];
-
 function Router(){
 	var self = this;
 
@@ -32,59 +13,38 @@ function Router(){
 
 	this.LoadInitRoute = function(){
 		var hash = document.location.hash;
-		var path = null;
+		var country_code = hash.substr(1);
 
-		console.log('hash ' + hash);
-		var arr = hash.split('#');
-		if(arr.length > 1){
-			path = arr[1];
-		}
-
-		console.log('path ' + path);
-
-		if(path != null){
-			self.Go(path);
+		if(country_code != ''){
+			self.Go(country_code);
 		}else{
 			document.location.href = "/#GLO";
 		}
 	};
 
-	this.Go = function(path){
+	this.Go = function(country_code){
+		{
+			//Nav Bar Initialize
+			for(var i=0 ; i<_top_rank_country_list.length ; i++){
+				$('#nav_'+_top_rank_country_list[i].country_code).removeClass('active');
+			}
+		}
+
+		$('#nav_'+country_code).addClass('active');
+
 		var title = '';
 		var keyword = '';
-		{
-			$('#nav_GLO').removeClass('active');
-			$('#nav_USA').removeClass('active');
-			$('#nav_GBR').removeClass('active');
-			$('#nav_KOR').removeClass('active');
-			
-			switch(path){
-				case 'GLO':
-					$('#nav_GLO').addClass('active');
-					title = 'Global Top 100';
-					keyword = 'Global Top 100';
-					break;
 
-				case 'USA':
-					$('#nav_USA').addClass('active');
-					title = 'USA Top 100';
-					keyword = 'USA Top 100';
-					break;
-
-				case 'GBR':
-					$('#nav_GBR').addClass('active');
-					title = 'UK Top 100';
-					keyword = 'UK Top 100';
-					break;
-	
-				case 'KOR':
-					$('#nav_KOR').addClass('active');
-					title = 'Korea Top 100';
-					keyword = 'Korea Top 100';
-					break;
-				}
+		for(var i=0 ; i<_top_rank_country_list.length ; i++){
+			if(_top_rank_country_list[i].country_code == country_code){
+				country_name = _top_rank_country_list[i].country_name;
+				title = country_name + ' Top 100';
+				keyword = country_name + ' Top 100';
+			}
 		}
+
 		{
+			//Update Meta Tag
 			$('title').text(title);
 			$("meta[property='og:title']").attr("content", title);
 
@@ -96,42 +56,25 @@ function Router(){
 			var new_keywords = keyword + ', ' + org_keywords;
 			$("meta[name=keywords]").attr("content", new_keywords);
 		}
-		self.LoadRoute(path);
+		self.LoadRoute(country_code);
 	};
 
-	/*
-	 * 해당 router만 visible하고
-	 * 다른 router들은 hide하기.
-	 */
-	this.LoadRoute = function(path){
-		var route = null;
-
-		for(var i=0 ; i<_route_info.length ; i++){
-			$('#' + _route_info[i].target).css('display', 'none');
-			if(_route_info[i].name == path){
-				route = _route_info[i];
+	this.LoadRoute = function(country_code){
+		for(var i=0 ; i<_top_rank_country_list.length ; i++){
+			if(_top_rank_country_list[i].country_code == country_code){
+				$('#id_router-top_rank').load(_top_rank_country_list[i].route_url);
+				break;
 			}
-		}
-
-		if(route != null){
-			console.log('load route ' + route.view);
-			$('#id_router-top_rank').load(route.view);
 		}
 	};
 
 	this.OnPopState = function(event){
 		console.log('OnPopState ' );
 		var hash = document.location.hash;
-		var path = null;
+		var country_code = hash.substr(1);
 
-		console.log('hash ' + hash);
-		var arr = hash.split('#');
-		if(arr.length > 1){
-			path = arr[1];
-		}
-
-		if(path != null){
-			self.Go(path);
+		if(country_code != ''){
+			self.Go(country_code);
 		}
 	};
 }
