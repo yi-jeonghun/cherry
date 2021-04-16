@@ -49,6 +49,12 @@ async function GetSitemapData(){
 		xml += '	</url>\n';
 
 		xml += '	<url>\n';
+		xml += '		<loc>https://cherrymusic.io/#GBR</loc>\n';
+		xml += '		<lastmod>' + new Date().toISOString() + '</lastmod>\n';
+		xml += '		<priority>0.8</priority>\n';
+		xml += '	</url>\n';
+
+		xml += '	<url>\n';
 		xml += '		<loc>https://cherrymusic.io/#KOR</loc>\n';
 		xml += '		<lastmod>' + new Date().toISOString() + '</lastmod>\n';
 		xml += '		<priority>0.8</priority>\n';
