@@ -1,4 +1,0 @@
-const COLLECTION_TYPE = {
-	KPOP: 0,
-	BILLBOARD: 1
-};

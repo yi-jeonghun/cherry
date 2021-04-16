@@ -57,40 +57,6 @@ router.post('/search_artist', async function(req, res){
 	}
 });
 
-router.post('/add_collection', async function(req, res){
-	try{
-		var data = req.body;
-		await cherry_service.AddCollection(data.collection_name);
-
-		res.send({
-			ok: 1
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to add collection'
-		});
-	}
-});
-
-router.get('/get_collection_list', async function(req, res){
-	try{
-		var collection_list = await cherry_service.GetCollectionList();
-
-		res.send({
-			ok: 1,
-			collection_list: collection_list
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to get_collection_list'
-		});
-	}
-});
-
 router.post('/add_music', async function(req, res){
 	try{
 		var music = req.body;
@@ -280,42 +246,6 @@ router.post('/search_music_smart', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Failed to search_music_by_artist'
-		});
-	}
-});
-
-router.get('/collection/get_top_100', async function(req, res){
-	try{
-		var type = req.query.type;
-		console.log('type ' + type);
-		var music_list = await cherry_service.GetTop100(type);
-		res.send({
-			ok: 1,
-			music_list: music_list
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to get_music_list'
-		});
-	}
-});
-
-router.post('/collection/save', async function(req, res){
-	try{
-		var type = req.query.type;
-		var top_100 = req.body;
-		await cherry_service.ClearTop100(type);
-		await cherry_service.SaveTop100(type, top_100);
-		res.send({
-			ok: 1
-		});	
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to collection/save'
 		});
 	}
 });

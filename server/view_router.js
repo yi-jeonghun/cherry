@@ -52,10 +52,6 @@ router.get('/__cms/album.vu', async function(req, res){
 	res.render('__cms/album', null);
 });
 
-router.get('/__cms/collection.vu', async function(req, res){
-	res.render('__cms/collection', null);
-});
-
 router.get('/__cms/top_rank.vu', async function(req, res){
 	res.render('__cms/top_rank', null);
 });
