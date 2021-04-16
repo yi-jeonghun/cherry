@@ -14,9 +14,9 @@ const _route_info = [
 		view:'/top_rank.vu?country_code=USA'
 	},
 	{
-		name:'UK',
-		target:'id_router_UK',
-		view:'/top_rank.vu?country_code=UK'
+		name:'GBR',
+		target:'id_router_GBR',
+		view:'/top_rank.vu?country_code=GBR'
 	},
 	{
 		name:'KOR',
@@ -59,7 +59,7 @@ function Router(){
 		{
 			$('#nav_GLO').removeClass('active');
 			$('#nav_USA').removeClass('active');
-			$('#nav_UK').removeClass('active');
+			$('#nav_GBR').removeClass('active');
 			$('#nav_KOR').removeClass('active');
 			
 			switch(path){
@@ -75,8 +75,8 @@ function Router(){
 					keyword = 'USA Top 100';
 					break;
 
-				case 'UK':
-					$('#nav_UK').addClass('active');
+				case 'GBR':
+					$('#nav_GBR').addClass('active');
 					title = 'UK Top 100';
 					keyword = 'UK Top 100';
 					break;

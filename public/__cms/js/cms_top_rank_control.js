@@ -13,7 +13,7 @@ const RELEASE_MODE = {
 const COUNTRY = {
 	GLOBAL: 'GLO',
 	USA: 'USA',
-	UK: 'UK',
+	GBR: 'GBR',
 	KOR: 'KOR',
 };
 
@@ -193,7 +193,7 @@ function Auto(){
 		case COUNTRY.USA:
 			url = 'https://music.apple.com/us/playlist/top-100-usa/pl.606afcbb70264d2eb2b51d8dbcfa6a12';
 			break;
-		case COUNTRY.UK:
+		case COUNTRY.GBR:
 			url = 'https://music.apple.com/us/playlist/top-100-uk/pl.c2273b7e89b44121b3093f67228918e7';
 			break;
 		case COUNTRY.KOR:

@@ -14,8 +14,8 @@ function ListenAll(country_code){
 		case 'USA':
 			window._top_rank_control_USA.ListenAll();
 			break;
-		case 'UK':
-			window._top_rank_control_UK.ListenAll();
+		case 'GBR':
+			window._top_rank_control_GBR.ListenAll();
 			break;
 		case 'KOR':
 			window._top_rank_control_KOR.ListenAll();
@@ -34,8 +34,8 @@ function ListenMusic(country_code, idx){
 			music = window._top_rank_control_USA._music_list[idx];
 			break;
 
-		case 'UK':
-			music = window._top_rank_control_UK._music_list[idx];
+		case 'GBR':
+			music = window._top_rank_control_GBR._music_list[idx];
 			break;
 
 		case 'KOR':
