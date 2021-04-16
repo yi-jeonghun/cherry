@@ -1,4 +1,5 @@
 $('document').ready(function(){
+	DisplayCountryList();
 	InitHandle();
 	InitKeyHandle();
 	UpdateReleaseModeBtn();
@@ -10,15 +11,8 @@ const RELEASE_MODE = {
 	RELEASE:1
 };
 
-const COUNTRY = {
-	GLOBAL: 'GLO',
-	USA: 'USA',
-	GBR: 'GBR',
-	KOR: 'KOR',
-};
-
 var _release_mode = RELEASE_MODE.DRAFT;
-var _country_code = COUNTRY.GLOBAL;
+var _country_code = 'GLO';
 var _music_list_draft = [];
 var _music_list_release = [];
 var _searched_music_list = [];
@@ -29,6 +23,17 @@ var _win_arrange = 0;
 
 function InitHandle(){
 
+}
+
+function DisplayCountryList(){
+	var h = '';
+	for (var i = 0; i < _top_rank_country_list.length; i++) {
+		var c = _top_rank_country_list[i];
+		h += `
+		<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
+		`;
+	}
+	$('#id_div_country_list').html(h);
 }
 
 function ArrangeWindow(){
@@ -186,20 +191,12 @@ function Auto(){
 	$('#id_div_music_list').empty();
 
 	var url = '';
-	switch(_country_code){
-		case COUNTRY.GLOBAL:
-			url = 'https://music.apple.com/us/playlist/top-100-global/pl.d25f5d1181894928af76c85c967f8f31';
-			break;
-		case COUNTRY.USA:
-			url = 'https://music.apple.com/us/playlist/top-100-usa/pl.606afcbb70264d2eb2b51d8dbcfa6a12';
-			break;
-		case COUNTRY.GBR:
-			url = 'https://music.apple.com/us/playlist/top-100-uk/pl.c2273b7e89b44121b3093f67228918e7';
-			break;
-		case COUNTRY.KOR:
-			url = 'https://music.apple.com/kr/playlist/%EC%98%A4%EB%8A%98%EC%9D%98-top-100-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/pl.d3d10c32fbc540b38e266367dc8cb00c';
-			break;
+
+	for(var i=0 ; _top_rank_country_list.length ; i++){
+		if(_top_rank_country_list[i].country_code == _country_code){
+			url = _top_rank_country_list[i].a_src;
 		}
+	}
 
 	var req_data = {
 		url: url

@@ -2,7 +2,7 @@
 <head>
 	<%- include('../common_resources.ejs') %>
 	<script src="/js/util.js"></script>
-	<script type="text/javascript" src="/__cms/js/cms_top_rank_control.js"></script>
+	<script type="text/javascript" src="/js/top_rank_const.js"></script>
 </head>
 <body>
 	<div id="id_div_main" class="container-fluid" style="height: 60%; overflow: hidden;">
@@ -35,12 +35,7 @@
 					<button type="button" id="id_btn_release_type_draft" onclick="ToggleReleaseType()" class="btn btn-sm btn-primary">Draft</button>
 					<button type="button" id="id_btn_release_type_release" onclick="ToggleReleaseType()" class="btn btn-sm btn-outline-primary">Release</button>
 				</div>
-				<div style="border-top: 1px solid black;">
-					<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry(COUNTRY.GLOBAL)">Global</button>
-					<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry(COUNTRY.USA)">USA</button>
-					<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry(COUNTRY.GBR)">UK</button>
-					<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry(COUNTRY.KOR)">Korea</button>
-				</div>
+				<div style="border-top: 1px solid black;" id="id_div_country_list"></div>
 			</div>
 
 			<!-- 오른쪽 -->
@@ -62,3 +57,5 @@
 	<iframe id="id_iframe_youtube" style="display:none; height: 40%; width: 100%; border-top: 1px solid black;">
 	</iframe>
 </body>
+
+<script type="text/javascript" src="/__cms/js/cms_top_rank_control.js"></script>
