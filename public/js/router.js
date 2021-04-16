@@ -5,22 +5,18 @@ $('document').ready(function(){
 const _route_info = [
 	{
 		name:'GLO',
-		target:'id_router_GLO',
 		view:'/top_rank.vu?country_code=GLO'
 	},
 	{
 		name:'USA',
-		target:'id_router_USA',
 		view:'/top_rank.vu?country_code=USA'
 	},
 	{
 		name:'GBR',
-		target:'id_router_GBR',
 		view:'/top_rank.vu?country_code=GBR'
 	},
 	{
 		name:'KOR',
-		target:'id_router_KOR',
 		view:'/top_rank.vu?country_code=KOR'
 	},
 ];
@@ -92,6 +88,7 @@ function Router(){
 			$('title').text(title);
 			$("meta[property='og:title']").attr("content", title);
 
+			//TODO
 			// $("meta[name=description]").attr("content", desc);
 			// $("meta[property='og:description']").attr("content", desc);
 
@@ -118,8 +115,7 @@ function Router(){
 
 		if(route != null){
 			console.log('load route ' + route.view);
-			$('#'+route.target).load(route.view);
-			$('#'+route.target).css('display', '');
+			$('#id_router-top_rank').load(route.view);
 		}
 	};
 
