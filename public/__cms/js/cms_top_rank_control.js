@@ -192,7 +192,10 @@ function Auto(){
 
 	var url = '';
 
-	for(var i=0 ; window._const._top_rank_country_list.length ; i++){
+	console.log('cons len ' + window._const._top_rank_country_list.length);
+
+	for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
+		// console.log(i + ' ' + window._const._top_rank_country_list[i]);
 		if(window._const._top_rank_country_list[i].country_code == _country_code){
 			url = window._const._top_rank_country_list[i].a_src;
 		}
@@ -328,7 +331,9 @@ function DisplayMusicList_Draft(){
 
 	for(var i=0 ; i<_music_list_draft.length ; i++){
 		var m = _music_list_draft[i];
-		var img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+		var img_url = '';
+		if(m.video_id != null)
+			img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 
 		h += `
 		<tr onclick="ChooseMusicForWorking(${i})" id="id_row_music_${i}">
@@ -369,7 +374,10 @@ function DisplayMusicList_Release(){
 
 	for(var i=0 ; i<_music_list_release.length ; i++){
 		var m = _music_list_release[i];
-		var img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+		var img_url = '';
+		if(m.video_id != null){
+			img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+		}
 
 		h += `
 		<tr>
@@ -463,7 +471,11 @@ function CheckVideoID(ele, idx){
 
 function DisplayVideoImage(idx){
 	var video_id = _music_list_draft[idx].video_id;
-	var img_url = `https://img.youtube.com/vi/${video_id}/0.jpg`;
+	var img_url = '';
+	if(video_id != null && video_id != ''){
+		img_url = `https://img.youtube.com/vi/${video_id}/0.jpg`;
+	}
+	 
 	$('#id_img_'+idx).attr('src', img_url);
 }
 
