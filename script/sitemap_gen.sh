@@ -1,0 +1,1 @@
+sudo node ../server/sitemap_gen.js
