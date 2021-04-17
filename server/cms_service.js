@@ -120,6 +120,31 @@ function CMS_Service(){
 		});
 	};
 
+	this.GetTopRankReleaseTime = async function(){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+
+			var sql = `SELECT country_code, release_time FROM top_rank_info`;
+			var val = [];
+
+			try{
+				conn = await db_conn.GetConnection();
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMS_Service GetTopRankReleaseTime #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMS_Service GetTopRankReleaseTime #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 	
 	this.SaveTopRankDraft = async function(country_code, music_list){
 		return new Promise(async function(resolve, reject){
@@ -176,6 +201,7 @@ function CMS_Service(){
 						await self.UpdateTopRankRelease_OneRecord(conn, country_code, m);
 					}
 				}
+				await self.UpdateTopRankReleaseTime(conn, country_code);
 				resolve();
 			}catch(err){
 				console.error(err);
@@ -188,7 +214,6 @@ function CMS_Service(){
 
 	this.UpdateTopRankRelease_OneRecord = async function(conn, country_code, music){
 		return new Promise(async function(resolve, reject){
-
 			var sql = `
 			INSERT INTO top_rank_list(country_code, rank_num, music_id) 
 			VALUES(?, ?, ?) 
@@ -202,6 +227,40 @@ function CMS_Service(){
 					reject('FAIL CherryService UpdateTopRankRelease_OneRecord #0');
 				}else{
 					resolve();
+				}
+			});	
+		});
+	};
+
+	this.UpdateTopRankReleaseTime = async function(conn, country_code){
+		return new Promise(async function(resolve, reject){
+			var sql = `
+			UPDATE top_rank_info SET release_time=CURRENT_TIMESTAMP()
+			WHERE country_code=?
+			`;
+			var val = [country_code];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL CherryService UpdateTopRankReleaseTime #0');
+				}else{
+					if(result.affectedRows == 0){
+						sql = `
+						INSERT INTO top_rank_info (country_code, release_time)
+						VALUES(?, CURRENT_TIMESTAMP())
+						`;
+						val = [country_code];
+						conn.query(sql, val, function(err1, result1){
+							if(err1){
+								console.error(err);
+								reject('FAIL CherryService UpdateTopRankReleaseTime #1');			
+							}else{
+								resolve();
+							}
+						});
+					}else{
+						resolve();
+					}
 				}
 			});	
 		});

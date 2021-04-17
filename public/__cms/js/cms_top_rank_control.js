@@ -1,5 +1,6 @@
 $('document').ready(function(){
 	DisplayCountryList();
+	GetReleaseTime();
 	InitHandle();
 	InitKeyHandle();
 	UpdateReleaseModeBtn();
@@ -25,15 +26,58 @@ function InitHandle(){
 }
 
 function DisplayCountryList(){
-	var h = '';
+	var h = '<table class="table table-sm">';
 
 	for (var i = 0; i < window._const._top_rank_country_list.length; i++) {
 		var c = window._const._top_rank_country_list[i];
+		// h += `
+		// <button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
+		// `;
 		h += `
-		<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
+		<tr>
+			<td>
+				<button type="button" class="btn btn-sm btn-light w-100" 
+				onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
+			</td>
+			<td id="id_label_country_release_time-${c.country_code}" style="font-size:0.7em">
+			</td>
+		</tr>
 		`;
 	}
+
+	h += '</table>';
 	$('#id_div_country_list').html(h);
+}
+
+function GetReleaseTime(){
+	$.ajax({
+		url:  '/cherry_api/top_rank/get_release_time',
+		type: 'GET',
+		data: null,
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				console.log('release_time_list length ' + res.release_time_list.length);
+				for(var i=0 ; i<res.release_time_list.length ; i++){
+					var c = res.release_time_list[i];
+					var d = new Date(c.release_time);
+					// var date_str = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+
+					const time = d.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', second:'numeric', hour12: true });
+					const date = d.toLocaleString('ko-KR', { day: 'numeric', month: 'numeric', year:'numeric' });
+
+					$(`#id_label_country_release_time-${c.country_code}`).html(date + '<br>' + time);
+				}
+			}else{
+				alert(res.err);
+			}
+		}
+	});
+}
+
+function DisplayReleaseTime(){
+
 }
 
 function ArrangeWindow(){

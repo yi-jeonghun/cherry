@@ -285,4 +285,20 @@ router.post('/top_rank/fetch_release_data', async function(req, res){
 	}
 });
 
+router.get('/top_rank/get_release_time', async function(req, res){
+	try{
+		var release_time_list = await cms_service.GetTopRankReleaseTime();
+		res.send({
+			ok: 1,
+			release_time_list: release_time_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail /top_rank/get_release_time'
+		});
+	}
+});
+
 module.exports = router;
