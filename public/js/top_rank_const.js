@@ -32,6 +32,12 @@
 			route_url:'/top_rank.vu?country_code=KOR',
 			a_src: 'https://music.apple.com/kr/playlist/%EC%98%A4%EB%8A%98%EC%9D%98-top-100-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/pl.d3d10c32fbc540b38e266367dc8cb00c'
 		},
+		{
+			country_code: 'DEU',
+			country_name: 'Germany',
+			route_url:'/top_rank.vu?country_code=DEU',
+			a_src: 'https://music.apple.com/us/playlist/top-100-germany/pl.c10a2c113db14685a0b09fa5834d8e8b'
+		},
 	];
 
 	exports._top_rank_country_list = _top_rank_country_list;
