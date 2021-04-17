@@ -684,6 +684,7 @@ function Release(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
+				GetReleaseTime();
 				alert('success');
 			}else{
 				alert(res.err);
