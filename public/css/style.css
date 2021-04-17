@@ -101,7 +101,7 @@ div{
 	z-index: 98;
 	background-color: white;
 	display: none;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }
 
 /* #id_div_music_list{
