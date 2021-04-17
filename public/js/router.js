@@ -25,8 +25,8 @@ function Router(){
 	this.Go = function(country_code){
 		{
 			//Nav Bar Initialize
-			for(var i=0 ; i<_top_rank_country_list.length ; i++){
-				$('#nav_'+_top_rank_country_list[i].country_code).removeClass('active');
+			for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
+				$('#nav_'+window._const._top_rank_country_list[i].country_code).removeClass('active');
 			}
 		}
 
@@ -35,9 +35,9 @@ function Router(){
 		var title = '';
 		var keyword = '';
 
-		for(var i=0 ; i<_top_rank_country_list.length ; i++){
-			if(_top_rank_country_list[i].country_code == country_code){
-				country_name = _top_rank_country_list[i].country_name;
+		for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
+			if(window._const._top_rank_country_list[i].country_code == country_code){
+				country_name = window._const._top_rank_country_list[i].country_name;
 				title = country_name + ' Top 100';
 				keyword = country_name + ' Top 100';
 			}
@@ -60,9 +60,9 @@ function Router(){
 	};
 
 	this.LoadRoute = function(country_code){
-		for(var i=0 ; i<_top_rank_country_list.length ; i++){
-			if(_top_rank_country_list[i].country_code == country_code){
-				$('#id_router-top_rank').load(_top_rank_country_list[i].route_url);
+		for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
+			if(window._const._top_rank_country_list[i].country_code == country_code){
+				$('#id_router-top_rank').load(window._const._top_rank_country_list[i].route_url);
 				break;
 			}
 		}

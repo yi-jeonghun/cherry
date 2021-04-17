@@ -22,13 +22,13 @@ var _win_arrange = 0;
 //-----------------------------------------------------------------
 
 function InitHandle(){
-
 }
 
 function DisplayCountryList(){
 	var h = '';
-	for (var i = 0; i < _top_rank_country_list.length; i++) {
-		var c = _top_rank_country_list[i];
+
+	for (var i = 0; i < window._const._top_rank_country_list.length; i++) {
+		var c = window._const._top_rank_country_list[i];
 		h += `
 		<button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
 		`;
@@ -192,9 +192,9 @@ function Auto(){
 
 	var url = '';
 
-	for(var i=0 ; _top_rank_country_list.length ; i++){
-		if(_top_rank_country_list[i].country_code == _country_code){
-			url = _top_rank_country_list[i].a_src;
+	for(var i=0 ; window._const._top_rank_country_list.length ; i++){
+		if(window._const._top_rank_country_list[i].country_code == _country_code){
+			url = window._const._top_rank_country_list[i].a_src;
 		}
 	}
 
