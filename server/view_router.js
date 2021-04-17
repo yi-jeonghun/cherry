@@ -5,29 +5,15 @@ var url = require('url');
 // const permission_service = require('./permission_service');
 // const sitemap_service = require('./sitemap_service');
 
+//###################################################################################
+
 router.get('/', async function(req, res){
 	var params = url.parse(req.url, true).query;
-	var data = {
-		list: []
-	};
-
-	try {
-		// data.list = await kpop_service.GetList(1);
-	} catch (error) {
-		console.error(error);
-		console.error('FAIL view_router /cms/');
-	}
-
-	res.render('index', data);
+	res.render('index', null);
 });
 
-router.get('/kpop.vu', async function(req, res){
-	res.render('kpop', null);
-});
-
-router.get('/pop.vu', async function(req, res){
-	res.render('pop', null);
-});
+//###################################################################################
+//inline pages
 
 router.get('/top_rank.vu', async function(req, res){
 	var country_code = req.query.country_code;
@@ -37,8 +23,8 @@ router.get('/top_rank.vu', async function(req, res){
 	res.render('top_rank', data);
 });
 
-
 //####################################################################################//
+//CMS pages
 
 router.get('/__cms/', async function(req, res){
 	res.render('__cms/cms', null);
