@@ -22,8 +22,7 @@
 <script type="text/javascript" src="js/top_rank_control.js"></script>
 <script>
 $('document').ready(function(){
-	console.log('top rank control');
-	window._top_rank_control = new TopRankControl().Init();
+	window._top_rank_control = new TopRankControl('<%- country_code %>').Init();
 });
 
 function Top_Rank_ListenMusic(idx){

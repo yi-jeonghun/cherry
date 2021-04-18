@@ -1,10 +1,9 @@
-function TopRankControl(){
+function TopRankControl(country_code){
 	var self = this;
-	this._country_code = null;
+	this._country_code = country_code;
 	this._music_list = [];
 
 	this.Init = function(){
-		self._country_code = self.GetHash();
 		self.GetMusicList();
 		self.InitComponentHanele();
 		return self;
@@ -16,17 +15,6 @@ function TopRankControl(){
 
 	this.ListenAll = function(){
 		window._cherry_player.LoadMusicList(self._music_list);
-	};
-
-	this.GetHash = function(){
-		var hash = document.location.hash;
-		var path = null;
-
-		var arr = hash.split('#');
-		if(arr.length > 1){
-			path = arr[1];
-		}
-		return path;
 	};
 
 	this.GetMusicList = function(){

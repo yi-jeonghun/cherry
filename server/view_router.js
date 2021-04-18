@@ -8,7 +8,10 @@ var url = require('url');
 //###################################################################################
 
 router.get('/', async function(req, res){
-	var params = url.parse(req.url, true).query;
+	res.render('index', null);
+});
+
+router.get('/top_rank.go', async function(req, res){
 	res.render('index', null);
 });
 
