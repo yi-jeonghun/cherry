@@ -22,6 +22,7 @@ function CherryPlayer(){
 	this._seq_type = SEQ_TYPE.Sequence;
 	this._repeat_type = REPEAT_TYPE.ALL;
 	this._b_play_list_show = false;
+	this._b_volume_show = false;
 	this._id_slider_fill = null;
 
 	this.Init = function(){
@@ -41,6 +42,8 @@ function CherryPlayer(){
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
 		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
 		$('#id_btn_playlist_hide').on('click', self.TogglePlayList);
+		$('#id_slider_volume').on('input', self.VolumeControl);
+		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
 	};
 
 	this.UpdatePlayPauseButton = function(){
@@ -101,6 +104,16 @@ function CherryPlayer(){
 				break;
 			}
 		});
+	};
+
+	this.ToggleVolumeControl = function(){
+		if(self._b_volume_show){
+			$('.player_volume_div').hide();
+			self._b_volume_show = false;
+		}else{
+			$('.player_volume_div').show();
+			self._b_volume_show = true;
+		}
 	};
 
 	this.TogglePlayList = function(){
@@ -276,10 +289,18 @@ function CherryPlayer(){
 	
 	this.OnPlayerReady = function(pb_rates, duration, volume){
 		console.log('duration ' + duration);
+		console.log('volume ' + volume);
+		$('#id_slider_volume').val(volume);
 		self.DisplayDuration(duration);
 		__yt_player.Play();
 	};
 	
+	this.VolumeControl = function(){
+		var volume = $('#id_slider_volume').val();
+		// console.log('volume ' + volume);
+		__yt_player.SetVolume(volume);
+	};
+
 	this.OnPlayerStateChange = function(player_state, duration){
 		switch(player_state){
 			case YT.PlayerState.ENDED:

@@ -101,13 +101,16 @@ div{
 	z-index: 98;
 	background-color: white;
 	display: none;
-	/* overflow-y: auto; */
 }
 
-/* #id_div_music_list{
-	overflow-y: auto;
-	height: 100%;
-} */
+.player_volume_div{
+	position: fixed; 
+	bottom: 150;
+	z-index: 999; 
+	width:100%;
+	text-align: center;
+	display:none;
+}
 
 .label_artist{
 	font-size: 0.8em;
