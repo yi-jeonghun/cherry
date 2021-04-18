@@ -40,7 +40,7 @@ async function GetSitemapData(){
 			var country = top_rank_const._top_rank_country_list[i];
 			xml += `
 				<url>
-					<loc>https://cherrymusic.io/#${country.country_code}</loc>
+					<loc>https://cherrymusic.io${country.path}</loc>
 					<lastmod>${date_str}</lastmod>
 					<priority>0.8</priority>
 				</url>

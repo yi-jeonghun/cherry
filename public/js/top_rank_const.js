@@ -11,30 +11,35 @@
 		{
 			country_code: 'GLO',
 			country_name: 'Global',
+			path: '/top_rank.go?c=GLO',
 			route_url:'/top_rank.vu?country_code=GLO',
 			a_src: 'https://music.apple.com/us/playlist/top-100-global/pl.d25f5d1181894928af76c85c967f8f31',
 		},
 		{
 			country_code: 'USA',
 			country_name: 'USA',
+			path: '/top_rank.go?c=USA',
 			route_url:'/top_rank.vu?country_code=USA',
 			a_src: 'https://music.apple.com/us/playlist/top-100-usa/pl.606afcbb70264d2eb2b51d8dbcfa6a12',
 		},
 		{
 			country_code: 'GBR',
 			country_name: 'UK',
+			path: '/top_rank.go?c=GBR',
 			route_url:'/top_rank.vu?country_code=GBR',
 			a_src: 'https://music.apple.com/us/playlist/top-100-uk/pl.c2273b7e89b44121b3093f67228918e7',
 		},
 		{
 			country_code: 'KOR',
 			country_name: 'Korea',
+			path: '/top_rank.go?c=KOR',
 			route_url:'/top_rank.vu?country_code=KOR',
 			a_src: 'https://music.apple.com/kr/playlist/%EC%98%A4%EB%8A%98%EC%9D%98-top-100-%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD/pl.d3d10c32fbc540b38e266367dc8cb00c'
 		},
 		{
 			country_code: 'DEU',
 			country_name: 'Germany',
+			path: '/top_rank.go?c=DEU',
 			route_url:'/top_rank.vu?country_code=DEU',
 			a_src: 'https://music.apple.com/us/playlist/top-100-germany/pl.c10a2c113db14685a0b09fa5834d8e8b'
 		},
