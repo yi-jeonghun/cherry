@@ -174,8 +174,26 @@ function CherryPlayer(){
 		// console.log('saved_play_list ' + saved_play_list);
 		self._music_list = JSON.parse((saved_play_list));
 		// console.log('self._music_list len	' + self._music_list);
+
+		var select_music_idx = 0;
+		{
+			var last_played_music_id = window.localStorage.getItem('PLAYER.LAST_PLAYED_MUSIC_ID');
+			console.log('last_played_music_id ' + last_played_music_id);
+			if(last_played_music_id != null){
+				var tmp_idx = 0;
+				for(var i=0 ; i<self._music_list.length ; i++){
+					if(self._music_list[i].music_id == last_played_music_id){
+						select_music_idx = tmp_idx;
+						break;
+					}
+					tmp_idx++;
+				}
+			}
+		}
+
 		self.DisplayMusicList();
-		self.SelectMusic(0);
+		self.SelectMusic(select_music_idx);
+		self.HighlightCurrentMusic();
 		self.UpdatePlayPauseButton();
 	};
 
@@ -207,6 +225,8 @@ function CherryPlayer(){
 		for(var i=0 ; i<self._music_list.length ; i++){
 			$('#id_music_title_' + i).removeClass('playlist_music_highlight');	
 		}
+
+		console.log('self._cur_music_idx ' + self._cur_music_idx);
 
 		var id = '#id_music_title_' + self._cur_music_idx;
 		$(id).addClass('playlist_music_highlight');
@@ -290,6 +310,8 @@ function CherryPlayer(){
 		console.log('id ' + id);
 		self._cur_music_idx = id;
 		var video_id = self._music_list[self._cur_music_idx].video_id;
+		var music_id = self._music_list[self._cur_music_idx].music_id;
+		window.localStorage.setItem('PLAYER.LAST_PLAYED_MUSIC_ID', music_id);
 		{
 			$('#id_label_title').html(self._music_list[self._cur_music_idx].title);
 			$('#id_label_artist').html(self._music_list[self._cur_music_idx].artist);
