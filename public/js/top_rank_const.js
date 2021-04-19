@@ -43,7 +43,17 @@
 			route_url:'/top_rank.vu?country_code=DEU',
 			a_src: 'https://music.apple.com/us/playlist/top-100-germany/pl.c10a2c113db14685a0b09fa5834d8e8b'
 		},
+		{
+			country_code: 'FRA',
+			country_name: 'France',
+			path: '/top_rank.go?c=FRA',
+			route_url:'/top_rank.vu?country_code=FRA',
+			a_src: 'https://music.apple.com/us/playlist/top-100-france/pl.6e8cfd81d51042648fa36c9df5236b8d'
+		},
 	];
+
+
+
 
 	exports._top_rank_country_list = _top_rank_country_list;
 	console.log('export top rank const ' );
