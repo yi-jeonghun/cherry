@@ -24,13 +24,21 @@ function CherryPlayer(){
 	this._b_play_list_show = false;
 	this._b_volume_show = false;
 	this._id_slider_fill = null;
+	this._play_auto_start = false;
 
 	this.Init = function(){
+		var play_last_state = window.localStorage.getItem('PLAY_LAST_STATE');
+		console.log('play_last_state ' + play_last_state);
+		if(play_last_state == '1'){
+			self._play_auto_start = true;
+		}
+
 		$('#id_player_music_list_div').hide();
 		self.InitHandle();
 		self.InitKeyHandle();
 		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
 		self._id_slider_fill = $('#id_slider_fill');
+		self.ReloadPlayList();
 		return self;
 	};
 
@@ -64,6 +72,8 @@ function CherryPlayer(){
 		$('#id_btn_next').removeClass("play_button");
 		$('#id_btn_next').removeClass("play_button_disabled");
 
+		console.log('UpdatePlayPauseButton ' );
+		console.log('self._music_list.length ' + self._music_list.length);
 		if(self._music_list.length > 0){
 			$('#id_btn_prev').addClass("play_button");
 			$('#id_btn_play_pause').addClass("play_button");
@@ -76,17 +86,22 @@ function CherryPlayer(){
 	};
 
 	this.PlayPause = function(){
+		console.log('PlayPause ' );
 		if(self._music_list.length == 0){
+			console.log('music list zeip ');
 			return;
 		}
 
 		if(__yt_player._is_player_ready == false){
+			console.log('__yt_player._is_player_ready ' + __yt_player._is_player_ready);
 			return;
 		}
 		if(__yt_player._is_playing){
 			__yt_player.Pause();
+			window.localStorage.setItem('PLAY_LAST_STATE', '0');
 		}else{
 			__yt_player.Play();
+			window.localStorage.setItem('PLAY_LAST_STATE', '1');
 		}
 	};
 
@@ -131,12 +146,33 @@ function CherryPlayer(){
 		var last_idx = self._music_list.length-1;
 		self.DisplayMusicList();
 		self.SelectMusic(last_idx);
-		self.UpdatePlayPauseButton()
+		self.UpdatePlayPauseButton();
+		self.SavePlayList();
 	};
 
 	this.LoadMusicList = function(music_list){
 		self._music_list = music_list;
 		console.log('LoadMusicList len ' + self._music_list.length);
+		self.DisplayMusicList();
+		self.SelectMusic(0);
+		self.UpdatePlayPauseButton();
+		self.SavePlayList();
+	};
+
+	this.SavePlayList = function(){
+		window.localStorage.setItem('PLAY_LIST', JSON.stringify(self._music_list));
+	};
+
+	this.ReloadPlayList = function(){
+		console.log('reload play list ' );
+		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
+		if(saved_play_list == null){
+			console.log('saved_play_list null');
+			return;
+		}
+		console.log('saved_play_list ' + saved_play_list);
+		self._music_list = JSON.parse((saved_play_list));
+		console.log('self._music_list len	' + self._music_list);
 		self.DisplayMusicList();
 		self.SelectMusic(0);
 		self.UpdatePlayPauseButton();
@@ -188,7 +224,6 @@ function CherryPlayer(){
 			UTIL_ShowCherryToast('Sequence Play');
 			$('#id_icon_seq_type').addClass('fa-sort-numeric-down');
 		}
-		self.UpdateSeqType();
 	};
 
 	this.ToggleRepeatType = function(){
@@ -222,9 +257,12 @@ function CherryPlayer(){
 			$('#id_label_title').html(self._music_list[self._cur_music_idx].title);
 			$('#id_label_artist').html(self._music_list[self._cur_music_idx].artist);
 		}
-		__yt_player.LoadVideo(video_id);
-		if(__yt_player._is_player_ready){
-			__yt_player.Play();
+
+		if(__yt_player._player != null){
+			__yt_player.LoadVideo(video_id);
+			if(__yt_player._is_player_ready){
+				__yt_player.Play();
+			}	
 		}
 		self.HighlightCurrentMusic();
 	};
@@ -272,9 +310,11 @@ function CherryPlayer(){
 	};
 
 	this.OnYoutubeReady = function(){
-		self._cur_music_idx = 0;
-		// self.HighlightCurrentMusic();
-		// __yt_player.LoadVideo(self._music_list[0].video_id);
+		if(self._music_list.length > 0){
+			self._cur_music_idx = 0;
+			self.HighlightCurrentMusic();
+			__yt_player.LoadVideo(self._music_list[0].video_id);
+		}
 	};
 	
 	this.OnFlowEvent = function(play_time){
@@ -292,7 +332,11 @@ function CherryPlayer(){
 		console.log('volume ' + volume);
 		$('#id_slider_volume').val(volume);
 		self.DisplayDuration(duration);
-		__yt_player.Play();
+
+		console.log('self._play_auto_start ' + self._play_auto_start);
+		if(self._play_auto_start){
+			__yt_player.Play();
+		}
 	};
 	
 	this.VolumeControl = function(){
