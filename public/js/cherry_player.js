@@ -164,15 +164,15 @@ function CherryPlayer(){
 	};
 
 	this.ReloadPlayList = function(){
-		console.log('reload play list ' );
+		// console.log('reload play list ' );
 		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
 		if(saved_play_list == null){
-			console.log('saved_play_list null');
+			// console.log('saved_play_list null');
 			return;
 		}
-		console.log('saved_play_list ' + saved_play_list);
+		// console.log('saved_play_list ' + saved_play_list);
 		self._music_list = JSON.parse((saved_play_list));
-		console.log('self._music_list len	' + self._music_list);
+		// console.log('self._music_list len	' + self._music_list);
 		self.DisplayMusicList();
 		self.SelectMusic(0);
 		self.UpdatePlayPauseButton();
