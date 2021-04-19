@@ -38,6 +38,7 @@ function CherryPlayer(){
 		self.InitKeyHandle();
 		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
 		self._id_slider_fill = $('#id_slider_fill');
+		self.ReloadPlayerIcons();
 		self.ReloadPlayList();
 		return self;
 	};
@@ -211,33 +212,69 @@ function CherryPlayer(){
 		$(id).addClass('playlist_music_highlight');
 	};
 
+	this.ReloadPlayerIcons = function(){
+		var seq_type =  window.localStorage.getItem('PLAYER.SEQ_TYPE');
+		if(seq_type == 'Shuffle'){
+			self._seq_type = SEQ_TYPE.Shuffle;
+		}else if(seq_type == 'Sequence'){
+			self._seq_type = SEQ_TYPE.Sequence;
+		}
+		self.UpdateSeqTypeIcon();
+
+		var repeat_type =  window.localStorage.getItem('PLAYER.REPEAT_TYPE');
+		if(repeat_type == 'ONE'){
+			self._repeat_type = REPEAT_TYPE.ONE;
+		}else if(repeat_type == 'ALL'){
+			self._repeat_type = REPEAT_TYPE.ALL;
+		}
+		self.UpdateRepeatTypeIcon();
+	};
+
 	this.ToggleSeqType = function(){
+		if(self._seq_type == SEQ_TYPE.Sequence){
+			self._seq_type = SEQ_TYPE.Shuffle;
+			window.localStorage.setItem('PLAYER.SEQ_TYPE', 'Shuffle');
+			UTIL_ShowCherryToast('Random Play');
+		}else{
+			self._seq_type = SEQ_TYPE.Sequence;
+			window.localStorage.setItem('PLAYER.SEQ_TYPE', 'Sequence');
+			UTIL_ShowCherryToast('Sequence Play');
+		}
+		self.UpdateSeqTypeIcon();
+	};
+
+	this.UpdateSeqTypeIcon = function(){
 		$('#id_icon_seq_type').removeClass('fa-sort-numeric-down');
 		$('#id_icon_seq_type').removeClass('fa-random');
 
 		if(self._seq_type == SEQ_TYPE.Sequence){
-			self._seq_type = SEQ_TYPE.Shuffle;
-			UTIL_ShowCherryToast('Random Play');
-			$('#id_icon_seq_type').addClass('fa-random');
-		}else{
-			self._seq_type = SEQ_TYPE.Sequence;
-			UTIL_ShowCherryToast('Sequence Play');
 			$('#id_icon_seq_type').addClass('fa-sort-numeric-down');
+		}else{
+			$('#id_icon_seq_type').addClass('fa-random');
 		}
 	};
 
 	this.ToggleRepeatType = function(){
+		if(self._repeat_type == REPEAT_TYPE.ALL){
+			self._repeat_type = REPEAT_TYPE.ONE;
+			window.localStorage.setItem('PLAYER.REPEAT_TYPE', 'ONE');
+			UTIL_ShowCherryToast('Repeat Single');
+		}else if(self._repeat_type == REPEAT_TYPE.ONE){
+			self._repeat_type = REPEAT_TYPE.ALL;
+			window.localStorage.setItem('PLAYER.REPEAT_TYPE', 'ALL');
+			UTIL_ShowCherryToast('Repeat All');
+		}
+		self.UpdateRepeatTypeIcon();
+	};
+
+	this.UpdateRepeatTypeIcon = function(){
 		$('#id_icon_repeat_type').removeClass('fa-reply-all');
 		$('#id_icon_repeat_type').removeClass('fa-reply');
 
 		if(self._repeat_type == REPEAT_TYPE.ALL){
-			self._repeat_type = REPEAT_TYPE.ONE;
-			$('#id_icon_repeat_type').addClass('fa-reply');
-			UTIL_ShowCherryToast('Repeat Single');
-		}else if(self._repeat_type == REPEAT_TYPE.ONE){
-			self._repeat_type = REPEAT_TYPE.ALL;
 			$('#id_icon_repeat_type').addClass('fa-reply-all');
-			UTIL_ShowCherryToast('Repeat All');
+		}else if(self._repeat_type == REPEAT_TYPE.ONE){
+			$('#id_icon_repeat_type').addClass('fa-reply');
 		}
 	};
 
