@@ -219,6 +219,7 @@ function FetchTopRank(){
 				if(_release_mode == RELEASE_MODE.DRAFT){
 					_music_list_draft = res.music_list;
 					DisplayMusicList_Draft();
+					DisplayDraftStatus();
 				}else if(_release_mode == RELEASE_MODE.RELEASE){
 					_music_list_release = res.music_list;
 					DisplayMusicList_Release();
@@ -263,6 +264,18 @@ function Auto(){
 			}
 		}
 	});	
+}
+
+function DisplayDraftStatus(){
+	$('#id_label_total').text(_music_list_draft.length);
+	var ok_cnt = 0;
+	for(var i=0 ; i<_music_list_draft.length ; i++){
+		var m = _music_list_draft[i];
+		if(m.music_id != null){
+			ok_cnt++;
+		}
+	}
+	$('#id_label_ok').text(ok_cnt);
 }
 
 function ParseContent(content){
@@ -323,6 +336,7 @@ function AutoSearchMusic(){
 					$('#id_text_video_id_'+i).val(m.video_id);
 					DisplayVideoImage(i);
 				}
+				DisplayDraftStatus();
 			}else{
 				alert(res.err);
 			}
@@ -477,6 +491,7 @@ function RegisterMusic(idx){
 				$('#id_label_music_id_'+idx).html(res.music_id);
 				DisplayVideoImage(idx);
 				NeedToSave();
+				DisplayDraftStatus();
 			}else{
 				alert(res.err);
 			}
