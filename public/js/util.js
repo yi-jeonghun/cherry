@@ -10,3 +10,26 @@ function UTIL_ShowCherryToast(msg){
 		$('.cherry_toast').hide();
 	}, 1000);
 }
+
+//		https://www.youtube.com/watch?v=Wb8-6QCd_yI&pp=qAMBugMGCgJrbxAB
+function UTIL_ExtractVideoIDFromUrl(url){
+	var video_id = url;
+
+	video_id = UTIL_Escape(video_id);
+	video_id = video_id.trim();
+	if(video_id == ''){
+		return null;
+	}
+
+	var str_idx = video_id.indexOf('watch?v=');
+	if(str_idx != -1){
+		video_id = video_id.substr(str_idx + 'watch?v='.length);
+	}
+
+	var tmp_arr = video_id.split('&');
+	if(tmp_arr.length > 1){
+		video_id = tmp_arr[0];
+	}
+
+	return video_id;
+}

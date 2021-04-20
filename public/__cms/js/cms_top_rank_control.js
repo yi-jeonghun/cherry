@@ -134,7 +134,7 @@ function InitKeyHandle(){
 }
 
 function AutoMusicRegisterProcess(txt){
-	var video_id = ExtractVideoIDFromUrl(txt);
+	var video_id = UTIL_ExtractVideoIDFromUrl(txt);
 	if(video_id == null){
 		return;
 	}
@@ -484,25 +484,10 @@ function RegisterMusic(idx){
 	});
 }
 
-function ExtractVideoIDFromUrl(url){
-	var video_id = url;
-
-	video_id = UTIL_Escape(video_id);
-	video_id = video_id.trim();
-	if(video_id == ''){
-		return null;
-	}
-
-	var str_idx = video_id.indexOf('watch?v=');
-	if(str_idx != -1){
-		video_id = video_id.substr(str_idx + 'watch?v='.length);
-	}
-	return video_id;
-}
 
 function CheckVideoID(ele, idx){
 	var url = $(ele).val();
-	var extract = ExtractVideoIDFromUrl(url);
+	var extract = UTIL_ExtractVideoIDFromUrl(url);
 
 	if(extract == null){
 		return null;
