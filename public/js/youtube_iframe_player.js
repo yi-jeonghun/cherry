@@ -10,6 +10,7 @@ function onYouTubeIframeAPIReady(){
 
 function YoutubePlayer(){
 	var self = this;
+	this._is_youtube_ready = false;
 	this._is_player_ready = false;
 	this._player = null;
 	this._video_id = null;
@@ -40,6 +41,7 @@ function YoutubePlayer(){
 
 	this.Ready = function(){
 		console.log('Ready');
+		self._is_youtube_ready = true;
 		if(self._cb_on_ready) self._cb_on_ready();
 	};
 
