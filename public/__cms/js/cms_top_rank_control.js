@@ -475,6 +475,7 @@ function RegisterMusic(idx){
 				// alert('success');
 				_music_list_draft[idx].music_id = res.music_id;
 				$('#id_label_music_id_'+idx).html(res.music_id);
+				DisplayVideoImage(idx);
 				NeedToSave();
 			}else{
 				alert(res.err);
