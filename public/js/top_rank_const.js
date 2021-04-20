@@ -50,10 +50,14 @@
 			route_url:'/top_rank.vu?country_code=FRA',
 			a_src: 'https://music.apple.com/us/playlist/top-100-france/pl.6e8cfd81d51042648fa36c9df5236b8d'
 		},
+		{
+			country_code: 'AUS',
+			country_name: 'Australia',
+			path: '/top_rank.go?c=AUS',
+			route_url:'/top_rank.vu?country_code=AUS',
+			a_src: 'https://music.apple.com/us/playlist/top-100-australia/pl.18be1cf04dfd4ffb9b6b0453e8fae8f1'
+		},
 	];
-
-
-
 
 	exports._top_rank_country_list = _top_rank_country_list;
 	console.log('export top rank const ' );
