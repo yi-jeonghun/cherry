@@ -7,7 +7,6 @@ then
 	echo "Uglify"
 	cd ../public/js
 	terser --compress --mangle --verbose \
-		top_rank_const.js \
 		util.js \
 		youtube_iframe_player.js \
 		control.js \
