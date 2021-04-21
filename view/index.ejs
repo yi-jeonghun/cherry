@@ -14,12 +14,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 
 	<%- include('common_resources.ejs') %>
-
-	<script type="text/javascript" src="/js/top_rank_const.js"></script>
-
-	<script type="text/javascript" src="js/util.js"></script>
-	<script type="text/javascript" src="js/youtube_iframe_player.js"></script>
-
 </head>
 <body>
 	<div class="main_div">
@@ -145,6 +139,13 @@
 </body>
 </html>
 
-<script type="text/javascript" src="js/control.js"></script>
-<script type="text/javascript" src="js/router.js"></script>
-<script type="text/javascript" src="js/cherry_player.js"></script>
+<% if(dev_mode){ %>
+	<script type="text/javascript" src="/js/top_rank_const.js"></script>
+	<script type="text/javascript" src="/js/util.js"></script>
+	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+	<script type="text/javascript" src="/js/control.js"></script>
+	<script type="text/javascript" src="/js/router.js"></script>
+	<script type="text/javascript" src="/js/cherry_player.js"></script>
+<% } else { %>
+	<script src="/js/index_min.js"></script>
+<% } %>
