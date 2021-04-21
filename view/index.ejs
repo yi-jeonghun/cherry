@@ -19,8 +19,11 @@
 	<div class="main_div">
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-8">
 					<h1 class="cherry_title">Cherry Music</h1>
+				</div>
+				<div class="col-4 text-right">
+					<%- include('include/google_auth_html.ejs') %>
 				</div>
 			</div>
 			<div class="row menu_bar">
@@ -146,3 +149,5 @@
 	<script type="text/javascript" src="/js/control.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
 	<script type="text/javascript" src="/js/cherry_player.js"></script>
+
+<%- include('include/google_auth_js.ejs') %>

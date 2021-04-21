@@ -1,0 +1,17 @@
+	<!-- Google Auth -->
+	<script>
+		function OnSignIn(googleUser) {
+			window._auth_control.OnGoogleSignIn(googleUser, function(res){
+				if(res){
+					//window.location.href = './cms_main.vu';
+				}else{
+					alert('로그인 실패');
+				}
+			});
+		}
+	</script>
+	<meta name="google-signin-scope" content="profile email">
+	<meta name="google-signin-client_id" content="593936549032-rn82ptkqtjj5n3jfcf8g964k8metdnv2.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script type="text/javascript" src="/js/auth_control.js"></script>
+	<!-- Google Auth -->
