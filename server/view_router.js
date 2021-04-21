@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var url = require('url');
 var fs = require('fs');
-// const kpop_service = require('./kpop_service');
-// const permission_service = require('./permission_service');
-// const sitemap_service = require('./sitemap_service');
+const permission_service = require('./permission_service');
 
 var _dev_mode = fs.existsSync('dev_mode');
 
@@ -38,22 +35,47 @@ router.get('/top_rank.vu', async function(req, res){
 //CMS pages
 
 router.get('/__cms/', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
 	res.render('__cms/cms', null);
 });
 
 router.get('/__cms/artist.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
 	res.render('__cms/artist', null);
 });
 
 router.get('/__cms/album.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
 	res.render('__cms/album', null);
 });
 
 router.get('/__cms/top_rank.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
 	res.render('__cms/top_rank', null);
 });
 
 router.get('/__cms/music.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
 	res.render('__cms/music', null);
 });
 
