@@ -1,4 +1,4 @@
 #!/bin/sh
 
 sudo killall node
-sudo ./start.sh
+sudo /home/ubuntu/cherry/script/start.sh
