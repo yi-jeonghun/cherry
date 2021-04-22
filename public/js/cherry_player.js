@@ -332,9 +332,9 @@ function CherryPlayer(){
 
 		if(__yt_player._player != null){
 			__yt_player.LoadVideo(video_id);
-			if(__yt_player._is_player_ready){
-				__yt_player.Play();
-			}	
+			// if(__yt_player._is_player_ready){
+			// 	__yt_player.Play();
+			// }	
 		}
 		self.HighlightCurrentMusic();
 	};
