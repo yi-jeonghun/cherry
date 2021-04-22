@@ -7,7 +7,6 @@ then
 	echo "Uglify"
 	cd ../public/js
 	terser --compress --mangle --verbose \
-		util.js \
 		youtube_iframe_player.js \
 		control.js \
 		router.js \
