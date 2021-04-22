@@ -6,7 +6,7 @@ if [ -z `pgrep -f -x "$NODE_MAIN"` ]
 then
 	echo "Uglify"
 	cd ../public/js
-	terser --compress --mangle --verbose \
+	terser \
 		youtube_iframe_player.js \
 		control.js \
 		router.js \
