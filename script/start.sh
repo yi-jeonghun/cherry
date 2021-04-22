@@ -5,7 +5,7 @@ NODE_MAIN="node app.js"
 if [ -z `pgrep -f -x "$NODE_MAIN"` ]
 then
 	echo "Uglify"
-	cd ../public/js
+	cd /home/ubuntu/cherry/public/js
 	terser \
 		youtube_iframe_player.js \
 		control.js \
