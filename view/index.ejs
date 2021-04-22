@@ -19,8 +19,9 @@
 	<div class="main_div">
 		<div class="container">
 			<div class="row">
-				<div class="col-7 pt-2">
-					<h3 class="cherry_title">Cherry Music</h3>
+				<div class="col-7" style="padding-top: 5px;">
+					<i id="id_btn_menu_open" class="fas fa-bars" style="font-size: 1.5em; cursor: pointer;"></i>
+					<span style="font-size: 1.5em; padding-left: 5px;">Cherry Music</span>
 				</div>
 				<div class="col-5 text-right">
 					<%- include('include/google_auth_html.ejs') %>
@@ -138,6 +139,17 @@
 		</div>
 	</div>
 
+	<!-- Menu -->
+	<div class="menu_div" id="id_menu_div">
+		<div class="container" style="height: 100%; padding: 0px;">
+			<div style="background-color: white; height: 100%; width: 80%; opacity: 1;">
+				<div class="text-right w-100" style="padding-top: 5px; padding-right: 10px;">
+					<i id="id_btn_close_menu" class="fas fa-times" style="font-size: 2.5em; cursor: pointer;"></i>
+				</div>
+			
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

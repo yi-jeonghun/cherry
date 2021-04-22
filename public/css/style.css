@@ -2,10 +2,6 @@ div{
 	/* border: 1px solid red; */
 }
 
-.cherry_title{
-	/* color: #ff0033; */
-}
-
 .menu_bar{
 	/* border-top: 1px solid #710013;
 	border-bottom: 1px solid #710013; */
@@ -118,4 +114,15 @@ div{
 
 .playlist_music_highlight{
 	background-color:beige;
+}
+
+.menu_div{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 2000;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.3);
+	display: none;
 }
