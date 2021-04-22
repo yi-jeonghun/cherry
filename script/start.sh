@@ -7,6 +7,7 @@ then
 	echo "Uglify"
 	cd /home/ubuntu/cherry/public/js
 	terser \
+		const/country_code.js \
 		youtube_iframe_player.js \
 		control.js \
 		router.js \

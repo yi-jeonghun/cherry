@@ -19,9 +19,12 @@
 	<div class="main_div">
 		<div class="container">
 			<div class="row">
-				<div class="col-12" style="padding-top: 5px; padding-bottom: 5px;">
+				<div class="col-10" style="padding-top: 5px; padding-bottom: 5px; display:">
 					<i id="id_btn_menu_open" class="fas fa-bars" style="font-size: 1.5em; cursor: pointer;"></i>
-					<span style="font-size: 2em; padding-left: 5px;">Cherry Music</span>
+					<span style="font-size: 2em; padding-left: 5px;">Cherry Music</span>	
+				</div>
+				<div class="col-2 text-right" style="padding-top: 20px; padding-right: 10px;">
+					<img id="id_btn_flag" data-toggle="modal" data-target="#modal_choose_country" style="width: 30px; border: solid 0.5px #bbbbbb; cursor: pointer;">
 				</div>
 			</div>
 			<div class="row menu_bar">
@@ -151,11 +154,34 @@
 </body>
 </html>
 
+<!-- Modal -->
+<div class="modal fade" id="modal_choose_country" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Country</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="id_div_country_list">
+        
+      </div>
+      <!-- <div class="modal-footer"> -->
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="/js/top_rank_const.js"></script>
 <script type="text/javascript" src="/js/util.js"></script>
 <%- include('include/google_auth_js.ejs') %>
 
 <% if(dev_mode){ %>
+	<script type="text/javascript" src="/js/const/country_code.js"></script>
+
 	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 	<script type="text/javascript" src="/js/control.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
