@@ -11,7 +11,7 @@ then
 		control.js \
 		router.js \
 		cherry_player.js \
-		-o index_min.js
+		-o index_min.js -c -m
 
 	echo "Restarting $NODE_MAIN."
 	cd /home/ubuntu/cherry/
