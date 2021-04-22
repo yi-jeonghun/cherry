@@ -56,8 +56,8 @@ function CherryPlayer(){
 
 	this.InitHandle = function(){
 		$('#id_btn_play_pause').on('click', self.PlayPause);
-		$('#id_btn_prev').on('click', self.Next);
-		$('#id_btn_next').on('click', self.Next);
+		$('#id_btn_prev').on('click', self.OnClickNext);
+		$('#id_btn_next').on('click', self.OnClickNext);
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
 		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
@@ -332,9 +332,9 @@ function CherryPlayer(){
 
 		if(__yt_player._player != null){
 			__yt_player.LoadVideo(video_id);
-			// if(__yt_player._is_player_ready){
-			// 	__yt_player.Play();
-			// }	
+			if(__yt_player._is_player_ready){
+				__yt_player.Play();
+			}	
 		}
 		self.HighlightCurrentMusic();
 	};
@@ -343,6 +343,23 @@ function CherryPlayer(){
 		var min = 0;
 		var max = self._music_list.length - 1;
 		return Math.floor(Math.random() * (max - min)) + min;	
+	};
+
+	this.OnClickNext = function(){
+		__yt_player.Stop();
+
+		if(self._seq_type == SEQ_TYPE.Shuffle){
+			self.SelectMusic(self.GetRandomIndex());
+			return;
+		}else if(self._seq_type == SEQ_TYPE.Sequence){
+			//순차적으로 전체를 반복
+			var next_music_idx = self._cur_music_idx + 1;
+			if(self._music_list.length == next_music_idx){
+				next_music_idx = 0;
+			}
+			self.SelectMusic(next_music_idx);
+			return;		
+		}
 	};
 
 	this.Next = function(){
