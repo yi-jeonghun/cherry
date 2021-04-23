@@ -44,7 +44,7 @@ function Control(){
 				country_code = self.DetectCountry();
 				if(country_code == null){
 					//국가 코드를 구하지 못하는 경우 기본으로 US를 지정함.
-					country_code = COUNTRY_CODE.US;
+					country_code = window._const.COUNTRY_CODE.US;
 				}
 			}	
 		}
@@ -85,23 +85,23 @@ function Control(){
 
 		if(country_code != null){
 			switch(country_code){
-				case COUNTRY_CODE.US:
-					detected_country = COUNTRY_CODE.US;
+				case window._const.COUNTRY_CODE.US:
+					detected_country = window._const.COUNTRY_CODE.US;
 					break;
-				case COUNTRY_CODE.GB:
-					detected_country = COUNTRY_CODE.GB;
+				case window._const.COUNTRY_CODE.GB:
+					detected_country = window._const.COUNTRY_CODE.GB;
 					break;
-				case COUNTRY_CODE.KR:
-					detected_country = COUNTRY_CODE.KR;
+				case window._const.COUNTRY_CODE.KR:
+					detected_country = window._const.COUNTRY_CODE.KR;
 					break;
-				case COUNTRY_CODE.DE:
-					detected_country = COUNTRY_CODE.DE;
+				case window._const.COUNTRY_CODE.DE:
+					detected_country = window._const.COUNTRY_CODE.DE;
 					break;	
-				case COUNTRY_CODE.FR:
-					detected_country = COUNTRY_CODE.FR;
+				case window._const.COUNTRY_CODE.FR:
+					detected_country = window._const.COUNTRY_CODE.FR;
 					break;
-				case COUNTRY_CODE.AU:
-					detected_country = COUNTRY_CODE.AU;
+				case window._const.COUNTRY_CODE.AU:
+					detected_country = window._const.COUNTRY_CODE.AU;
 					break;	
 			}
 		}
@@ -110,16 +110,16 @@ function Control(){
 		if(country_code == null && language_code != null){
 			switch(language_code){
 				case 'en':
-					detected_country = COUNTRY_CODE.US;
+					detected_country = window._const.COUNTRY_CODE.US;
 					break;
 				case 'ko':
-					detected_country = COUNTRY_CODE.KR;
+					detected_country = window._const.COUNTRY_CODE.KR;
 					break;
 				case 'de':
-					detected_country = COUNTRY_CODE.DE;
+					detected_country = window._const.COUNTRY_CODE.DE;
 					break;
 				case 'fr':
-					detected_country = COUNTRY_CODE.FR;
+					detected_country = window._const.COUNTRY_CODE.FR;
 					break;
 			}
 		}
