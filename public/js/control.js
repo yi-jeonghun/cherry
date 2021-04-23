@@ -1,32 +1,66 @@
 $('document').ready(function(){
+	//FIXME 
+	//모든 global들은 이곳에서 생성하도록 할 것.
+	//관리도 편하고
+	//한 눈에 들어오기도 하고 훨씬 좋을 것 같다.
+	window._country_code = window._const.COUNTRY_CODE.US;
+	window._router = new Router().Init();
 	window._main = new Control().Init();
 });
 
+//FIXME 필요한 곳에서 직접 호출하도록 변경할 것.
 function SelectMusic(id){
 	window._cherry_player.SelectMusic(id);
 }
 
 function Control(){
 	var self = this;
-	this._country_code = null;
 
 	this.Init = function(){
 		self.InitComponentHandle();
+		self.ProcessCountryCode();
+		window._router.LoadInitRoute();
+		return self;
+	};
 
-		{
-			var country_code = self.GetCountryCodeFromLocalStorage();
+	this.ProcessCountryCode = function(){
+		var country_code = null;
+
+		//주소에 country_code가 있으면 그게 최우선.
+		var pathname = document.location.pathname;
+		if(pathname != '/'){
+			var tmp = pathname.substr(1,2);
+			console.log('tmp ' + tmp);
+			if(self.IsSupportedCountryCode(tmp)){
+				country_code = tmp;
+			}
+		}
+
+		//주소에서도 없는 경우
+		if(country_code == null){
+			//로컬 스토리지에 저장되어 있으면 그걸 사용
+			country_code = self.GetCountryCodeFromLocalStorage();
 			if(country_code == null || country_code == '' || country_code == undefined){
 				country_code = self.DetectCountry();
 				if(country_code == null){
 					//국가 코드를 구하지 못하는 경우 기본으로 US를 지정함.
 					country_code = COUNTRY_CODE.US;
 				}
-			}
-			self._country_code = country_code;
-			console.log('self._country_code ' + self._country_code);
-			$('#id_btn_flag').attr('src', `/img/flags/${self._country_code}.png`);
+			}	
 		}
-		return self;
+
+		window._country_code = country_code;
+		window.localStorage.setItem('COUNTRY_CODE', country_code);
+		$('#id_btn_flag').attr('src', `/img/flags/${window._country_code}.png`);
+	};
+
+	this.IsSupportedCountryCode = function(cc){
+		for(var i=0 ; i<COUNTRY_CODE_LIST.length ; i++){
+			if(cc == COUNTRY_CODE_LIST[i].country_code){
+				return true;
+			}
+		}
+		return false;
 	};
 
 	this.GetCountryCodeFromLocalStorage = function(){
@@ -112,10 +146,9 @@ function Control(){
 		var h = '<div class="container">';
 		h += '<div class="row">';
 
-		for(var i=0 ; i<COUNTRY_LIST.length ; i++){
-
-			var cc = COUNTRY_LIST[i].country_code;
-			var cn = COUNTRY_LIST[i].country_name;
+		for(var i=0 ; i<COUNTRY_CODE_LIST.length ; i++){
+			var cc = COUNTRY_CODE_LIST[i];
+			var cn = COUNTRY_NAME_LIST[cc];
 
 			h += `
 			<div class="col-3 pb-1">

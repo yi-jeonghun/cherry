@@ -13,7 +13,7 @@ const RELEASE_MODE = {
 };
 
 var _release_mode = RELEASE_MODE.DRAFT;
-var _country_code = 'GLO';
+var _country_code = null;
 var _music_list_draft = [];
 var _music_list_release = [];
 var _searched_music_list = [];
@@ -28,18 +28,15 @@ function InitHandle(){
 function DisplayCountryList(){
 	var h = '<table class="table table-sm">';
 
-	for (var i = 0; i < window._const._top_rank_country_list.length; i++) {
-		var c = window._const._top_rank_country_list[i];
-		// h += `
-		// <button type="button" class="btn btn-sm btn-light w-100" onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
-		// `;
+	for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
+		var cc = COUNTRY_CODE_LIST[i];
 		h += `
 		<tr>
 			<td>
 				<button type="button" class="btn btn-sm btn-light w-100" 
-				onclick="ChooseCountry('${c.country_code}')">${c.country_name}</button>
+				onclick="ChooseCountry('${cc}')">${cc}</button>
 			</td>
-			<td id="id_label_country_release_time-${c.country_code}" style="font-size:0.7em">
+			<td id="id_label_country_release_time-${cc}" style="font-size:0.7em">
 			</td>
 		</tr>
 		`;
@@ -195,8 +192,6 @@ function DisplayRankTitle(){
 }
 
 function FetchTopRank(){
-	console.log('_coun ' + _country_code);
-
 	var req_data = {
 		country_code: _country_code
 	};
@@ -235,17 +230,7 @@ function Auto(){
 	_music_list_draft = [];
 	$('#id_div_music_list').empty();
 
-	var url = '';
-
-	console.log('cons len ' + window._const._top_rank_country_list.length);
-
-	for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
-		// console.log(i + ' ' + window._const._top_rank_country_list[i]);
-		if(window._const._top_rank_country_list[i].country_code == _country_code){
-			url = window._const._top_rank_country_list[i].a_src;
-		}
-	}
-
+	var url = COUNTRY_TOP_RANK_SRC[_country_code].a_src;
 	var req_data = {
 		url: url
 	};

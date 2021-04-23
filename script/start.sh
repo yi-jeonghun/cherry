@@ -8,10 +8,11 @@ then
 	cd /home/ubuntu/cherry/public/js
 	terser \
 		const/country_code.js \
+		const/country_data.js \
 		youtube_iframe_player.js \
-		control.js \
 		router.js \
 		cherry_player.js \
+		control.js \
 		-o index_min.js -c -m
 
 	echo "Restarting $NODE_MAIN."

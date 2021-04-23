@@ -1,13 +1,10 @@
-$('document').ready(function(){
-	window._router = new Router().Init();
-});
-
+//가라고 하는 곳으로 가기만 하게 만들자
+//여기는 되도록이면 무뇌하게.
 function Router(){
 	var self = this;
 
 	this.Init = function(){
 		window.addEventListener("popstate", self.OnPopState);
-		self.LoadInitRoute();
 		return this;
 	};
 
@@ -15,7 +12,7 @@ function Router(){
 		var pathname = document.location.pathname;
 		var search = document.location.search;
 		if(pathname == '/'){
-			self.Go('/top_rank.go?c=GLO');
+			self.Go(`/${window._country_code}/top_rank.go`);
 		}else{
 			var path = pathname + search;
 			self.Go(path);
@@ -27,43 +24,29 @@ function Router(){
 		self.Crossroad(path);
 	};
 
+	//path는 항상 다음의 형태
+	//  /<2자리 국가코드>/<feature>.go?key=value&...
 	this.Crossroad = function(path){
-		var path_arr = path.split('?');
+		console.log('path ' + path);
+		var path_after_cc = path.substr(4);
+		var path_arr = path_after_cc.split('?');
 		var feature = path_arr[0];
 		console.log('feature ' + feature);
 
 		var args = path_arr.length > 1 ? path_arr[1] : null;
 		var arg_list = self.ParseArgs(args);
 
-		if(feature == '/top_rank.go'){
-			var country_code = arg_list['c'];
-			self.GoTo_TopRank(country_code);
+		if(feature == 'top_rank.go'){
+			self.GoTo_TopRank();
 		}
 	};
 
-	this.GoTo_TopRank = function(country_code){
-		console.log('country_code ' + country_code);
-		{
-			//Nav Bar Initialize
-			for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
-				$('#nav_'+window._const._top_rank_country_list[i].country_code).removeClass('active');
-			}
-		}
-
-		$('#nav_'+country_code).addClass('active');
-
-		var title = '';
-		var keyword = '';
-		var route_url = '';
-
-		for(var i=0 ; i<window._const._top_rank_country_list.length ; i++){
-			if(window._const._top_rank_country_list[i].country_code == country_code){
-				country_name = window._const._top_rank_country_list[i].country_name;
-				title = country_name + ' Top 100';
-				keyword = country_name + ' Top 100';
-				route_url = window._const._top_rank_country_list[i].route_url;
-			}
-		}
+	this.GoTo_TopRank = function(){
+		console.log('window._country_code ' + window._country_code);
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
+		var title = country_name + ' Top 100';
+		var keyword = country_name + ' Top 100';
+		var route_url = '/top_rank.vu';
 
 		{
 			//Update Meta Tag

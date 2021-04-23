@@ -1,6 +1,5 @@
-function TopRankControl(country_code){
+function TopRankControl(){
 	var self = this;
-	this._country_code = country_code;
 	this._music_list = [];
 
 	this.Init = function(){
@@ -19,7 +18,7 @@ function TopRankControl(country_code){
 
 	this.GetMusicList = function(){
 		var req_data = {
-			country_code: self._country_code
+			country_code: window._country_code
 		};
 
 		$.ajax({

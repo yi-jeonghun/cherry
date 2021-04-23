@@ -27,47 +27,6 @@
 					<img id="id_btn_flag" data-toggle="modal" data-target="#modal_choose_country" style="width: 30px; border: solid 0.5px #bbbbbb; cursor: pointer;">
 				</div>
 			</div>
-			<div class="row menu_bar">
-				<div class="col-12">
-					<ul class="nav nav-tabs">
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_GLO" onClick="window._router.Go('/top_rank.go?c=GLO')">
-								Global
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_USA" onClick="window._router.Go('/top_rank.go?c=USA')">
-								USA
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_GBR" onClick="window._router.Go('/top_rank.go?c=GBR')">
-								UK
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_KOR" onClick="window._router.Go('/top_rank.go?c=KOR')">
-								Korea
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_DEU" onClick="window._router.Go('/top_rank.go?c=DEU')">
-								Germany
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_FRA" onClick="window._router.Go('/top_rank.go?c=FRA')">
-								France
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link hand" id="nav_AUS" onClick="window._router.Go('/top_rank.go?c=AUS')">
-								Australia
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 		</div>
 
 		<div id="id_router-top_rank"></div>
@@ -181,11 +140,14 @@
 
 <% if(dev_mode){ %>
 	<script type="text/javascript" src="/js/const/country_code.js"></script>
+	<script type="text/javascript" src="/js/const/country_data.js"></script>
 
 	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
-	<script type="text/javascript" src="/js/control.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
 	<script type="text/javascript" src="/js/cherry_player.js"></script>
+
+	<!-- control.js 항상 마지막에 위치해야 함. -->
+	<script type="text/javascript" src="/js/control.js"></script>
 <% } else { %>
 	<script type="text/javascript" src="/js/index_min.js"></script>
 <% } %>

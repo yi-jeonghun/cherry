@@ -13,6 +13,13 @@ router.get('/', async function(req, res){
 	});
 });
 
+router.get('/**/top_rank.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
+//FIXME : 삭제할 것.
 router.get('/top_rank.go', async function(req, res){
 	res.render('index', {
 		dev_mode: _dev_mode

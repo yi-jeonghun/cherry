@@ -1,5 +1,5 @@
 var fs = require('fs');
-var top_rank_const = require('../public/js/top_rank_const');
+var CONST = require('../public/js/const/country_code');
 // var db_conn = require('./db_conn');
 // var beat_service = require('./beat_service');
 // var conn = null;
@@ -36,11 +36,11 @@ async function GetSitemapData(){
 				</url>
 		`;
 
-		for(var i=0 ; i<top_rank_const._top_rank_country_list.length ; i++){
-			var country = top_rank_const._top_rank_country_list[i];
+		for(var i=0 ; i<CONST.COUNTRY_CODE.length ; i++){
+			var country_code = CONST.COUNTRY_CODE[i];
 			xml += `
 				<url>
-					<loc>https://cherrymusic.io${country.path}</loc>
+					<loc>https://cherrymusic.io/${country_code}/top_rank.go</loc>
 					<lastmod>${date_str}</lastmod>
 					<priority>0.8</priority>
 				</url>
