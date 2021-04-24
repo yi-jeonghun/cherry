@@ -44,6 +44,9 @@ function TopRankControl(){
 			var m = self._music_list[i];
 			var num = (i*1) + 1;
 
+			var uri = `/${window._country_code}/artist.go?a=${m.artist}`;
+			uri = encodeURI(uri);
+
 			h += `
 			<div class="row my-2 border">
 				<div class="col-1">${num}</div>
@@ -51,7 +54,12 @@ function TopRankControl(){
 					<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 					<div class="pl-1">
 						<div class="text-dark">${m.title}</div>
-						<div class="text-secondary" style="font-size:0.8em">${m.artist}</div>
+						<div class="text-secondary" style="font-size:0.8em">
+							<span style="cursor:pointer" 
+								onClick="window._router.Go('${uri}')">
+								${m.artist}
+							</span>
+						</div>
 					</div>
 				</div>
 				<div class="col-1">

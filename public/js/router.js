@@ -36,8 +36,20 @@ function Router(){
 		var args = path_arr.length > 1 ? path_arr[1] : null;
 		var arg_list = self.ParseArgs(args);
 
-		if(feature == 'top_rank.go'){
-			self.GoTo_TopRank();
+		{
+			$('#id_router-top_rank').hide();
+			$('#id_router-artist').hide();;
+		}
+
+		switch(feature){
+			case 'top_rank.go':
+				$('#id_router-top_rank').show();
+				self.GoTo_TopRank();
+				break;
+			case 'artist.go':
+				$('#id_router-artist').show();
+				self.GoTo_Artist(args);
+				break;
 		}
 	};
 
@@ -46,7 +58,6 @@ function Router(){
 		var country_name = COUNTRY_NAME_LIST[window._country_code];
 		var title = country_name + ' Top 100';
 		var keyword = country_name + ' Top 100';
-		var route_url = '/top_rank.vu';
 
 		{
 			//Update Meta Tag
@@ -63,6 +74,13 @@ function Router(){
 		}
 
 		var target_div = 'id_router-top_rank';
+		var route_url = '/top_rank.vu';
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_Artist = function(args){
+		var target_div = 'id_router-artist';
+		var route_url = '/artist.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 

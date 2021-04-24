@@ -19,8 +19,7 @@ router.get('/**/top_rank.go', async function(req, res){
 	});
 });
 
-//FIXME : 삭제할 것.
-router.get('/top_rank.go', async function(req, res){
+router.get('/**/artist.go', async function(req, res){
 	res.render('index', {
 		dev_mode: _dev_mode
 	});
@@ -38,6 +37,13 @@ router.get('/top_rank.vu', async function(req, res){
 	res.render('top_rank', data);
 });
 
+router.get('/artist.vu', async function(req, res){
+	var artist = req.query.a;
+	var data = {
+		artist: artist
+	};
+	res.render('artist', data);
+});
 //####################################################################################//
 //CMS pages
 
