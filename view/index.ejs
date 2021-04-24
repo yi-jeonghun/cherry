@@ -32,6 +32,18 @@
 		<div id="id_router-top_rank"></div>
 	</div>
 
+	<!-- Menu -->
+	<div class="menu_div" id="id_menu_div">
+		<div class="container" style="height: 100%; padding: 0px;">
+			<div style="background-color: white; height: 100%; width: 80%; opacity: 1; padding-left: 10px;">
+				<div class="text-right w-100" style="padding-top: 5px; padding-right: 10px;">
+					<i id="id_btn_close_menu" class="fas fa-times" style="font-size: 2.5em; cursor: pointer;"></i>
+				</div>
+				<%- include('include/google_auth_html.ejs') %>
+			</div>
+		</div>
+	</div>
+
 	<!-- toast -->
 	<div class="cherry_toast">
 		<div id="id_cherry_toast_text" style="width:auto;	background-color: white;	border: 1px solid gray;		border-radius: 1em;	"></div>
@@ -78,12 +90,14 @@
 	<div class="player_music_list" id="id_player_music_list_div">
 		<div class="container" style="height: 100%;">
 			<div class="row" style="border-bottom: 1px solid gray; height: 40px;">
-				<div class="col-3"></div>
-				<div class="col-6 text-center"><h4>Play List</h4></div>
-				<div class="col-3 pt-2">
-					<button type="button" class="btn btn-light" id="id_btn_playlist_hide" style="width: 100%; ">
-						<i class="fas fa-chevron-down"></i>
-					</button>
+				<div class="col-6" style="padding-top: 5px;"><h4>Play List</h4></div>
+				<div class="col-6" style="text-align: right; padding-top: 5px;">
+						<button type="button" class="btn btn-light" id="id_btn_music_list_trash">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+						<button type="button" class="btn btn-light" id="id_btn_playlist_hide" style="width: 60px;">
+							<i class="fas fa-chevron-down"></i>
+						</button>	
 				</div>
 			</div>
 			<div class="container-fluid" id="id_div_cherry_player_music_list" style="height: calc(100% - 40px); overflow-y: auto;">
@@ -98,41 +112,37 @@
 		</div>
 	</div>
 
-	<!-- Menu -->
-	<div class="menu_div" id="id_menu_div">
-		<div class="container" style="height: 100%; padding: 0px;">
-			<div style="background-color: white; height: 100%; width: 80%; opacity: 1; padding-left: 10px;">
-				<div class="text-right w-100" style="padding-top: 5px; padding-right: 10px;">
-					<i id="id_btn_close_menu" class="fas fa-times" style="font-size: 2.5em; cursor: pointer;"></i>
-				</div>
-				<%- include('include/google_auth_html.ejs') %>
-			</div>
-		</div>
-	</div>
-
 </body>
 </html>
 
 <!-- Modal -->
-<div class="modal fade" id="modal_choose_country" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Country</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="id_div_country_list">
-        
-      </div>
-      <!-- <div class="modal-footer"> -->
-        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
-      <!-- </div> -->
-    </div>
-  </div>
+<div class="modal fade" id="modal_choose_country" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="id_modal_choose_country" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="id_modal_choose_country">Country</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="id_div_country_list"></div>
+		</div>
+	</div>
 </div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="modal_confirm" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-body" id="id_model_confirm_content"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">No</button>
+				<button type="button" class="btn btn-sm btn-primary" id="id_btn_model_confirm_ok">Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <script type="text/javascript" src="/js/top_rank_const.js"></script>
 <script type="text/javascript" src="/js/util.js"></script>

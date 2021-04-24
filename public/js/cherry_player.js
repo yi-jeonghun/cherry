@@ -1,6 +1,3 @@
-$('document').ready(function(){
-	window._cherry_player = new CherryPlayer().Init();
-});
 
 const SEQ_TYPE = {
 	Sequence : 0,
@@ -15,8 +12,9 @@ const REPEAT_TYPE = {
 
 function CherryPlayer(){
 	var self = this;
+	this.__yt_player = null;
 	this._music_list = [];
-	this._video_id = null;
+	this._cur_video_id = null;
 	this._cur_music_idx = -1;
 	this._play_time_ms = 0;
 	this._seq_type = SEQ_TYPE.Sequence;
@@ -24,35 +22,64 @@ function CherryPlayer(){
 	this._b_play_list_show = false;
 	this._b_volume_show = false;
 	this._id_slider_fill = null;
-	this._play_auto_start = false;
-	this._last_play_ms = null;
 
 	this.Init = function(){
-		var play_last_state = window.localStorage.getItem('PLAY_LAST_STATE');
-		self._last_play_ms = window.localStorage.getItem('PLAYER.LAST_PLAY_MS');
-
-		console.log('play_last_state ' + play_last_state);
-		if(play_last_state == '1'){
-			var last_play_walltime_ms = window.localStorage.getItem('PLAYER.LAST_PLAY_WALLTIME_MS');
-			if(last_play_walltime_ms != null){
-				var cur_timestamp = new Date().getTime();
-
-				var diff = Math.abs(cur_timestamp - last_play_walltime_ms);
-				if(diff < 10 * 1000){//10초 이내에 다시 로드된 경우에만 자동 재시작.
-					self._play_auto_start = true;
-				}
-			}
-		}
+		self.CreateYoutubePlayer();
 
 		$('#id_player_music_list_div').hide();
 		self.InitHandle();
 		self.InitKeyHandle();
-		__yt_player.SetEventListener(self.OnYoutubeReady, self.OnFlowEvent, self.OnPlayerReady, self.OnPlayerStateChange);
 		self._id_slider_fill = $('#id_slider_fill');
 		self.ReloadPlayerIcons();
-		self.ReloadPlayList();
 		return self;
 	};
+
+	this.CreateYoutubePlayer = function(){
+		console.log('CreateYoutubePlayer ');
+		self.__yt_player = new YoutubePlayer().Init(
+			self.OnYouTubeIframeAPIReady, self.OnPlayerReady, self.OnFlowEvent, self.OnPlayerStateChange
+		);
+	};
+
+	//===========================================================================
+	//youtube iframe api가 준비된 상태이므로 이 단계에서는 Load를 할 수 있음.
+	this.OnYouTubeIframeAPIReady = function(){
+		self.ReloadPlayList();
+	};
+
+	//Load가 된 상태이므로 play를 할 수 있음.
+	this.OnPlayerReady = function(pb_rates, duration, volume){
+		$('#id_slider_volume').val(volume);
+		self.DisplayDuration(duration);
+	};
+
+	this.OnFlowEvent = function(play_time){
+		var ms = parseInt(play_time * 1000);
+		var progress_rate = (ms / self._play_time_ms) * 100;
+		window.localStorage.setItem('PLAYER.LAST_PLAY_MS', ms);
+		var timestamp = new Date().getTime();
+		window.localStorage.setItem('PLAYER.LAST_PLAY_WALLTIME_MS', timestamp);
+		self._id_slider_fill.width(progress_rate + "%");
+	};
+
+	this.OnPlayerStateChange = function(player_state, duration){
+		switch(player_state){
+			case YT.PlayerState.ENDED:
+				self.Next();
+				break;
+			case YT.PlayerState.PLAYING:
+				self.DisplayDuration(duration);
+				break;
+			case YT.PlayerState.PAUSED:
+				break;
+			case YT.PlayerState.BUFFERING:
+				break;
+			case YT.PlayerState.CUED:
+				break;
+		}
+		self.UpdatePlayPauseButton();
+	};
+	//===========================================================================
 
 	this.InitHandle = function(){
 		$('#id_btn_play_pause').on('click', self.PlayPause);
@@ -64,10 +91,26 @@ function CherryPlayer(){
 		$('#id_btn_playlist_hide').on('click', self.TogglePlayList);
 		$('#id_slider_volume').on('input', self.VolumeControl);
 		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
+		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
+	};
+
+	this.OnTrashClick = function(){
+		$('#id_model_confirm_content').html('Delete all?');
+		$('#id_btn_model_confirm_ok').on('click', self.EmptyPlayList);
+		$('#modal_confirm').modal('show');
+	};
+
+	this.EmptyPlayList = function(){
+		$('#modal_confirm').modal('hide');
+		self._music_list = [];
+		self.SavePlayList();
+		self.DisplayMusicList();
+		self.__yt_player.ClearPlayer();
+		self.DisplayTitleArtist('', '');
 	};
 
 	this.UpdatePlayPauseButton = function(){
-		if(__yt_player._is_playing){
+		if(self.__yt_player.IsPlaying()){
 			$('#id_btn_play_pause').removeClass('fa-play');
 			$('#id_btn_play_pause').removeClass('fa-pause');
 			$('#id_btn_play_pause').addClass('fa-pause');
@@ -104,15 +147,11 @@ function CherryPlayer(){
 			return;
 		}
 
-		if(__yt_player._is_player_ready == false){
-			console.log('__yt_player._is_player_ready ' + __yt_player._is_player_ready);
-			return;
-		}
-		if(__yt_player._is_playing){
-			__yt_player.Pause();
+		if(self.__yt_player.IsPlaying()){
+			self.__yt_player.Pause();
 			window.localStorage.setItem('PLAY_LAST_STATE', '0');
 		}else{
-			__yt_player.Play();
+			self.__yt_player.Play();
 			window.localStorage.setItem('PLAY_LAST_STATE', '1');
 		}
 	};
@@ -121,13 +160,7 @@ function CherryPlayer(){
 		document.addEventListener('keydown', function(e){
 			switch(e.keyCode){
 				case 32:
-					if(__yt_player._is_player_ready){
-						if(__yt_player._is_playing){
-							self.Pause();
-						}else{
-							self.Play();
-						}
-					}
+					self.PlayPause();
 				break;
 			}
 		});
@@ -158,6 +191,7 @@ function CherryPlayer(){
 		var last_idx = self._music_list.length-1;
 		self.DisplayMusicList();
 		self.SelectMusic(last_idx);
+		self.__yt_player.LoadAndPlay(self._cur_video_id);
 		self.UpdatePlayPauseButton();
 		self.SavePlayList();
 	};
@@ -167,6 +201,7 @@ function CherryPlayer(){
 		console.log('LoadMusicList len ' + self._music_list.length);
 		self.DisplayMusicList();
 		self.SelectMusic(0);
+		self.__yt_player.LoadAndPlay(self._cur_video_id);
 		self.UpdatePlayPauseButton();
 		self.SavePlayList();
 	};
@@ -176,15 +211,16 @@ function CherryPlayer(){
 	};
 
 	this.ReloadPlayList = function(){
-		// console.log('reload play list ' );
 		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
-		if(saved_play_list == null){
-			// console.log('saved_play_list null');
+		if(saved_play_list == null || saved_play_list == ''){
 			return;
 		}
-		// console.log('saved_play_list ' + saved_play_list);
+
 		self._music_list = JSON.parse((saved_play_list));
-		// console.log('self._music_list len	' + self._music_list);
+		if(self._music_list.length == 0){
+			return;
+		}
+		self.DisplayMusicList();
 
 		var select_music_idx = 0;
 		{
@@ -201,9 +237,37 @@ function CherryPlayer(){
 			}
 		}
 
-		self.DisplayMusicList();
-		self.SelectMusic(select_music_idx);
-		console.log('SavePlayList ');
+		var auto_play_start = false;
+		{
+			var play_last_state = window.localStorage.getItem('PLAY_LAST_STATE');
+	
+			if(play_last_state == '1'){
+				var last_play_walltime_ms = window.localStorage.getItem('PLAYER.LAST_PLAY_WALLTIME_MS');
+				if(last_play_walltime_ms != null){
+					var cur_timestamp = new Date().getTime();
+	
+					var diff = Math.abs(cur_timestamp - last_play_walltime_ms);
+					if(diff < 10 * 1000){//10초 이내에 다시 로드된 경우에만 자동 재시작.
+						auto_play_start = true;
+					}
+				}
+			}	
+		}
+
+		if(auto_play_start){
+			var last_play_ms = window.localStorage.getItem('PLAYER.LAST_PLAY_MS');
+			if(last_play_ms == null){
+				self.SelectMusic(select_music_idx);
+				self.__yt_player.LoadAndPlay(self._cur_video_id);
+			}else{
+				self.SelectMusic(select_music_idx);
+				self.__yt_player.LoadAndSeekPlay(self._cur_video_id, last_play_ms);
+			}
+		}else{
+			self.SelectMusic(select_music_idx, false);
+			self.__yt_player.LoadButNotPlay(self._cur_video_id);
+		}
+
 		self.HighlightCurrentMusic();
 		self.UpdatePlayPauseButton();
 	};
@@ -217,7 +281,7 @@ function CherryPlayer(){
 			var num = (i*1) + 1;
 
 			h += '<div class="row my-1 py-1" id="' + id_title + '">';
-			h += '	<div class="col-12" style="display:flex ; cursor:pointer;" onclick="SelectMusic(' + i + ')">';
+			h += '	<div class="col-12" style="display:flex ; cursor:pointer;" onclick="window._cherry_player.OnClickSingleMusic(' + i + ')">';
 			h += '		<div class="px-2">' + num + '</div>';
 			h += '		<div class="" style="width:50px; height:50px">';
 			h += '			<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/'+m.video_id+'/0.jpg">';
@@ -230,6 +294,11 @@ function CherryPlayer(){
 			h += '</div>';
 		}
 		$('#id_div_cherry_player_music_list').html(h);
+	};
+
+	this.OnClickSingleMusic = function(idx){
+		self.SelectMusic(idx);
+		self.__yt_player.LoadAndPlay(self._cur_video_id);
 	};
 
 	this.HighlightCurrentMusic = function(){
@@ -312,31 +381,29 @@ function CherryPlayer(){
 	};
 
 	this.Play = function(){
-		__yt_player.Play();
+		self.__yt_player.Play();
 	};
 
 	this.Pause = function(){
-		__yt_player.Pause();
+		self.__yt_player.Pause();
 	};
 
 	this.SelectMusic = function(id){
-		console.log('SelectMusic id ' + id);
 		self._cur_music_idx = id;
-		var video_id = self._music_list[self._cur_music_idx].video_id;
+		self._cur_video_id = self._music_list[self._cur_music_idx].video_id;
 		var music_id = self._music_list[self._cur_music_idx].music_id;
 		window.localStorage.setItem('PLAYER.LAST_PLAYED_MUSIC_ID', music_id);
-		{
-			$('#id_label_title').html(self._music_list[self._cur_music_idx].title);
-			$('#id_label_artist').html(self._music_list[self._cur_music_idx].artist);
-		}
+		self.DisplayTitleArtist(
+			self._music_list[self._cur_music_idx].title,
+			self._music_list[self._cur_music_idx].artist
+		);
 
-		if(__yt_player._player != null){
-			__yt_player.LoadVideo(video_id);
-			if(__yt_player._is_player_ready){
-				__yt_player.Play();
-			}	
-		}
 		self.HighlightCurrentMusic();
+	};
+
+	this.DisplayTitleArtist = function(title, artist){
+		$('#id_label_title').html(title);
+		$('#id_label_artist').html(artist);	
 	};
 
 	this.GetRandomIndex = function(){
@@ -346,10 +413,11 @@ function CherryPlayer(){
 	};
 
 	this.OnClickNext = function(){
-		__yt_player.Stop();
+		self.__yt_player.Stop();
 
 		if(self._seq_type == SEQ_TYPE.Shuffle){
 			self.SelectMusic(self.GetRandomIndex());
+			self.__yt_player.LoadAndPlay(self._cur_video_id);
 			return;
 		}else if(self._seq_type == SEQ_TYPE.Sequence){
 			//순차적으로 전체를 반복
@@ -358,20 +426,23 @@ function CherryPlayer(){
 				next_music_idx = 0;
 			}
 			self.SelectMusic(next_music_idx);
+			self.__yt_player.LoadAndPlay(self._cur_video_id);
 			return;		
 		}
 	};
 
 	this.Next = function(){
-		__yt_player.Stop();
+		self.__yt_player.Stop();
 
 		if(self._repeat_type == REPEAT_TYPE.ONE){
 			//한 곡만 반복
 			self.SelectMusic(self._cur_music_idx);
+			self.__yt_player.LoadAndPlay(self._cur_video_id);
 			return;
 		}else if(self._repeat_type == REPEAT_TYPE.ALL){
 			if(self._seq_type == SEQ_TYPE.Shuffle){
 				self.SelectMusic(self.GetRandomIndex());
+				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;
 			}else if(self._seq_type == SEQ_TYPE.Sequence){
 				//순차적으로 전체를 반복
@@ -380,11 +451,13 @@ function CherryPlayer(){
 					next_music_idx = 0;
 				}
 				self.SelectMusic(next_music_idx);
+				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;		
 			}
 		}else if(self._repeat_type == REPEAT_TYPE.END){
 			if(self._seq_type == SEQ_TYPE.Shuffle){
 				self.SelectMusic(self.GetRandomIndex());
+				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;
 			}else if(self._seq_type == SEQ_TYPE.Sequence){
 				//순차적으로 전체를 반복
@@ -393,74 +466,16 @@ function CherryPlayer(){
 					return;
 				}
 				self.SelectMusic(next_music_idx);
+				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;		
 			}
 		}
 	};
 
-	this.OnYoutubeReady = function(){
-		if(self._music_list.length > 0){
-			if(self._cur_music_idx != -1){
-				console.log('OnYoutubeReady ' );
-				// self.HighlightCurrentMusic();
-				__yt_player.LoadVideo(self._music_list[self._cur_music_idx].video_id);
-			}
-		}
-	};
-	
-	this.OnFlowEvent = function(play_time){
-		var ms = parseInt(play_time * 1000);
-		var progress_rate = (ms / self._play_time_ms) * 100;
-		window.localStorage.setItem('PLAYER.LAST_PLAY_MS', ms);
-
-		var timestamp = new Date().getTime();
-		// console.log('timestamp ' + timestamp);
-		window.localStorage.setItem('PLAYER.LAST_PLAY_WALLTIME_MS', timestamp);
-
-		// console.log('progress_rate ' + progress_rate);
-		self._id_slider_fill.width(progress_rate + "%");
-
-		// $('#id_slider').val(progress_rate);
-	};
-	
-	this.OnPlayerReady = function(pb_rates, duration, volume){
-		console.log('duration ' + duration);
-		console.log('volume ' + volume);
-		$('#id_slider_volume').val(volume);
-		self.DisplayDuration(duration);
-
-		console.log('self._play_auto_start ' + self._play_auto_start);
-		if(self._play_auto_start){
-			if(self._last_play_ms == null){
-				__yt_player.Play();
-			}else{
-				__yt_player.SeekAndPlay(self._last_play_ms);
-			}
-		}
-	};
-	
 	this.VolumeControl = function(){
 		var volume = $('#id_slider_volume').val();
 		// console.log('volume ' + volume);
-		__yt_player.SetVolume(volume);
-	};
-
-	this.OnPlayerStateChange = function(player_state, duration){
-		switch(player_state){
-			case YT.PlayerState.ENDED:
-				self.Next();
-				break;
-			case YT.PlayerState.PLAYING:
-				self.DisplayDuration(duration);
-				break;
-			case YT.PlayerState.PAUSED:
-				break;
-			case YT.PlayerState.BUFFERING:
-				break;
-			case YT.PlayerState.CUED:
-				break;
-		}
-		self.UpdatePlayPauseButton();
+		self.__yt_player.SetVolume(volume);
 	};
 	
 	this.DisplayDuration = function(duration){

@@ -1,76 +1,82 @@
-$('document').ready(function(){
-	window.__yt_player = new YoutubePlayer();
-	__yt_player.Init();
-});
-
 function onYouTubeIframeAPIReady(){
-	console.log('onYouTubeIframeAPIReady');
-	__yt_player.Ready();
+	window._cherry_player.__yt_player.OnYouTubeIframeAPIReady();
 }
+
+const AUTO_START_PLAY_TYPE = {
+	NO_PLAY:0,
+	AUTO_PLAY:1,
+	AUTO_SEEK_PKAY:2
+};
 
 function YoutubePlayer(){
 	var self = this;
-	this._is_youtube_ready = false;
+	this._is_youtube_iframe_api_ready = false;
 	this._is_player_ready = false;
 	this._player = null;
 	this._video_id = null;
 	this._is_flow_controlling = false;
 	this._timer = null;
 	this._is_playing = false;
-	this._cb_on_ready = null;
+	this._cb_on_iframe_api_ready = null;
 	this._cb_on_flow_event = null;
 	this._cb_on_player_ready = null;
 	this._cb_on_player_state_changed = null;
+	this._auto_start_play_type = AUTO_START_PLAY_TYPE.NO_PLAY;
+	this._auto_seek_ms = 0;
 
-	this.Init = function(){
+	this.Init = function(cb_on_iframe_api_ready, cb_on_player_ready, cb_on_flow_event, cb_on_player_state_changed){
 		var tag = document.createElement('script');
-
 		tag.src = "https://www.youtube.com/iframe_api";
 		var firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	};
 
-	this.SetEventListener = function(cb_on_ready, cb_on_flow_event, 
-		cb_on_player_ready, cb_on_player_state_changed){
-			console.log('SetEventListener');
-		self._cb_on_ready = cb_on_ready;
+		self._cb_on_iframe_api_ready = cb_on_iframe_api_ready;
 		self._cb_on_flow_event = cb_on_flow_event;
 		self._cb_on_player_ready = cb_on_player_ready;
-		self._cb_on_player_state_changed = cb_on_player_state_changed;
+		self._cb_on_player_state_changed = cb_on_player_state_changed;	
+
+		return this;
 	};
 
-	this.Ready = function(){
-		console.log('Ready');
-		self._is_youtube_ready = true;
-		if(self._cb_on_ready) self._cb_on_ready();
-	};
-
-	this.LoadVideo = function(video_id){
-		// console.log('youtube player is ready ? ' + self._is_ready);
-
-		if(self._player == null){
-			self._video_id = video_id;
- 			self._player = new YT.Player('player', {
-				height: '240',
-				width: '320',
-				videoId: self._video_id,
-				events: {
-					'onReady': self.OnPlayerReady,
-					'onStateChange': self.OnPlayerStateChange
-				}
-			});
-		}else{
-			if(self._video_id == video_id){
-				return;
-			}else{
-				self._video_id = video_id;
-				self._player.loadVideoById(video_id);
-			}
+	this.OnYouTubeIframeAPIReady = function(){
+		console.log('OnYouTubeIframeAPIReady');
+		self._is_youtube_iframe_api_ready = true;
+		if(self._cb_on_iframe_api_ready){
+			self._cb_on_iframe_api_ready();
 		}
 	};
 
-	this.OnPlayerReady = function(){
-		// console.log('OnPlayerReady');
+	this.ClearPlayer = function(){
+		self.FlowControlStop();
+		self.Stop();
+	};
+
+	this.OnStoppedVideo = function(){
+	};
+
+	this._LoadVideo = function(video_id){
+		if(self._video_id == video_id){
+			return;
+		}
+		self._video_id = video_id;
+
+		if(self._player == null){
+			self._player = new YT.Player('player', {
+				height: '240',
+				width: '320',
+				videoId: video_id,
+				events: {
+					'onReady': self._OnPlayerReady,
+					'onStateChange': self._OnPlayerStateChange
+				}
+			});
+		}else{
+			self._player.loadVideoById(video_id);
+		}
+	};
+
+	this._OnPlayerReady = function(){
+		console.log('_OnPlayerReady');
 		self._is_player_ready = true;
 		var pb_rates = self._player.getAvailablePlaybackRates();
 		var duration = self._player.getDuration();
@@ -80,13 +86,30 @@ function YoutubePlayer(){
 		if(self._cb_on_player_ready){
 			self._cb_on_player_ready(pb_rates, duration, volume);
 		}
+
+		if(self._auto_start_play_type == AUTO_START_PLAY_TYPE.AUTO_PLAY){
+			self.Play();
+		}else if(self._auto_start_play_type == AUTO_START_PLAY_TYPE.AUTO_SEEK_PKAY){
+			self.SeekAndPlay(self._auto_seek_ms);
+		}
 	};
 
-	this.OnPlayerStateChange = function(event){
+	this.IsPlayerReady = function(){
+		return self._is_player_ready;
+	};
+
+	this._OnPlayerStateChange = function(event){
+		if(self._player == null){
+			return;
+		}
 		console.log('event ' + event.data);
 		var duration = self._player.getDuration();
 		switch(event.data){
+			case -1:
+				self.OnStoppedVideo();
+				break;
 			case YT.PlayerState.ENDED:
+				console.log('YT.PlayerState.ENDED ');
 				self.FlowControlStop();
 				self._is_playing = false;
 				break;
@@ -114,6 +137,10 @@ function YoutubePlayer(){
 	};
 
 	this.SeekAndPlay = function(time_ms){
+		if(self._player == null){
+			return;
+		}
+
 		self._player.cueVideoById({
 			videoId:self._video_id,
 			startSeconds:time_ms/1000
@@ -141,16 +168,25 @@ function YoutubePlayer(){
 	};
 
 	this.Play = function(){
+		if(self._player == null){
+			return;
+		}
 		// if(self._is_playing == false){
 			self._player.playVideo();
 		// }
 	};
 
 	this.Stop = function(){
+		if(self._player == null){
+			return;
+		}
 		self._player.stopVideo();
 	};
 
 	this.Pause = function(){
+		if(self._player == null){
+			return;
+		}
 		if(self._is_playing){
 			self._player.pauseVideo();
 		}
@@ -161,12 +197,43 @@ function YoutubePlayer(){
 	};
 
 	this.ChangeSpeed = function(speed){
+		if(self._player == null){
+			return;
+		}
 		var float_speed = parseFloat(speed);
 		console.log(float_speed);
 		self._player.setPlaybackRate(parseFloat(float_speed));
 	};
 
 	this.SetVolume = function(volume){
+		if(self._player == null){
+			return;
+		}
 		self._player.setVolume(volume);
+	};
+
+	this.IsPlaying = function(){
+		return self._is_playing;
+	};
+
+	//==========================================================
+
+	this.LoadAndPlay = function(video_id){
+		console.log('LoadAndPlay ' + video_id);
+		self._LoadVideo(video_id);
+		self._auto_start_play_type = AUTO_START_PLAY_TYPE.AUTO_PLAY;
+	};
+
+	this.LoadButNotPlay = function(video_id){
+		console.log('LoadButNotPlay ' + video_id);
+		self._LoadVideo(video_id);
+		self._auto_start_play_type = AUTO_START_PLAY_TYPE.NO_PLAY;
+	};
+
+	this.LoadAndSeekPlay = function(video_id, seek_ms){
+		console.log('LoadAndSeekPlay ' + video_id);
+		self._LoadVideo(video_id);
+		self._auto_start_play_type = AUTO_START_PLAY_TYPE.AUTO_SEEK_PKAY;
+		self._auto_seek_ms = seek_ms;
 	};
 }
