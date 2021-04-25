@@ -2,9 +2,11 @@
 //여기는 되도록이면 무뇌하게.
 function Router(){
 	var self = this;
+	this._cur_path = '';
 
 	this.Init = function(){
 		window.addEventListener("popstate", self.OnPopState);
+		self.ScrollEventHandle();
 		return this;
 	};
 
@@ -27,6 +29,7 @@ function Router(){
 	//path는 항상 다음의 형태
 	//  /<2자리 국가코드>/<feature>.go?key=value&...
 	this.Crossroad = function(path){
+		self._cur_path = path;
 		console.log('path ' + path);
 		var path_after_cc = path.substr(4);
 		var path_arr = path_after_cc.split('?');
@@ -104,7 +107,26 @@ function Router(){
 	};
 
 	this.LoadInnerView = function(target_div, route_url){
-		$('#'+target_div).load(route_url);
+		$('#'+target_div).load(route_url, function(responseTxt, statusTxt, xhr){
+			if(statusTxt == "success"){
+				var key = 'SCORLL_TOP-' + self._cur_path;
+				var scroll_top = window.localStorage.getItem(key);
+				console.log('key ' + key + ' ; ' + scroll_top);
+
+				$('.main_div').animate({
+					scrollTop: scroll_top
+				}, 'fast');
+			}
+		});
+	};
+	
+	this.ScrollEventHandle = function(){
+		$('.main_div').on('scroll', function(e) {
+			var key = 'SCORLL_TOP-' + self._cur_path;
+			var val = this.scrollTop;
+			console.log(key + ' : ' + val);
+			window.localStorage.setItem(key, val);
+		});
 	};
 
 	this.OnPopState = function(event){
