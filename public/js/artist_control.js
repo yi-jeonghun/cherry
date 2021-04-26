@@ -5,7 +5,7 @@ function ArtistControl(){
 
 	this.Init = function(artist){
 		self._artist = artist;
-		$('#id_label_artist').html(artist);
+		$('#id_label_artist-ARTIST_EJS').html(artist);
 		self.GetMusicList();
 		self.InitHandle();
 		return self;
@@ -53,6 +53,9 @@ function ArtistControl(){
 					<image style="height: 50px; width: 50px;" src="${img_src}">
 					<div class="pl-1">
 						<div class="text-dark">${m.title}</div>
+						<div class="text-secondary" style="font-size:0.8em">
+							${m.artist}
+						</div>
 					</div>
 				</div>
 				<div class="col-2 col-sm-1">
