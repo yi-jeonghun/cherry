@@ -51,16 +51,19 @@ function Control(){
 		}
 
 		window._country_code = country_code;
+		console.log('window._country_code ' + window._country_code);
 		window.localStorage.setItem('COUNTRY_CODE', country_code);
 		$('#id_btn_flag').attr('src', `/img/flags/${window._country_code}.png`);
 	};
 
 	this.IsSupportedCountryCode = function(cc){
 		for(var i=0 ; i<COUNTRY_CODE_LIST.length ; i++){
-			if(cc == COUNTRY_CODE_LIST[i].country_code){
+			if(cc == COUNTRY_CODE_LIST[i]){
+				console.log('supporting ' + cc);
 				return true;
 			}
 		}
+		console.log(cc + ' not supporting');
 		return false;
 	};
 

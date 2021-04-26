@@ -15,5 +15,16 @@ const COUNTRY_CODE = {
 	AU: 'AU',//호주
 };
 
+const __COUNTRY_CODE_LIST = [
+	COUNTRY_CODE.US,
+	COUNTRY_CODE.GB,
+	COUNTRY_CODE.KR,
+	COUNTRY_CODE.DE,
+	COUNTRY_CODE.FR,
+	COUNTRY_CODE.AU,
+];
+
 exports.COUNTRY_CODE = COUNTRY_CODE;
+exports.__COUNTRY_CODE_LIST = __COUNTRY_CODE_LIST;
+
 }) (typeof exports === 'undefined'? window._const={}: exports);

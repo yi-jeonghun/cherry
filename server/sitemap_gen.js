@@ -1,7 +1,7 @@
 var fs = require('fs');
 var CONST = require('../public/js/const/country_code');
 // var db_conn = require('./db_conn');
-// var beat_service = require('./beat_service');
+var cherry_service = require('./cherry_service');
 // var conn = null;
 var xml = '';
 async function UpdateXML(){
@@ -23,8 +23,8 @@ async function UpdateXML(){
 }
 
 async function GetSitemapData(){
-	console.log('GetSitemapData ');
 	return new Promise(async function(resolve, reject){
+		console.log('GetSitemapData ');
 		var date_str = new Date().toISOString();
 		xml += `
 			<?xml version="1.0" encoding="UTF-8"?>
@@ -36,8 +36,23 @@ async function GetSitemapData(){
 				</url>
 		`;
 
-		for(var i=0 ; i<CONST.COUNTRY_CODE.length ; i++){
-			var country_code = CONST.COUNTRY_CODE[i];
+		await GetTopRank();
+		await GetArtistList();
+
+		xml += '</urlset>';
+		resolve();
+	});
+};
+
+async function GetTopRank(){
+	return new Promise(async function(resolve, reject){
+		var date_str = new Date().toISOString();
+
+		console.log('GetTopRank ');
+
+		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
+			var country_code = CONST.__COUNTRY_CODE_LIST[i];
+
 			xml += `
 				<url>
 					<loc>https://cherrymusic.io/${country_code}/top_rank.go</loc>
@@ -46,8 +61,33 @@ async function GetSitemapData(){
 				</url>
 			`;
 		}
+		resolve();
+	});
+};
 
-		xml += '</urlset>';
+async function GetArtistList(){
+	return new Promise(async function(resolve, reject){
+		var date_str = new Date().toISOString();
+
+		console.log('GetArtistList ');
+
+		var artist_list = await cherry_service.GetArtistList();
+
+		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
+			var country_code = CONST.__COUNTRY_CODE_LIST[i];
+
+			for(var a=0 ; a<artist_list.length ; a++){
+				var artist_name = encodeURI(artist_list[a].name);
+
+				xml += `
+				<url>
+					<loc>https://cherrymusic.io/${country_code}/artist.go?a=${artist_name}</loc>
+					<lastmod>${date_str}</lastmod>
+					<priority>0.8</priority>
+				</url>
+				`;
+			}
+		}
 		resolve();
 	});
 };
