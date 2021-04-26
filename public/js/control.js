@@ -53,6 +53,7 @@ function Control(){
 		window._country_code = country_code;
 		console.log('window._country_code ' + window._country_code);
 		window.localStorage.setItem('COUNTRY_CODE', country_code);
+		$('html').attr('lang', COUNTRY_LANG_LIST[window._country_code]);
 		$('#id_btn_flag').attr('src', `/img/flags/${window._country_code}.png`);
 	};
 
