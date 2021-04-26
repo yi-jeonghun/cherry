@@ -10,6 +10,10 @@ function Router(){
 		return this;
 	};
 
+	this.GoHome = function(){
+		self.Go(`/${window._country_code}/top_rank.go`);
+	};
+
 	this.LoadInitRoute = function(){
 		var pathname = document.location.pathname;
 		var search = document.location.search;
