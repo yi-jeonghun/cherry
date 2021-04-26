@@ -9,7 +9,7 @@ then
 	terser \
 		const/country_code.js \
 		const/country_data.js \
-		const/lang.js \
+		lang.js \
 		youtube_iframe_player.js \
 		router.js \
 		cherry_player.js \
