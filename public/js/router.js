@@ -1,4 +1,3 @@
-const KEYWORDS = 'Youtube, Music, No Ads, no advertisement, playlist, top100, top 100, no ads top 100, youtube music, youtube playlist';
 
 //가라고 하는 곳으로 가기만 하게 만들자
 //여기는 되도록이면 무뇌하게.
@@ -64,9 +63,9 @@ function Router(){
 
 	this.GoTo_TopRank = function(){
 		var country_name = COUNTRY_NAME_LIST[window._country_code];
-		var title = country_name + ' Top 100 - Cherry Music';
-		var keywords = country_name + ' Top 100, ' + KEYWORDS;
-		var desc = country_name + ' Top 100 popular songs. Listen to youtube music without ads.';
+		var title = country_name + ' Top 100 - Cherry Music [' + country_name + ']';
+		var keywords = country_name + ' Top 100, ' + TR(L_TOP_RANK_META_KEYWORDS);
+		var desc = country_name + TR(L_TOP_RANK_META_DESC);
 		self.UpdateMeta(title, keywords, desc);
 
 		var target_div = 'id_router-top_rank';
@@ -75,10 +74,11 @@ function Router(){
 	};
 
 	this.GoTo_Artist = function(args, arg_list){
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
 		var artist = arg_list['a'];
-		var title = artist + ' - Cherry Music';
-		var keywords = artist + ', song, music, musics, hit songs, popular songs, youtube music, no ads, no advertisement';
-		var desc = artist + ' popular songs. Listend to youtube music without ads';
+		var title = artist + ' - Cherry Music [' + country_name + ']';
+		var keywords = artist + TR(L_ARTIST_META_KEYWORDS);
+		var desc = artist + TR(L_ARTIST_META_DESC);
 		this.UpdateMeta(title, keywords, desc);
 
 		var target_div = 'id_router-artist';
