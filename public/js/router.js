@@ -1,3 +1,5 @@
+const KEYWORDS = 'Youtube, Music, No Ads, no advertisement, playlist, top100, top 100, no ads top 100, youtube music, youtube playlist';
+
 //가라고 하는 곳으로 가기만 하게 만들자
 //여기는 되도록이면 무뇌하게.
 function Router(){
@@ -55,40 +57,43 @@ function Router(){
 				break;
 			case 'artist.go':
 				$('#id_router-artist').show();
-				self.GoTo_Artist(args);
+				self.GoTo_Artist(args, arg_list);
 				break;
 		}
 	};
 
 	this.GoTo_TopRank = function(){
-		console.log('window._country_code ' + window._country_code);
 		var country_name = COUNTRY_NAME_LIST[window._country_code];
-		var title = country_name + ' Top 100';
-		var keyword = country_name + ' Top 100';
-
-		{
-			//Update Meta Tag
-			$('title').text(title);
-			$("meta[property='og:title']").attr("content", title);
-
-			//TODO
-			// $("meta[name=description]").attr("content", desc);
-			// $("meta[property='og:description']").attr("content", desc);
-
-			var org_keywords = $("meta[name=keywords]").attr("content");
-			var new_keywords = keyword + ', ' + org_keywords;
-			$("meta[name=keywords]").attr("content", new_keywords);
-		}
+		var title = country_name + ' Top 100 - Cherry Music';
+		var keywords = country_name + ' Top 100, ' + KEYWORDS;
+		var desc = country_name + ' Top 100 popular songs. Listen to youtube music without ads.';
+		self.UpdateMeta(title, keywords, desc);
 
 		var target_div = 'id_router-top_rank';
 		var route_url = '/top_rank.vu';
 		self.LoadInnerView(target_div, route_url);
 	};
 
-	this.GoTo_Artist = function(args){
+	this.GoTo_Artist = function(args, arg_list){
+		var artist = arg_list['a'];
+		var title = artist + ' - Cherry Music';
+		var keywords = artist + ', song, music, musics, hit songs, popular songs, youtube music, no ads, no advertisement';
+		var desc = artist + ' popular songs. Listend to youtube music without ads';
+		this.UpdateMeta(title, keywords, desc);
+
 		var target_div = 'id_router-artist';
 		var route_url = '/artist.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.UpdateMeta = function(title, keywords, desc){
+		$('title').text(title);
+		$("meta[property='og:title']").attr("content", title);
+
+		$("meta[name=description]").attr("content", desc);
+		$("meta[property='og:description']").attr("content", desc);
+
+		$("meta[name=keywords]").attr("content", keywords);
 	};
 
 	this.ParseArgs = function(args){
@@ -103,7 +108,7 @@ function Router(){
 			if(key_value.length == 2){
 				var key = key_value[0];
 				var value = key_value[1];
-				ret[key] = value;
+				ret[key] = decodeURI(value);
 			}
 		}
 
