@@ -22,6 +22,7 @@ function CherryPlayer(){
 	this._b_play_list_show = false;
 	this._b_volume_show = false;
 	this._id_slider_fill = null;
+	this._is_edit_mode = false;
 
 	this.Init = function(){
 		self.CreateYoutubePlayer();
@@ -92,6 +93,23 @@ function CherryPlayer(){
 		$('#id_slider_volume').on('input', self.VolumeControl);
 		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
 		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
+		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
+	};
+
+	this.ToggleEditMode = function(){
+		if(self._is_edit_mode){
+			for(var i=0 ; i<self._music_list.length ; i++){
+				$('#id_btn_playlist_play_music-'+i).show();
+				$('#id_btn_playlist_del_music-'+i).hide();
+			}
+			self._is_edit_mode = false;
+		}else{
+			for(var i=0 ; i<self._music_list.length ; i++){
+				$('#id_btn_playlist_play_music-'+i).hide();
+				$('#id_btn_playlist_del_music-'+i).show();
+			}
+			self._is_edit_mode = true;
+		}
 	};
 
 	this.OnTrashClick = function(){
@@ -280,25 +298,56 @@ function CherryPlayer(){
 			var id_title = 'id_music_title_'+i;
 			var num = (i*1) + 1;
 
-			h += '<div class="row my-1 py-1" id="' + id_title + '">';
-			h += '	<div class="col-12" style="display:flex ; cursor:pointer;" onclick="window._cherry_player.OnClickSingleMusic(' + i + ')">';
-			h += '		<div class="px-2">' + num + '</div>';
-			h += '		<div class="" style="width:50px; height:50px">';
-			h += '			<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/'+m.video_id+'/0.jpg">';
-			h += '		</div>';
-			h += '		<div class="pl-2 " style="width:100%">';
-			h += '			<div class="text-dark">' + m.title + '</div>';
-			h += '			<div class="text-secondary" style="font-size:0.8em">' + m.artist + '</div>';
-			h += '		</div>';
-			h += '	</div>';
-			h += '</div>';
+			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
+			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
+
+			var p_btn_disp = '';
+			if(self._is_edit_mode){
+				p_btn_disp = 'none';
+			}
+			var d_btn_disp = 'none';
+			if(self._is_edit_mode){
+				d_btn_disp = '';
+			}
+
+			h += `
+			<div class="row my-1 py-1" id="${id_title}">
+				<div class="col-1">
+					<div class="px-2">${num}</div>
+				</div>
+				<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
+					<div class="" style="width:50px; height:50px">
+						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+					</div>
+					<div class="" style="padding-left:5px">
+						<div class="text-dark">${m.title}</div>
+						<div class="text-secondary" style="font-size:0.8em">${m.artist}</div>
+					</div>
+				</div>
+				<div class="col-1">
+					<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
+						<i class="fas fa-play"></i>
+					</button>
+					<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
+						<i class="fas fa-trash-alt"></i>
+					</button>
+				</div>
+			</div>					
+			`;
 		}
+
 		$('#id_div_cherry_player_music_list').html(h);
 	};
 
-	this.OnClickSingleMusic = function(idx){
+	this.OnClickPlayBtn = function(idx){
 		self.SelectMusic(idx);
 		self.__yt_player.LoadAndPlay(self._cur_video_id);
+	};
+
+	this.OnClickDelBtn = function(idx){
+		self._music_list.splice(idx, 1);
+		self.SavePlayList();
+		self.DisplayMusicList();
 	};
 
 	this.HighlightCurrentMusic = function(){
