@@ -64,7 +64,7 @@ function TopRankControl(){
 				</div>
 				<div class="col-1">
 					<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
-						<i class="fas fa-play"></i>
+						<i class="fas fa-plus"></i>
 					</button>
 				</div>
 			</div>
