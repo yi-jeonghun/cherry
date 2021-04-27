@@ -60,7 +60,7 @@ function ArtistControl(){
 				</div>
 				<div class="col-2 col-sm-1">
 					<button class="btn" type="button" onclick="${fn_listen}">
-						<i class="fas fa-play"></i>
+						<i class="fas fa-plus"></i>
 					</button>
 				</div>
 			</div>
