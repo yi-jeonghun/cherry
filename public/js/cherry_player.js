@@ -313,7 +313,7 @@ function CherryPlayer(){
 			h += `
 			<div class="row my-1 py-1" id="${id_title}">
 				<div class="col-1">
-					<div class="px-2">${num}</div>
+					<div style="font-size: 0.8em">${num}</div>
 				</div>
 				<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
 					<div class="" style="width:50px; height:50px">
