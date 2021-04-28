@@ -634,6 +634,7 @@ function UseThisMusicID(searched_music_idx){
 	$('#id_text_video_id_'+_working_idx).val(_searched_music_list[searched_music_idx].video_id);
 	DisplayVideoImage(_working_idx);
 	NeedToSave();
+	DisplayDraftStatus();
 }
 
 function Save(){
