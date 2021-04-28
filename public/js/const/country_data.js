@@ -4,6 +4,7 @@ const C_KR = window._const.COUNTRY_CODE.KR;
 const C_DE = window._const.COUNTRY_CODE.DE;
 const C_FR = window._const.COUNTRY_CODE.FR;
 const C_AU = window._const.COUNTRY_CODE.AU;
+const C_CA = window._const.COUNTRY_CODE.CA;
 
 const COUNTRY_CODE_LIST = [
 	C_US,
@@ -12,6 +13,7 @@ const COUNTRY_CODE_LIST = [
 	C_DE,
 	C_FR,
 	C_AU,
+	C_CA,
 ];
 
 //https://www.worldatlas.com/articles/names-of-countries-in-their-own-languages.html
@@ -23,6 +25,7 @@ var COUNTRY_NAME_LIST = [];
 	COUNTRY_NAME_LIST[C_DE] = 'Deutschland';
 	COUNTRY_NAME_LIST[C_FR] = 'France';
 	COUNTRY_NAME_LIST[C_AU] = 'Australia';	
+	COUNTRY_NAME_LIST[C_CA] = 'Canada';	
 }
 
 //Language code => https://www.w3schools.com/tags/ref_language_codes.asp
@@ -34,7 +37,8 @@ var COUNTRY_LANG_LIST = [];
 	COUNTRY_LANG_LIST[C_KR] = 'ko-KR';
 	COUNTRY_LANG_LIST[C_DE] = 'de-DE';
 	COUNTRY_LANG_LIST[C_FR] = 'fr-FR';
-	COUNTRY_LANG_LIST[C_AU] = 'en-AU';	
+	COUNTRY_LANG_LIST[C_AU] = 'en-AU';
+	COUNTRY_LANG_LIST[C_AU] = 'en-CA';
 }
 
 var COUNTRY_TOP_RANK_SRC = [];
@@ -56,5 +60,8 @@ var COUNTRY_TOP_RANK_SRC = [];
 	};
 	COUNTRY_TOP_RANK_SRC[C_AU] = {
 		a_src: 'https://music.apple.com/us/playlist/top-100-australia/pl.18be1cf04dfd4ffb9b6b0453e8fae8f1'
+	};
+	COUNTRY_TOP_RANK_SRC[C_CA] = {
+		a_src: 'https://music.apple.com/tr/playlist/top-100-canada/pl.79bac9045a2540e0b195e983df8ba569'
 	};
 }

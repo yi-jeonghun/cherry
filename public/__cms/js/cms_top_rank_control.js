@@ -266,11 +266,15 @@ function DisplayDraftStatus(){
 function ParseContent(content){
 	var arr = content.split('\n');
 	// console.log('arr len ' + arr.length);
+
+	var title_begin_key = ' class="songs-list-row__song-name">';
+	var title_end_key = '</div>';
+
 	for(var i=0 ; i<arr.length ; i++){
 		var line = arr[i];
 
 		//노래를 찾았음.
-		if(line.includes('song-name typography-body-tall')){
+		if(line.includes(title_begin_key)){
 			var music = {
 				rank_num:null,
 				title:null,
@@ -281,15 +285,21 @@ function ParseContent(content){
 
 			music.rank_num = _music_list_draft.length + 1;
 
-			//바로 그 다음 줄에 제목이 있음.
-			var title_str = arr[i+1];
-			music.title = ParseTitle(title_str);
+			//바로 그 줄에 제목이 있음.
+			var title_str = arr[i];
+			music.title = ParseTitle(title_str, title_begin_key, title_end_key);
 
-			var artist_str = arr[i+3];
-			var artist_list = ParseArtist(artist_str);
-			music.artist = artist_list.join(", ");
-
-			_music_list_draft.push(music);
+			for(i=i+1 ; i<arr.length ; i++){
+				if(arr[i].includes('<div class="songs-list-row__by-line">')){
+					//artist는 그 다음 줄에 있음
+					var artist_str = arr[i+1];
+					var artist_list = ParseArtist(artist_str);
+					music.artist = artist_list.join(", ");
+		
+					_music_list_draft.push(music);
+					break;
+				}
+			}
 		}
 	}
 
@@ -333,9 +343,12 @@ function AutoSearchMusic(){
 	Example 
  	<!---->Leave The Door Open</div>
 */
-function ParseTitle(str){
-	str = str.substr('<!---->'.length);
-	return str.substr(0, str.length - (str.length - str.lastIndexOf('</div>')));
+function ParseTitle(str, begin_key, end_key){
+	console.log('parse title ' + str);
+	var begin = str.indexOf(begin_key);
+	str = str.substr(begin + begin_key.length);
+	var end = str.indexOf(end_key);
+	return str.substr(0, str.length - (str.length - end));
 }
 
 /**
@@ -347,9 +360,9 @@ function ParseArtist(str){
 	var arr = str.split('</a>');
 	for(var i=0 ; i<arr.length ; i++){
 		var tmp = arr[i];
-		var index_of = tmp.indexOf('class="dt-link-to" tabindex="-1">');
+		var index_of = tmp.indexOf('class="songs-list-row__link" tabindex="-1">');
 		if(index_of != -1){
-			var begin_pos = index_of + 'class="dt-link-to" tabindex="-1">'.length;
+			var begin_pos = index_of + 'class="songs-list-row__link" tabindex="-1">'.length;
 			var artist = tmp.substr(begin_pos);
 			artist_list.push(artist);
 		}
