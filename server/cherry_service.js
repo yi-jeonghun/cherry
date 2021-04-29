@@ -29,6 +29,35 @@ function CherryService(){
 		});
 	};
 
+	this.UpdateIsVarious = async function (artist_id){
+		return new Promise(async function(resolve, reject){
+			console.log('UpdateIsVarious ' + artist_id);
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'UPDATE artist SET ? WHERE ?';
+				var val = [
+					{is_various: 'y'},
+					{artist_id: artist_id}
+				];
+	
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL UpdateIsVarious #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL UpdateIsVarious #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	}
+
 	this.GetArtistList = async function(){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -55,6 +84,7 @@ function CherryService(){
 
 	this.SearchArtist = async function(artist_name){
 		return new Promise(async function(resolve, reject){
+			console.log('SearchArtist ' + artist_name);
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
@@ -76,6 +106,31 @@ function CherryService(){
 						}else{
 							resolve(ret_data);
 						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService SearchArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddVariousArtist = async function(artist_id, member_artist_id){
+		return new Promise(async function(resolve, reject){
+			console.log('AddVariousArtist ' + artist_id + ' member ' + member_artist_id);
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'INSERT INTO artist_various( artist_id, member_artist_id ) VALUES (?, ?)';
+				var val = [artist_id, member_artist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddVariousArtist #0');
+					}else{
+						resolve();
 					}
 				});
 			}catch(err){
