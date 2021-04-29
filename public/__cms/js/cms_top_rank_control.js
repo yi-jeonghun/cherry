@@ -295,6 +295,7 @@ function ParseContent(content){
 					var artist_str = arr[i+1];
 					var artist_list = ParseArtist(artist_str);
 					music.artist = artist_list.join(", ");
+					console.log('music.artist ' + music.artist);
 		
 					_music_list_draft.push(music);
 					break;
@@ -356,16 +357,26 @@ function ParseTitle(str, begin_key, end_key){
                                         <span>                                                    <a href="https://music.apple.com/us/artist/bruno-mars/278873078" class="dt-link-to" tabindex="-1">Bruno Mars</a>,                                                    <a href="https://music.apple.com/us/artist/anderson-paak/855484536" class="dt-link-to" tabindex="-1">Anderson .Paak</a>,                                                    <a href="https://music.apple.com/us/artist/silk-sonic/1556097160" class="dt-link-to" tabindex="-1">Silk Sonic</a><!----></span>
 */
 function ParseArtist(str){
+	console.log('ParseArtist ' + str);
+
+	var index_of = str.indexOf('class="songs-list-row__link" tabindex="-1">');
+	var begin_pos = index_of + 'class="songs-list-row__link" tabindex="-1">'.length;
+	var tmp = str.substr(begin_pos);
+	console.log('tmp ' + tmp);
+
+	indexof = tmp.indexOf('</a>');
+	var artist_str = tmp.substr(0, tmp.length - (tmp.length - indexof));
+	console.log('artist_str ' + artist_str);
+
+	artist_str = decodeURI(artist_str);
+	artist_str = artist_str.replace(/&amp;/g, ',');
+
 	var artist_list = [];
-	var arr = str.split('</a>');
+	var arr = artist_str.split(',');
 	for(var i=0 ; i<arr.length ; i++){
-		var tmp = arr[i];
-		var index_of = tmp.indexOf('class="songs-list-row__link" tabindex="-1">');
-		if(index_of != -1){
-			var begin_pos = index_of + 'class="songs-list-row__link" tabindex="-1">'.length;
-			var artist = tmp.substr(begin_pos);
-			artist_list.push(artist);
-		}
+		var artist = arr[i].trim();
+		console.log('artist ' + artist);
+		artist_list.push(artist);
 	}
 	return artist_list;
 }
