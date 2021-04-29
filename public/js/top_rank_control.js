@@ -43,9 +43,25 @@ function TopRankControl(){
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
 			var num = (i*1) + 1;
+			var artist_list = [];
 
-			var uri = `/${window._country_code}/artist.go?a=${m.artist}`;
-			uri = encodeURI(uri);
+			if(m.artist.includes(',')){
+				var artist_arr = m.artist.split(',');
+				for(var j=0 ; j<artist_arr.length ; j++){
+					var name = artist_arr[j].trim();
+					var uri = `/${window._country_code}/artist.go?a=${name}`;
+					uri = encodeURI(uri);
+					artist_list.push({
+						name: name,
+						uri: uri
+					});
+				}
+			}else{
+				artist_list.push({
+					name: m.artist,
+					uri: encodeURI(`/${window._country_code}/artist.go?a=${m.artist}`)
+				});
+			}
 
 			h += `
 			<div class="row my-2 border">
@@ -55,10 +71,18 @@ function TopRankControl(){
 					<div class="pl-1">
 						<div class="text-dark">${m.title}</div>
 						<div class="text-secondary" style="font-size:0.8em">
-							<span style="cursor:pointer" 
-								onClick="window._router.Go('${uri}')">
-								${m.artist}
+			`;
+
+			for(var k=0 ; k<artist_list.length ; k++){
+				h += `
+							<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" 
+							onClick="window._router.Go('${artist_list[k].uri}')">
+							${artist_list[k].name}
 							</span>
+				`;
+			}
+
+			h += `
 						</div>
 					</div>
 				</div>
