@@ -1,11 +1,13 @@
 function ArtistControl(){
 	var self = this;
-	this._artist = null;
+	this._artist_name = null;
+	this._artist_id = null;
 	this._music_list = [];
 
-	this.Init = function(artist){
-		self._artist = artist;
-		$('#id_label_artist-ARTIST_EJS').html(artist);
+	this.Init = function(artist_name, artist_id){
+		self._artist_name = artist_name;
+		self._artist_id = artist_id;
+		$('#id_label_artist-ARTIST_EJS').html(artist_name);
 		self.GetMusicList();
 		self.InitHandle();
 		return self;
@@ -16,13 +18,13 @@ function ArtistControl(){
 	};
 
 	this.GetMusicList = function(){
-		console.log('self._artist ' + self._artist);
+		console.log('self._artist_name ' + self._artist_name);
 		var req_data = {
-			keyword: self._artist
+			artist_id: self._artist_id
 		};
 
 		$.ajax({
-			url: '/cherry_api/search_music_by_artist',
+			url: '/cherry_api/fetch_music_list_by_artist_id',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -31,12 +33,40 @@ function ArtistControl(){
 				if(res.ok){
 					self._music_list = res.music_list;
 					console.log('self._music_list ' + self._music_list.length);
-					self.DisplayMusicList();
+					self.GetMusicListVA();
 				}else{
 					alert(res.err);
 				}
 			}
 		});	
+	};
+
+	this.GetMusicListVA = function(){
+		var req_data = {
+			artist_id: self._artist_id
+		};
+
+		$.ajax({
+			url: '/cherry_api/fetch_VA_music_list_by_artist_id',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					var list = res.music_list;
+					console.log('list ' + list.length);
+
+					for(var i=0 ; i<list.length ; i++){
+						self._music_list.push(list[i]);
+					}
+
+					self.DisplayMusicList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});			
 	};
 
 	this.DisplayMusicList = function(){

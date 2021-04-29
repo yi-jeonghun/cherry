@@ -375,6 +375,39 @@ function CherryService(){
 		});
 	};
 
+	this.GetMusicListByVariousArtist = async function(member_artist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id
+					FROM music m
+					JOIN artist a
+					ON m.artist_id = a.artist_id
+					WHERE m.artist_id IN (
+						SELECT VA.artist_id FROM artist_various VA WHERE VA.member_artist_id=?
+					)
+				`;
+
+				var val = [member_artist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicListByVariousArtist #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicListByVariousArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.SearchMusicListByTitle = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

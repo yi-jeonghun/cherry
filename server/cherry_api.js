@@ -182,14 +182,11 @@ router.get('/get_music_list', async function(req, res){
 	}
 });
 
-router.post('/search_music_by_artist', async function(req, res){
+router.post('/fetch_music_list_by_artist_id', async function(req, res){
 	try{
-		var music_list = [];
-		var keyword = req.body.keyword;
-		var ret_data = await cherry_service.SearchArtist(keyword);
-		if(ret_data.found){
-			music_list = await cherry_service.GetMusicListByArtist(ret_data.artist_id);
-		}
+		var artist_id = req.body.artist_id;
+		var music_list = await cherry_service.GetMusicListByArtist(artist_id);
+		
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -198,7 +195,25 @@ router.post('/search_music_by_artist', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to search_music_by_artist'
+			err:'Failed to fetch_music_list_by_artist_id'
+		});
+	}
+});
+
+router.post('/fetch_VA_music_list_by_artist_id', async function(req, res){
+	try{
+		var artist_id = req.body.artist_id;
+		var music_list = await cherry_service.GetMusicListByVariousArtist(artist_id);
+		
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to fetch_music_list_by_artist_id'
 		});
 	}
 });
@@ -217,7 +232,7 @@ router.post('/search_music_by_title', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to search_music_by_artist'
+			err:'Failed to search_music_by_title'
 		});
 	}
 });
@@ -245,7 +260,7 @@ router.post('/search_music_smart', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to search_music_by_artist'
+			err:'Failed to search_music_smart'
 		});
 	}
 });

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 const permission_service = require('./permission_service');
+var cherry_service = require('./cherry_service');
 
 var _dev_mode = fs.existsSync('dev_mode');
 
@@ -38,9 +39,13 @@ router.get('/top_rank.vu', async function(req, res){
 });
 
 router.get('/artist.vu', async function(req, res){
-	var artist = req.query.a;
+	var artist_name = req.query.a;
+
+	var ret_data = await cherry_service.SearchArtist(artist_name);
+
 	var data = {
-		artist: artist
+		artist_name: artist_name,
+		artist_id: ret_data.artist_id
 	};
 	res.render('artist', data);
 });
