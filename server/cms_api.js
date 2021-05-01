@@ -1,4 +1,5 @@
 var express = require('express');
+const cherry_service = require('./cherry_service');
 // var url = require('url');
 var router = express.Router();
 var cms_service = require('./cms_service');
@@ -20,6 +21,78 @@ router.post('/fetch_content_from_url', async function(req, res){
 		res.send({
 			ok:0,
 			err:'fail fetch_content #2'
+		});
+	}
+});
+
+router.post('/find_or_add_artist', async function(req, res){
+	try{
+		var artist_name = req.body.artist_name;
+		var artist_id = null;
+
+		var artist_found_res = await cherry_service.SearchArtist(artist_name);
+		console.log('search result ' + artist_found_res.found);
+		if(artist_found_res.found == false){
+			artist_id = await cherry_service.AddArtist(artist_name, false);
+			console.log('add result ' + artist_id);
+		}else{
+			artist_id = artist_found_res.artist_id;
+			console.log('found id ' + artist_id);
+		}
+
+		res.send({
+			ok: 1,
+			artist_id: artist_id
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'fail find_or_add_artist'
+		});
+	}
+});
+
+router.post('/find_or_add_various_artist', async function(req, res){
+	try{
+		var artist_name_list = req.body.artist_name_list;
+		var member_artist_id_list = [];
+		var artist_id = null;
+
+		for (let i = 0; i < artist_name_list.length; i++) {
+			const artist_name = artist_name_list[i];
+			console.log('artist_name ' + artist_name);
+
+			var artist_found_res = await cherry_service.SearchArtist(artist_name);
+			if(artist_found_res.found){
+				member_artist_id_list[i] = artist_found_res.artist_id;
+				console.log('member ' + member_artist_id_list[i]);
+			}else{
+				member_artist_id_list[i] = await cherry_service.AddArtist(artist_name, false);
+				console.log('member ' + member_artist_id_list[i]);
+			}
+		}
+
+		var search_result = await cherry_service.SearchVariousArtist(member_artist_id_list);
+		if(search_result.found == false){
+			var sum_artist_name = artist_name_list.join(', ');
+			artist_id = await cherry_service.AddArtist(sum_artist_name, true);
+			for(var i=0 ; i<member_artist_id_list.length ; i++){
+				await cherry_service.AddVariousArtist(artist_id, member_artist_id_list[i]);
+			}
+		}else{
+			artist_id = search_result.artist_id;
+		}
+
+		res.send({
+			ok: 1,
+			artist_id: artist_id
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'fail find_or_add_various_artist'
 		});
 	}
 });

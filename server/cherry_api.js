@@ -60,33 +60,15 @@ router.post('/search_artist', async function(req, res){
 router.post('/add_music', async function(req, res){
 	try{
 		var music = req.body;
-		var artist_id = '';
 
-		//search artist
-		var artist_found_res = await cherry_service.SearchArtist(music.artist);
-		console.log('search result ' + artist_found_res.found);
-		if(artist_found_res.found == false){
-			artist_id = await cherry_service.AddArtist(music.artist);
-			console.log('add result ' + artist_id);
-		}else{
-			artist_id = artist_found_res.artist_id;
-			console.log('found id ' + artist_id);
-		}
-
-		var music_info_for_add = {
-			artist_id: artist_id,
-			title:     music.title,
-			video_id:  music.video_id
-		};
-
-		var found = await cherry_service.FindSameMusic(music_info_for_add);
+		var found = await cherry_service.FindSameMusic(music);
 		if(found){
 			res.send({
 				ok: 0,
 				err: '이미 등록됨'
 			});
 		}else{
-			var music_id = await cherry_service.AddMusic(music_info_for_add);
+			var music_id = await cherry_service.AddMusic(music);
 
 			res.send({
 				ok: 1,

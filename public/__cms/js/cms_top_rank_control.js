@@ -337,9 +337,7 @@ function DisplayMusicList_Draft(){
 			<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 			<td id="id_label_music_id_${i}">${m.music_id}</td>
 			<td class="d-flex">
-				<span style="cursor:pointer" class="badge badge-primary" onClick="RegisterMusic(${i})">C</span>
-				<span style="cursor:pointer" class="badge badge-primary" onClick="SearchYoutube(${i})">Y</span>
-				<span style="cursor:pointer" class="badge badge-primary" onClick="SearchMusic(${i})">M</span>
+				1|2|3
 			</td>
 		</tr>
 		`;
@@ -400,17 +398,86 @@ function ChooseMusicForWorking(idx){
 	$(`#id_row_music_${idx}`).css('background-color', 'yellow');
 }
 
-function RegisterMusic(idx){
-	if(_music_list_draft[idx].video_id == null){
+function RegisterMusic(){
+	if(_music_list_draft[_working_idx].video_id == null){
 		alert('video id null');
 		return;
 	}
 
+	var artist_name_list = [];
+	var is_various_artist = false;
+	//various artist인지 확인.
+	{
+		artist_name_list = _music_list_draft[_working_idx].artist.split(',');
+
+		for(var i=0 ; i<artist_name_list.length ; i++){
+			artist_name_list[i] = artist_name_list[i].trim();
+		}
+
+		console.log('_name.length ' + artist_name_list.length);
+		if(artist_name_list.length > 1){
+			is_various_artist = true;
+		}
+	}
+
+	if(is_various_artist){
+		FindOrAddVariousArtist(artist_name_list);
+	}else{
+		FindOrAddArtist(_music_list_draft[_working_idx].artist);
+	}
+}
+
+function FindOrAddArtist(artist_name){
 	var req_data = {
-		artist:   _music_list_draft[idx].artist,
-		title:    _music_list_draft[idx].title,
-		video_id: _music_list_draft[idx].video_id
+		artist_name: artist_name.trim()
 	};
+	$.ajax({
+		url: '/__cms_api/find_or_add_artist',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				AddMusic(res.artist_id);
+			}else{
+				alert(res.err);
+				reject(res.err);
+			}
+		}
+	});
+}
+
+function FindOrAddVariousArtist(artist_name_list){
+	var req_data = {
+		artist_name_list: artist_name_list
+	};
+	$.ajax({
+		url: '/__cms_api/find_or_add_various_artist',
+		type: 'POST',
+		data: JSON.stringify(req_data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		success: function (res) {
+			if(res.ok){
+				AddMusic(res.artist_id);
+			}else{
+				alert(res.err);
+				reject(res.err);
+			}
+		}
+	});
+}
+
+function AddMusic(artist_id){
+	console.log('Add Music artist_id ' + artist_id);
+	var req_data = {
+		//FIXME
+		artist_id: artist_id,
+		title:     _music_list_draft[_working_idx].title,
+		video_id:  _music_list_draft[_working_idx].video_id
+	};
+
 	$.ajax({
 		url: '/cherry_api/add_music',
 		type: 'POST',
@@ -420,9 +487,9 @@ function RegisterMusic(idx){
 		success: function (res) {
 			if(res.ok){
 				// alert('success');
-				_music_list_draft[idx].music_id = res.music_id;
-				$('#id_label_music_id_'+idx).html(res.music_id);
-				DisplayVideoImage(idx);
+				_music_list_draft[_working_idx].music_id = res.music_id;
+				$('#id_label_music_id_'+_working_idx).html(res.music_id);
+				DisplayVideoImage(_working_idx);
 				NeedToSave();
 				DisplayDraftStatus();
 			}else{
@@ -431,7 +498,6 @@ function RegisterMusic(idx){
 		}
 	});
 }
-
 
 function CheckVideoID(ele, idx){
 	var url = $(ele).val();

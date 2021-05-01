@@ -4,14 +4,17 @@ const db_conn = require('./db_conn');
 function CherryService(){
 	var self = this;
 
-	this.AddArtist = async function(artist_name){
+	this.AddArtist = async function(artist_name, is_various){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
+			artist_name = artist_name.trim();
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO artist( name )' +
-					' VALUES (?)';
-				var val = [artist_name];
+				var sql_register = 'INSERT INTO artist( name, is_various )' +
+					' VALUES (?, ?)';
+				
+				var val_various = is_various == true ? 'Y' : 'N';
+				var val = [artist_name, val_various];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -23,6 +26,30 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService AddArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddVariousArtist = async function(artist_id, member_artist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql_register = 'INSERT INFO artist_various(artist_id, member_artist_id) VALUES(?, ?)';
+				var val = [artist_id, member_artist_id];
+				conn.query(sql_register, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddVariousArtist #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddVariousArtist #1');
 			}finally{
 				if(conn) conn.release();
 			}
@@ -57,6 +84,81 @@ function CherryService(){
 			}
 		});
 	}
+
+	this.SearchVariousArtist = function(member_artist_id_list){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					SELECT artist_id, GROUP_CONCAT(member_artist_id) member_arr
+					FROM artist_various av
+					WHERE av.artist_id IN (
+						SELECT av_sub.artist_id
+						FROM artist_various av_sub
+						WHERE av_sub.member_artist_id IN (?)
+						GROUP BY artist_id
+					)
+					GROUP BY artist_id
+				`;
+				var str_list = member_artist_id_list.join(',');
+				console.log('str_list ' + str_list);
+				var val = [str_list];
+	
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL UpdateIsVarious #0');
+					}else{
+						console.log('result count ' + result.length);
+						if(result.length == 0){
+							resolve({
+								found:false
+							});
+						}else{
+							var artist_id = self.FindSameVariousArtistID(member_artist_id_list, result);
+							if(artist_id == -1){
+								resolve({
+									found:false
+								});
+							}else{
+								resolve({
+									found:true,
+									artist_id: artist_id
+								});
+							}
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL UpdateIsVarious #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.FindSameVariousArtistID = function(member_artist_id_list, result){
+		for (var i=0; i<result.length; i++) {
+			var mem_arr = result[i].member_arr.split(',');
+			if(member_artist_id_list.length != mem_arr.length){
+				continue;
+			}
+
+			var contain_cnt = 0;
+			for(var a=0 ; a<member_artist_id_list.length ; a++){
+				if(mem_arr.includes(member_artist_id_list[a])){
+					contain_cnt++;
+				}
+			}
+
+			if(contain_cnt == member_artist_id_list.length){
+				return result[i].artist_id;
+			}
+		}
+		return -1;
+	};
 
 	this.GetArtistList = async function(){
 		return new Promise(async function(resolve, reject){
