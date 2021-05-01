@@ -17,11 +17,13 @@
 			<div class="col-3">
 				<h1>Top Rank</h1>
 			</div>
-			<div class="col-4 my-auto">
+			<div class="col-3 my-auto">
 				<div><h5 id="id_label_rank_title">Choose Rank</h5></div>
 			</div>
-			<div class="col-2 my-auto">
-				Total:<span id="id_label_total"></span> / OK:<span id="id_label_ok"></span>
+			<div class="col-3 my-auto">
+				<button type="button" class="btn btn-sm btn-secondary" onclick="ChangeFilter(FILTER_TYPE.TOTAL)">Total</button>:<span id="id_label_total"></span>
+				<button type="button" class="btn btn-sm btn-secondary" onclick="ChangeFilter(FILTER_TYPE.OK)">OK</button>:<span id="id_label_ok"></span>
+				<button type="button" class="btn btn-sm btn-secondary" onclick="ChangeFilter(FILTER_TYPE.NG)">NG</button>:<span id="id_label_ng"></span>
 			</div>
 			<div class="col-3 my-auto text-right">
 				<button type="button" class="btn btn-sm btn-primary" onclick="ArrangeWindow()">ㅁ</button>

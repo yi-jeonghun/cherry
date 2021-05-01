@@ -12,6 +12,12 @@ const RELEASE_MODE = {
 	RELEASE:1
 };
 
+const FILTER_TYPE = {
+	TOTAL:0,
+	OK:1,
+	NG:2
+}
+
 var _release_mode = RELEASE_MODE.DRAFT;
 var _country_code = null;
 var _music_list_draft = [];
@@ -19,6 +25,7 @@ var _music_list_release = [];
 var _searched_music_list = [];
 var _working_idx = -1;
 var _win_arrange = 0;
+var _filter_type = FILTER_TYPE.NG;
 
 //-----------------------------------------------------------------
 
@@ -44,6 +51,15 @@ function DisplayCountryList(){
 
 	h += '</table>';
 	$('#id_div_country_list').html(h);
+}
+
+function ChangeFilter(filter_type){
+	_filter_type = filter_type;
+	if(_release_mode == RELEASE_MODE.DRAFT){
+		DisplayMusicList_Draft();
+	}else if(_release_mode == RELEASE_MODE.RELEASE){
+		DisplayMusicList_Release();
+	}
 }
 
 function GetReleaseTime(){
@@ -267,6 +283,7 @@ function DisplayDraftStatus(){
 		}
 	}
 	$('#id_label_ok').text(ok_cnt);
+	$('#id_label_ng').text(_music_list_draft.length - ok_cnt);
 }
 
 function AutoSearchMusic(){
@@ -319,6 +336,18 @@ function DisplayMusicList_Draft(){
 
 	for(var i=0 ; i<_music_list_draft.length ; i++){
 		var m = _music_list_draft[i];
+
+		if(_filter_type == FILTER_TYPE.NG){
+			if(m.music_id != null){
+				continue;
+			}	
+		}
+		if(_filter_type == FILTER_TYPE.OK){
+			if(m.music_id == null){
+				continue;
+			}	
+		}
+
 		var img_url = '';
 		if(m.video_id != null)
 			img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
