@@ -23,6 +23,9 @@ var COUNTRY_TOP_RANK_SRC = [];
 	COUNTRY_TOP_RANK_SRC[cc.COUNTRY_CODE.CA] = {
 		apple: 'https://music.apple.com/tr/playlist/top-100-canada/pl.79bac9045a2540e0b195e983df8ba569'
 	};
+	COUNTRY_TOP_RANK_SRC[cc.COUNTRY_CODE.BR] = {
+		apple: 'https://music.apple.com/us/playlist/top-100-brazil/pl.11ac7cc7d09741c5822e8c66e5c7edbb'
+	};
 }
 
 module.exports = COUNTRY_TOP_RANK_SRC;

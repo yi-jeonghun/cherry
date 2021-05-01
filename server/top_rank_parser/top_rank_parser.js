@@ -20,6 +20,10 @@ function TopRankParser(){
 			case cc.COUNTRY_CODE.AU:
 			case cc.COUNTRY_CODE.CA:
 			case cc.COUNTRY_CODE.KR:
+			case cc.COUNTRY_CODE.BR:
+				self._parser = require('./parser_apple_1');
+				break;
+			default:
 				self._parser = require('./parser_apple_1');
 				break;
 		}

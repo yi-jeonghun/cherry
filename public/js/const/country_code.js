@@ -14,6 +14,7 @@ const COUNTRY_CODE = {
 	FR: 'FR',//프랑스
 	AU: 'AU',//호주
 	CA: 'CA',//캐나다
+	BR: 'BR',//브라질
 };
 
 const __COUNTRY_CODE_LIST = [
@@ -24,6 +25,7 @@ const __COUNTRY_CODE_LIST = [
 	COUNTRY_CODE.FR,
 	COUNTRY_CODE.AU,
 	COUNTRY_CODE.CA,
+	COUNTRY_CODE.BR,
 ];
 
 exports.COUNTRY_CODE = COUNTRY_CODE;
