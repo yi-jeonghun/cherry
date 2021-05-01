@@ -308,11 +308,12 @@ function DisplayMusicList_Draft(){
 	<tr>
 		<th>No.</th>
 		<th>Artist</th>
+		<th>AID</th>
+		<th>VA</th>
 		<th>Title</th>
 		<th>Video ID</th>
 		<th>IMG</th>
-		<th>Music ID</th>
-		<th>Tool</th>
+		<th>MID</th>
 	</tr>
 	`;
 
@@ -326,15 +327,14 @@ function DisplayMusicList_Draft(){
 		<tr onclick="ChooseMusicForWorking(${i})" id="id_row_music_${i}">
 			<td class="bd-danger">${m.rank_num}</td>
 			<td>${m.artist}</td>
+			<td id="id_label_artist_id_${i}">${m.artist_id}</td>
+			<td id="id_label_is_various_${i}">${m.is_various=='Y'?'O':''}</td>
 			<td>${m.title}</td>
 			<td>
 				<input type="text" style="width:100px; font-size:0.8em" id="id_text_video_id_${i}" onFocusOut="CheckVideoID(this, ${i})" value="${m.video_id}"></input>
 			</td>
 			<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 			<td id="id_label_music_id_${i}">${m.music_id}</td>
-			<td class="d-flex">
-				1|2|3
-			</td>
 		</tr>
 		`;
 	}
@@ -350,10 +350,12 @@ function DisplayMusicList_Release(){
 	<tr>
 		<th>No.</th>
 		<th>Artist</th>
+		<th>AID</th>
+		<th>VA</th>
 		<th>Title</th>
 		<th>Video ID</th>
 		<th>IMG</th>
-		<th>Music ID</th>
+		<th>MID</th>
 	</tr>
 	`;
 
@@ -368,6 +370,8 @@ function DisplayMusicList_Release(){
 		<tr>
 			<td class="bd-danger">${m.rank_num}</td>
 			<td>${m.artist}</td>
+			<td>${m.artist_id}</td>
+			<td>${m.is_various=='Y'?'O':''}</td>
 			<td>${m.title}</td>
 			<td>${m.video_id}</td>
 			<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
@@ -482,9 +486,15 @@ function AddMusic(artist_id){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				// alert('success');
-				_music_list_draft[_working_idx].music_id = res.music_id;
-				$('#id_label_music_id_'+_working_idx).html(res.music_id);
+				_music_list_draft[_working_idx].music_id = res.music_info.music_id;
+
+				console.log('res.music_info.artist_id ' + res.music_info.artist_id);
+				console.log('res.music_info.is_various ' + res.music_info.is_various);
+
+				$('#id_label_music_id_'+_working_idx).html(res.music_info.music_id);
+				$('#id_label_artist_id_'+_working_idx).html(res.music_info.artist_id);
+				$('#id_label_is_various_'+_working_idx).html(res.music_info.is_various=='Y'?'O':'');
+
 				DisplayVideoImage(_working_idx);
 				NeedToSave();
 				DisplayDraftStatus();
@@ -628,6 +638,8 @@ function UseThisMusicID(searched_music_idx){
 	_music_list_draft[_working_idx].video_id = _searched_music_list[searched_music_idx].video_id;
 	_music_list_draft[_working_idx].music_id = _searched_music_list[searched_music_idx].music_id;
 	$('#id_label_music_id_'+_working_idx).html(_searched_music_list[searched_music_idx].music_id);
+	$('#id_label_artist_id_'+_working_idx).html(_searched_music_list[searched_music_idx].artist_id);
+	$('#id_label_is_various_'+_working_idx).html(_searched_music_list[searched_music_idx].is_various=='Y'?'O':'');
 	$('#id_text_video_id_'+_working_idx).val(_searched_music_list[searched_music_idx].video_id);
 	DisplayVideoImage(_working_idx);
 	NeedToSave();

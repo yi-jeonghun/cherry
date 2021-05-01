@@ -63,9 +63,12 @@ function CMS_Service(){
 			var conn = null;
 
 			var sql = `
-			SELECT rank_num, music_id, artist, title, video_id
-			FROM top_rank_list_draft
-			WHERE country_code=?`;
+				SELECT t.rank_num, t.music_id, t.artist, a.artist_id, a.is_various, t.title, t.video_id
+				FROM top_rank_list_draft t
+				LEFT JOIN music m ON t.music_id=m.music_id
+				LEFT JOIN artist a ON a.artist_id=m.artist_id
+				WHERE country_code=?
+			`;
 			var val = [country_code];
 
 			try{
@@ -94,11 +97,12 @@ function CMS_Service(){
 			console.log('country_code ' + country_code);
 
 			var sql = `
-			SELECT t.rank_num, m.music_id, m.title, a.name artist, m.video_id
-			FROM top_rank_list t
-			JOIN music m ON t.music_id=m.music_id
-			JOIN artist a ON a.artist_id=m.artist_id
-			WHERE t.country_code = ?`;
+				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_id, a.is_various, m.video_id
+				FROM top_rank_list t
+				JOIN music m ON t.music_id=m.music_id
+				JOIN artist a ON a.artist_id=m.artist_id
+				WHERE t.country_code = ?
+			`;
 			var val = [country_code];
 
 			try{
@@ -300,6 +304,7 @@ function CMS_Service(){
 					SELECT artist_id 
 					FROM artist
 					WHERE NAME=?
+					LIMIT 1
 			)`;
 			var val = [title, artist];
 			conn.query(sql, val, function(err, result){

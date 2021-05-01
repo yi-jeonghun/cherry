@@ -76,6 +76,7 @@ router.post('/find_or_add_various_artist', async function(req, res){
 		var search_result = await cherry_service.SearchVariousArtist(member_artist_id_list);
 		if(search_result.found == false){
 			var sum_artist_name = artist_name_list.join(', ');
+
 			artist_id = await cherry_service.AddArtist(sum_artist_name, true);
 			for(var i=0 ; i<member_artist_id_list.length ; i++){
 				await cherry_service.AddVariousArtist(artist_id, member_artist_id_list[i]);

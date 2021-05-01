@@ -140,20 +140,40 @@ function CherryService(){
 	};
 
 	this.FindSameVariousArtistID = function(member_artist_id_list, result){
+		console.log('FindSameVariousArtistID ' );
+		for (var i=0; i<result.length; i++) {
+			console.log('artist_id ' + result[i].artist_id + ' members ' + result[i].member_arr);
+		}		
+
 		for (var i=0; i<result.length; i++) {
 			var mem_arr = result[i].member_arr.split(',');
+			for(var m=0 ; m<mem_arr.length ; m++){
+				console.log('mem_arr ' + mem_arr[m]);
+			}
+
+			console.log('member_artist_id_list.length ' + member_artist_id_list.length + ' mem_arr.length ' + mem_arr.length);
 			if(member_artist_id_list.length != mem_arr.length){
 				continue;
 			}
 
 			var contain_cnt = 0;
 			for(var a=0 ; a<member_artist_id_list.length ; a++){
-				if(mem_arr.includes(member_artist_id_list[a])){
-					contain_cnt++;
+				var id1 = member_artist_id_list[a];
+				console.log('include id1 ' + id1);
+
+				for(var m=0 ; m<mem_arr.length ; m++){
+					var id2 = mem_arr[m];
+					console.log('id2 ' + id2);
+					if(id1 == id2){
+						contain_cnt++;
+						console.log('contain_cnt ' + contain_cnt);
+						continue;
+					}
 				}
 			}
 
 			if(contain_cnt == member_artist_id_list.length){
+				console.log('found result[i].artist_id ' + result[i].artist_id);
 				return result[i].artist_id;
 			}
 		}
@@ -333,6 +353,37 @@ function CherryService(){
 		});
 	};
 
+	this.GetMusicInfo = function(music_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT m.music_id, m.artist_id, a.is_various, m.title, m.video_id
+				FROM music m
+				JOIN artist a
+				ON m.artist_id=a.artist_id
+				WHERE music_id=?				
+				`;
+				var val = [music_id];
+
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicInfo #0');
+					}else{
+						resolve(result[0]);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicInfo #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.DeleteMusic = async function(music_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -451,7 +502,7 @@ function CherryService(){
 			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
+				sql += 'SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
 				sql += 'ON m.artist_id = a.artist_id ';
@@ -516,7 +567,7 @@ function CherryService(){
 			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
+				sql += 'SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
 				sql += 'ON m.artist_id = a.artist_id ';

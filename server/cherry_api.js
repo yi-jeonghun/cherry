@@ -69,10 +69,11 @@ router.post('/add_music', async function(req, res){
 			});
 		}else{
 			var music_id = await cherry_service.AddMusic(music);
+			var music_info = await cherry_service.GetMusicInfo(music_id);
 
 			res.send({
 				ok: 1,
-				music_id: music_id
+				music_info: music_info
 			});
 		}
 	}catch(err){
