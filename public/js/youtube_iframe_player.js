@@ -55,9 +55,6 @@ function YoutubePlayer(){
 	};
 
 	this._LoadVideo = function(video_id){
-		if(self._video_id == video_id){
-			return;
-		}
 		self._video_id = video_id;
 
 		if(self._player == null){
