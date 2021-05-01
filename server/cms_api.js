@@ -1,38 +1,20 @@
 var express = require('express');
 // var url = require('url');
 var router = express.Router();
-var https = require('https');
 var cms_service = require('./cms_service');
+var top_rank_parser = require('./top_rank_parser/top_rank_parser');
 
 router.post('/fetch_content_from_url', async function(req, res){
 	try{
 		var req_data = req.body;
-		var url = req_data.url;
-		console.log('url ' + url);
-
-		var request = https.request(url, function (response) {
-			var data = '';
-			response.on('data', function (chunk) {
-					data += chunk;
-			});
-			response.on('end', function () {
-				// console.log(data);
-				res.send({
-					ok: 1,
-					content:data
-				});
-			});
+		var country_code = req_data.country_code;
+		top_rank_parser.Init(country_code);
+		var music_list = await top_rank_parser.GetTop100(country_code);
+		console.log('music_list len ' + music_list.length);
+		res.send({
+			ok: 1,
+			music_list: music_list
 		});
-
-		request.on('error', function (e) {
-			console.log(e.message);
-			res.send({
-				ok:0,
-				err:'fail fetch_content #1'
-			});	
-		});
-	
-		request.end();
 	}catch(err){
 		console.error(err);
 		res.send({

@@ -230,9 +230,8 @@ function Auto(){
 	_music_list_draft = [];
 	$('#id_div_music_list').empty();
 
-	var url = COUNTRY_TOP_RANK_SRC[_country_code].a_src;
 	var req_data = {
-		url: url
+		country_code: _country_code
 	};
 
 	$.ajax({
@@ -243,7 +242,18 @@ function Auto(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				ParseContent(res.content);
+				for(var i=0 ; i<res.music_list.length ; i++){
+					var music = {
+						rank_num: i*1+1,
+						title: res.music_list[i].title,
+						artist: res.music_list[i].artist,
+						video_id:null,
+						music_id:null
+					};
+					_music_list_draft.push(music);
+				}
+				DisplayMusicList_Draft();
+				AutoSearchMusic();			
 			}else{
 				alert(res.err);
 			}
@@ -261,51 +271,6 @@ function DisplayDraftStatus(){
 		}
 	}
 	$('#id_label_ok').text(ok_cnt);
-}
-
-function ParseContent(content){
-	var arr = content.split('\n');
-	// console.log('arr len ' + arr.length);
-
-	var title_begin_key = ' class="songs-list-row__song-name">';
-	var title_end_key = '</div>';
-
-	for(var i=0 ; i<arr.length ; i++){
-		var line = arr[i];
-
-		//노래를 찾았음.
-		if(line.includes(title_begin_key)){
-			var music = {
-				rank_num:null,
-				title:null,
-				artist:null,
-				video_id:null,
-				music_id:null
-			};
-
-			music.rank_num = _music_list_draft.length + 1;
-
-			//바로 그 줄에 제목이 있음.
-			var title_str = arr[i];
-			music.title = ParseTitle(title_str, title_begin_key, title_end_key);
-
-			for(i=i+1 ; i<arr.length ; i++){
-				if(arr[i].includes('<div class="songs-list-row__by-line">')){
-					//artist는 그 다음 줄에 있음
-					var artist_str = arr[i+1];
-					var artist_list = ParseArtist(artist_str);
-					music.artist = artist_list.join(", ");
-					console.log('music.artist ' + music.artist);
-		
-					_music_list_draft.push(music);
-					break;
-				}
-			}
-		}
-	}
-
-	DisplayMusicList_Draft();
-	AutoSearchMusic();
 }
 
 function AutoSearchMusic(){
@@ -338,47 +303,6 @@ function AutoSearchMusic(){
 			}
 		}
 	});	
-}
-
-/**
-	Example 
- 	<!---->Leave The Door Open</div>
-*/
-function ParseTitle(str, begin_key, end_key){
-	console.log('parse title ' + str);
-	var begin = str.indexOf(begin_key);
-	str = str.substr(begin + begin_key.length);
-	var end = str.indexOf(end_key);
-	return str.substr(0, str.length - (str.length - end));
-}
-
-/**
-	Example
-                                        <span>                                                    <a href="https://music.apple.com/us/artist/bruno-mars/278873078" class="dt-link-to" tabindex="-1">Bruno Mars</a>,                                                    <a href="https://music.apple.com/us/artist/anderson-paak/855484536" class="dt-link-to" tabindex="-1">Anderson .Paak</a>,                                                    <a href="https://music.apple.com/us/artist/silk-sonic/1556097160" class="dt-link-to" tabindex="-1">Silk Sonic</a><!----></span>
-*/
-function ParseArtist(str){
-	console.log('ParseArtist ' + str);
-
-	var index_of = str.indexOf('class="songs-list-row__link" tabindex="-1">');
-	var begin_pos = index_of + 'class="songs-list-row__link" tabindex="-1">'.length;
-	var tmp = str.substr(begin_pos);
-	console.log('tmp ' + tmp);
-
-	indexof = tmp.indexOf('</a>');
-	var artist_str = tmp.substr(0, tmp.length - (tmp.length - indexof));
-	console.log('artist_str ' + artist_str);
-
-	artist_str = decodeURI(artist_str);
-	artist_str = artist_str.replace(/&amp;/g, ',');
-
-	var artist_list = [];
-	var arr = artist_str.split(',');
-	for(var i=0 ; i<arr.length ; i++){
-		var artist = arr[i].trim();
-		console.log('artist ' + artist);
-		artist_list.push(artist);
-	}
-	return artist_list;
 }
 
 function DisplayMusicList_Draft(){
