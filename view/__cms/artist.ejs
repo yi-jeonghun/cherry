@@ -110,7 +110,8 @@
 	function DisplayArtistList(artist_list){
 		var html = '';
 		for(var i=0 ; i<artist_list.length ; i++){
-			html += '<div class="col-12">' + artist_list[i].name + '</div>';
+			html += '<div class="col-1">' + artist_list[i].artist_id + '</div>';
+			html += '<div class="col-11">' + artist_list[i].name + '</div>';
 		}
 		$('#id_div_artist_list').html(html);
 	}

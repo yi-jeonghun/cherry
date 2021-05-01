@@ -73,10 +73,6 @@ function GetReleaseTime(){
 	});
 }
 
-function DisplayReleaseTime(){
-
-}
-
 function ArrangeWindow(){
 	if(_win_arrange == 0){
 
