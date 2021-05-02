@@ -92,7 +92,9 @@ function SearchControl(){
 
 			for (let i = 0; i < self._music_list.length; i++) {
 				var m = self._music_list[i];
-				var onclick = `window._search_control.AddMusic(${i})`;
+				var add_music = `window._search_control.AddMusic(${i})`;
+				var encode_name = encodeURI(m.artist);
+				var goto_artist = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
 
 				h += `
 					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
@@ -100,11 +102,13 @@ function SearchControl(){
 							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 							<div class="pl-1">
 								<div class="text-dark">${m.title}</div>
-								<div class="text-secondary" style="font-size:0.8em">${m.artist}</div>
+								<div class="text-secondary" style="font-size:0.8em">
+									<span style="cursor:pointer; border-bottom:1px solid #aaaaaa" onclick="${goto_artist}">${m.artist}</span>
+								</div>
 							</div>
 						</div>
 						<div class="col-1">
-							<button class="btn" type="button" onclick="${onclick}">
+							<button class="btn" type="button" onclick="${add_music}">
 								<i class="fas fa-plus"></i>
 							</button>
 						</div>

@@ -199,6 +199,17 @@ function CherryPlayer(){
 		}
 	};
 
+	this.HidePlayList = function(){
+		self._b_play_list_show = false;
+		$('#id_player_music_list_div').hide();
+	};
+
+	this.GoToArtist = function(artist_name){
+		self.HidePlayList();
+		var encode_name = encodeURI(artist_name);
+		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}`);
+	};
+
 	this.AddMusic = function(music){
 		self._music_list.push(music);
 		var last_idx = self._music_list.length-1;
@@ -295,6 +306,7 @@ function CherryPlayer(){
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
+			var goto_artist = `window._cherry_player.GoToArtist('${m.artist}')`;
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){
@@ -316,7 +328,9 @@ function CherryPlayer(){
 					</div>
 					<div class="" style="padding-left:5px">
 						<div class="text-dark">${m.title}</div>
-						<div class="text-secondary" style="font-size:0.8em">${m.artist}</div>
+						<div class="text-secondary" style="font-size:0.8em">
+							<span style="cursor:pointer; border-bottom:1px solid #aaaaaa" onclick="${goto_artist}">${m.artist}</span>
+						</div>
 					</div>
 				</div>
 				<div class="col-1">
