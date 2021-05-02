@@ -44,54 +44,44 @@ function TopRankControl(){
 			var m = self._music_list[i];
 			var num = (i*1) + 1;
 			var artist_list = [];
-
-			if(m.artist.includes(',')){
+			{
 				var artist_arr = m.artist.split(',');
 				for(var j=0 ; j<artist_arr.length ; j++){
 					var name = artist_arr[j].trim();
-					var uri = `/${window._country_code}/artist.go?a=${name}`;
-					uri = encodeURI(uri);
+					var name_encoded = encodeURI(artist_arr[j].trim());
 					artist_list.push({
 						name: name,
-						uri: uri
+						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
 					});
 				}
-			}else{
-				artist_list.push({
-					name: m.artist,
-					uri: encodeURI(`/${window._country_code}/artist.go?a=${m.artist}`)
-				});
 			}
 
 			h += `
-			<div class="row my-2 border">
-				<div class="col-1">${num}</div>
-				<div class="col-9 col-sm-10 d-flex">
-					<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
-					<div class="pl-1">
-						<div class="text-dark">${m.title}</div>
-						<div class="text-secondary" style="font-size:0.8em">
+				<div class="row my-2 border">
+					<div class="col-1">${num}</div>
+					<div class="col-9 col-sm-10 d-flex">
+						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+						<div class="pl-1">
+							<div class="text-dark">${m.title}</div>
+							<div class="text-secondary" style="font-size:0.8em">
 			`;
 
 			for(var k=0 ; k<artist_list.length ; k++){
 				h += `
-							<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" 
-							onClick="window._router.Go('${artist_list[k].uri}')">
-							${artist_list[k].name}
-							</span>
+								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
 				`;
 			}
 
 			h += `
+							</div>
 						</div>
 					</div>
+					<div class="col-1">
+						<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
+							<i class="fas fa-plus"></i>
+						</button>
+					</div>
 				</div>
-				<div class="col-1">
-					<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
-						<i class="fas fa-plus"></i>
-					</button>
-				</div>
-			</div>
 			`;
 		}
 

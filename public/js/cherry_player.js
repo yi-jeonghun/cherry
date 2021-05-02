@@ -300,13 +300,24 @@ function CherryPlayer(){
 		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i]; 
-			// var id = 'id_music_' + i;
 			var id_title = 'id_music_title_'+i;
 			var num = (i*1) + 1;
+			var artist_list = [];
+			{
+				var artist_arr = m.artist.split(',');
+				for(var j=0 ; j<artist_arr.length ; j++){
+					var name = artist_arr[j].trim();
+					var name_encoded = encodeURI(artist_arr[j].trim());
+					artist_list.push({
+						name: name,
+						onclick: `window._cherry_player.GoToArtist('${name}')`
+					});
+				}
+			}
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
-			var goto_artist = `window._cherry_player.GoToArtist('${m.artist}')`;
+			// var goto_artist = `window._cherry_player.GoToArtist('${m.artist}')`;
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){
@@ -318,30 +329,38 @@ function CherryPlayer(){
 			}
 
 			h += `
-			<div class="row my-1 py-1" id="${id_title}">
-				<div class="col-1">
-					<div style="font-size: 0.8em">${num}</div>
-				</div>
-				<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
-					<div class="" style="width:50px; height:50px">
-						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+				<div class="row my-1 py-1" id="${id_title}">
+					<div class="col-1">
+						<div style="font-size: 0.8em">${num}</div>
 					</div>
-					<div class="" style="padding-left:5px">
-						<div class="text-dark">${m.title}</div>
-						<div class="text-secondary" style="font-size:0.8em">
-							<span style="cursor:pointer; border-bottom:1px solid #aaaaaa" onclick="${goto_artist}">${m.artist}</span>
+					<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
+						<div class="" style="width:50px; height:50px">
+							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+						</div>
+						<div class="" style="padding-left:5px">
+							<div class="text-dark">${m.title}</div>
+							<div class="text-secondary" style="font-size:0.8em">
+			`;
+
+			for(var k=0 ; k<artist_list.length ; k++){
+				h += `
+								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+				`;
+			}
+			
+			h += `
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-1">
-					<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
-						<i class="fas fa-play"></i>
-					</button>
-					<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
-						<i class="fas fa-trash-alt"></i>
-					</button>
-				</div>
-			</div>					
+					<div class="col-1">
+						<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
+							<i class="fas fa-play"></i>
+						</button>
+						<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>
+				</div>					
 			`;
 		}
 

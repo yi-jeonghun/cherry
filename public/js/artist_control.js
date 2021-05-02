@@ -76,26 +76,43 @@ function ArtistControl(){
 			var m = self._music_list[i];
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			var fn_listen = `window._artist_control.AddMusic(${i})`;
-			var encode_name = encodeURI(m.artist);
-			var goto_artist = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
+			var artist_list = [];
+			{
+				var artist_arr = m.artist.split(',');
+				for(var j=0 ; j<artist_arr.length ; j++){
+					var name = artist_arr[j].trim();
+					var name_encoded = encodeURI(artist_arr[j].trim());
+					artist_list.push({
+						name: name,
+						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+					});
+				}
+			}
+			h += `
+				<div class="row my-2 border">
+					<div class="col-10 col-sm-11 d-flex">
+						<image style="height: 50px; width: 50px;" src="${img_src}">
+						<div class="pl-1">
+							<div class="text-dark">${m.title}</div>
+							<div class="text-secondary" style="font-size:0.8em">
+			`;
+
+			for(var k=0 ; k<artist_list.length ; k++){
+				h += `
+								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+				`;
+			}
 
 			h += `
-			<div class="row my-2 border">
-				<div class="col-10 col-sm-11 d-flex">
-					<image style="height: 50px; width: 50px;" src="${img_src}">
-					<div class="pl-1">
-						<div class="text-dark">${m.title}</div>
-						<div class="text-secondary" style="font-size:0.8em">
-							<span style="cursor:pointer; border-bottom:1px solid #aaaaaa" onclick="${goto_artist}">${m.artist}</span>
+							</div>
 						</div>
 					</div>
+					<div class="col-2 col-sm-1">
+						<button class="btn" type="button" onclick="${fn_listen}">
+							<i class="fas fa-plus"></i>
+						</button>
+					</div>
 				</div>
-				<div class="col-2 col-sm-1">
-					<button class="btn" type="button" onclick="${fn_listen}">
-						<i class="fas fa-plus"></i>
-					</button>
-				</div>
-			</div>
 			`;
 		}
 

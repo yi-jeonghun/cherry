@@ -93,9 +93,19 @@ function SearchControl(){
 			for (let i = 0; i < self._music_list.length; i++) {
 				var m = self._music_list[i];
 				var add_music = `window._search_control.AddMusic(${i})`;
-				var encode_name = encodeURI(m.artist);
-				var goto_artist = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
-
+				var artist_list = [];
+				{
+					var artist_arr = m.artist.split(',');
+					for(var j=0 ; j<artist_arr.length ; j++){
+						var name = artist_arr[j].trim();
+						var name_encoded = encodeURI(artist_arr[j].trim());
+						artist_list.push({
+							name: name,
+							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+						});
+					}
+				}
+	
 				h += `
 					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
 						<div class="col-10 col-sm-11 d-flex">
@@ -103,7 +113,15 @@ function SearchControl(){
 							<div class="pl-1">
 								<div class="text-dark">${m.title}</div>
 								<div class="text-secondary" style="font-size:0.8em">
-									<span style="cursor:pointer; border-bottom:1px solid #aaaaaa" onclick="${goto_artist}">${m.artist}</span>
+				`;
+
+				for(var k=0 ; k<artist_list.length ; k++){
+					h += `
+									<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+					`;
+				}
+					
+				h += `
 								</div>
 							</div>
 						</div>
