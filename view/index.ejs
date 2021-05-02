@@ -34,16 +34,28 @@
 
 		<div id="id_router-top_rank"></div>
 		<div id="id_router-artist"></div>
+		<div id="id_router-search"></div>
 	</div>
 
 	<!-- Menu -->
 	<div class="menu_div" id="id_menu_div">
-		<div class="container" style="height: 100%; padding: 0px;">
-			<div style="background-color: white; height: 100%; width: 80%; opacity: 1; padding-left: 10px;">
+		<div style="height: 100%; padding: 0px;">
+			<div style="background-color: white; height: 100%; width: 80%; opacity: 1; padding-left: 10px; padding-right: 10px;">
 				<div class="text-right w-100" style="padding-top: 5px; padding-right: 10px;">
 					<i id="id_btn_close_menu" class="fas fa-times" style="font-size: 2.5em; cursor: pointer;"></i>
 				</div>
 				<%- include('include/google_auth_html.ejs') %>
+				<hr></hr>
+				<div>
+					<button id="id_btn_menu_top_100" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+						Top 100
+					</button>
+				</div>
+				<div style="margin-top: 5px;">
+					<button id="id_btn_menu_search" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+						Search
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -67,7 +79,6 @@
 		</div>	
 		<div class="controller_div text-right">
 			<div>
-				<i id="id_btn_prev"       class="fas fa-step-backward play_button_disabled"></i>
 				<i id="id_btn_play_pause" class="fas fa-play          play_button_disabled" style="margin-left: 1px; margin-right: 1px"></i>
 				<i id="id_btn_next"       class="fas fa-step-forward  play_button_disabled"></i>
 			</div>

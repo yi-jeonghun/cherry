@@ -137,6 +137,18 @@ function Control(){
 		$('#id_btn_menu_open').on('click', self.OpenMenu);
 		$('#id_btn_close_menu').on('click', self.CloseMenu);
 		$('#id_btn_flag').on('click', self.OnClickFlag);
+		$('#id_btn_menu_top_100').on('click', self.OnClickMenuTop100);
+		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
+	};
+
+	this.OnClickMenuTop100 = function(){
+		window._router.Go(`/${window._country_code}/top_rank.go`);
+		self.CloseMenu();
+	};
+
+	this.OnClickMenuSearch = function(){
+		window._router.Go(`/${window._country_code}/search.go`);
+		self.CloseMenu();
 	};
 
 	this.OpenMenu = function(){

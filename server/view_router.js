@@ -26,6 +26,12 @@ router.get('/**/artist.go', async function(req, res){
 	});
 });
 
+router.get('/**/search.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 //inline pages
 
@@ -49,6 +55,16 @@ router.get('/artist.vu', async function(req, res){
 	};
 	res.render('artist', data);
 });
+
+router.get('/search.vu', async function(req, res){
+	var country_code = req.query.country_code;
+	var data = {
+		country_code:country_code,
+		dev_mode: _dev_mode
+	};
+	res.render('search', data);
+});
+
 //####################################################################################//
 //CMS pages
 

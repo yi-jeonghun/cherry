@@ -83,7 +83,7 @@ function CherryService(){
 				if(conn) conn.release();
 			}
 		});
-	}
+	};
 
 	this.SearchVariousArtist = function(member_artist_id_list){
 		return new Promise(async function(resolve, reject){
@@ -228,6 +228,32 @@ function CherryService(){
 						}else{
 							resolve(ret_data);
 						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService SearchArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.SearchArtistLike = async function(artist_name){
+		return new Promise(async function(resolve, reject){
+			console.log('SearchArtist ' + artist_name);
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql_register = 'SELECT * FROM artist WHERE LOWER(name) LIKE ?';
+				var val = [artist_name + '%'];
+				conn.query(sql_register, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService SearchArtist #0');
+					}else{
+						console.log('result len ' + result.length);
+						resolve(result);
 					}
 				});
 			}catch(err){

@@ -46,7 +46,8 @@ function Router(){
 
 		{
 			$('#id_router-top_rank').hide();
-			$('#id_router-artist').hide();;
+			$('#id_router-artist').hide();
+			$('#id_router-search').hide();
 		}
 
 		switch(feature){
@@ -57,6 +58,10 @@ function Router(){
 			case 'artist.go':
 				$('#id_router-artist').show();
 				self.GoTo_Artist(args, arg_list);
+				break;
+			case 'search.go':
+				$('#id_router-search').show();
+				self.GoTo_Search();
 				break;
 		}
 	};
@@ -86,6 +91,11 @@ function Router(){
 		self.LoadInnerView(target_div, route_url);
 	};
 
+	this.GoTo_Search = function(){
+		var target_div = 'id_router-search';
+		var route_url = '/search.vu';
+		self.LoadInnerView(target_div, route_url);
+	};
 	this.UpdateMeta = function(title, keywords, desc){
 		$('title').text(title);
 		$("meta[property='og:title']").attr("content", title);

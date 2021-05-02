@@ -84,7 +84,6 @@ function CherryPlayer(){
 
 	this.InitHandle = function(){
 		$('#id_btn_play_pause').on('click', self.PlayPause);
-		$('#id_btn_prev').on('click', self.OnClickNext);
 		$('#id_btn_next').on('click', self.OnClickNext);
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
 		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
@@ -138,8 +137,6 @@ function CherryPlayer(){
 			$('#id_btn_play_pause').addClass('fa-play');
 		}
 
-		$('#id_btn_prev').removeClass("play_button");
-		$('#id_btn_prev').removeClass("play_button_disabled");
 		$('#id_btn_play_pause').removeClass("play_button");
 		$('#id_btn_play_pause').removeClass("play_button_disabled");
 		$('#id_btn_next').removeClass("play_button");
@@ -148,11 +145,9 @@ function CherryPlayer(){
 		console.log('UpdatePlayPauseButton ' );
 		console.log('self._music_list.length ' + self._music_list.length);
 		if(self._music_list.length > 0){
-			$('#id_btn_prev').addClass("play_button");
 			$('#id_btn_play_pause').addClass("play_button");
 			$('#id_btn_next').addClass("play_button");
 		}else{
-			$('#id_btn_prev').addClass("play_button_disabled");
 			$('#id_btn_play_pause').addClass("play_button_disabled");
 			$('#id_btn_next').addClass("play_button_disabled");
 		}
