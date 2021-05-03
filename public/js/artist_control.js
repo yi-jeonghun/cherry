@@ -65,6 +65,7 @@ function ArtistControl(){
 
 	this.OnSearchClick = function(){
 		self._video_id_to_add = null;
+		self._youtube_video_list = [];
 		var keyword = $('#id_input_artist_youtube_keyword').val();
 		console.log('keyword ' + keyword);
 		if(keyword == ''){
@@ -138,6 +139,7 @@ function ArtistControl(){
 	};
 
 	this.DisplayYoutubeSearchResult = function(){
+		$('#id_div_artist_youtube_search_list').empty();
 		var input_title = $('#id_input_artist_youtube_keyword').val();
 
 		var h = '';
