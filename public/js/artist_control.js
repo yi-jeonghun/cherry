@@ -3,6 +3,9 @@ function ArtistControl(){
 	this._artist_name = null;
 	this._artist_id = null;
 	this._music_list = [];
+	this._api_key = 'AIzaSyAavEwSLYg0zl1fxk_5uAZdx3_4tzbmSyQ';
+	this._youtube_video_list = [];
+	this._video_id_to_add = null;
 
 	this.Init = function(artist_name, artist_id){
 		self._artist_name = artist_name;
@@ -15,6 +18,181 @@ function ArtistControl(){
 
 	this.InitHandle = function(){
 		$('#id_btn_artist_listen_all').on('click', self.ListenAll);
+		$('#id_btn_artist_youtube_search').on('click', self.OnSearchClick);
+		$('#id_btn_artist_add_music').on('click', self.OnAddMusicClick);
+	};
+
+	this.ClearYoutubeKeyword = function(){
+		$('#id_input_artist_youtube_keyword').val('');
+		$('#id_div_artist_youtube_search_list').empty();
+		self._video_id_to_add = null;
+	};
+
+	this.OnAddMusicClick = function(){
+		if(self._video_id_to_add == null){
+			alert(TR(L_SEARCH_AND_CHOOSE_VIDEO_PLZ));
+			return;
+		}
+
+		var title = $('#id_input_artist_youtube_keyword').val().trim();
+		if(title == ''){
+			alert(TR(L_INPUT_TITLE_PLZ));
+			return;
+		}
+
+		var req_data = {
+			artist_id: self._artist_id,
+			title:     title,
+			video_id:  self._video_id_to_add
+		};
+
+		$.ajax({
+			url: '/cherry_api/add_music',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					alert(TR(L_SUCCESS));
+					self.GetMusicList();
+				}else{
+					alert(TR(L_ALREADY_ADDED));
+				}
+			}
+		});
+	};
+
+	this.OnSearchClick = function(){
+		self._video_id_to_add = null;
+		var keyword = $('#id_input_artist_youtube_keyword').val();
+		console.log('keyword ' + keyword);
+		if(keyword == ''){
+			return;
+		}
+		keyword = encodeURI(self._artist_name + '+' + keyword);
+		var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${keyword}&type=video&key=${self._api_key}`;
+
+		$.ajax({
+			url: url,
+			type: 'GET',
+			data: null,
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				for(var i=0 ; i<res.items.length ; i++){
+					var item = res.items[i];
+					var video = {
+						video_id: item.id.videoId,
+						title:    item.snippet.title,
+						img_src:  `https://img.youtube.com/vi/${item.id.videoId}/0.jpg`,
+						channel:  item.snippet.channelTitle,
+						duration: ''
+					};
+					self._youtube_video_list.push(video);
+				}
+				self.DisplayYoutubeSearchResult();
+				self.FetchYoutubeVideosInfo();
+			}
+		});	
+	};
+
+	this.FetchYoutubeVideosInfo = function(){
+		var video_id_arr = [];
+		for(var i=0 ; i<self._youtube_video_list.length ; i++){
+			var video = self._youtube_video_list[i];
+			if(i == 0){
+				// console.log(' ' + JSON.stringify(item, null, '\t'));
+			}
+			video_id_arr.push(video.video_id);
+		}
+		var video_id_list_str = video_id_arr.join(',');
+		console.log('video_id_list_str ' + video_id_list_str);
+		var url = `https://www.googleapis.com/youtube/v3/videos?id=${video_id_list_str}&part=snippet,contentDetails&fields=items(etag,id,snippet(publishedAt,title,thumbnails(default(url)),tags),contentDetails(duration))&key=${self._api_key}`;
+		$.ajax({
+			url: url,
+			type: 'GET',
+			data: null,
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				console.log('res len ' + JSON.stringify(res, null, '\t'));
+				for(var i=0 ; i<res.items.length ; i++){
+					var item = res.items[i];
+					if(i==0){
+						// console.log(' ' + JSON.stringify(res.items[i], null, '\t'));
+					}
+
+					for(var v=0 ; v<self._youtube_video_list.length ; v++){
+						if(self._youtube_video_list[v].video_id == item.id){
+							var dur = item.contentDetails.duration;
+							dur = dur.replace('PT', '').replace('H', ':').replace('M', ':').replace('S', '');
+							self._youtube_video_list[v].duration = dur;
+							$('#id_video_duration-'+item.id).html(dur);
+							continue;
+						}
+					}
+				}
+			}
+		});	
+	};
+
+	this.DisplayYoutubeSearchResult = function(){
+		var input_title = $('#id_input_artist_youtube_keyword').val();
+
+		var h = '';
+
+		for(var i=0 ; i<self._youtube_video_list.length ; i++){
+			var video = self._youtube_video_list[i];
+
+			var video_id = video.video_id;
+			var title = video.title;
+			var channel = video.channel;
+			var try_listen = `window._artist_control.TryListen('${self._artist_name}','${input_title}','${video_id}')`;
+			var img_src =  `https://img.youtube.com/vi/${video_id}/0.jpg`;
+			var id_video_duration_str = `id_video_duration-${video_id}`;
+			var id_youtube_video_row_str = `id_youtube_video_row-${video_id}`;
+			var on_click_action = `window._artist_control.OnChooseVideoToAdd('${video_id}')`;
+
+			h += `
+				<div class="row" style="margin-top:10px; border-bottom: 1px solid #eeeeee" id="${id_youtube_video_row_str}" onClick="${on_click_action}">
+					<div class="col-12 d-flex">
+						<div>
+							<div>
+								<image style="height: 50px; width: 50px;" src="${img_src}">
+							</div>
+							<div class="" style="font-size:0.8em" id="${id_video_duration_str}">00:00:00</div>
+						</div>
+						<div class="pl-1" onclick="${try_listen}" style="cursor:pointer">
+							<div class="text-dark">${title}</div>
+							<div class="text-secondary" style="font-size: 0.8em">${channel}</div>
+						</div>
+					</div>
+				</div>
+			`;
+		}
+
+		$('#id_div_artist_youtube_search_list').html(h);
+	};
+
+	this.OnChooseVideoToAdd = function(video_id){
+		self._video_id_to_add = video_id;
+		for(var i=0 ; i<self._youtube_video_list.length ; i++){
+			if(video_id == self._youtube_video_list[i].video_id){
+				$('#id_youtube_video_row-'+self._youtube_video_list[i].video_id).css('background-color', 'orange');
+			}else{
+				$('#id_youtube_video_row-'+self._youtube_video_list[i].video_id).css('background-color', 'white');
+			}
+		}
+	};
+
+	this.TryListen = function(artist, title, video_id){
+		var music = {
+			artist:   artist,
+			title:    title,
+			video_id: video_id
+		};
+		window._cherry_player.TryMusic(music);
 	};
 
 	this.GetMusicList = function(){
@@ -116,7 +294,7 @@ function ArtistControl(){
 			`;
 		}
 
-		$('#id_div_music_list').html(h);
+		$('#id_div_artist_music_list').html(h);
 	};
 
 	this.AddMusic = function(idx){

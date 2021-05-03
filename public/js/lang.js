@@ -34,6 +34,28 @@ const L_ARTIST_META_DESC = [];
 	L_ARTIST_META_DESC[C_BR] = ' musicas populares. Ouça músicas do YouTube sem anúncios';
 }
 
+const L_SEARCH_AND_CHOOSE_VIDEO_PLZ = [];
+{
+	L_SEARCH_AND_CHOOSE_VIDEO_PLZ[C_US] = 'Search and choose video, please.';
+}
+
+const L_INPUT_TITLE_PLZ = [];
+{
+	L_INPUT_TITLE_PLZ[C_US] = 'Input title, please.';
+}
+
+const L_SUCCESS = [];
+{
+	L_SUCCESS[C_US] = 'Success';
+}
+
+const L_ALREADY_ADDED = [];
+{
+	L_ALREADY_ADDED[C_US] = 'Already Added';
+}
+
+
+
 function TR(L){
 	var val = L[window._country_code];
 	if(val === undefined){

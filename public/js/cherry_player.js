@@ -144,7 +144,7 @@ function CherryPlayer(){
 
 		console.log('UpdatePlayPauseButton ' );
 		console.log('self._music_list.length ' + self._music_list.length);
-		if(self._music_list.length > 0){
+		if(self._music_list.length > 0 || self.__yt_player.IsPlaying()){
 			$('#id_btn_play_pause').addClass("play_button");
 			$('#id_btn_next').addClass("play_button");
 		}else{
@@ -155,10 +155,10 @@ function CherryPlayer(){
 
 	this.PlayPause = function(){
 		console.log('PlayPause ' );
-		if(self._music_list.length == 0){
-			console.log('music list zeip ');
-			return;
-		}
+		// if(self._music_list.length == 0){
+		// 	console.log('music list zeip ');
+		// 	return;
+		// }
 
 		if(self.__yt_player.IsPlaying()){
 			self.__yt_player.Pause();
@@ -208,6 +208,11 @@ function CherryPlayer(){
 		self.HidePlayList();
 		var encode_name = encodeURI(artist_name);
 		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}`);
+	};
+
+	this.TryMusic = function(music){
+		self.__yt_player.LoadAndPlay(music.video_id);
+		self.DisplayTitleArtist(music.title, music.artist);
 	};
 
 	this.AddMusic = function(music){
@@ -490,6 +495,9 @@ function CherryPlayer(){
 	};
 
 	this.OnClickNext = function(){
+		if(self._music_list.length == 0){
+			return;
+		}
 		self.__yt_player.Stop();
 
 		if(self._seq_type == SEQ_TYPE.Shuffle){
@@ -509,6 +517,9 @@ function CherryPlayer(){
 	};
 
 	this.Next = function(){
+		if(self._music_list.length == 0){
+			return;
+		}
 		self.__yt_player.Stop();
 
 		if(self._repeat_type == REPEAT_TYPE.ONE){

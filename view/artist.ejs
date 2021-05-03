@@ -1,21 +1,58 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12">
-			<span id="id_label_artist-ARTIST_EJS" style="font-size: 1.2em;"></span>
+			<span id="id_label_artist-ARTIST_EJS" style="font-size: 1.5em; font-weight: bold;"></span>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-12 text-right">
-			<button type="button" class="btn btn-sm btn-primary" id="id_btn_artist_listen_all">
-				<span>All</span>
-				<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
-			</button>
+	<div class="row" style="margin-top: 5px;">
+		<div class="col-12">
+			<ul class="nav nav-tabs small mb-3" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<a class="nav-link active" id="pills-music-tab" data-toggle="pill" href="#pills-music" role="tab" aria-controls="pills-music" aria-selected="true">Music</a>
+				</li>
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" id="pills-add-music-tab" data-toggle="pill" href="#pills-add-music" role="tab" aria-controls="pills-add-music" aria-selected="false">Add Music</a>
+				</li>
+			</ul>			
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12">
-			<div class="container-fluid" id="id_div_music_list">
-			</div>			
+			<div class="tab-content" id="pills-tabContent">
+
+				<!-- Music List -->
+				<div class="tab-pane fade show active" id="pills-music" role="tabpanel" aria-labelledby="pills-music-tab">
+					<div class="text-right">
+						<button type="button" class="btn btn-sm btn-primary" id="id_btn_artist_listen_all">
+							<span>All</span>
+							<i style="margin-left:3px" class="fas fa-play"></i>
+						</button>	
+					</div>
+					<div class="container-fluid" id="id_div_artist_music_list">
+						<!-- Music List Display Area -->
+					</div>
+				</div>
+
+				<!-- Add Music -->
+				<div class="tab-pane fade" id="pills-add-music" role="tabpanel" aria-labelledby="pills-add-music-tab">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="button-addon4" id="id_input_artist_youtube_keyword">
+									<div class="input-group-append" id="button-addon4">
+										<button class="btn btn-sm btn-outline-secondary " type="button" id="id_btn_artist_youtube_search">Youtube</button>
+										<button class="btn btn-sm btn-outline-secondary " type="button" id="id_btn_artist_add_music">Add</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container-fluid" id="id_div_artist_youtube_search_list">
+						<!-- Youtube Search List -->
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
