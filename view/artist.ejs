@@ -1,7 +1,13 @@
 <div class="container">
 	<div class="row">
-		<div class="col-12">
+		<div class="col-9 col-sm-10">
 			<span id="id_label_artist-ARTIST_EJS" style="font-size: 1.5em; font-weight: bold;"></span>
+		</div>
+		<div class="col-3 col-sm-2 text-right py-1">
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_artist_listen_all">
+				<span>All</span>
+				<i style="margin-left:3px" class="fas fa-play"></i>
+			</button>	
 		</div>
 	</div>
 	<div class="row" style="margin-top: 5px;">
@@ -22,12 +28,6 @@
 
 				<!-- Music List -->
 				<div class="tab-pane fade show active" id="pills-music" role="tabpanel" aria-labelledby="pills-music-tab">
-					<div class="text-right">
-						<button type="button" class="btn btn-sm btn-primary" id="id_btn_artist_listen_all">
-							<span>All</span>
-							<i style="margin-left:3px" class="fas fa-play"></i>
-						</button>	
-					</div>
 					<div class="container-fluid" id="id_div_artist_music_list">
 						<!-- Music List Display Area -->
 					</div>
