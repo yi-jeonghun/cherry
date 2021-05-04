@@ -56,6 +56,7 @@ function AuthControl(){
 			url:'/auth_api/get_user_info_session',
 			success:function(res){
 				if(res.ok){
+					console.log('login ok ' );
 					self._user_info = res.user_info;
 					self.UpdateUserInfo();
 					if(self._cb_on_login){

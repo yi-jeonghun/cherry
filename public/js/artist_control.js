@@ -13,6 +13,9 @@ function ArtistControl(){
 		$('#id_label_artist-ARTIST_EJS').html(artist_name);
 		self.GetMusicList();
 		self.InitHandle();
+
+		console.log('artist control init ' );
+		
 		return self;
 	};
 
@@ -29,6 +32,11 @@ function ArtistControl(){
 	};
 
 	this.OnAddMusicClick = function(){
+		if(window._auth_control.IsLogin() == false){
+			alert(TR(L_SIGN_IN_REQUIRED));
+			return;
+		}
+
 		if(self._video_id_to_add == null){
 			alert(TR(L_SEARCH_AND_CHOOSE_VIDEO_PLZ));
 			return;

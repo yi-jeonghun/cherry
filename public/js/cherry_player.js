@@ -36,7 +36,7 @@ function CherryPlayer(){
 	};
 
 	this.CreateYoutubePlayer = function(){
-		console.log('CreateYoutubePlayer ');
+		// console.log('CreateYoutubePlayer ');
 		self.__yt_player = new YoutubePlayer().Init(
 			self.OnYouTubeIframeAPIReady, self.OnPlayerReady, self.OnFlowEvent, self.OnPlayerStateChange
 		);
@@ -142,8 +142,8 @@ function CherryPlayer(){
 		$('#id_btn_next').removeClass("play_button");
 		$('#id_btn_next').removeClass("play_button_disabled");
 
-		console.log('UpdatePlayPauseButton ' );
-		console.log('self._music_list.length ' + self._music_list.length);
+		// console.log('UpdatePlayPauseButton ' );
+		// console.log('self._music_list.length ' + self._music_list.length);
 		if(self._music_list.length > 0 || self.__yt_player.IsPlaying()){
 			$('#id_btn_play_pause').addClass("play_button");
 			$('#id_btn_next').addClass("play_button");
@@ -254,10 +254,10 @@ function CherryPlayer(){
 		var select_music_idx = 0;
 		{
 			var last_played_music_id = window.localStorage.getItem('PLAYER.LAST_PLAYED_MUSIC_ID');
-			console.log('last_played_music_id ' + last_played_music_id);
+			// console.log('last_played_music_id ' + last_played_music_id);
 			if(last_played_music_id != null){
 				for(var i=0 ; i<self._music_list.length ; i++){
-					console.log('i ' + i + ' == ' + self._music_list[i].music_id);
+					// console.log('i ' + i + ' == ' + self._music_list[i].music_id);
 					if(self._music_list[i].music_id == last_played_music_id){
 						select_music_idx = i;
 						break;
@@ -388,11 +388,11 @@ function CherryPlayer(){
 			$('#id_music_title_' + i).removeClass('playlist_music_highlight');	
 		}
 
-		console.log('HighlightCurrentMusic ');
-		console.log('self._cur_music_idx ' + self._cur_music_idx);
+		// console.log('HighlightCurrentMusic ');
+		// console.log('self._cur_music_idx ' + self._cur_music_idx);
 
 		var id = '#id_music_title_' + self._cur_music_idx;
-		console.log('id ' + id);
+		// console.log('id ' + id);
 		$(id).addClass('playlist_music_highlight');
 	};
 

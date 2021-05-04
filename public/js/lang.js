@@ -54,6 +54,11 @@ const L_ALREADY_ADDED = [];
 	L_ALREADY_ADDED[C_US] = 'Already Added';
 }
 
+const L_SIGN_IN_REQUIRED = [];
+{
+	L_SIGN_IN_REQUIRED[C_US] = "Sign in requred.";
+}
+
 
 
 function TR(L){

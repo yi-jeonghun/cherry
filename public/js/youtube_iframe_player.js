@@ -39,7 +39,7 @@ function YoutubePlayer(){
 	};
 
 	this.OnYouTubeIframeAPIReady = function(){
-		console.log('OnYouTubeIframeAPIReady');
+		// console.log('OnYouTubeIframeAPIReady');
 		self._is_youtube_iframe_api_ready = true;
 		if(self._cb_on_iframe_api_ready){
 			self._cb_on_iframe_api_ready();
@@ -73,7 +73,7 @@ function YoutubePlayer(){
 	};
 
 	this._OnPlayerReady = function(){
-		console.log('_OnPlayerReady');
+		// console.log('_OnPlayerReady');
 		self._is_player_ready = true;
 		var pb_rates = self._player.getAvailablePlaybackRates();
 		var duration = self._player.getDuration();
@@ -216,19 +216,19 @@ function YoutubePlayer(){
 	//==========================================================
 
 	this.LoadAndPlay = function(video_id){
-		console.log('LoadAndPlay ' + video_id);
+		// console.log('LoadAndPlay ' + video_id);
 		self._LoadVideo(video_id);
 		self._auto_start_play_type = AUTO_START_PLAY_TYPE.AUTO_PLAY;
 	};
 
 	this.LoadButNotPlay = function(video_id){
-		console.log('LoadButNotPlay ' + video_id);
+		// console.log('LoadButNotPlay ' + video_id);
 		self._LoadVideo(video_id);
 		self._auto_start_play_type = AUTO_START_PLAY_TYPE.NO_PLAY;
 	};
 
 	this.LoadAndSeekPlay = function(video_id, seek_ms){
-		console.log('LoadAndSeekPlay ' + video_id);
+		// console.log('LoadAndSeekPlay ' + video_id);
 		self._LoadVideo(video_id);
 		self._auto_start_play_type = AUTO_START_PLAY_TYPE.AUTO_SEEK_PKAY;
 		self._auto_seek_ms = seek_ms;

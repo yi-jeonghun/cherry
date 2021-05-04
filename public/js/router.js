@@ -35,11 +35,11 @@ function Router(){
 	//  /<2자리 국가코드>/<feature>.go?key=value&...
 	this.Crossroad = function(path){
 		self._cur_path = path;
-		console.log('path ' + path);
+		// console.log('path ' + path);
 		var path_after_cc = path.substr(4);
 		var path_arr = path_after_cc.split('?');
 		var feature = path_arr[0];
-		console.log('feature ' + feature);
+		// console.log('feature ' + feature);
 
 		var args = path_arr.length > 1 ? path_arr[1] : null;
 		var arg_list = self.ParseArgs(args);
@@ -130,7 +130,7 @@ function Router(){
 			if(statusTxt == "success"){
 				var key = 'SCORLL_TOP-' + self._cur_path;
 				var scroll_top = window.localStorage.getItem(key);
-				console.log('key ' + key + ' ; ' + scroll_top);
+				// console.log('key ' + key + ' ; ' + scroll_top);
 
 				$('.main_div').animate({
 					scrollTop: scroll_top

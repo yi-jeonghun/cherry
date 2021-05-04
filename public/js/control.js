@@ -31,7 +31,7 @@ function Control(){
 		var pathname = document.location.pathname;
 		if(pathname != '/'){
 			var tmp = pathname.substr(1,2);
-			console.log('tmp ' + tmp);
+			// console.log('tmp ' + tmp);
 			if(self.IsSupportedCountryCode(tmp)){
 				country_code = tmp;
 			}
@@ -51,7 +51,7 @@ function Control(){
 		}
 
 		window._country_code = country_code;
-		console.log('window._country_code ' + window._country_code);
+		// console.log('window._country_code ' + window._country_code);
 		window.localStorage.setItem('COUNTRY_CODE', country_code);
 		$('html').attr('lang', COUNTRY_LANG_LIST[window._country_code]);
 		$('#id_btn_flag').attr('src', `/img/flags/${window._country_code}.png`);
@@ -60,7 +60,7 @@ function Control(){
 	this.IsSupportedCountryCode = function(cc){
 		for(var i=0 ; i<COUNTRY_CODE_LIST.length ; i++){
 			if(cc == COUNTRY_CODE_LIST[i]){
-				console.log('supporting ' + cc);
+				// console.log('supporting ' + cc);
 				return true;
 			}
 		}
@@ -133,7 +133,7 @@ function Control(){
 	};
 
 	this.InitComponentHandle = function(){
-		console.log('InitComponentHandle ' );
+		// console.log('InitComponentHandle ' );
 		$('#id_btn_menu_open').on('click', self.OpenMenu);
 		$('#id_btn_close_menu').on('click', self.CloseMenu);
 		$('#id_btn_flag').on('click', self.OnClickFlag);
