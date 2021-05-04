@@ -70,7 +70,9 @@ function ArtistControl(){
 					if(res.err_code == -2){
 						alert(TR(L_SIGN_IN_REQUIRED));
 					}else if(res.err_code == -3){
-						alert(TR(L_ALREADY_ADDED));
+						alert(TR(L_SAME_TITLE_EXISTS));
+					}else if(res.err_code == -4){
+						alert(TR(L_SAME_VIDEO_EXISTS));
 					}else{
 						alert(res.err_msg);
 					}

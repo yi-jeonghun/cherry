@@ -295,20 +295,22 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = 'SELECT count(*) cnt FROM music WHERE artist_id=? and title=? and video_id=?';
-				var val = [music.artist_id, music.title, music.video_id];
+				var sql = `
+					SELECT t.cnt t_cnt, v.cnt v_cnt
+					FROM (
+						SELECT COUNT(*) cnt FROM music WHERE artist_id=? AND title=?
+					) t,
+					(
+						SELECT COUNT(*) cnt FROM music WHERE artist_id=? AND video_id=?
+					) v
+				`;
+				var val = [music.artist_id, music.title, music.artist_id, music.video_id];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
 						reject('FAIL CherryService FindSameMusic #0');
 					}else{
-						if(result.length > 0){
-							if(result[0].cnt > 0){
-								resolve(true);
-							}else{
-								resolve(false);
-							}
-						}
+						resolve(result[0]);
 					}
 				});
 			}catch(err){

@@ -71,13 +71,18 @@ router.post('/add_music', async function(req, res){
 		}
 
 		var music = req.body;
-
-		var found = await cherry_service.FindSameMusic(music);
-		if(found){
+		var result = await cherry_service.FindSameMusic(music);
+		if(result.t_cnt > 0){
 			res.send({
 				ok:0,
 				err_code:-3,
-				err_msg: 'Already registered'
+				err_msg:'Same title exists'
+			});
+		}else if(result.v_cnt > 0){
+			res.send({
+				ok:0,
+				err_code:-4,
+				err_msg:'Same video exists'
 			});
 		}else{
 			var music_id = await cherry_service.AddMusic(music, user_id);

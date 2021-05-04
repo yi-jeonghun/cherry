@@ -49,9 +49,14 @@ const L_SUCCESS = [];
 	L_SUCCESS[C_US] = 'Success';
 }
 
-const L_ALREADY_ADDED = [];
+const L_SAME_TITLE_EXISTS = [];
 {
-	L_ALREADY_ADDED[C_US] = 'Already Added';
+	L_SAME_TITLE_EXISTS[C_US] = 'Same title exists';
+}
+
+const L_SAME_VIDEO_EXISTS = [];
+{
+	L_SAME_VIDEO_EXISTS[C_US] = 'Same video exists';
 }
 
 const L_SIGN_IN_REQUIRED = [];
