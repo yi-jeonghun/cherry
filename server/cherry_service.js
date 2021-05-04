@@ -496,14 +496,15 @@ function CherryService(){
 	this.GetMusicListByArtist = async function(artist_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
-				sql += 'FROM music m ';
-				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
-				sql += 'WHERE m.artist_id = ?';
+				var sql = `
+					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
+					FROM music m 
+					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN user u ON m.user_id = u.user_id
+					WHERE m.artist_id = ?
+				`;
 				var val = [artist_id];
 				conn.query(sql, val, function(err, result){
 					if(err){
@@ -525,17 +526,17 @@ function CherryService(){
 	this.GetMusicListByArtistSearch = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id ';
-				sql += 'FROM music m ';
-				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
-				sql += 'WHERE m.artist_id IN ( ';
-				sql += '	SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%' + keyword + '%" ';
-				sql += ') ';
-
+				var sql = `
+					SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+					FROM music m 
+					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN user u ON m.user_id = u.user_id
+					WHERE m.artist_id IN ( 
+						SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%' + keyword + '%" 
+					) 
+				`;
 				var val = [];
 				conn.query(sql, val, function(err, result){
 					if(err){
@@ -560,10 +561,10 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id
+					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m
-					JOIN artist a
-					ON m.artist_id = a.artist_id
+					JOIN artist a	ON m.artist_id = a.artist_id
+					JOIN user u ON m.user_id = u.user_id
 					WHERE m.artist_id IN (
 						SELECT VA.artist_id FROM artist_various VA WHERE VA.member_artist_id=?
 					)
@@ -590,14 +591,15 @@ function CherryService(){
 	this.SearchMusicListByTitle = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id ';
-				sql += 'FROM music m ';
-				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
-				sql += 'WHERE m.title LIKE "%' + keyword + '%" ';
+				var sql = `
+					SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+					FROM music m 
+					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN user u ON m.user_id = u.user_id
+					WHERE m.title LIKE "%' + keyword + '%" 
+				`;
 
 				var val = [];
 				conn.query(sql, val, function(err, result){
@@ -620,14 +622,15 @@ function CherryService(){
 	this.SearchMusicSmart = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id ';
-				sql += 'FROM music m ';
-				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
-				sql += 'WHERE m.title LIKE "%' + keyword + '%" ';
+				var sql = `
+					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
+					FROM music m 
+					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN user u ON m.user_id = u.user_id
+					WHERE m.title LIKE "%' + keyword + '%" 
+				`;
 
 				var val = [];
 				conn.query(sql, val, function(err, result){

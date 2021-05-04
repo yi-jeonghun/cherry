@@ -209,7 +209,7 @@ router.post('/fetch_VA_music_list_by_artist_id', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to fetch_music_list_by_artist_id'
+			err:'Failed to fetch_VA_music_list_by_artist_id'
 		});
 	}
 });

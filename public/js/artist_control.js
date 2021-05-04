@@ -315,7 +315,7 @@ function ArtistControl(){
 				}
 			}
 			h += `
-				<div class="row my-2 border">
+				<div class="row border">
 					<div class="col-10 col-sm-11 d-flex">
 						<image style="height: 50px; width: 50px;" src="${img_src}">
 						<div class="pl-1">
@@ -338,6 +338,9 @@ function ArtistControl(){
 							<i class="fas fa-plus"></i>
 						</button>
 					</div>
+				</div>
+				<div style="font-size:0.6em; text-align:right">
+						${m.user_name}
 				</div>
 			`;
 		}
