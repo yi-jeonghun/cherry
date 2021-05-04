@@ -186,7 +186,6 @@ function ArtistControl(){
 
 	this.DisplayYoutubeSearchResult = function(){
 		$('#id_div_artist_youtube_search_list').empty();
-		var input_title = $('#id_input_artist_youtube_keyword').val();
 
 		var h = '';
 
@@ -196,14 +195,13 @@ function ArtistControl(){
 			var video_id = video.video_id;
 			var title = video.title;
 			var channel = video.channel;
-			var try_listen = `window._artist_control.TryListen('${self._artist_name}','${input_title}','${video_id}')`;
 			var img_src =  `https://img.youtube.com/vi/${video_id}/0.jpg`;
 			var id_video_duration_str = `id_video_duration-${video_id}`;
 			var id_youtube_video_row_str = `id_youtube_video_row-${video_id}`;
-			var on_click_action = `window._artist_control.OnChooseVideoToAdd('${video_id}')`;
+			var on_click_action = `window._artist_control.OnChooseVideoToAdd('${i}')`;
 
 			h += `
-				<div class="row" style="margin-top:10px; border-bottom: 1px solid #eeeeee" id="${id_youtube_video_row_str}" onClick="${on_click_action}">
+				<div class="row" style="margin-top:10px; border-bottom: 1px solid #eeeeee; cursor:pointer" id="${id_youtube_video_row_str}" onClick="${on_click_action}">
 					<div class="col-12 d-flex">
 						<div>
 							<div>
@@ -211,7 +209,7 @@ function ArtistControl(){
 							</div>
 							<div class="text-right" style="font-size:0.8em" id="${id_video_duration_str}">00:00:00</div>
 						</div>
-						<div class="pl-1" onclick="${try_listen}" style="cursor:pointer">
+						<div class="pl-1">
 							<div class="text-dark">${title}</div>
 							<div class="text-secondary" style="font-size: 0.8em">${channel}</div>
 						</div>
@@ -223,10 +221,11 @@ function ArtistControl(){
 		$('#id_div_artist_youtube_search_list').html(h);
 	};
 
-	this.OnChooseVideoToAdd = function(video_id){
-		self._video_id_to_add = video_id;
+	this.OnChooseVideoToAdd = function(idx){
+		self.TryListen(idx);
+		self._video_id_to_add = self._youtube_video_list[idx].video_id;
 		for(var i=0 ; i<self._youtube_video_list.length ; i++){
-			if(video_id == self._youtube_video_list[i].video_id){
+			if(self._video_id_to_add == self._youtube_video_list[i].video_id){
 				$('#id_youtube_video_row-'+self._youtube_video_list[i].video_id).css('background-color', 'orange');
 			}else{
 				$('#id_youtube_video_row-'+self._youtube_video_list[i].video_id).css('background-color', 'white');
@@ -234,11 +233,12 @@ function ArtistControl(){
 		}
 	};
 
-	this.TryListen = function(artist, title, video_id){
+	this.TryListen = function(idx){
+		var input_title = $('#id_input_artist_youtube_keyword').val();
 		var music = {
-			artist:   artist,
-			title:    title,
-			video_id: video_id
+			artist:   self._artist_name,
+			title:    input_title,
+			video_id: self._youtube_video_list[idx].video_id
 		};
 		window._cherry_player.TryMusic(music);
 	};
@@ -316,7 +316,7 @@ function ArtistControl(){
 			}
 			h += `
 				<div class="row border">
-					<div class="col-10 col-sm-11 d-flex">
+					<div class="col-10 col-sm-11 d-flex" style="padding-left:0px">
 						<image style="height: 50px; width: 50px;" src="${img_src}">
 						<div class="pl-1">
 							<div class="text-dark">${m.title}</div>
@@ -333,7 +333,7 @@ function ArtistControl(){
 							</div>
 						</div>
 					</div>
-					<div class="col-2 col-sm-1">
+					<div class="col-2 col-sm-1" style="padding-top:10px">
 						<button class="btn" type="button" onclick="${fn_listen}">
 							<i class="fas fa-plus"></i>
 						</button>

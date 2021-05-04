@@ -58,8 +58,8 @@ function TopRankControl(){
 
 			h += `
 				<div class="row border">
-					<div class="col-1">${num}</div>
-					<div class="col-9 col-sm-10 d-flex">
+					<div class="col-1 text-center" style="font-size:0.8em; padding-left:2px; padding-top:10px">${num}</div>
+					<div class="col-9 col-sm-10 d-flex" style="padding-left:0px">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 						<div class="pl-1">
 							<div class="text-dark">${m.title}</div>
