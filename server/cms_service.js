@@ -97,10 +97,11 @@ function CMS_Service(){
 			console.log('country_code ' + country_code);
 
 			var sql = `
-				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_id, a.is_various, m.video_id
+				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_id, a.is_various, m.video_id, u.name user_name
 				FROM top_rank_list t
 				JOIN music m ON t.music_id=m.music_id
 				JOIN artist a ON a.artist_id=m.artist_id
+				JOIN user as u ON m.user_id=u.user_id
 				WHERE t.country_code = ?
 			`;
 			var val = [country_code];

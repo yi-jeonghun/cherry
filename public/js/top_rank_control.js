@@ -57,7 +57,7 @@ function TopRankControl(){
 			}
 
 			h += `
-				<div class="row my-2 border">
+				<div class="row border">
 					<div class="col-1">${num}</div>
 					<div class="col-9 col-sm-10 d-flex">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
@@ -76,11 +76,14 @@ function TopRankControl(){
 							</div>
 						</div>
 					</div>
-					<div class="col-1">
+					<div class="col-1" style="padding-top:10px">
 						<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
 							<i class="fas fa-plus"></i>
 						</button>
 					</div>
+				</div>
+				<div style="font-size:0.6em; text-align:right">
+						${m.user_name}
 				</div>
 			`;
 		}
