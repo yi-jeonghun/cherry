@@ -67,7 +67,7 @@ function ArtistControl(){
 		self._video_id_to_add = null;
 		self._youtube_video_list = [];
 		var keyword = $('#id_input_artist_youtube_keyword').val();
-		console.log('keyword ' + keyword);
+		// console.log('keyword ' + keyword);
 		if(keyword == ''){
 			return;
 		}
@@ -108,7 +108,7 @@ function ArtistControl(){
 			video_id_arr.push(video.video_id);
 		}
 		var video_id_list_str = video_id_arr.join(',');
-		console.log('video_id_list_str ' + video_id_list_str);
+		// console.log('video_id_list_str ' + video_id_list_str);
 		var url = `https://www.googleapis.com/youtube/v3/videos?id=${video_id_list_str}&part=snippet,contentDetails&fields=items(etag,id,snippet(publishedAt,title,thumbnails(default(url)),tags),contentDetails(duration))&key=${self._api_key}`;
 		$.ajax({
 			url: url,
@@ -117,7 +117,7 @@ function ArtistControl(){
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function (res) {
-				console.log('res len ' + JSON.stringify(res, null, '\t'));
+				// console.log('res len ' + JSON.stringify(res, null, '\t'));
 				for(var i=0 ; i<res.items.length ; i++){
 					var item = res.items[i];
 					if(i==0){
@@ -126,8 +126,7 @@ function ArtistControl(){
 
 					for(var v=0 ; v<self._youtube_video_list.length ; v++){
 						if(self._youtube_video_list[v].video_id == item.id){
-							var dur = item.contentDetails.duration;
-							dur = dur.replace('PT', '').replace('H', ':').replace('M', ':').replace('S', '');
+							var dur = self.ConvertTimeformat(item.contentDetails.duration);
 							self._youtube_video_list[v].duration = dur;
 							$('#id_video_duration-'+item.id).html(dur);
 							continue;
@@ -136,6 +135,37 @@ function ArtistControl(){
 				}
 			}
 		});	
+	};
+
+	this.ConvertTimeformat = function(pt){
+		console.log('pt ' + pt);
+		var tmp = pt.replace('PT', '');
+		var h = 0;
+		var m = 0;
+		var s = 0;
+		if(tmp.includes('H')){
+			h = tmp.split('H')[0];
+			tmp = tmp.substr(tmp.indexOf('H')+1);
+		}
+		if(tmp.includes('M')){
+			m = tmp.split('M')[0];
+			tmp = tmp.substr(tmp.indexOf('M')+1);
+		}
+		if(tmp.includes('S')){
+			s = tmp.split('S')[0];
+		}
+
+		var h_str = h >= 10 ? h : '0'+h;
+		var m_str = m >= 10 ? m : '0'+m;
+		var s_str = s >= 10 ? s : '0'+s;
+
+		var str = '';
+		if(h > 0){
+			str = h_str + ':' + m_str + ':' + s_str;
+		}else{
+			str = m_str + ':' + s_str;
+		}
+		return str;
 	};
 
 	this.DisplayYoutubeSearchResult = function(){
@@ -163,7 +193,7 @@ function ArtistControl(){
 							<div>
 								<image style="height: 50px; width: 50px;" src="${img_src}">
 							</div>
-							<div class="" style="font-size:0.8em" id="${id_video_duration_str}">00:00:00</div>
+							<div class="text-right" style="font-size:0.8em" id="${id_video_duration_str}">00:00:00</div>
 						</div>
 						<div class="pl-1" onclick="${try_listen}" style="cursor:pointer">
 							<div class="text-dark">${title}</div>
