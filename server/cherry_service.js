@@ -320,14 +320,14 @@ function CherryService(){
 		});
 	};
 
-	this.AddMusic = async function(music){
+	this.AddMusic = async function(music, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO music( artist_id, title, video_id )' +
-					' VALUES (?, ?, ?)';
-				var val = [music.artist_id, music.title, music.video_id];
+				var sql_register = 'INSERT INTO music( artist_id, title, video_id, user_id )' +
+					' VALUES (?, ?, ?, ?)';
+				var val = [music.artist_id, music.title, music.video_id, user_id];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);

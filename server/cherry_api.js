@@ -5,6 +5,7 @@ var cherry_service = require('./cherry_service');
 // var permission_service = require('./permission_service');
 // var sitemap_service = require('./sitemap_service');
 var cms_service = require('./cms_service');
+var auth_service = require('./auth_service');
 
 router.post('/add_artist', async function(req, res){
 	try{
@@ -59,16 +60,27 @@ router.post('/search_artist', async function(req, res){
 
 router.post('/add_music', async function(req, res){
 	try{
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok:0,
+				err_code:-2,
+				err_msg: 'Sign in required'
+			});
+			return;
+		}
+
 		var music = req.body;
 
 		var found = await cherry_service.FindSameMusic(music);
 		if(found){
 			res.send({
-				ok: 0,
-				err: '이미 등록됨'
+				ok:0,
+				err_code:-3,
+				err_msg: 'Already registered'
 			});
 		}else{
-			var music_id = await cherry_service.AddMusic(music);
+			var music_id = await cherry_service.AddMusic(music, user_id);
 			var music_info = await cherry_service.GetMusicInfo(music_id);
 
 			res.send({
@@ -80,7 +92,8 @@ router.post('/add_music', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to add Music'
+			err_code:-1,
+			err_msg:'Failed to add Music'
 		});
 	}
 });

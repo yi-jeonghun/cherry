@@ -92,6 +92,19 @@ function AuthService(){
 			}
 		});
 	};
+
+	this.GetLoginUserID = function(req){
+		if(req == null){
+			return null;
+		}
+		if(req.session === undefined || req.session == null){
+			return null;
+		}
+		if(req.session.user_info === undefined || req.session.user_info == null){
+			return null;
+		}
+		return req.session.user_info.user_id;
+	};
 }
 
 module.exports = new AuthService();

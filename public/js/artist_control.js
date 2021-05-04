@@ -33,6 +33,7 @@ function ArtistControl(){
 
 	this.OnAddMusicClick = function(){
 		if(window._auth_control.IsLogin() == false){
+			console.log('OnAddMusicClick ' );
 			alert(TR(L_SIGN_IN_REQUIRED));
 			return;
 		}
@@ -65,7 +66,14 @@ function ArtistControl(){
 					alert(TR(L_SUCCESS));
 					self.GetMusicList();
 				}else{
-					alert(TR(L_ALREADY_ADDED));
+					console.log('res.err_code ' + res.err_code);
+					if(res.err_code == -2){
+						alert(TR(L_SIGN_IN_REQUIRED));
+					}else if(res.err_code == -3){
+						alert(TR(L_ALREADY_ADDED));
+					}else{
+						alert(res.err_msg);
+					}
 				}
 			}
 		});
