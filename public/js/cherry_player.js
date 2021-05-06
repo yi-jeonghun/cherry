@@ -578,4 +578,9 @@ function CherryPlayer(){
 
 		$('#id_div_duration').html(htm);
 	};
+
+	this.SeekToPercent = function(percent){
+		var seek_ms = self._play_time_ms/100 * percent;
+		self.__yt_player.SeekAndPlay(seek_ms);
+	};
 }

@@ -536,7 +536,7 @@ function CherryService(){
 					JOIN artist a ON m.artist_id = a.artist_id 
 					JOIN user u ON m.user_id = u.user_id
 					WHERE m.artist_id IN ( 
-						SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%' + keyword + '%" 
+						SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%${keyword}%" 
 					) 
 				`;
 				var val = [];
@@ -600,7 +600,7 @@ function CherryService(){
 					FROM music m 
 					JOIN artist a ON m.artist_id = a.artist_id 
 					JOIN user u ON m.user_id = u.user_id
-					WHERE m.title LIKE "%' + keyword + '%" 
+					WHERE m.title LIKE "%${keyword}%" 
 				`;
 
 				var val = [];
@@ -621,7 +621,7 @@ function CherryService(){
 		});
 	};
 
-	this.SearchMusicSmart = async function(keyword){
+	this.SearchMusicSmart = async function(){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -631,7 +631,7 @@ function CherryService(){
 					FROM music m 
 					JOIN artist a ON m.artist_id = a.artist_id 
 					JOIN user u ON m.user_id = u.user_id
-					WHERE m.title LIKE "%' + keyword + '%" 
+					WHERE m.title LIKE "%${keyword}%" 
 				`;
 
 				var val = [];
