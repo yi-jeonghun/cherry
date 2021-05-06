@@ -52,7 +52,7 @@ function ParserApple1() {
 							// console.log('artist found');
 							artist = self.ExtractArtist(line);
 							artist = artist.replace(/&amp;/g, ',');
-							artist = artist.replace(' ,', ',');
+							artist = artist.replace(/ ,/g, ',');
 							self._music_list.push({
 								title: title,
 								artist: artist
