@@ -693,6 +693,9 @@ function TopRankControl(){
 
 		for(var i=0 ; i<self._searched_music_list.length ; i++){
 			var m = self._searched_music_list[i];
+
+			var on_click = `window._top_rank_control.UseThisMusicID(${i})`;
+
 			h += `
 			<tr>
 				<td>${m.music_id}</td>
@@ -700,7 +703,7 @@ function TopRankControl(){
 				<td>${m.title}</td>
 				<td>${m.video_id}</td>
 				<td>
-					<button type="button" class="btn btn-sm btn-primary" onClick="UseThisMusicID(${i})">OK</button>
+					<button type="button" class="btn btn-sm btn-primary" onClick="${on_click}">OK</button>
 				</td>
 			</tr>`;
 		}
