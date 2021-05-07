@@ -1,6 +1,7 @@
 $('document').ready(function(){
 	window._top_rank_control = new TopRankControl().Init();
-	window._cherry_player = new CherryPlayer().Init();
+	var is_for_single_play = true;
+	window._cherry_player = new CherryPlayer().Init(is_for_single_play);
 });
 
 //-----------------------------------------------------------------
@@ -589,7 +590,8 @@ function TopRankControl(){
 
 	this.OnTimeBarClick = function(e){
 		var ele = $('.slider_line_div');
-		var left = ele.position().left;
+		// var left = ele.position().left;
+		var left = ele.offset().left;
 		var width = ele.width();
 		var click_x = e.pageX;
 

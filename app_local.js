@@ -1,3 +1,6 @@
+console.log('============');
+console.log('Server Start');
+
 const fs = require('fs');
 const http = require('http');
 const https = require('https');

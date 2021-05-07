@@ -56,6 +56,7 @@ function YoutubePlayer(){
 
 	this._LoadVideo = function(video_id){
 		self._video_id = video_id;
+		console.log('self._video_id ' + self._video_id);
 
 		if(self._player == null){
 			self._player = new YT.Player('player', {
@@ -137,6 +138,8 @@ function YoutubePlayer(){
 		if(self._player == null){
 			return;
 		}
+
+		console.log('self._video_id ' + self._video_id);
 
 		self._player.cueVideoById({
 			videoId:self._video_id,

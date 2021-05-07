@@ -1,0 +1,91 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+	<script src="/js/util.js"></script>
+
+	<!-- 순서 주위 -->
+	<script type="text/javascript" src="/js/const/country_code.js"></script>
+	<script type="text/javascript" src="/js/const/country_data.js"></script>
+	<script type="text/javascript" src="/js/lang.js"></script>
+	<!-- 순서 주위 -->
+</head>
+<body style="width: 100%; height: 100%;">
+	<div class="container-fluid" style="height: 100%; width:100%; overflow: hidden;">
+		<div class="row border" style="height: 30px;">
+			<div class="col-12">
+				<%- include('menu.ejs') %>
+			</div>
+		</div>
+
+		<div class="row border" style="height: 70px;">
+			<div class="col-3">
+				<h5>Artist</h5>
+			</div>
+		</div>
+
+		<div class="row" style="height: calc(100% - 100px); overflow: hidden;">
+			<!-- LEFT -->
+			<div class="col-6 border" style="height: 100%;">
+				<div class="container-fluid px-0">
+					<div class="row">
+						<!-- ARTIST LIST -->
+						<div class="col-4">
+							<input type="text" class="form-control" placeholder="Artist" aria-label="Artist" aria-describedby="button-addon4" id="id_input_artist_keyword">
+							<div id="id_div_artist_list"></div>
+						</div>
+						<!-- MUSIC LIST -->
+						<div class="col-5">
+							<div>
+								Artist : <span id="id_label_artist_name"></span>
+							</div>
+							<div class="d-flex">
+								<div>Title</div>
+								<div><input type="input" class="form-control" id="id_input_music_search_keyword"></div>
+								<div><button type="button" class="btn btn-primary" id="id_btn_search_youtube">Youtube</button></div>
+							</div>
+							<div id="id_div_music_list"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- RIGHT -->
+			<div class="col-6 border" style="height: 100%;">
+				<div class="container-fluid" style="height: 100%;">
+					<!-- PLAYER TEST -->
+					<div class="row border" style="height: 100px;">
+						<div class="col-12">
+							<div id="id_div_play_test"             style="overflow: auto; width: 100%; border-top: 1px solid black; display: flex;">
+								<div id="player" style="width: 90; height: 90; border: 1px solid black;"></div>
+								<div>
+									<i id="id_btn_play_pause" class="fas fa-play          play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
+								</div>
+								<div class="border" style="width: 100%;">
+									<div class="slider_line_div border" style="width: 100%; height: 20px; background-color: aqua;">
+										<div class="slider_fill" id="id_slider_fill" style="height: 100%; width: 0%; background-color: red;	font-size: 2px;">&nbsp</div>
+									</div>
+									<div id="id_div_duration"></div>
+								</div>
+							</div>					
+						</div>
+					</div>
+
+					<!-- YOUTUBE SEARCH -->
+					<div class="row border" style="height: calc( 100% - 100px); overflow: auto; ">
+						<div class="col-12" >
+							<div id="id_div_youtube_search_result" style="width: 100%; border-top: 1px solid black;">
+								Youtube search
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+<script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/js/youtube_search_control.js"></script>
+<script type="text/javascript" src="/__cms/js/cms_artist_control.js"></script>

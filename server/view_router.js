@@ -83,7 +83,7 @@ router.get('/__cms/artist.vu', async function(req, res){
 		res.render('no_permission');
 		return;
 	}
-	res.render('__cms/artist', null);
+	res.render('__cms/cms_artist', null);
 });
 
 router.get('/__cms/album.vu', async function(req, res){
@@ -101,7 +101,7 @@ router.get('/__cms/top_rank.vu', async function(req, res){
 		res.render('no_permission');
 		return;
 	}
-	res.render('__cms/top_rank', null);
+	res.render('__cms/cms_top_rank', null);
 });
 
 router.get('/__cms/music.vu', async function(req, res){

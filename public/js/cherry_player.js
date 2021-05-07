@@ -23,8 +23,12 @@ function CherryPlayer(){
 	this._b_volume_show = false;
 	this._id_slider_fill = null;
 	this._is_edit_mode = false;
+	this._is_for_single_play = true;
 
-	this.Init = function(){
+	this.Init = function(is_for_single_play){
+		if(is_for_single_play != undefined){
+			self._is_for_single_play = is_for_single_play;
+		}
 		self.CreateYoutubePlayer();
 
 		$('#id_player_music_list_div').hide();
@@ -45,7 +49,9 @@ function CherryPlayer(){
 	//===========================================================================
 	//youtube iframe api가 준비된 상태이므로 이 단계에서는 Load를 할 수 있음.
 	this.OnYouTubeIframeAPIReady = function(){
-		self.ReloadPlayList();
+		if(self._is_for_single_play == false){
+			self.ReloadPlayList();
+		}
 	};
 
 	//Load가 된 상태이므로 play를 할 수 있음.
@@ -211,6 +217,7 @@ function CherryPlayer(){
 	};
 
 	this.TryMusic = function(music){
+		console.log('music.video_id ' + music.video_id);
 		self.__yt_player.LoadAndPlay(music.video_id);
 		self.DisplayTitleArtist(music.title, music.artist);
 	};
