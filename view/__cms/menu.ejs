@@ -1,8 +1,13 @@
-<div>
-
-	<a href="/__cms">[main]</a>
-	<a href="/__cms/artist.vu">[artist]</a>
-	<a href="/__cms/top_rank.vu">[top rank]</a>
-	<a href="/__cms/music.vu">[music]</a>
-
+<div class="d-flex">
+	<div class="w-50">
+		<a href="/__cms">[main]</a>
+		<a href="/__cms/artist.vu">[artist]</a>
+		<a href="/__cms/top_rank.vu">[top rank]</a>
+		<a href="/__cms/music.vu">[music]</a>
+		<a href="/__cms/playlist.vu">[playlist]</a>
+	</div>
+	<div class="w-50 text-right small">
+		<%- include('../include/google_auth_html.ejs') %>
+		<%- include('../include/google_auth_js.ejs') %>
+	</div>
 </div>

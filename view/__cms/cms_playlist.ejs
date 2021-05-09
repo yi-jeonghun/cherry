@@ -1,0 +1,114 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+	<script src="/js/util.js"></script>
+
+	<!-- 순서 주위 -->
+	<script type="text/javascript" src="/js/const/country_code.js"></script>
+	<script type="text/javascript" src="/js/const/country_data.js"></script>
+	<script type="text/javascript" src="/js/lang.js"></script>
+	<!-- 순서 주위 -->
+</head>
+<body style="width: 100%; height: 100%;">
+	<div class="container-fluid" style="height: 100%; width:100%; overflow: hidden;">
+		<div class="row border" style="height: 30px;">
+			<div class="col-12">
+				<%- include('menu.ejs') %>
+			</div>
+		</div>
+
+		<div class="row border" style="height: 70px;">
+			<div class="col-3">
+				<h5>Playlist</h5>
+			</div>
+		</div>
+
+		<div class="row border" style="height: calc(100% - 100px); overflow: hidden;">
+			<!-- LIST OF PLAYLIST -->
+			<div class="col-3 border" style="height: 100%; overflow: auto;">
+				<div class="d-flex">
+					<div class="w-50">
+						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_new">New Playlist</button>
+					</div>
+					<div class="w-50 text-right">
+						<img id="id_img_playlist_country" data-toggle="modal" data-target="#modal_choose_country" style="width: 30px; border: solid 0.5px #bbbbbb; cursor: pointer;">
+					</div>	
+				</div>
+				<div id="id_div_playlist_list">
+
+				</div>
+			</div>
+
+			<!-- NEW OR EDIT PLAYLIST INFORMATION -->
+			<div class="col-3 border" style="height: 100%; overflow: auto;">
+				<div class="py-1">
+					Edit Mode : <span id="id_leable_playlist_edit_mode"></span>
+				</div>
+				<div class="py-1">
+					Playlist ID : <span id="id_label_playlist_id"></span>
+				</div>
+				<div class="py-1">
+					Country Code : <span id="id_label_playlist_country_code"></span>
+				</div>
+				<div class="py-1">
+					User ID : <span id="id_label_playlist_user_id"></span>
+				</div>
+				<div class="py-1">
+					Title : <input type="text" class="form-control" id="id_input_playlist_title">
+				</div>
+				<div class="py-1">
+					Comment : <input type="text" class="form-control" id="id_input_playlist_comment">
+				</div>
+				<div class="py-1">
+					Is Open : <input type="checkbox" id="id_checkbox_playlist_is_open">
+				</div>
+				<div class="py-1">
+					Time Created : <span id="id_label_time_created"></span>
+				</div>
+				<div class="py-1">
+					Time Updated : <span id="id_label_time_updated"></span>
+				</div>
+				<div class="py-1 text-right">
+					<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_save">Save</button>
+				</div>
+			</div>
+
+			<!-- MUSIC LIST OF PLAYLIST -->
+			<div class="col-3 border" style="height: 100%; overflow: auto;" id="id_div_playlist_music_list">
+			</div>
+
+			<!-- SEARCH AREA -->
+			<div class="col-3 border" style="height: 100%; overflow: auto;">
+				<div class="d-flex">
+					<div class="w-50">
+						<input type="text" class="form-control" id="id_input_playlist_search_keyword">
+					</div>
+					<div class="w-50 py-1 text-right">
+						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_search_artist">Artist</button>
+						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_search_music">Music</button>
+					</div>
+				</div>
+				<div id="id_div_playlist_search_music_list"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_choose_country" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="id_modal_choose_country" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="id_modal_choose_country">Country</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" id="id_div_country_list"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+<script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/__cms/js/cms_playlist_control.js"></script>

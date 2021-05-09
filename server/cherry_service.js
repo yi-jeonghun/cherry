@@ -525,6 +525,38 @@ function CherryService(){
 		});
 	};
 
+	this.GetMusicListByArtistNameLike = async function(artist_name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					SELECT m.music_id, m.artist_id, a.name AS artist, m.title, m.video_id, m.user_id
+					FROM music m
+					JOIN artist a ON m.artist_id=a.artist_id
+					WHERE m.artist_id IN(
+					SELECT aa.artist_id FROM artist aa WHERE LOWER(aa.name) LIKE ?
+					)
+					ORDER BY a.name
+				`;
+				var val = [artist_name + '%'];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicListByArtistNameLike #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicListByArtistNameLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.GetMusicListByArtistSearch = async function(keyword){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -646,6 +678,252 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService SearchMusicListByTitle #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddPlaylist = async function(playlist, user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				INSERT INTO playlist(country_code, user_id, title, comment, like_count, is_open, timestamp_created,   timestamp_updated) 
+				VALUES(              ?,            ?,        ?,    ?,       0,          ?,       CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() )
+				`;
+				var is_open = playlist.is_open == true ? 'Y' : 'N';
+				var val = [playlist.country_code, user_id, playlist.title, playlist.title, is_open];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddPlaylist #0');
+					}else{
+						resolve(result.insertId);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddPlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdatePlaylist = async function(playlist, user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'UPDATE playlist SET ?, timestamp_updated=CURRENT_TIMESTAMP() WHERE ?';
+				var val = [
+					{
+						country_code: playlist.country_code,
+						user_id: user_id,
+						title: playlist.title,
+						comment: playlist.comment,
+						is_open: playlist.is_open == true ? 'Y':'N',
+					},
+					{
+						playlist_id: playlist.playlist_id
+					}
+				];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdatePlaylist #0');
+					}else{
+						resolve(result.insertId);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdatePlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+
+	this.GetPlaylistInfo = async function(playlist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT playlist_id, country_code, user_id, title, comment, like_count, is_open, timestamp_created, timestamp_updated
+				FROM playlist
+				WHERE playlist_id=?
+				`;
+				var val = [playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetPlaylistInfo #0');
+					}else{
+						if(result.length > 0){
+							resolve(result[0]);
+						}else{
+							reject('FAIL CherryService No Playlist of playlist_id ' + playlist_id);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetPlaylistInfo #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetPlaylistList = async function(country_code){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT playlist_id, country_code, user_id, title, comment, like_count, is_open, timestamp_created, timestamp_updated
+				FROM playlist
+				WHERE country_code=?
+				`;
+				var val = [country_code];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetPlaylistList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetPlaylistList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdatePlaylistMusic = async function(playlist_id, music_id_list){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				await self.DeletePlaylistMusics(conn, playlist_id);
+				for(var i=0 ; i<music_id_list.length ; i++){
+					var sort = (i+1);
+					await self.AddPlaylistMusic(conn, playlist_id, music_id_list[i], sort);
+				}
+				resolve();
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetPlaylistList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeletePlaylistMusics = async function(conn, playlist_id){
+		return new Promise(function(resolve, reject){
+			try{
+				var sql = `DELETE FROM playlist_music WHERE playlist_id=?`;
+				var val = [playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeletePlaylistMusics #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeletePlaylistMusics #1');
+			}
+		});
+	};
+
+	this.AddPlaylistMusic = async function(conn, playlist_id, music_id, sort){
+		return new Promise(function(resolve, reject){
+			try{
+				var sql = `
+				INSERT INTO playlist_music (playlist_id, music_id, sort)
+				VALUES (?, ?, ?)
+				`;
+				var val = [playlist_id, music_id, sort];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddPlaylistMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddPlaylistMusic #1');
+			}
+		});
+	};
+
+	this.GetPlaylistMusicList = async function(playlist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+				FROM music m 
+				JOIN artist a ON m.artist_id = a.artist_id 
+				JOIN user u ON m.user_id = u.user_id
+				WHERE m.music_id IN(
+					SELECT pm.music_id FROM playlist_music pm WHERE playlist_id=?
+				)
+				`;
+				var val = [playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetPlaylistMusicList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetPlaylistMusicList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeletePlaylist = async function(playlist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				DELETE FROM playlist WHERE playlist_id=?
+				`;
+				var val = [playlist_id];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeletePlaylist #0');
+					}else{
+						await self.DeletePlaylistMusics(conn, playlist_id);
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeletePlaylist #1');
 			}finally{
 				if(conn) conn.release();
 			}

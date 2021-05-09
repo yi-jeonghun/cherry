@@ -113,6 +113,14 @@ router.get('/__cms/music.vu', async function(req, res){
 	res.render('__cms/music', null);
 });
 
+router.get('/__cms/playlist.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
+	res.render('__cms/cms_playlist', null);
+});
 
 
 

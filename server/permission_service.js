@@ -3,6 +3,24 @@ const db_conn = require('./db_conn');
 function PermissionService() {
 	var self = this;
 
+	this.GetUserID = async function(req){
+		return new Promise(function(resolve, reject){
+			if(req == null){
+				reject('req null');
+				return;
+			}
+			if(req.session === undefined || req.session == null){
+				reject('no session');
+				return;
+			}
+			if(req.session.user_info === undefined || req.session.user_info == null){
+				reject('no user_info');
+				return;
+			}
+			resolve(req.session.user_info.user_id);
+		});
+	};
+
 	this.IsAdmin = async function (user_info) {
 		return new Promise(async function (resolve, reject) {
 			if(user_info == 'undefined' || user_info == undefined || user_info == null){

@@ -2,7 +2,7 @@ var express = require('express');
 var url = require('url');
 var router = express.Router();
 var cherry_service = require('./cherry_service');
-// var permission_service = require('./permission_service');
+var permission_service = require('./permission_service');
 // var sitemap_service = require('./sitemap_service');
 var cms_service = require('./cms_service');
 var auth_service = require('./auth_service');
@@ -331,11 +331,27 @@ router.post('/search_artist_music_like', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail /top_rank/search_artist_music_like'
+			err:'Fail search_artist_music_like'
 		});
 	}
 });
 
+router.post('/search_music_list_by_artist_name_like', async function(req, res){
+	try{
+		var keyword = req.body.keyword;
+		var music_list = await cherry_service.GetMusicListByArtistNameLike(keyword);
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail search_music_list_by_artist_name_like'
+		});
+	}
+});
 
 router.post('/search_artist_like', async function(req, res){
 	try{
@@ -349,7 +365,97 @@ router.post('/search_artist_like', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail /top_rank/search_artist_like'
+			err:'Fail search_artist_like'
+		});
+	}
+});
+
+router.post('/add_playlist', async function(req, res){
+	try{
+		var user_id = await permission_service.GetUserID(req);
+		var playlist = req.body;
+		var playlist_id = await cherry_service.AddPlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
+		res.send({
+			ok: 1,
+			playlist_id: playlist_id
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_playlist'
+		});
+	}
+});
+
+router.post('/update_playlist', async function(req, res){
+	try{
+		var user_id = await permission_service.GetUserID(req);
+		var playlist = req.body;
+		console.log('playlist id ' + playlist.playlist_id);
+		await cherry_service.UpdatePlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist.playlist_id, playlist.music_id_list);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_playlist'
+		});
+	}
+});
+
+router.post('/get_playlist_info', async function(req, res){
+	try{
+		var playlist_id = req.body.playlist_id;
+		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_id);
+		var music_list = await cherry_service.GetPlaylistMusicList(playlist_id);
+		res.send({
+			ok: 1,
+			playlist_info: playlist_info,
+			music_list: music_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_playlist_info'
+		});
+	}
+});
+
+router.post('/get_playlist_list', async function(req, res){
+	try{
+		var country_code = req.body.country_code;
+		var playlist_list = await cherry_service.GetPlaylistList(country_code);
+		res.send({
+			ok: 1,
+			playlist_list: playlist_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_playlist_list'
+		});
+	}
+});
+
+router.post('/delete_playlist', async function(req, res){
+	try{
+		var playlist_id = req.body.playlist_id;
+		await cherry_service.DeletePlaylist(playlist_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_playlist'
 		});
 	}
 });
