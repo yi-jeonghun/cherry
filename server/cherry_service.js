@@ -780,7 +780,7 @@ function CherryService(){
 		});
 	};
 
-	this.GetPlaylistList = async function(country_code){
+	this.GetPlaylistList = async function(country_code, mine_only, open_only, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -790,7 +790,16 @@ function CherryService(){
 				FROM playlist
 				WHERE country_code=?
 				`;
+
+				if(mine_only){
+					sql += 'AND user_id=?';
+				}
+
 				var val = [country_code];
+				if(mine_only){
+					val.push(user_id);
+				}
+
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

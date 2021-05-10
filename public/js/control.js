@@ -141,7 +141,7 @@ function Control(){
 
 		//MENU Buttons
 		$('#id_btn_menu_top_100').on('click', self.OnClickMenuTop100);
-		$('#id_btn_menu_playlist').on('click', self.OnClickMenuPlaylist);
+		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
 		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
 	};
 
@@ -150,8 +150,8 @@ function Control(){
 		self.CloseMenu();
 	};
 
-	this.OnClickMenuPlaylist = function(){
-		window._router.Go(`/${window._country_code}/playlist.go`);
+	this.OnClickMenuMyPlaylist = function(){
+		window._router.Go(`/${window._country_code}/my_playlist.go`);
 		self.CloseMenu();
 	};
 

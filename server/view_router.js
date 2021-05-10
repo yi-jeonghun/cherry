@@ -32,13 +32,13 @@ router.get('/**/search.go', async function(req, res){
 	});
 });
 
-router.get('/**/playlist.go', async function(req, res){
+router.get('/**/my_playlist.go', async function(req, res){
 	res.render('index', {
 		dev_mode: _dev_mode
 	});
 });
 
-router.get('/**/playlist_detail.go', async function(req, res){
+router.get('/**/my_playlist_detail.go', async function(req, res){
 	res.render('index', {
 		dev_mode: _dev_mode
 	});
@@ -72,14 +72,15 @@ router.get('/search.vu', async function(req, res){
 	res.render('search', data);
 });
 
-router.get('/playlist.vu', async function(req, res){
+router.get('/my_playlist.vu', async function(req, res){
 	var data = {
 		dev_mode: _dev_mode
 	};
-	res.render('playlist', data);
+	res.render('my_playlist', data);
 });
 
-router.get('/playlist_detail.vu', async function(req, res){
+router.get('/my_playlist_detail.vu', async function(req, res){
+	console.log('my_playlist_detail ' );
 	var playlist_name = req.query.pn;
 	var playlist_id = req.query.pid;
 	var data = {
@@ -87,7 +88,7 @@ router.get('/playlist_detail.vu', async function(req, res){
 		playlist_id    : playlist_id,
 		dev_mode       : _dev_mode
 	};
-	res.render('playlist_detail', data);
+	res.render('my_playlist_detail', data);
 });
 
 //####################################################################################//

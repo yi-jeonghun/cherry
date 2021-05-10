@@ -430,7 +430,19 @@ router.post('/get_playlist_info', async function(req, res){
 router.post('/get_playlist_list', async function(req, res){
 	try{
 		var country_code = req.body.country_code;
-		var playlist_list = await cherry_service.GetPlaylistList(country_code);
+		var mine_only = req.body.mine_only;
+		var open_only = req.body.open_only;
+		var user_id = await permission_service.GetUserID(req);
+
+		if(mine_only && user_id == null){
+			res.send({
+				ok:0,
+				err:'Fail get_playlist_list. No user ID.'
+			});
+			return;
+		}
+
+		var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, user_id);
 		res.send({
 			ok: 1,
 			playlist_list: playlist_list
