@@ -32,13 +32,22 @@ router.get('/**/search.go', async function(req, res){
 	});
 });
 
+router.get('/**/playlist.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
+router.get('/**/playlist_detail.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 //inline pages
-
 router.get('/top_rank.vu', async function(req, res){
-	var country_code = req.query.country_code;
 	var data = {
-		country_code:country_code,
 		dev_mode: _dev_mode
 	};
 	res.render('top_rank', data);
@@ -46,7 +55,7 @@ router.get('/top_rank.vu', async function(req, res){
 
 router.get('/artist.vu', async function(req, res){
 	var artist_name = req.query.a;
-
+	//FIXME artist_id를 argument로 넘길 것.
 	var ret_data = await cherry_service.SearchArtist(artist_name);
 
 	var data = {
@@ -57,12 +66,28 @@ router.get('/artist.vu', async function(req, res){
 });
 
 router.get('/search.vu', async function(req, res){
-	var country_code = req.query.country_code;
 	var data = {
-		country_code:country_code,
 		dev_mode: _dev_mode
 	};
 	res.render('search', data);
+});
+
+router.get('/playlist.vu', async function(req, res){
+	var data = {
+		dev_mode: _dev_mode
+	};
+	res.render('playlist', data);
+});
+
+router.get('/playlist_detail.vu', async function(req, res){
+	var playlist_name = req.query.pn;
+	var playlist_id = req.query.pid;
+	var data = {
+		playlist_name  : playlist_name,
+		playlist_id    : playlist_id,
+		dev_mode       : _dev_mode
+	};
+	res.render('playlist_detail', data);
 });
 
 //####################################################################################//

@@ -47,6 +47,8 @@ function Router(){
 		{
 			$('#id_router-top_rank').hide();
 			$('#id_router-artist').hide();
+			$('#id_router-playlist').hide();
+			$('#id_router-playlist_detail').hide();
 			$('#id_router-search').hide();
 		}
 
@@ -62,6 +64,14 @@ function Router(){
 			case 'search.go':
 				$('#id_router-search').show();
 				self.GoTo_Search();
+				break;
+			case 'playlist.go':
+				$('#id_router-playlist').show();
+				self.GoTo_Playlist();
+				break;
+			case 'playlist_detail.go':
+				$('#id_router-playlist_detail').show();
+				self.GoTo_PlaylistDetail(args, arg_list);
 				break;
 		}
 	};
@@ -96,6 +106,19 @@ function Router(){
 		var route_url = '/search.vu';
 		self.LoadInnerView(target_div, route_url);
 	};
+
+	this.GoTo_Playlist = function(){
+		var target_div = 'id_router-playlist';
+		var route_url = '/playlist.vu';
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_PlaylistDetail = function(args, arg_list){
+		var target_div = 'id_router-playlist_detail';
+		var route_url = '/playlist_detail.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
+
 	this.UpdateMeta = function(title, keywords, desc){
 		$('title').text(title);
 		$("meta[property='og:title']").attr("content", title);

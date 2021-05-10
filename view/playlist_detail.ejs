@@ -1,0 +1,31 @@
+
+<div class="container">
+	<div class="row">
+		<div class="col-8">
+			<h5>Playlist</h5>
+			<div id="id_label_playlist_title"></div>
+		</div>
+		<div class="col-4 text-right">
+			<!-- FIXME -->
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_detail_listen_all">
+				<span>All</span>
+				<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top:10px">
+		<div class="col-12">
+			<!-- FIXME -->
+			<div class="container-fluid" id="id_div_playlist_music_list">
+			</div>			
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/playlist_detail_control.js"></script>
+<script>
+	$('document').ready(function(){
+		window._playlist_detail_control = new PlaylistDetailControl('<%=playlist_name%>', '<%=playlist_id%>').Init();
+	});
+	</script>
