@@ -1,0 +1,323 @@
+function MyPlaylistDetailControl(playlist_name, playlist_id){
+	var self = this;
+	this._playlist_name = decodeURI(playlist_name);
+	this._playlist_id = playlist_id;
+	this._playlist_info = null;
+	this._music_list = [];
+	this._is_edit_mode = false;
+	this._searched_artist_list = [];
+	this._searched_music_list = [];
+	this._music_id_list_to_add = [];
+
+	this.Init = function(){
+		self.InitHandle();
+		self.LoadPlaylistDetail();
+		return self;
+	};
+
+	this.InitHandle = function(){
+		$('#id_btn_playlist_detail_listen_all').on('click', self.ListenAll);
+		$('#id_btn_my_playlist_detail_edit_mode_toggle').on('click', self.OnClick_id_btn_my_playlist_detail_edit_mode_toggle);
+		$('#id_btn_my_playlist_detail_add_music').on('click', self.OnClick_id_btn_my_playlist_detail_add_music);
+		$('#id_btn_my_playlist_detail_close_add').on('click', self.OnClick_id_btn_my_playlist_detail_close_add);
+		$('#id_input_my_playlist_detail_search_keyword').keyup(self.OnChangeKeyword);
+		$('#id_btn_my_playlist_detail_add_music_complete').on('click', self.OnClick_id_btn_my_playlist_detail_add_music_complete);
+	};
+
+	this.OnClick_id_btn_my_playlist_detail_add_music_complete = function(){
+		var req_data = {
+			playlist_id: self._playlist_id,
+			music_id_list: self._music_id_list_to_add,
+			begin_order: self._music_list.length+1
+		};
+
+		$.ajax({
+			url: '/cherry_api/add_music_list_to_playlist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._searched_artist_list = [];
+					self._searched_music_list = [];
+					$('#id_div_my_playlist_detail_search_result').empty();
+					self.OnClick_id_btn_my_playlist_detail_close_add();
+					self.LoadPlaylistDetail();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	this.OnChangeKeyword = function(){
+		var keyword = $('#id_input_my_playlist_detail_search_keyword').val();
+		self.Search(keyword);
+	};
+
+	this.Search = function(keyword){
+		keyword = keyword.trim();
+		if(keyword == ''){
+			return;
+		}
+
+		self._searched_artist_list = [];
+		self._searched_music_list = [];
+
+		var req_data = {
+			keyword: keyword
+		};
+
+		$.ajax({
+			url: '/cherry_api/search_artist_music_like',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._searched_artist_list = res.artist_list;
+					self._searched_music_list = res.music_list;
+					self.DisplaySearchResult();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	this.OnClick_id_btn_my_playlist_detail_add_music = function(){
+		$('#id_div_my_playlist_detail').hide();
+		$('#id_div_my_playlist_add_music').show();
+	};
+
+	this.OnClick_id_btn_my_playlist_detail_close_add = function(){
+		$('#id_div_my_playlist_detail').show();
+		$('#id_div_my_playlist_add_music').hide();
+	};
+
+	this.OnClick_id_btn_my_playlist_detail_edit_mode_toggle = function(){
+		self._is_edit_mode = !self._is_edit_mode;
+		self.DISP_music_list();	
+	};
+
+	this.ListenAll = function(){
+		window._cherry_player.LoadMusicList(self._music_list);
+	};
+
+	this.AddMusic = function(idx){
+		window._cherry_player.AddMusic(self._music_list[idx]);
+	};
+
+	this.DeleteMusic = function(idx){
+		var req_data = {
+			playlist_id: self._playlist_id,
+			music_id: self._music_list[idx].music_id
+		};
+
+		$.ajax({
+			url: '/cherry_api/delete_music_from_playlist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.LoadPlaylistDetail();
+				}else{
+					alert(res.err);
+				}
+			}
+		});		
+	};
+
+	this.LoadPlaylistDetail = function(){
+		console.log('playlist_id ' + self._playlist_id);
+		var req_data = {
+			playlist_id: self._playlist_id
+		};
+
+		$.ajax({
+			url: '/cherry_api/get_playlist_info',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._music_list = res.music_list;
+					self._playlist_info = res.playlist_info;
+					self.DISP_playlist_info();
+					self.DISP_music_list();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.ChooseMusicToAdd = function(idx){
+		var music_id = self._searched_music_list[idx].music_id;
+		self._music_id_list_to_add.push(music_id);
+		// _music_list_to_add가 0보다 크면 X 버튼 대신 완료 버튼으로 바꾸기.
+		// 선택된 음악의 체크박스 색을 파란색으로.
+		$('#id_music_checkbox-'+idx).css('color', 'green');
+
+		$('#id_btn_my_playlist_detail_close_add').hide();
+		$('#id_btn_my_playlist_detail_add_music_complete').show();
+	};
+
+	///////////////////////////////////////////////////////////////////
+
+	this.DISP_playlist_info = function(){
+		$('#id_label_playlist_title').html(self._playlist_name);
+	};
+
+	this.DISP_music_list = function(){
+		var h = '';
+
+		var btn_listen_disp = '';
+		var btn_trash_disp = '';
+		if(self._is_edit_mode){
+			btn_listen_disp = 'display:none';
+			btn_trash_disp = '';
+		}else{
+			btn_listen_disp = '';
+			btn_trash_disp = 'display:none';
+		}
+
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i];
+			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+			var on_click_listen = `window._my_playlist_detail_control.AddMusic(${i})`;
+			var on_click_delete = `window._my_playlist_detail_control.DeleteMusic(${i})`;
+
+			var artist_list = [];
+			{
+				var artist_arr = m.artist.split(',');
+				for(var j=0 ; j<artist_arr.length ; j++){
+					var name = artist_arr[j].trim();
+					var name_encoded = encodeURI(artist_arr[j].trim());
+					artist_list.push({
+						name: name,
+						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+					});
+				}
+			}
+			h += `
+				<div class="row border">
+					<div class="col-10 col-sm-11 d-flex" style="padding-left:0px">
+						<image style="height: 50px; width: 50px;" src="${img_src}">
+						<div class="pl-1">
+							<div class="text-dark">${m.title}</div>
+							<div class="text-secondary" style="font-size:0.8em">
+			`;
+
+			for(var k=0 ; k<artist_list.length ; k++){
+				h += `
+								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+				`;
+			}
+
+			h += `
+							</div>
+						</div>
+					</div>
+					<div class="col-2 col-sm-1" style="padding-top:10px">
+						<button class="btn" type="button" onclick="${on_click_listen}" style="${btn_listen_disp}">
+							<i class="fas fa-plus"></i>
+						</button>
+						<button class="btn" type="button" onclick="${on_click_delete}" style="${btn_trash_disp}">
+						<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>
+				</div>
+				<div style="font-size:0.6em; text-align:right">
+						${m.user_name}
+				</div>
+			`;
+		}
+
+		$('#id_div_playlist_music_list').html(h);
+	};
+
+	this.DisplaySearchResult = function(){
+		$('#id_div_my_playlist_detail_search_result').empty();
+
+		h = '';
+
+		// if(self._searched_artist_list.length > 0){
+		// 	h += `
+		// 		<div class="row">
+		// 			<div class="col-12 small text-right" style="border-bottom:1px solid #aaaaaa; margin-top:5px">Artist</div>
+		// 		</div>
+		// 	`;
+
+		// 	for (let i = 0; i < self._searched_artist_list.length; i++) {
+		// 		var artist = self._searched_artist_list[i];
+		// 		var encode_name = encodeURI(artist.name);
+		// 		var onclick = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
+		// 		h += `
+		// 			<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
+		// 				<div onclick="${onclick}" class="col-12">${artist.name}</div>
+		// 			</div>
+		// 		`;
+		// 	}
+		// }
+
+		if(self._searched_music_list.length > 0){
+			h += `
+				<div class="row">
+					<div class="col-12 small text-right" style="border-bottom:1px solid #aaaaaa; margin-top:5px">Music</div>
+				</div>
+			`;
+
+			for (let i = 0; i < self._searched_music_list.length; i++) {
+				var m = self._searched_music_list[i];
+				var on_choose_music_to_add = `window._my_playlist_detail_control.ChooseMusicToAdd(${i})`;
+				var id_music_checkbox = `id_music_checkbox-${i}`;
+
+				var artist_list = [];
+				{
+					var artist_arr = m.artist.split(',');
+					for(var j=0 ; j<artist_arr.length ; j++){
+						var name = artist_arr[j].trim();
+						var name_encoded = encodeURI(artist_arr[j].trim());
+						artist_list.push({
+							name: name,
+							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+						});
+					}
+				}
+	
+				h += `
+					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
+						<div class="col-10 col-sm-11 d-flex">
+							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+							<div class="pl-1">
+								<div class="text-dark">${m.title}</div>
+								<div class="text-secondary" style="font-size:0.8em">
+				`;
+
+				for(var k=0 ; k<artist_list.length ; k++){
+					h += `
+									<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+					`;
+				}
+					
+				h += `
+								</div>
+							</div>
+						</div>
+						<div class="col-1">
+							<i class="fas fa-check" style="cursor;pointer; font-size:1.5em; color:#eeeeee" OnClick="${on_choose_music_to_add}" id="${id_music_checkbox}"></i>
+						</div>
+					</div>
+				`;
+			}
+		}
+
+		$('#id_div_my_playlist_detail_search_result').html(h);
+	};
+}

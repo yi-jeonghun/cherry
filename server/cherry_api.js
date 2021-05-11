@@ -482,6 +482,44 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 	}
 });
 
+router.post('/add_music_list_to_playlist', async function(req, res){
+	try{
+		var is_allowed = false;
+		if(permission_service.IsAdmin()){
+			is_allowed = true;
+		}
+
+		var playlist_id = req.body.playlist_id;
+		var music_id_list = req.body.music_id_list;
+		var begin_order = req.body.begin_order;
+
+		if(is_allowed == false){
+			var user_id = permission_service.GetUserID();
+			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+				is_allowed = true;
+			}
+		}
+
+		if(is_allowed){
+			await cherry_service.AddMusicListToPlaylist(playlist_id, music_id_list, begin_order);
+			res.send({
+				ok: 1
+			});	
+		}else{
+			res.send({
+				ok:0,
+				err:'Fail delete_playlist, no permission.'
+			});	
+		}
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_playlist'
+		});
+	}
+});
+
 router.post('/get_playlist_info', async function(req, res){
 	try{
 		var playlist_id = req.body.playlist_id;
@@ -565,5 +603,43 @@ router.post('/delete_playlist', async function(req, res){
 		});
 	}
 });
+
+
+router.post('/delete_music_from_playlist', async function(req, res){
+	try{
+		var is_allowed = false;
+		if(permission_service.IsAdmin()){
+			is_allowed = true;
+		}
+
+		var playlist_id = req.body.playlist_id;
+		var music_id = req.body.music_id;
+		if(is_allowed == false){
+			var user_id = permission_service.GetUserID();
+			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+				is_allowed = true;
+			}
+		}
+
+		if(is_allowed){
+			await cherry_service.DeleteMusicFromPlaylist(playlist_id, music_id);
+			res.send({
+				ok: 1
+			});	
+		}else{
+			res.send({
+				ok:0,
+				err:'Fail delete_music_from_playlist, no permission.'
+			});	
+		}
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_music_from_playlist'
+		});
+	}
+});
+
 
 module.exports = router;

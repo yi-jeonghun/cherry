@@ -1,31 +1,67 @@
-
-<div class="container">
+<div class="container" id="id_div_my_playlist_detail">
 	<div class="row">
-		<div class="col-8">
+		<div class="col-6">
 			<h5>Playlist</h5>
-			<div id="id_label_playlist_title"></div>
 		</div>
+		<div class="col-6 text-right">
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_my_playlist_detail_edit_mode_toggle">
+				<i class="fas fa-ellipsis-h"></i>
+			</button>
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_my_playlist_detail_add_music">
+				+ Music
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-8" id="id_label_playlist_title"></div>
 		<div class="col-4 text-right">
-			<!-- FIXME -->
 			<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_detail_listen_all">
 				<span>All</span>
-				<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
+				<i style="margin-left:3px" class="fas fa-play"></i>
 			</button>
 		</div>
 	</div>
 
 	<div class="row" style="margin-top:10px">
 		<div class="col-12">
-			<!-- FIXME -->
 			<div class="container-fluid" id="id_div_playlist_music_list">
 			</div>			
 		</div>
 	</div>
 </div>
 
-<script type="text/javascript" src="/js/playlist_detail_control.js"></script>
+<div class="container" id="id_div_my_playlist_add_music" style="display: none;">
+	<div class="row">
+		<div class="col-6">
+			<h5>Add Music</h5>
+		</div>
+		<div class="col-6 text-right">
+			<i id="id_btn_my_playlist_detail_close_add" class="fas fa-times" style="font-size: 2em; cursor: pointer;"></i>
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_my_playlist_detail_add_music_complete" style="display:none">
+				Add
+			</button>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-10 col-sm-11 input-group-sm">
+			<input id="id_input_my_playlist_detail_search_keyword" type="text" class="form-control" placeholder="Search" style="width: 100%;">
+		</div>
+		<div class="col-1">
+			<i onclick="window._my_playlist_detail_control.Clear()" style="font-size: 1.5em;" class="fas fa-times"></i>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 5px;">
+		<div class="col-12">
+			<div class="container-fluid" id="id_div_my_playlist_detail_search_result">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/my_playlist_detail_control.js"></script>
 <script>
 	$('document').ready(function(){
-		window._playlist_detail_control = new PlaylistDetailControl('<%=playlist_name%>', '<%=playlist_id%>').Init();
+		window._my_playlist_detail_control = new MyPlaylistDetailControl('<%=playlist_name%>', '<%=playlist_id%>').Init();
 	});
-	</script>
+</script>

@@ -902,6 +902,25 @@ function CherryService(){
 		});
 	};
 
+	this.AddMusicListToPlaylist = async function(playlist_id, music_id_list, begin_order){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				for(var i=0 ; i<music_id_list.length ; i++){
+					var sort = i + begin_order;
+					await self.AddPlaylistMusic(conn, playlist_id, music_id_list[i], sort);
+				}
+				resolve();
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddMusicListToPlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.DeletePlaylistMusics = async function(conn, playlist_id){
 		return new Promise(function(resolve, reject){
 			try{
@@ -998,6 +1017,32 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService DeletePlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteMusicFromPlaylist = async function(playlist_id, music_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				DELETE FROM playlist_music WHERE playlist_id=? and music_id=?
+				`;
+				var val = [playlist_id, music_id];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteMusicFromPlaylist #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteMusicFromPlaylist #1');
 			}finally{
 				if(conn) conn.release();
 			}
