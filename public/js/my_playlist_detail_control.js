@@ -168,6 +168,30 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 		$('#id_btn_my_playlist_detail_add_music_complete').show();
 	};
 
+	this.GetArtistMusicList = function(artist_id){
+		var req_data = {
+			artist_id: artist_id
+		};
+
+		$.ajax({
+			url: '/cherry_api/fetch_music_list_by_artist_id',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._searched_artist_list = [];
+					self._searched_music_list = res.music_list;
+					self.DisplaySearchResult();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+		
+	};
+
 	///////////////////////////////////////////////////////////////////
 
 	this.DISP_playlist_info = function(){
@@ -247,24 +271,23 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 
 		h = '';
 
-		// if(self._searched_artist_list.length > 0){
-		// 	h += `
-		// 		<div class="row">
-		// 			<div class="col-12 small text-right" style="border-bottom:1px solid #aaaaaa; margin-top:5px">Artist</div>
-		// 		</div>
-		// 	`;
+		if(self._searched_artist_list.length > 0){
+			h += `
+				<div class="row">
+					<div class="col-12 small text-right" style="border-bottom:1px solid #aaaaaa; margin-top:5px">Artist</div>
+				</div>
+			`;
 
-		// 	for (let i = 0; i < self._searched_artist_list.length; i++) {
-		// 		var artist = self._searched_artist_list[i];
-		// 		var encode_name = encodeURI(artist.name);
-		// 		var onclick = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
-		// 		h += `
-		// 			<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
-		// 				<div onclick="${onclick}" class="col-12">${artist.name}</div>
-		// 			</div>
-		// 		`;
-		// 	}
-		// }
+			for (let i = 0; i < self._searched_artist_list.length; i++) {
+				var artist = self._searched_artist_list[i];
+				var onclick = `window._my_playlist_detail_control.GetArtistMusicList(${artist.artist_id})`;
+				h += `
+					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
+						<div onclick="${onclick}" class="col-12">${artist.name}</div>
+					</div>
+				`;
+			}
+		}
 
 		if(self._searched_music_list.length > 0){
 			h += `
