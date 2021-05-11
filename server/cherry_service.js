@@ -859,6 +859,9 @@ function CherryService(){
 				if(mine_only){
 					sql += 'AND user_id=?';
 				}
+				if(open_only){
+					sql += 'AND is_open="Y"';
+				}
 
 				var val = [country_code];
 				if(mine_only){

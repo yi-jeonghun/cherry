@@ -49,6 +49,8 @@ function Router(){
 			$('#id_router-artist').hide();
 			$('#id_router-my_playlist').hide();
 			$('#id_router-my_playlist_detail').hide();
+			$('#id_router-open_playlist').hide();
+			$('#id_router-open_playlist_detail').hide();
 			$('#id_router-search').hide();
 		}
 
@@ -73,7 +75,15 @@ function Router(){
 				$('#id_router-my_playlist_detail').show();
 				self.GoTo_MyPlaylistDetail(args, arg_list);
 				break;
-		}
+			case 'open_playlist.go':
+				$('#id_router-open_playlist').show();
+				self.GoTo_OpenPlaylist();
+				break;
+			case 'open_playlist_detail.go':
+				$('#id_router-open_playlist_detail').show();
+				self.GoTo_OpenPlaylistDetail(args, arg_list);
+				break;
+			}
 	};
 
 	this.GoTo_TopRank = function(){
@@ -116,6 +126,18 @@ function Router(){
 	this.GoTo_MyPlaylistDetail = function(args, arg_list){
 		var target_div = 'id_router-my_playlist_detail';
 		var route_url = '/my_playlist_detail.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_OpenPlaylist = function(){
+		var target_div = 'id_router-open_playlist';
+		var route_url = '/open_playlist.vu';
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_OpenPlaylistDetail = function(args, arg_list){
+		var target_div = 'id_router-open_playlist_detail';
+		var route_url = '/open_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 

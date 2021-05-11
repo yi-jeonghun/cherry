@@ -142,7 +142,13 @@ function Control(){
 		//MENU Buttons
 		$('#id_btn_menu_top_100').on('click', self.OnClickMenuTop100);
 		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
+		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
 		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
+	};
+
+	this.OnClick_id_btn_menu_open_playlist = function(){
+		window._router.Go(`/${window._country_code}/open_playlist.go`);
+		self.CloseMenu();
 	};
 
 	this.OnClickMenuTop100 = function(){

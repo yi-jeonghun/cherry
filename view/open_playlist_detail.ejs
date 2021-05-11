@@ -1,0 +1,30 @@
+<div class="container" id="id_div_my_playlist_detail">
+	<div class="row">
+		<div class="col-6">
+			<h5>Open Playlist</h5>
+		</div>
+		<div class="col-6 text-right">
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_open_playlist_detail_listen_all">
+				<span>All</span>
+				<i style="margin-left:3px" class="fas fa-play"></i>
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12" id="id_label_open_playlist_title"></div>
+	</div>
+
+	<div class="row" style="margin-top:10px">
+		<div class="col-12">
+			<div class="container-fluid" id="id_div_open_playlist_music_list">
+			</div>			
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="/js/open_playlist_detail_control.js"></script>
+<script>
+	$('document').ready(function(){
+		window._open_playlist_detail_control = new OpenPlaylistDetailControl('<%=playlist_name%>', '<%=playlist_id%>').Init();
+	});
+</script>

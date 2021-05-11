@@ -44,6 +44,18 @@ router.get('/**/my_playlist_detail.go', async function(req, res){
 	});
 });
 
+router.get('/**/open_playlist.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
+router.get('/**/open_playlist_detail.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 //inline pages
 router.get('/top_rank.vu', async function(req, res){
@@ -80,7 +92,6 @@ router.get('/my_playlist.vu', async function(req, res){
 });
 
 router.get('/my_playlist_detail.vu', async function(req, res){
-	console.log('my_playlist_detail ' );
 	var playlist_name = req.query.pn;
 	var playlist_id = req.query.pid;
 	var data = {
@@ -89,6 +100,24 @@ router.get('/my_playlist_detail.vu', async function(req, res){
 		dev_mode       : _dev_mode
 	};
 	res.render('my_playlist_detail', data);
+});
+
+router.get('/open_playlist.vu', async function(req, res){
+	var data = {
+		dev_mode: _dev_mode
+	};
+	res.render('open_playlist', data);
+});
+
+router.get('/open_playlist_detail.vu', async function(req, res){
+	var playlist_name = req.query.pn;
+	var playlist_id = req.query.pid;
+	var data = {
+		playlist_name  : playlist_name,
+		playlist_id    : playlist_id,
+		dev_mode       : _dev_mode
+	};
+	res.render('open_playlist_detail', data);
 });
 
 //####################################################################################//
