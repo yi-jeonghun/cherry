@@ -684,6 +684,71 @@ function CherryService(){
 		});
 	};
 
+	this.CheckSamePlaylist = async function(playlist_title, user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT count(*) cnt FROM playlist
+				WHERE user_id=? and title=?
+				`;
+				var val = [user_id, playlist_title];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService CheckSamePlaylist #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService CheckSamePlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.CheckMyPlaylist = async function(playlist_id, user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT user_id FROM playlist WHERE playlist_id=?
+				`;
+				var val = [playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService CheckMyPlaylist #0');
+					}else{
+						if(result.length > 0){
+							if(result[0].user_id == user_id){
+								resolve(true);
+							}else{
+								resolve(false);
+							}
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService CheckMyPlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.AddPlaylist = async function(playlist, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

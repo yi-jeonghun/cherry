@@ -5,6 +5,10 @@
 			<h5>My Playlist</h5>
 		</div>
 		<div class="col-4 text-right">
+			<button type="button" class="btn btn-sm btn-primary" id="id_btn_my_playlist_plus"><i class="fas fa-plus"></i></button>
+			<button type="button" class="btn btn-sm btn-light" id="id_btn_my_playlist_edit_mode_toggle">
+				<i class="fas fa-ellipsis-h"></i>
+			</button>
 		</div>
 	</div>
 
@@ -17,4 +21,28 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="/js/playlist_control.js"></script>
+<script type="text/javascript" src="/js/my_playlist_control.js"></script>
+
+<!-- Modal Plus -->
+<div class="modal fade" id="modal_my_playlist" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="id_my_" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="id_my_">Playlist</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="py-1">Title</div>
+				<div><input type="text" class="form-control" id="id_input_my_playlist_title"/></div>
+				<div class="py-1">Comment</div>
+				<div><input type="text" class="form-control" id="id_input_my_playlist_comment"/></div>
+				<div class="py-2"><span style="margin-right: 10px;">Open</span> <input type="checkbox" id="id_checkbox_my_playlist_open"/></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary" id="id_btn_modal_my_plalist_ok">OK</button>
+			</div>
+		</div>
+	</div>
+</div>

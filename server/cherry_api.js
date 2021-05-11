@@ -373,9 +373,25 @@ router.post('/search_artist_like', async function(req, res){
 router.post('/add_playlist', async function(req, res){
 	try{
 		var user_id = await permission_service.GetUserID(req);
+		if(user_id == null){
+			res.send({
+				ok:0,
+				err:'Fail add_playlist, sign in required.'
+			});	
+			return;
+		}
 		var playlist = req.body;
+
+		var same_title_exists = await cherry_service.CheckSamePlaylist(playlist.title, user_id);
+		if(same_title_exists){
+			res.send({
+				ok:0,
+				err:'Same title.'
+			});	
+			return;
+		}
+
 		var playlist_id = await cherry_service.AddPlaylist(playlist, user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
 		res.send({
 			ok: 1,
 			playlist_id: playlist_id
@@ -392,6 +408,64 @@ router.post('/add_playlist', async function(req, res){
 router.post('/update_playlist', async function(req, res){
 	try{
 		var user_id = await permission_service.GetUserID(req);
+		if(user_id == null){
+			res.send({
+				ok:0,
+				err_code:-1,
+				err:'Fail add_playlist, sign in required.'
+			});	
+			return;
+		}
+		var playlist = req.body;
+
+		var same_title_exists = await cherry_service.CheckSamePlaylist(playlist.title, user_id);
+		if(same_title_exists){
+			res.send({
+				ok:0,
+				err_code:-2,
+				err:'Same title.'
+			});	
+			return;
+		}
+
+		await cherry_service.UpdatePlaylist(playlist, user_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err_code:0,
+			err:'Fail add_playlist'
+		});
+	}
+});
+
+//FIXME ID ckeck
+router.post('/add_playlist_and_music_list', async function(req, res){
+	try{
+		var user_id = await permission_service.GetUserID(req);
+		var playlist = req.body;
+		var playlist_id = await cherry_service.AddPlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
+		res.send({
+			ok: 1,
+			playlist_id: playlist_id
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_playlist_and_music_list'
+		});
+	}
+});
+
+//FIXME ID check
+router.post('/update_playlist_and_music_list', async function(req, res){
+	try{
+		var user_id = await permission_service.GetUserID(req);
 		var playlist = req.body;
 		console.log('playlist id ' + playlist.playlist_id);
 		await cherry_service.UpdatePlaylist(playlist, user_id);
@@ -403,7 +477,7 @@ router.post('/update_playlist', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail add_playlist'
+			err:'Fail update_playlist_and_music_list'
 		});
 	}
 });
@@ -437,6 +511,7 @@ router.post('/get_playlist_list', async function(req, res){
 		if(mine_only && user_id == null){
 			res.send({
 				ok:0,
+				err_code:-1,
 				err:'Fail get_playlist_list. No user ID.'
 			});
 			return;
@@ -458,11 +533,30 @@ router.post('/get_playlist_list', async function(req, res){
 
 router.post('/delete_playlist', async function(req, res){
 	try{
+		var is_allowed = false;
+		if(permission_service.IsAdmin()){
+			is_allowed = true;
+		}
+
 		var playlist_id = req.body.playlist_id;
-		await cherry_service.DeletePlaylist(playlist_id);
-		res.send({
-			ok: 1
-		});
+		if(is_allowed == false){
+			var user_id = permission_service.GetUserID();
+			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+				is_allowed = true;
+			}
+		}
+
+		if(is_allowed){
+			await cherry_service.DeletePlaylist(playlist_id);
+			res.send({
+				ok: 1
+			});	
+		}else{
+			res.send({
+				ok:0,
+				err:'Fail delete_playlist, no permission.'
+			});	
+		}
 	}catch(err){
 		console.error(err);
 		res.send({

@@ -159,7 +159,7 @@ function PlaylistControl(){
 
 		if(self._edit_mode == EDIT_MODE.NEW){
 			$.ajax({
-				url: '/cherry_api/add_playlist',
+				url: '/cherry_api/add_playlist_and_music_list',
 				type: 'POST',
 				data: JSON.stringify(req_data),
 				contentType: 'application/json; charset=utf-8',
@@ -176,7 +176,7 @@ function PlaylistControl(){
 			});
 		}else{
 			$.ajax({
-				url: '/cherry_api/update_playlist',
+				url: '/cherry_api/update_playlist_and_music_list',
 				type: 'POST',
 				data: JSON.stringify(req_data),
 				contentType: 'application/json; charset=utf-8',

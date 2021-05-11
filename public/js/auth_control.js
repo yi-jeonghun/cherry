@@ -22,8 +22,8 @@ function AuthControl(){
 	};
 
 	this.GetUserID = function(){
-		var user_id = '';
-		if(self.IsLogin){
+		var user_id = null;
+		if(self.IsLogin()){
 			user_id = self._user_info.user_id;
 		}
 		return user_id;
