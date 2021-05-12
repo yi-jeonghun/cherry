@@ -7,11 +7,22 @@
 			<i onclick="window._search_control.Clear()" style="font-size: 1.5em;" class="fas fa-times"></i>
 		</div>
 	</div>
+	<ul class="nav nav-tabs" style="margin-top: 5px;">
+		<li class="nav-item">
+			<a class="nav-link active" id="id_search_tab_artist" onClick="window._search_control.OnTabChange(SEARCH_TYPE.ARTIST)">Artist</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="id_search_tab_music" onClick="window._search_control.OnTabChange(SEARCH_TYPE.MUSIC)">Music</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="id_search_tab_playlist" onClick="window._search_control.OnTabChange(SEARCH_TYPE.PLAYLIST)">Playlist</a>
+		</li>
+	</ul>
 	<div class="row" style="margin-top: 5px;">
 		<div class="col-12">
-			<div class="container-fluid" id="id_div_search_result">
-
-			</div>
+			<div class="container-fluid" id="id_div_search_result_artist"></div>
+			<div class="container-fluid" id="id_div_search_result_music" style="display:none"></div>
+			<div class="container-fluid" id="id_div_search_result_playlist" style="display:none"></div>
 		</div>
 	</div>
 </div>
