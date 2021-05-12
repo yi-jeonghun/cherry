@@ -1,9 +1,9 @@
 var fs = require('fs');
 var CONST = require('../public/js/const/country_code');
-// var db_conn = require('./db_conn');
 var cherry_service = require('./cherry_service');
-// var conn = null;
+
 var xml = '';
+
 async function UpdateXML(){
 	return new Promise(async function(resolve, reject){
 		var path = __dirname + '/../public/sitemap.xml';
@@ -42,7 +42,7 @@ async function GetSitemapData(){
 		xml += '</urlset>';
 		resolve();
 	});
-};
+}
 
 async function GetTopRank(){
 	return new Promise(async function(resolve, reject){
@@ -63,7 +63,7 @@ async function GetTopRank(){
 		}
 		resolve();
 	});
-};
+}
 
 async function GetArtistList(){
 	return new Promise(async function(resolve, reject){
@@ -90,7 +90,33 @@ async function GetArtistList(){
 		}
 		resolve();
 	});
-};
+}
+
+async function GetPlaylist(){
+	return new Promise(async function(resolve, reject){
+		var date_str = new Date().toISOString();
+
+		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
+			var country_code = CONST.__COUNTRY_CODE_LIST[i];
+			var mine_only = false;
+			var open_only = true;
+			var user_id = '';
+
+			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open, user_id);
+			for(var k=0 ; k<playlist_list.length ; k++){
+				var p = playlist_list[k];
+				var encode_title = encodeURI(p.title);
+
+				xml += `
+				<url>
+					<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&pid=${p.playlist_id}</loc>
+				</url>
+				`;
+			}
+		}
+		resolve();
+	});
+}
 
 async function Main(){
 	console.log('Sitemap Update');
