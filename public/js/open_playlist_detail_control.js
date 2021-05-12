@@ -51,7 +51,8 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 	///////////////////////////////////////////////////////////////////
 
 	this.DISP_playlist_info = function(){
-		$('#id_label_playlist_title').html(self._playlist_name);
+		$('#id_label_open_playlist_title').html(self._playlist_name);
+		$('#id_label_open_playlist_comment').html(self._playlist_info.comment);
 	};
 
 	this.DISP_music_list = function(){

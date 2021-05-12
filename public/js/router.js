@@ -87,11 +87,13 @@ function Router(){
 	};
 
 	this.GoTo_TopRank = function(){
-		var country_name = COUNTRY_NAME_LIST[window._country_code];
-		var title = country_name + ' Top 100 - Cherry Music [' + country_name + ']';
-		var keywords = country_name + ' Top 100, ' + TR(L_TOP_RANK_META_KEYWORDS);
-		var desc = country_name + TR(L_TOP_RANK_META_DESC);
-		self.UpdateMeta(title, keywords, desc);
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = country_name + ' Top 100 - Cherry Music [' + country_name + ']';
+			var keywords = country_name + ' Top 100, ' + TR(L_TOP_RANK_META_KEYWORDS);
+			var desc = country_name + TR(L_TOP_RANK_META_DESC);
+			self.UpdateMeta(title, keywords, desc);	
+		}
 
 		var target_div = 'id_router-top_rank';
 		var route_url = '/top_rank.vu';
@@ -99,12 +101,14 @@ function Router(){
 	};
 
 	this.GoTo_Artist = function(args, arg_list){
-		var country_name = COUNTRY_NAME_LIST[window._country_code];
-		var artist = arg_list['a'];
-		var title = artist + ' - Cherry Music [' + country_name + ']';
-		var keywords = artist + TR(L_ARTIST_META_KEYWORDS);
-		var desc = artist + TR(L_ARTIST_META_DESC);
-		this.UpdateMeta(title, keywords, desc);
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var artist = arg_list['a'];
+			var title = artist + ' - Cherry Music [' + country_name + ']';
+			var keywords = artist + TR(L_ARTIST_META_KEYWORDS);
+			var desc = artist + TR(L_ARTIST_META_DESC);
+			this.UpdateMeta(title, keywords, desc);	
+		}
 
 		var target_div = 'id_router-artist';
 		var route_url = '/artist.vu?'+args;
@@ -112,30 +116,74 @@ function Router(){
 	};
 
 	this.GoTo_Search = function(){
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = 'Search - Cherry Music [' + country_name + ']';
+			var keywords = 'Search';
+			var desc = 'Search';
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
 		var target_div = 'id_router-search';
 		var route_url = '/search.vu';
 		self.LoadInnerView(target_div, route_url);
 	};
 
 	this.GoTo_MyPlaylist = function(){
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = 'My Playlist - Cherry Music [' + country_name + ']';
+			var keywords = 'My Playlist';
+			var desc = 'My Playlist';
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
 		var target_div = 'id_router-my_playlist';
 		var route_url = '/my_playlist.vu';
 		self.LoadInnerView(target_div, route_url);
 	};
 
 	this.GoTo_MyPlaylistDetail = function(args, arg_list){
+		{
+			var playlist_name = arg_list['pn'];
+
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
+			var keywords = playlist_name;
+			var desc = playlist_name;
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
 		var target_div = 'id_router-my_playlist_detail';
 		var route_url = '/my_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 
 	this.GoTo_OpenPlaylist = function(){
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = 'Playlist - Cherry Music [' + country_name + ']';
+			var keywords = 'Playlist';
+			var desc = 'Playlist';
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
 		var target_div = 'id_router-open_playlist';
 		var route_url = '/open_playlist.vu';
 		self.LoadInnerView(target_div, route_url);
 	};
 
 	this.GoTo_OpenPlaylistDetail = function(args, arg_list){
+		{
+			var playlist_name = arg_list['pn'];
+
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
+			var keywords = playlist_name;
+			var desc = playlist_name;
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
 		var target_div = 'id_router-open_playlist_detail';
 		var route_url = '/open_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
