@@ -179,8 +179,8 @@ function Router(){
 
 			var country_name = COUNTRY_NAME_LIST[window._country_code];
 			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
-			var keywords = playlist_name;
-			var desc = playlist_name;
+			var keywords = playlist_name + ', Playlist';
+			var desc = playlist_name + ' Playlist';
 			this.UpdateMeta(title, keywords, desc);	
 		}
 
