@@ -38,7 +38,7 @@ async function GetSitemapData(){
 
 		await GetTopRank();
 		await GetArtistList();
-		await GetPlaylist()();
+		await GetPlaylist();
 
 		xml += '</urlset>';
 		resolve();
