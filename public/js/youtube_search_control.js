@@ -12,6 +12,8 @@ function YoutubeSearchControl(){
 			return;
 		}
 
+		console.log('youtube search keyword : ' + keyword);
+
 		keyword = encodeURI(keyword);
 		var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${keyword}&type=video&key=${self._api_key}`;
 

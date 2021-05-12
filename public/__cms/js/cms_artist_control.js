@@ -139,7 +139,7 @@ function ArtistControl(){
 			return;
 		}
 
-		var keyword = encodeURI(self._artist_name + "+" + title) ;
+		var keyword = self._artist_name + " + " + title;
 
 		self._youtube.Search(keyword, self.OnYoutubeSearched, self.OnYoutubeVideoInfo);
 	};

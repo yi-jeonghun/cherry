@@ -89,7 +89,7 @@ function ArtistControl(){
 		if(keyword == ''){
 			return;
 		}
-		keyword = encodeURI(self._artist_name + '+' + keyword);
+		keyword = encodeURI(self._artist_name + ' + ' + keyword);
 		var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${keyword}&type=video&key=${self._api_key}`;
 
 		$.ajax({
