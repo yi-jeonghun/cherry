@@ -105,7 +105,7 @@ async function GetPlaylist(){
 			var open_only = true;
 			var user_id = '';
 
-			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open, user_id);
+			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, user_id);
 			for(var k=0 ; k<playlist_list.length ; k++){
 				var p = playlist_list[k];
 				var encode_title = encodeURI(p.title);
