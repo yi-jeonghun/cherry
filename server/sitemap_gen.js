@@ -38,6 +38,7 @@ async function GetSitemapData(){
 
 		await GetTopRank();
 		await GetArtistList();
+		await GetPlaylist()();
 
 		xml += '</urlset>';
 		resolve();
@@ -95,6 +96,8 @@ async function GetArtistList(){
 async function GetPlaylist(){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
+
+		console.log('GetPlaylist ');
 
 		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
 			var country_code = CONST.__COUNTRY_CODE_LIST[i];
