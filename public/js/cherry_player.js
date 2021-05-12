@@ -490,9 +490,20 @@ function CherryPlayer(){
 		self.HighlightCurrentMusic();
 	};
 
+	this.OnClickArtist = function(artist){
+		self.HidePlayList();
+		var a_encoded = encodeURI(artist);
+		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}`);
+	};
+
 	this.DisplayTitleArtist = function(title, artist){
 		$('#id_label_title').html(title);
-		$('#id_label_artist').html(artist);	
+
+		var a_click = `window._cherry_player.OnClickArtist('${artist}')`;
+		var a_str = `
+		<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; " onClick="${a_click}">${artist}</span>
+		`;
+		$('#id_label_artist').html(a_str);	
 	};
 
 	this.GetRandomIndex = function(){
