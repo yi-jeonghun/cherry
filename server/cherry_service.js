@@ -267,6 +267,36 @@ function CherryService(){
 		});
 	};
 
+	this.IsMyLikePlaylist = async function(user_id, playlist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			console.log('user_id ' + user_id);
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'SELECT count(*) cnt FROM like_playlist WHERE user_id=? AND playlist_id=?';
+				var val = [user_id, playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService IsMyLikePlaylist #0');
+					}else{
+						if(result[0].cnt > 0){
+							console.log('result[0].cnt	' + result[0].cnt);
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService IsMyLikePlaylist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.UpdateArtistLike = async function(artist_id, user_id, is_like){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -300,6 +330,39 @@ function CherryService(){
 		});
 	};
 
+	this.UpdatePlaylistLike = async function(playlist_id, user_id, is_like){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = '';
+				if(is_like){
+					sql = `
+					INSERT INTO like_playlist (user_id, playlist_id) VALUES (?, ?)
+					`;
+				}else{
+					sql = `
+					DELETE FROM like_playlist WHERE user_id=? and playlist_id=?
+					`;
+				}
+				var val = [user_id, playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdatePlaylistLike #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdatePlaylistLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.UpdateArtistLikeCount = async function(artist_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -315,14 +378,43 @@ function CherryService(){
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
-						reject('FAIL CherryService update_artist_like_count #0');
+						reject('FAIL CherryService UpdateArtistLikeCount #0');
 					}else{
 						resolve();
 					}
 				});
 			}catch(err){
 				console.error(err);
-				reject('FAIL CherryService update_artist_like_count #1');
+				reject('FAIL CherryService UpdateArtistLikeCount #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdatePlaylistLikeCount = async function(playlist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				UPDATE playlist SET like_count = (
+					SELECT count(*) FROM like_playlist WHERE playlist_id=?
+				)
+				WHERE playlist_id=?
+				`;
+				var val = [playlist_id, playlist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdatePlaylistLikeCount #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdatePlaylistLikeCount #1');
 			}finally{
 				if(conn) conn.release();
 			}

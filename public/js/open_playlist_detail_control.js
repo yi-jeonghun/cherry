@@ -4,6 +4,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 	this._playlist_id = playlist_id;
 	this._playlist_info = null;
 	this._music_list = [];
+	this._is_my_like_playlist = false;
 
 	this.Init = function(){
 		self.InitHandle();
@@ -13,7 +14,10 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 
 	this.InitHandle = function(){
 		$('#id_btn_open_playlist_detail_listen_all').on('click', self.ListenAll);
+		$('#id_btn_playlist_detail_like').on('click', self.OnClick_id_btn_playlist_detail_like);
 	};
+
+	//////////////////////////////////////////////////////////////////////////////
 
 	this.ListenAll = function(){
 		window._cherry_player.LoadMusicList(self._music_list);
@@ -22,6 +26,38 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 	this.AddMusic = function(idx){
 		window._cherry_player.AddMusic(self._music_list[idx]);
 	};
+
+	this.OnClick_id_btn_playlist_detail_like = function(){
+		if(window._auth_control.IsLogin() == false){
+			alert(TR((L_SIGN_IN_REQUIRED)));
+			return;
+		}
+
+		self._is_my_like_playlist = !self._is_my_like_playlist;
+		console.log('self._is_my_like_playlist ' + self._is_my_like_playlist);
+
+		var req_data = {
+			playlist_id: self._playlist_id,
+			is_my_like_playlist: self._is_my_like_playlist
+		};
+
+		$.ajax({
+			url: '/cherry_api/update_playlist_like',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.DISP_UpdateLike();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	//////////////////////////////////////////////////////////////////////////////
 
 	this.LoadPlaylistDetail = function(){
 		console.log('playlist_id ' + self._playlist_id);
@@ -39,6 +75,9 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 				if(res.ok){
 					self._music_list = res.music_list;
 					self._playlist_info = res.playlist_info;
+					self._is_my_like_playlist = res.is_my_like_playlist;
+					console.log('res.is_my_like_playlist ' + res.is_my_like_playlist);
+					self.DISP_UpdateLike();
 					self.DISP_playlist_info();
 					self.DISP_music_list();
 				}else{
@@ -107,5 +146,13 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 		}
 
 		$('#id_div_open_playlist_music_list').html(h);
+	};
+
+	this.DISP_UpdateLike = function(){
+		if(self._is_my_like_playlist){
+			$('#id_icon_playlist_detail_like').css('color', 'red');
+		}else{
+			$('#id_icon_playlist_detail_like').css('color', '#bbbbbb');
+		}
 	};
 }

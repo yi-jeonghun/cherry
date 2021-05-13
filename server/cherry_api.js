@@ -129,6 +129,34 @@ router.post('/update_artist_like', async function(req, res){
 	}
 });
 
+router.post('/update_playlist_like', async function(req, res){
+	try{
+		var playlist_id = req.body.playlist_id;
+		var is_like = req.body.is_my_like_playlist;
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok: 0,
+				err_code:-1,
+				err:'Sign in requied'
+			});
+			return;
+		}
+
+		await cherry_service.UpdatePlaylistLike(playlist_id, user_id, is_like);
+		await cherry_service.UpdatePlaylistLikeCount(playlist_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to update_playlist_like'
+		});
+	}
+});
+
 router.post('/add_music', async function(req, res){
 	try{
 		var user_id = auth_service.GetLoginUserID(req);
@@ -559,7 +587,7 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 router.post('/add_music_list_to_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin()){
 			is_allowed = true;
 		}
 
@@ -568,7 +596,7 @@ router.post('/add_music_list_to_playlist', async function(req, res){
 		var begin_order = req.body.begin_order;
 
 		if(is_allowed == false){
-			var user_id = permission_service.GetUserID();
+			var user_id = await permission_service.GetUserID(req);
 			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
 				is_allowed = true;
 			}
@@ -599,10 +627,17 @@ router.post('/get_playlist_info', async function(req, res){
 		var playlist_id = req.body.playlist_id;
 		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_id);
 		var music_list = await cherry_service.GetPlaylistMusicList(playlist_id);
+		var is_my_like_playlist = false;
+		var user_id = await permission_service.GetUserID(req);
+		console.log('user_id ' + user_id);
+		if(user_id != null){
+			is_my_like_playlist = await cherry_service.IsMyLikePlaylist(user_id, playlist_id);
+		}
 		res.send({
 			ok: 1,
 			playlist_info: playlist_info,
-			music_list: music_list
+			music_list: music_list,
+			is_my_like_playlist: is_my_like_playlist
 		});
 	}catch(err){
 		console.error(err);
@@ -646,13 +681,13 @@ router.post('/get_playlist_list', async function(req, res){
 router.post('/delete_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin()){
 			is_allowed = true;
 		}
 
 		var playlist_id = req.body.playlist_id;
 		if(is_allowed == false){
-			var user_id = permission_service.GetUserID();
+			var user_id = await permission_service.GetUserID(req);
 			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
 				is_allowed = true;
 			}
@@ -682,14 +717,14 @@ router.post('/delete_playlist', async function(req, res){
 router.post('/delete_music_from_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin()){
 			is_allowed = true;
 		}
 
 		var playlist_id = req.body.playlist_id;
 		var music_id = req.body.music_id;
 		if(is_allowed == false){
-			var user_id = permission_service.GetUserID();
+			var user_id = await permission_service.GetUserID(req);
 			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
 				is_allowed = true;
 			}
