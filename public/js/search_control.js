@@ -2,7 +2,7 @@ $('document').ready(function(){
 	window._search_control = new SearchControl().Init();
 });
 
-const SEARCH_TYPE = {
+var SEARCH_TYPE = {
 	ARTIST:1,
 	MUSIC:2,
 	PLAYLIST:3
