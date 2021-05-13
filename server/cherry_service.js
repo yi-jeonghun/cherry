@@ -220,7 +220,7 @@ function CherryService(){
 						var ret_data = {
 							found:false,
 							artist_id:-1
-						}
+						};
 						if(result.length > 0){
 							ret_data.found = true;
 							ret_data.artist_id = result[0].artist_id;
@@ -233,6 +233,96 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService SearchArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.IsMyLikeArtiat = async function(user_id, artist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'SELECT count(*) cnt FROM like_artist WHERE user_id=? AND artist_id=?';
+				var val = [user_id, artist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService IsMyLikeArtiat #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService IsMyLikeArtiat #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateArtistLike = async function(artist_id, user_id, is_like){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = '';
+				if(is_like){
+					sql = `
+					INSERT INTO like_artist (user_id, artist_id) VALUES (?, ?)
+					`;
+				}else{
+					sql = `
+					DELETE FROM like_artist WHERE user_id=? and artist_id=?
+					`;
+				}
+				var val = [user_id, artist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdateArtistLike #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdateArtistLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateArtistLikeCount = async function(artist_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				UPDATE artist SET like_count = (
+					SELECT count(*) FROM like_artist WHERE artist_id=?
+				)
+				WHERE artist_id=?
+				`;
+				var val = [artist_id, artist_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService update_artist_like_count #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService update_artist_like_count #1');
 			}finally{
 				if(conn) conn.release();
 			}

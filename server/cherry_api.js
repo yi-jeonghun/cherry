@@ -58,6 +58,77 @@ router.post('/search_artist', async function(req, res){
 	}
 });
 
+router.post('/search_artist', async function(req, res){
+	try{
+		var data = req.body;
+		var ret_data = await cherry_service.SearchArtist(data.artist_name);
+		res.send({
+			ok: 1,
+			data: ret_data
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to add artist'
+		});
+	}
+});
+
+router.post('/is_my_like_artist', async function(req, res){
+	try{
+		var artist_id = req.body.artist_id;
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok: 1,
+				is_like_artist: false
+			});
+			return;
+		}
+
+		var ret = await cherry_service.IsMyLikeArtiat(user_id, artist_id);
+		res.send({
+			ok: 1,
+			is_like_artist : ret
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed is_my_like_artist'
+		});
+	}
+});
+
+router.post('/update_artist_like', async function(req, res){
+	try{
+		var artist_id = req.body.artist_id;
+		var is_my_like_artist = req.body.is_my_like_artist;
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok: 0,
+				err_code:-1,
+				err:'Sign in requied'
+			});
+			return;
+		}
+
+		await cherry_service.UpdateArtistLike(artist_id, user_id, is_my_like_artist);
+		await cherry_service.UpdateArtistLikeCount(artist_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to update_artist_like'
+		});
+	}
+});
+
 router.post('/add_music', async function(req, res){
 	try{
 		var user_id = auth_service.GetLoginUserID(req);
