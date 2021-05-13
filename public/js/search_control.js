@@ -13,6 +13,7 @@ function SearchControl(){
 	this._search_type = SEARCH_TYPE.ARTIST;
 	this._artist_list = [];
 	this._music_list = [];
+	this._playlist_list = [];
 
 	this.Init = function(){
 		console.log('SearchControl init ' );
@@ -76,9 +77,11 @@ function SearchControl(){
 
 		self._artist_list = [];
 		self._music_list = [];
+		self._playlist_list = [];
 
 		var req_data = {
-			keyword: keyword
+			keyword: keyword,
+			country_code: window._country_code
 		};
 
 		$.ajax({
@@ -91,6 +94,7 @@ function SearchControl(){
 				if(res.ok){
 					self._artist_list = res.artist_list;
 					self._music_list = res.music_list;
+					self._playlist_list = res.playlist_list;
 					self.DISP_SearchResult();
 				}else{
 					alert(res.err);
@@ -171,9 +175,38 @@ function SearchControl(){
 		$('#id_div_search_result_music').html(h);
 	};
 
+	this.DISP_PlaylistResult = function(){
+		console.log('self._playlist_list ' + self._playlist_list.length);
+		var h = `
+			<table class="table table-sm table-striped" style="margin: 0px">
+			<tr>
+			<th>Title</th>
+			<th>Like</th>
+			</tr>
+		`;
+
+		for(var i=0 ; i<self._playlist_list.length ; i++){
+			var p = self._playlist_list[i];
+			var title_encoded = encodeURI(p.title);
+			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_id}')`;
+
+			h += `
+			<tr>
+				<td onClick="${on_click_title}">${p.title}</td>
+				<td onClick="${on_click_title}">${p.like_count}</td>
+			</tr>
+			`;
+		}
+
+		h += '</table>';
+
+		$('#id_div_search_result_playlist').html(h);
+	};
+
 	this.DISP_SearchResult = function(){
 		self.DISP_ArtistResult();
 		self.DISP_MusicResult();
+		self.DISP_PlaylistResult();
 	};
 
 }

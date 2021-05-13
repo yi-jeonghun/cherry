@@ -320,12 +320,15 @@ router.get('/top_rank/get_release_time', async function(req, res){
 router.post('/search_artist_music_like', async function(req, res){
 	try{
 		var keyword = req.body.keyword;
+		var country_code = req.body.country_code;
 		var artist_list = await cherry_service.SearchArtistLike(keyword);
 		var music_list = await cherry_service.SearchMusicListByTitle(keyword);
+		var playlist_list = await cherry_service.SearchPlaylistByTitleLike(keyword, country_code);
 		res.send({
 			ok: 1,
-			artist_list: artist_list,
-			music_list: music_list
+			artist_list:   artist_list,
+			music_list:    music_list,
+			playlist_list: playlist_list
 		});
 	}catch(err){
 		console.error(err);

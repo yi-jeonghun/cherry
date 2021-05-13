@@ -1051,6 +1051,34 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.SearchPlaylistByTitleLike = async function(keyword, country_code){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					SELECT * FROM playlist  
+					WHERE is_open='Y' AND country_code=? AND title LIKE ?
+					ORDER BY like_count desc
+				`;
+				var val = [country_code, "%"+keyword+"%"];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService SearchPlaylistByTitleLike #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService SearchPlaylistByTitleLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 }
 
 module.exports = new CherryService();
