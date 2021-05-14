@@ -19,18 +19,18 @@
 		</div>
 
 		<div class="border d-flex" style="height: 70px;">
-			<div class="col my-auto">
+			<div class="col-2 my-auto">
 				<h5>Top Rank</h5>
 			</div>
-			<div class="col my-auto">
+			<div class="col-2 my-auto">
 				<div><h5 id="id_label_rank_title">Choose Rank</h5></div>
 			</div>
-			<div class="col my-auto">
-				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.TOTAL)">Total</button>:<span id="id_label_total"></span>
-				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.OK)">OK</button>:<span id="id_label_ok"></span>
-				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.NG)">NG</button>:<span id="id_label_ng"></span>
+			<div class="col-2 my-auto">
+				<button type="button" class="border btn btn-sm" id="id_btn_cms_top_rank_filter_total" onclick="window._top_rank_control.OnClick_ChangeFilter(FILTER_TYPE.TOTAL)">Total</button>:<span id="id_label_total"></span>
+				<button type="button" class="border btn btn-sm" id="id_btn_cms_top_rank_filter_ok" onclick="window._top_rank_control.OnClick_ChangeFilter(FILTER_TYPE.OK)">OK</button>:<span id="id_label_ok"></span>
+				<button type="button" class="border btn btn-sm" id="id_btn_cms_top_rank_filter_ng" onclick="window._top_rank_control.OnClick_ChangeFilter(FILTER_TYPE.NG)">NG</button>:<span id="id_label_ng"></span>
 			</div>
-			<div class="col my-auto text-right">
+			<div class="col-6 my-auto text-right">
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.ArrangeWindow()">ㅁ</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.Auto()">Auto</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.Save()" id="id_btn_save">Save</button>

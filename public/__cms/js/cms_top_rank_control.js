@@ -35,6 +35,7 @@ function TopRankControl(){
 		self.InitHandle();
 		self.InitKeyHandle();
 		self.UpdateReleaseModeBtn();
+		self.DISP_UpdateFilterTypeButton();
 		return this;
 	};
 
@@ -56,6 +57,21 @@ function TopRankControl(){
 		});
 	};
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	this.OnClick_ChangeFilter = function(filter_type){
+		self._filter_type = filter_type;
+		self.DISP_UpdateFilterTypeButton();
+
+		if(self._release_mode == RELEASE_MODE.DRAFT){
+			self.DisplayMusicList_Draft();
+		}else if(self._release_mode == RELEASE_MODE.RELEASE){
+			self.DisplayMusicList_Release();
+		}
+	};
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
 	this.DisplayCountryList = function(){
 		var h = '<table class="table table-sm">';
 	
@@ -75,15 +91,6 @@ function TopRankControl(){
 	
 		h += '</table>';
 		$('#id_div_country_list').html(h);
-	};
-
-	this.ChangeFilter = function(filter_type){
-		self._filter_type = filter_type;
-		if(self._release_mode == RELEASE_MODE.DRAFT){
-			self.DisplayMusicList_Draft();
-		}else if(self._release_mode == RELEASE_MODE.RELEASE){
-			self.DisplayMusicList_Release();
-		}
 	};
 	
 	this.GetReleaseTime = function(){
@@ -799,6 +806,21 @@ function TopRankControl(){
 		$('#id_btn_save').addClass('btn-primary');
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	this.DISP_UpdateFilterTypeButton = function(){
+		$('#id_btn_cms_top_rank_filter_total').removeClass('btn-primary');
+		$('#id_btn_cms_top_rank_filter_ok').removeClass('btn-primary');
+		$('#id_btn_cms_top_rank_filter_ng').removeClass('btn-primary');
+
+		if(self._filter_type == FILTER_TYPE.TOTAL){
+			$('#id_btn_cms_top_rank_filter_total').addClass('btn-primary');
+		}else if(self._filter_type == FILTER_TYPE.OK){
+			$('#id_btn_cms_top_rank_filter_ok').addClass('btn-primary');
+		}else if(self._filter_type == FILTER_TYPE.NG){
+			$('#id_btn_cms_top_rank_filter_ng').addClass('btn-primary');
+		}
+	};
 
 }
 
