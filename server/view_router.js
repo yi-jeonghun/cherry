@@ -56,6 +56,12 @@ router.get('/**/open_playlist_detail.go', async function(req, res){
 	});
 });
 
+router.get('/**/like.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 //inline pages
 router.get('/top_rank.vu', async function(req, res){
@@ -118,6 +124,13 @@ router.get('/open_playlist_detail.vu', async function(req, res){
 		dev_mode       : _dev_mode
 	};
 	res.render('open_playlist_detail', data);
+});
+
+router.get('/like.vu', async function(req, res){
+	var data = {
+		dev_mode       : _dev_mode
+	};
+	res.render('like', data);
 });
 
 //####################################################################################//

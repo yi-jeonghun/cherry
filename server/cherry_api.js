@@ -53,24 +53,7 @@ router.post('/search_artist', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to add artist'
-		});
-	}
-});
-
-router.post('/search_artist', async function(req, res){
-	try{
-		var data = req.body;
-		var ret_data = await cherry_service.SearchArtist(data.artist_name);
-		res.send({
-			ok: 1,
-			data: ret_data
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to add artist'
+			err:'Failed to search_artist'
 		});
 	}
 });
@@ -434,6 +417,37 @@ router.post('/search_artist_music_like', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Fail search_artist_music_like'
+		});
+	}
+});
+
+router.post('/get_like_artist_playlist', async function(req, res){
+	try{
+		var user_id = await permission_service.GetUserID(req);
+		var artist_list = [];
+		var playlist_list = [];
+
+		if(user_id == null){
+			res.send({
+				ok: 1,
+				artist_list:   artist_list,
+				playlist_list: playlist_list
+			});
+			return;
+		}
+
+		artist_list = await cherry_service.GetArtistList_I_Like(user_id);
+		playlist_list = await cherry_service.GetPlaylistList_I_Like(user_id);
+		res.send({
+			ok: 1,
+			artist_list:   artist_list,
+			playlist_list: playlist_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_like_artist_playlist'
 		});
 	}
 });

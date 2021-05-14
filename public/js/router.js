@@ -52,6 +52,7 @@ function Router(){
 			$('#id_router-open_playlist').hide();
 			$('#id_router-open_playlist_detail').hide();
 			$('#id_router-search').hide();
+			$('#id_router-like').hide();
 		}
 
 		switch(feature){
@@ -82,6 +83,10 @@ function Router(){
 			case 'open_playlist_detail.go':
 				$('#id_router-open_playlist_detail').show();
 				self.GoTo_OpenPlaylistDetail(args, arg_list);
+				break;
+			case 'like.go':
+				$('#id_router-like').show();
+				self.GoTo_Like();
 				break;
 			}
 	};
@@ -188,6 +193,22 @@ function Router(){
 		var route_url = '/open_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
+
+	this.GoTo_Like = function(){
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = 'Like - Cherry Music [' + country_name + ']';
+			var keywords = 'Like artist, like playlist, like music, favorite music';
+			var desc = 'Like artist, like playlist, like music, favorite music';
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
+		var target_div = 'id_router-like';
+		var route_url = '/like.vu?';
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	////////////////////////////////////////////////////////////////////
 
 	this.UpdateMeta = function(title, keywords, desc){
 		$('title').text(title);

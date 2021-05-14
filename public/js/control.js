@@ -144,7 +144,10 @@ function Control(){
 		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
 		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
 		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
+		$('#id_btn_menu_like').on('click', self.OnClickMenuLike);
 	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	this.OnClick_id_btn_menu_open_playlist = function(){
 		window._router.Go(`/${window._country_code}/open_playlist.go`);
@@ -165,6 +168,13 @@ function Control(){
 		window._router.Go(`/${window._country_code}/search.go`);
 		self.CloseMenu();
 	};
+
+	this.OnClickMenuLike = function(){
+		window._router.Go(`/${window._country_code}/like.go`);
+		self.CloseMenu();
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////
 
 	this.OpenMenu = function(){
 		$('#id_menu_div').show();
