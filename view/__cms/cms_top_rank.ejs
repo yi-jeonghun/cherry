@@ -11,26 +11,26 @@
 
 </head>
 <body style="width: 100%; height: 100%;">
-	<div id="id_div_main" class="container-fluid" style="height: 100%; width:100%; overflow: hidden;">
-		<div class="row border" style="height: 30px;">
-			<div class="col-12">
+	<div id="id_div_main" style="height: 100%; width:100%; overflow: hidden;">
+		<div class="border" style="height: 30px;">
+			<div>
 				<%- include('menu.ejs') %>
 			</div>
 		</div>
 
-		<div class="row border" style="height: 70px;">
-			<div class="col-3">
+		<div class="border d-flex" style="height: 70px;">
+			<div class="col my-auto">
 				<h5>Top Rank</h5>
 			</div>
-			<div class="col-3 my-auto">
+			<div class="col my-auto">
 				<div><h5 id="id_label_rank_title">Choose Rank</h5></div>
 			</div>
-			<div class="col-3 my-auto">
+			<div class="col my-auto">
 				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.TOTAL)">Total</button>:<span id="id_label_total"></span>
 				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.OK)">OK</button>:<span id="id_label_ok"></span>
 				<button type="button" class="btn btn-sm btn-secondary" onclick="window._top_rank_control.ChangeFilter(FILTER_TYPE.NG)">NG</button>:<span id="id_label_ng"></span>
 			</div>
-			<div class="col-3 my-auto text-right">
+			<div class="col my-auto text-right">
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.ArrangeWindow()">ㅁ</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.Auto()">Auto</button>
 				<button type="button" class="btn btn-sm btn-primary" onclick="window._top_rank_control.Save()" id="id_btn_save">Save</button>
@@ -38,78 +38,48 @@
 			</div>
 		</div>
 
-		<div class="row" style="height: calc(100% - 100px); overflow: hidden;">
+		<div class="d-flex" style="height: calc(100% - 100px); overflow: hidden;">
 			<!-- LEFT -->
-			<div class="col-6">
-				<div class="container-fluid">
-					<div class="row">
-						<!-- 국가 리스트 -->
-						<div class="col-3">
-							<div class="d-flex" style="margin-bottom: 3px;">
-								<button type="button" id="id_btn_release_type_draft" onclick="window._top_rank_control.ToggleReleaseType()" class="btn btn-sm btn-primary">Draft</button>
-								<button type="button" id="id_btn_release_type_release" onclick="window._top_rank_control.ToggleReleaseType()" class="btn btn-sm btn-outline-primary">Release</button>
-							</div>
-							<div style="border-top: 1px solid black;" id="id_div_country_list"></div>
-						</div>
-
-						<!-- Top 100 리스트 -->
-						<div class="col-9 d-flex" style="height: 100%; overflow: auto;">
-							<div class="container-fluid">
-								<div class="row">
-									<div class="col-12">
-										<div class="container-fluid" id="id_div_music_list"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+			<div class="border d-flex" style="width:50%; height: 100%;">
+				<!-- 국가 리스트 -->
+				<div class="col-3 border px-0">
+					<div class="d-flex" style="margin-bottom: 3px;">
+						<button type="button" id="id_btn_release_type_draft" onclick="window._top_rank_control.ToggleReleaseType()" class="btn btn-sm btn-primary">Draft</button>
+						<button type="button" id="id_btn_release_type_release" onclick="window._top_rank_control.ToggleReleaseType()" class="btn btn-sm btn-outline-primary">Release</button>
 					</div>
+					<div class="px-0" id="id_div_country_list"></div>
+				</div>
+
+				<!-- Top 100 리스트 -->
+				<div class="col-9 px-0 d-flex" style="height: 100%;">
+					<div class="container-fluid" id="id_div_music_list" style="height:100%; overflow: auto;"></div>
 				</div>
 			</div>
 
 			<!-- RIGHT -->
-			<div class="col-6 border" style="height: 100%;">
-				<div class="container-fluid" style="height: 100%;">
-					<!-- PLAYER TEST -->
-					<div class="row border" style="height: 10%;">
-						<div class="col-12">
-							<div id="id_div_play_test"             style="overflow: auto; width: 100%; border-top: 1px solid black; display: flex;">
-								<div id="player" style="width: 90; height: 90; border: 1px solid black;"></div>
-								<div>
-									<i id="id_btn_play_pause" class="fas fa-play          play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
-								</div>
-								<div class="border" style="width: 100%;">
-									<div class="slider_line_div border" style="width: 100%; height: 20px; background-color: aqua;">
-										<div class="slider_fill" id="id_slider_fill" style="height: 100%; width: 0%; background-color: red;	font-size: 2px;">&nbsp</div>
-									</div>
-									<div id="id_div_duration"></div>
-								</div>
-							</div>					
-						</div>
+			<div class="border" style="width:50%; height: 100%;">
+				<!-- PLAYER TEST -->
+				<div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
+					<div id="player" class="border" style="width: 90; height: 90;"></div>
+					<div>
+						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
 					</div>
+					<div class="border" style="width: 100%;">
+						<div class="slider_line_div border" style="width: 100%; height: 20px; background-color: aqua;">
+							<div class="slider_fill" id="id_slider_fill" style="height: 100%; width: 0%; background-color: red;	font-size: 2px;">&nbsp</div>
+						</div>
+						<div id="id_div_duration"></div>
+					</div>
+				</div>					
 
-					<!-- MUSIC SEARCH -->
-					<div class="row border" style="height: 20%;">
-						<div class="col-12" >
-							<div id="id_div_search_result"         style="overflow: auto; width: 100%; border-top: 1px solid black;">
-								Music list
-							</div>
-						</div>
-					</div>
+				<!-- MUSIC SEARCH -->
+				<div class="border" style="height: 200px; overflow: auto" id="id_div_search_result"></div>
 
-					<!-- YOUTUBE SEARCH -->
-					<div class="row border" style="height: 70%; overflow: auto; ">
-						<div class="col-12" >
-							<div id="id_div_youtube_search_result" style="width: 100%; border-top: 1px solid black;">
-								Youtube search
-							</div>
-						</div>
-					</div>
-				</div>
+				<!-- YOUTUBE SEARCH -->
+				<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_youtube_search_result"></div>
 			</div>
 		</div>
 	</div>
-
-
 </body>
 
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
