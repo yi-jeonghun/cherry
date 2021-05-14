@@ -377,7 +377,7 @@ function ArtistControl(){
 						</button>
 					</div>
 				</div>
-				<div style="font-size:0.6em; text-align:right">
+				<div style="font-size:0.6em; text-align:right; color:white">
 						${m.user_name}
 				</div>
 			`;

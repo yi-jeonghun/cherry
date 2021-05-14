@@ -258,7 +258,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 						</button>
 					</div>
 				</div>
-				<div style="font-size:0.6em; text-align:right">
+				<div style="font-size:0.6em; text-align:right; color:white">
 						${m.user_name}
 				</div>
 			`;
