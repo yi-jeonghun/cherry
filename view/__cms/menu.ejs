@@ -1,5 +1,5 @@
 <div class="d-flex">
-	<div class="w-50">
+	<div class="col-6">
 		<a href="/__cms">[main]</a>
 		<a href="/__cms/artist.vu">[artist]</a>
 		<a href="/__cms/top_rank.vu">[top rank]</a>
@@ -7,8 +7,15 @@
 		<a href="/__cms/playlist.vu">[playlist]</a>
 		<a href="/__cms/DJ.vu">[DJ]</a>
 	</div>
-	<div class="w-50 text-right small">
+	<div class="col-3 text-right d-flex">
+		<div style="margin-right: 5px;">DJ</div>
+		<select class="form-control small" id="id_select_menu_dj_list" style="font-size: 0.8em;">
+		</select>
+	</div>
+	<div class="col-3 text-right small">
 		<%- include('../include/google_auth_html.ejs') %>
 		<%- include('../include/google_auth_js.ejs') %>
 	</div>
 </div>
+<script type="text/javascript" src="/__cms/js/dj_selector.js"></script>
+
