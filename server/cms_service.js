@@ -325,6 +325,134 @@ function CMS_Service(){
 			});	
 		});
 	};
+
+	this.GetDJList = async function(){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT * FROM user WHERE is_dj='Y'`;
+				var val = [];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetDJList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetDJList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.CheckUserNameDuplicated_ForDJUser = async function(name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT count(*) cnt FROM user WHERE is_dj='Y' AND name=?`;
+				var val = [name];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService CheckUserNameDuplicated_ForDJUser #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService CheckUserNameDuplicated_ForDJUser #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.CheckUserIDDuplicated_ForDJUser = async function(user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT count(*) cnt FROM user WHERE is_dj='Y' AND user_id=?`;
+				var val = [user_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService CheckUserNameDuplicated_ForDJUser #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService CheckUserNameDuplicated_ForDJUser #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddDJUser = async function(user_id, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `INSERT INTO user (user_id, name, is_admin, is_dj) VALUES (?, ?, 'N', 'Y')`;
+				var val = [user_id, name];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddDJUser #0');
+					}else{
+						resolve(true);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddDJUser #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.EditDJUser = async function(user_id, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE user SET ? WHERE user_id=?`;
+				var val = [{name:name},user_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService EditDJUser #0');
+					}else{
+						resolve(true);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService EditDJUser #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 }
 
 module.exports = new CMS_Service();

@@ -1,9 +1,10 @@
 var express = require('express');
 const cherry_service = require('./cherry_service');
-// var url = require('url');
 var router = express.Router();
 var cms_service = require('./cms_service');
 var top_rank_parser = require('./top_rank_parser/top_rank_parser');
+var permission_service = require('./permission_service');
+var randomstring = require("randomstring");
 
 router.post('/fetch_content_from_url', async function(req, res){
 	try{
@@ -182,5 +183,89 @@ router.post('/top_rank/auto_search_music_list', async function(req, res){
 		});
 	}
 });
+
+router.get('/dj/get_dj_list', async function(req, res){
+	try{
+		var dj_list = await cms_service.GetDJList();
+		res.send({
+			ok: 1,
+			dj_list: dj_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail /dj/get_dj_list'
+		});
+	}
+});
+
+router.post('/dj/add_dj', async function(req, res){
+	try{
+		var name = req.body.name;
+		var name_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(name);
+		if(name_duplicated){
+			res.send({
+				ok:0,
+				err:'name duplicated'
+			});	
+			return;
+		}
+
+		var user_id = randomstring.generate(30);
+		var id_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(user_id);
+		if(id_duplicated){
+			user_id = randomstring.generate(30);
+			id_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(user_id);
+			if(id_duplicated){
+				user_id = randomstring.generate(30);
+				id_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(user_id);
+			}
+			res.send({
+				ok:0,
+				err:'failed to generate user_id'
+			});	
+			return;
+		}
+
+		await cms_service.AddDJUser(user_id, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail /dj/add_dj'
+		});
+	}
+});
+
+router.post('/dj/edit_dj', async function(req, res){
+	try{
+		var name = req.body.name;
+		var user_id = req.body.user_id;
+		var name_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(name);
+		if(name_duplicated){
+			res.send({
+				ok:0,
+				err:'name duplicated'
+			});	
+			return;
+		}
+
+		await cms_service.EditDJUser(user_id, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail /dj/add_dj'
+		});
+	}
+});
+
 
 module.exports = router;

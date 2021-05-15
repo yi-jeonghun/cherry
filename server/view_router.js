@@ -190,6 +190,14 @@ router.get('/__cms/playlist.vu', async function(req, res){
 	res.render('__cms/cms_playlist', null);
 });
 
+router.get('/__cms/DJ.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
+	res.render('__cms/DJ', null);
+});
 
 
 module.exports = router;
