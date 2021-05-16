@@ -179,7 +179,7 @@ function CherryPlayer(){
 		document.addEventListener('keydown', function(e){
 			switch(e.keyCode){
 				case 32:
-					self.PlayPause();
+					// self.PlayPause();
 				break;
 			}
 		});
