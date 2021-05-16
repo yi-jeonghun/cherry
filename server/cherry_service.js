@@ -1098,7 +1098,7 @@ function CherryService(){
 				`;
 
 				if(mine_only){
-					sql += 'AND user_id=?';
+					sql += 'AND p.user_id=?';
 				}
 				if(open_only){
 					sql += 'AND is_open="Y"';
