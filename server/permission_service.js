@@ -32,7 +32,13 @@ function PermissionService() {
 			}
 
 			//FIXME DB화 할것.
-			var is_admin = '111374135736029697427' == user_info.user_id ? true : false;
+
+			var admin_list = [
+				'111374135736029697427',//guitar man
+				'116546604536174133409'//aryun tv
+			];
+
+			var is_admin = admin_list.includes(user_info.user_id);
 			resolve(is_admin);
 
 			// if (user_info == null || user_info == undefined) {
