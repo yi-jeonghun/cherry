@@ -32,9 +32,22 @@
 				<div class="container-fluid px-0" style="height: 100%;">
 					<div class="row" style="height: 100%;">
 						<!-- ARTIST LIST -->
-						<div class="col-4" style="height: 100%;">
-							<input type="text" class="form-control" placeholder="Artist" aria-label="Artist" aria-describedby="button-addon4" id="id_input_artist_keyword">
-							<div id="id_div_artist_list"></div>
+						<div class="col-4 border-right" style="height: 100%; padding-top: 5px;">
+							<ul class="nav nav-tabs small">
+								<li class="nav-item">
+									<a class="nav-link active" href="#" id="id_nav_cms_artist_list_favorite">Favorites</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#" id="id_nav_cms_artist_list_search">Search</a>
+								</li>
+							</ul>
+							<div id="id_div_cms_artist_favorites_list">
+
+							</div>
+							<div id="id_div_cms_artist_search" style="display:none">
+								<input type="text" class="form-control small" placeholder="Artist" aria-label="Artist" aria-describedby="button-addon4" id="id_input_artist_keyword">
+								<div id="id_div_cms_artist_search_list"></div>
+							</div>
 						</div>
 						<!-- MUSIC LIST -->
 						<div class="col-8" style="height: 100%; overflow: auto;">

@@ -9,6 +9,11 @@ const ARTIST_EDIT_MODE = {
 	EDIT: 1
 };
 
+const ARTIST_LIST_TYPE = {
+	FAVORITE:0,
+	SEARCH:1
+};
+
 function ArtistControl(){
 	var self = this;
 	this._artist_name = null;
@@ -17,11 +22,24 @@ function ArtistControl(){
 	this._youtube_searched_video_list = [];
 	this._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
 	this._music_id_to_edit = null;
+	this._artist_list_type = ARTIST_LIST_TYPE.FAVORITE;
+	this._artist_searched_list = [];
+	this._cms_favorite_artist_list = [];
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
 		console.log('init  ArtistControl');
 		self.InitComponentHandle();
+
+		var tmp = window.localStorage.getItem('CMS_FAVORITE_ARTIST_LIST');
+		console.log('tmp ' + tmp);
+		if(tmp == null){
+			self._cms_favorite_artist_list = [];
+		}else{
+			self._cms_favorite_artist_list = JSON.parse(tmp);
+		}
+		self.DISP_FavoriteArtistList();
+
 		return self;
 	};
 
@@ -33,12 +51,14 @@ function ArtistControl(){
 		$('#id_btn_cms_artist_edit_ok').on('click', self.OnClick_id_btn_cms_artist_edit_ok);
 		$('.slider_line_div').on('mousedown', self.OnTimeBarClick);
 		$('#id_btn_cms_artist_music_edit_ok').on('click', self.OnClick_id_btn_cms_artist_music_edit_ok);
+		$('#id_nav_cms_artist_list_favorite').on('click', self.OnChangeTab_Favorite);
+		$('#id_nav_cms_artist_list_search').on('click', self.OnChangeTab_Search);
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
 
 	this.OnInputArtistKeyword = function(){
-		$('#id_div_artist_list').empty();
+		$('#id_div_cms_artist_search_list').empty();
 
 		var keyword = $('#id_input_artist_keyword').val().trim();
 		console.log('keyword ' + keyword);
@@ -58,7 +78,8 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.DISP_ArtistList(res.artist_list);
+					self._artist_searched_list = res.artist_list;
+					self.DISP_SearchedArtistList();
 				}else{
 					alert(res.err);
 				}
@@ -188,6 +209,54 @@ function ArtistControl(){
 			}
 		});
 	};
+	
+	this.OnChangeTab_Favorite = function(){
+		self.OnChangeTab(ARTIST_LIST_TYPE.FAVORITE);
+	};
+
+	this.OnChangeTab_Search = function(){
+		self.OnChangeTab(ARTIST_LIST_TYPE.SEARCH);
+	};
+
+	this.OnChangeTab = function(list_type){
+		self._artist_list_type = list_type;
+
+		$('#id_nav_cms_artist_list_favorite').removeClass('active');
+		$('#id_nav_cms_artist_list_search').removeClass('active');
+		
+		if(self._artist_list_type == ARTIST_LIST_TYPE.FAVORITE){
+			$('#id_nav_cms_artist_list_favorite').addClass('active');
+			$('#id_div_cms_artist_favorites_list').show();
+			$('#id_div_cms_artist_search').hide();
+		}else if(self._artist_list_type == ARTIST_LIST_TYPE.SEARCH){
+			$('#id_nav_cms_artist_list_search').addClass('active');
+			$('#id_div_cms_artist_favorites_list').hide();
+			$('#id_div_cms_artist_search').show();
+		}
+	};
+
+	this.OnChoose_FavoriteArtist = function(idx){
+		self._cms_favorite_artist_list.push({
+			artist_id: self._artist_searched_list[idx].artist_id,
+			name: self._artist_searched_list[idx].name
+		});
+		window.localStorage.setItem('CMS_FAVORITE_ARTIST_LIST', JSON.stringify(self._cms_favorite_artist_list));
+		self.DISP_SearchedArtistList();
+		self.DISP_FavoriteArtistList();
+	};
+
+	this.OnChoose_FavoriteArtist_Del = function(artist_id){
+		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
+			if(self._cms_favorite_artist_list[i].artist_id == artist_id){
+				self._cms_favorite_artist_list.splice(i, 1);
+				break;
+			}
+		}
+
+		window.localStorage.setItem('CMS_FAVORITE_ARTIST_LIST', JSON.stringify(self._cms_favorite_artist_list));
+		self.DISP_SearchedArtistList();
+		self.DISP_FavoriteArtistList();
+	};
 
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -303,30 +372,75 @@ function ArtistControl(){
 
 	//////////////////////////////////////////////////////////////////////////
 	
-	this.DISP_ArtistList = function(artist_list){
+	this.DISP_FavoriteArtistList = function(){
+		$('#id_div_cms_artist_favorites_list').empty();
+		var h = `
+		<table class="table table-sm table-striped small">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th></th>
+		</tr>
+		`;
+
+		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
+			var a = self._cms_favorite_artist_list[i];
+			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_id}')`;
+			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_id})`;
+
+			h += `
+			<tr>
+				<td>${a.artist_id}</td>
+				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
+				<td onClick="${on_click_check}" style="cursor:pointer">
+					<i class="fas fa-check" style="color:red"></i>
+				</td>
+			</tr>
+			`;
+		}
+
+		$('#id_div_cms_artist_favorites_list').html(h);
+	};
+
+	this.DISP_SearchedArtistList = function(){
+		$('#id_div_cms_artist_search_list').empty();
+
 		var h = `
 		<table class="table table-sm table-striped small">
 		<tr>
 			<th>ID</th>
 			<th>VA</th>
 			<th>Name</th>
+			<th></th>
 		</tr>
 		`;
-		for(var i=0 ; i<artist_list.length ; i++){
-			var a = artist_list[i];
+		for(var i=0 ; i<self._artist_searched_list.length ; i++){
+			var a = self._artist_searched_list[i];
 			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_id}')`;
+			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist(${i})`;
+			var check_color = '#aaaaaa';
+			for(var k=0 ; k<self._cms_favorite_artist_list.length ; k++){
+				if(self._cms_favorite_artist_list[k].artist_id == a.artist_id){
+					check_color = 'red';
+					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_id})`;
+					break;
+				}
+			}
 
 			h += `
-			<tr onClick="${on_click}" style="cursor:pointer">
+			<tr>
 				<td>${a.artist_id}</td>
 				<td>${a.is_various}</td>
-				<td>${a.name}</td>
+				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
+				<td onClick="${on_click_check}" style="cursor:pointer">
+					<i class="fas fa-check" style="color:${check_color}"></i>
+				</td>
 			</tr>
 			`;
 		}
 		h += '</table>';
 
-		$('#id_div_artist_list').html(h);
+		$('#id_div_cms_artist_search_list').html(h);
 	};
 
 	this.DISP_MusicList = function(){
