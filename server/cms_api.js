@@ -399,4 +399,21 @@ router.post('/get_user_list', async function(req, res){
 	}
 });
 
+router.post('/update_music', async function(req, res){
+	try{
+		var title = req.body.title;
+		var music_id = req.body.music_id;
+		await cms_service.UpdateMusic(music_id, title);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_music'
+		});
+	}
+});
+
 module.exports = router;

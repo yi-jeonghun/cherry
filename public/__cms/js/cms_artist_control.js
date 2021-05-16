@@ -16,6 +16,7 @@ function ArtistControl(){
 	this._youtube = null;
 	this._youtube_searched_video_list = [];
 	this._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
+	this._music_id_to_edit = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -31,6 +32,7 @@ function ArtistControl(){
 		$('#id_btn_cms_artist_add').on('click', self.OnClick_id_btn_cms_artist_add);
 		$('#id_btn_cms_artist_edit_ok').on('click', self.OnClick_id_btn_cms_artist_edit_ok);
 		$('.slider_line_div').on('mousedown', self.OnTimeBarClick);
+		$('#id_btn_cms_artist_music_edit_ok').on('click', self.OnClick_id_btn_cms_artist_music_edit_ok);
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -91,7 +93,7 @@ function ArtistControl(){
 		
 		self._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
 		$('#id_input_cms_artist_name').val('');
-		$('.modal').modal('show');
+		$('#id_modal_cms_artist_edit').modal('show');
 	};
 
 	this.OnClick_id_btn_cms_artist_edit_ok = function(){
@@ -123,6 +125,70 @@ function ArtistControl(){
 		}
 	};
 
+	this.OnTimeBarClick = function(e){
+		var ele = $('.slider_line_div');
+		// var left = ele.position().left;
+		var left = ele.offset().left;
+
+		var width = ele.width();
+		var click_x = e.pageX;
+
+		var x = click_x - left;
+		console.log('left ' + left + ' width ' + width + ' x ' + click_x);
+		console.log('x ' + x);
+
+		var percent = (x / width) * 100;
+		console.log('percent ' + percent);
+		window._cherry_player.SeekToPercent(percent);
+	};
+
+	this.OnChooseVideo = function(video_id){
+		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
+			var tmp_video_id = self._youtube_searched_video_list[i].video_id;
+			if(tmp_video_id == video_id){
+				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'orange');
+			}else{
+				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'white');
+			}
+		}
+
+		console.log('video_id ' + video_id);
+		var music = {
+			video_id: video_id
+		};
+		window._cherry_player.TryMusic(music);
+	};
+
+	this.OnClick_MusicEdit = function(idx){
+		var m = self._music_list[idx];
+		self._music_id_to_edit = m.music_id;
+		$('#id_input_cms_artist_music_title').val(m.title);
+		$('#id_modal_cms_artist_music_edit').modal('show');
+	};
+
+	this.OnClick_id_btn_cms_artist_music_edit_ok = function(){
+		var title = $('#id_input_cms_artist_music_title').val().trim();
+		var req_data = {
+			music_id: self._music_id_to_edit,
+			title:    title   
+		};
+		$.ajax({
+			url: '/__cms_api/update_music',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.OnChooseArtiat(self._artist_name, self._selected_artist_id);
+					$('#id_modal_cms_artist_music_edit').modal('hide');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 
 	this.FindOrAddArtist = function(artist_name){
@@ -138,7 +204,7 @@ function ArtistControl(){
 			success: function (res) {
 				if(res.ok){
 					self.OnChooseArtiat(artist_name, res.artist_id);
-					$('.modal').modal('hide');
+					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
 				}
@@ -160,7 +226,7 @@ function ArtistControl(){
 				if(res.ok){
 					var va_artist_name = artist_name_list.join(', ');
 					self.OnChooseArtiat(va_artist_name, res.artist_id);
-					$('.modal').modal('hide');
+					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
 				}
@@ -181,7 +247,8 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.DISP_MusicList(res.music_list);
+					self._music_list = res.music_list;
+					self.DISP_MusicList();
 				}else{
 					alert(res.err);
 				}
@@ -234,45 +301,11 @@ function ArtistControl(){
 		});
 	};
 
-	this.OnTimeBarClick = function(e){
-		var ele = $('.slider_line_div');
-		// var left = ele.position().left;
-		var left = ele.offset().left;
-
-		var width = ele.width();
-		var click_x = e.pageX;
-
-		var x = click_x - left;
-		console.log('left ' + left + ' width ' + width + ' x ' + click_x);
-		console.log('x ' + x);
-
-		var percent = (x / width) * 100;
-		console.log('percent ' + percent);
-		window._cherry_player.SeekToPercent(percent);
-	};
-
-	this.OnChooseVideo = function(video_id){
-		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
-			var tmp_video_id = self._youtube_searched_video_list[i].video_id;
-			if(tmp_video_id == video_id){
-				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'orange');
-			}else{
-				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'white');
-			}
-		}
-
-		console.log('video_id ' + video_id);
-		var music = {
-			video_id: video_id
-		};
-		window._cherry_player.TryMusic(music);
-	};
-
 	//////////////////////////////////////////////////////////////////////////
 	
 	this.DISP_ArtistList = function(artist_list){
 		var h = `
-		<table class="table table-striped small">
+		<table class="table table-sm table-striped small">
 		<tr>
 			<th>ID</th>
 			<th>VA</th>
@@ -296,25 +329,33 @@ function ArtistControl(){
 		$('#id_div_artist_list').html(h);
 	};
 
-	this.DISP_MusicList = function(music_list){
+	this.DISP_MusicList = function(){
 		var h = `
-		<table class="table table-striped small">
+		<table class="table table-sm table-striped small">
 		<tr>
 			<th>Title</th>
 			<th>MID</th>
 			<th>VID</th>
 			<th>User</th>
+			<th></th>
 		</tr>
 		`;
 
-		for(var i=0 ; i<music_list.length ; i++){
-			var m = music_list[i];
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i];
+			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
+
 			h += `
 			<tr>
 				<td>${m.title}</td>
 				<td>${m.music_id}</td>
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
+				<td>
+					<button class="btn btn-sm border" onClick="${on_edit_click}">
+						<i class="fas fa-pen"></i>
+					</button>
+				</td>
 			</tr>
 			`;
 		}
@@ -327,7 +368,7 @@ function ArtistControl(){
 		$('#id_div_youtube_search_result').empty();
 
 		var h = `
-		<div class="container-fluid">
+		<div class="container-fluid small">
 		`;
 		for(var i=0 ; i<video_list.length ; i++){
 			var video = video_list[i];
@@ -350,7 +391,10 @@ function ArtistControl(){
 				<div class="col-8 d-flex">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
-						<div class="text-secondary" style="font-size: 0.8em">${channel}</div>
+						<div class="text-secondary" style="font-size: 0.8em">
+							${channel}
+							[${video_id}]
+						</div>
 					</div>
 				</div>
 				<div class="col-1">
@@ -359,7 +403,7 @@ function ArtistControl(){
 					</button>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-sm btn-primary" type="button" onClick="${OnOkClick}">OK</button>
+					<button class="btn btn-sm btn-primary" type="button" onClick="${OnOkClick}">Add</button>
 				</div>
 			</div>
 			`;

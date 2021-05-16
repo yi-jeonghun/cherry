@@ -28,7 +28,7 @@
 
 		<div class="row" style="height: calc(100% - 100px); overflow: hidden;">
 			<!-- LEFT -->
-			<div class="col-6 border" style="height: 100%;">
+			<div class="col-7 border" style="height: 100%;">
 				<div class="container-fluid px-0" style="height: 100%;">
 					<div class="row" style="height: 100%;">
 						<!-- ARTIST LIST -->
@@ -53,7 +53,7 @@
 			</div>
 
 			<!-- RIGHT -->
-			<div class="col-6 border" style="height: 100%;">
+			<div class="col-5 border" style="height: 100%;">
 				<div class="container-fluid" style="height: 100%;">
 					<!-- PLAYER TEST -->
 					<div class="row border" style="height: 100px;">
@@ -88,7 +88,7 @@
 </body>
 </html>
 
-<div class="modal" tabindex="-1">
+<div id="id_modal_cms_artist_edit" class="modal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -103,6 +103,29 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="id_btn_cms_artist_edit_ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="id_modal_cms_artist_music_edit" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Music</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<div>Title</div>
+				<div>
+					<input class="form-control" id="id_input_cms_artist_music_title">
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="id_btn_cms_artist_music_edit_ok">OK</button>
       </div>
     </div>
   </div>

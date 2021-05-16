@@ -7,9 +7,7 @@ function CMS_Service(){
 	this.ClearTopRankDraftData = async function(country_type){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-
 			var sql = '';
-
 			try{
 				conn = await db_conn.GetConnection();
 				sql += 'DELETE FROM top_rank_list_draft WHERE country_code=?';
@@ -192,7 +190,6 @@ function CMS_Service(){
 			});	
 		});
 	};
-
 		
 	this.SaveTopRankRelease = async function(country_code, music_list){
 		return new Promise(async function(resolve, reject){
@@ -472,6 +469,30 @@ function CMS_Service(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService GetUserList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateMusic = async function(music_id, title){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE music SET title=? WHERE music_id=?`;
+				var val = [title, music_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpdateMusic #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpdateMusic #1');
 			}finally{
 				if(conn) conn.release();
 			}
