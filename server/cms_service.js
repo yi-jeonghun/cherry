@@ -453,6 +453,30 @@ function CMS_Service(){
 			}
 		});
 	};
+
+	this.GetUserList = async function(){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT * FROM user`;
+				var val = [];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetUserList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetUserList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 }
 
 module.exports = new CMS_Service();

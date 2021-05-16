@@ -383,5 +383,20 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 	}
 });
 
+router.post('/get_user_list', async function(req, res){
+	try{
+		var user_list = await cms_service.GetUserList();
+		res.send({
+			ok: 1,
+			user_list: user_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_user_list'
+		});
+	}
+});
 
 module.exports = router;
