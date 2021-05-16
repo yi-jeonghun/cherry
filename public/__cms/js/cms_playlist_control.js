@@ -18,7 +18,6 @@ function PlaylistControl(){
 	this.Init = function(){
 		self.InitHandle();
 		self.LoadCountryCode();
-		self.GetPlaylistList();
 		return self;
 	};
 
@@ -28,7 +27,10 @@ function PlaylistControl(){
 		$('#id_btn_playlist_save').on('click', self.Save);
 		$('#id_btn_playlist_search_artist').on('click', self.OnSearchArtistClick);
 		$('#id_btn_playlist_search_music').on('click', self.OnSearchMusicClick);
+		$('#id_btn_cms_playlist_refresh').on('click', self.OnClick_id_btn_cms_playlist_refresh);
 	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.OnSearchMusicClick = function(){
 		var keyword = $('#id_input_playlist_search_keyword').val().trim();
@@ -76,6 +78,12 @@ function PlaylistControl(){
 	};
 
 	this.OnPlaylistNewClick = function(){
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		if(dj_user_id == null){
+			alert('Choose DJ');
+			return;
+		}
+
 		self._edit_mode = EDIT_MODE.NEW;
 		self._playlist_info = null;
 		self._playlist_music_list = [];
@@ -106,7 +114,7 @@ function PlaylistControl(){
 			<div class="col-3 pb-1">
 				<img src='/img/flags/${cc}.png' style="width:50px">
 			</div>
-			<div class="col-8" style="cursor:pointer" onClick="window._playlist_control.ChooseCountry('${cc}')">
+			<div class="col-8" style="cursor:pointer" onClick="window._playlist_control.OnChooseCountry('${cc}')">
 				${cn}
 			</div>
 			`;
@@ -117,7 +125,7 @@ function PlaylistControl(){
 		$('#id_div_country_list').html(h);
 	};
 
-	this.ChooseCountry = function(country_code){
+	this.OnChooseCountry = function(country_code){
 		$('#modal_choose_country').modal('hide');
 		console.log('country_code ' + country_code);
 
@@ -125,7 +133,19 @@ function PlaylistControl(){
 		self.LoadCountryCode();
 	};
 
+	this.OnClick_id_btn_cms_playlist_refresh = function(){
+		self.GetPlaylistList();
+	};
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	this.Save = function(){
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		if(dj_user_id == null){
+			alert('Choose DJ');
+			return;
+		}
+
 		var title = $('#id_input_playlist_title').val().trim();
 		if(title == ''){
 			alert('title empty');
@@ -149,17 +169,20 @@ function PlaylistControl(){
 		}
 
 		var req_data = {
-			playlist_id:   playlist_id,
-			country_code:  self._country_code_for_edit,
-			title:         title,
-			comment:       comment,
-			is_open:       is_open,
-			music_id_list: music_id_list
+			dj_user_id: dj_user_id,
+			playlist: {
+				playlist_id:   playlist_id,
+				country_code:  self._country_code_for_edit,
+				title:         title,
+				comment:       comment,
+				is_open:       is_open,
+				music_id_list: music_id_list	
+			}
 		};
 
 		if(self._edit_mode == EDIT_MODE.NEW){
 			$.ajax({
-				url: '/cherry_api/add_playlist_and_music_list',
+				url: '/__cms_api/add_playlist_and_music_list',
 				type: 'POST',
 				data: JSON.stringify(req_data),
 				contentType: 'application/json; charset=utf-8',
@@ -176,7 +199,7 @@ function PlaylistControl(){
 			});
 		}else{
 			$.ajax({
-				url: '/cherry_api/update_playlist_and_music_list',
+				url: '/__cms_api/update_playlist_and_music_list',
 				type: 'POST',
 				data: JSON.stringify(req_data),
 				contentType: 'application/json; charset=utf-8',
@@ -220,11 +243,18 @@ function PlaylistControl(){
 	};
 
 	this.GetPlaylistList = function(){
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		if(dj_user_id == null){
+			alert("Please Choose DJ");
+			return;
+		}
+
 		var req_data = {
-			country_code: self._country_code_for_edit
+			country_code: self._country_code_for_edit,
+			dj_user_id: dj_user_id
 		};
 		$.ajax({
-			url: '/cherry_api/get_playlist_list',
+			url: '/__cms_api/get_playlist_list',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -295,8 +325,8 @@ function PlaylistControl(){
 		$('#id_leable_playlist_edit_mode').html('New Mode');
 		$('#id_label_playlist_id').html('');
 		$('#id_label_playlist_country_code').html(self._country_code_for_edit);
-		var user_id = window._auth_control.GetUserID();
-		$('#id_label_playlist_user_id').html(user_id);
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		$('#id_label_playlist_user_id').html(dj_user_id);
 		$('#id_input_playlist_title').val('');
 		$('#id_input_playlist_comment').val('');
 		$('#id_checkbox_playlist_is_open').prop("checked", false);

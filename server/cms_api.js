@@ -315,5 +315,73 @@ router.post('/add_music', async function(req, res){
 	}
 });
 
+router.post('/get_playlist_list', async function(req, res){
+	try{
+		var country_code = req.body.country_code;
+		var mine_only = true;
+		var open_only = false;
+		var du_user_id = req.body.dj_user_id;
+
+		if(du_user_id == null){
+			res.send({
+				ok:0,
+				err_code:-1,
+				err:'Fail get_playlist_list. No user ID.'
+			});
+			return;
+		}
+
+		var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, du_user_id);
+		res.send({
+			ok: 1,
+			playlist_list: playlist_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_playlist_list'
+		});
+	}
+});
+
+router.post('/add_playlist_and_music_list', async function(req, res){
+	try{
+		var dj_user_id = req.body.dj_user_id;
+		var playlist = req.body.playlist;
+		var playlist_id = await cherry_service.AddPlaylist(playlist, dj_user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
+		res.send({
+			ok: 1,
+			playlist_id: playlist_id
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_playlist_and_music_list'
+		});
+	}
+});
+
+router.post('/update_playlist_and_music_list', async function(req, res){
+	try{
+		var user_id = req.body.dj_user_id;
+		var playlist = req.body.playlist;
+		console.log('playlist id ' + playlist.playlist_id);
+		await cherry_service.UpdatePlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist.playlist_id, playlist.music_id_list);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_playlist_and_music_list'
+		});
+	}
+});
+
 
 module.exports = router;

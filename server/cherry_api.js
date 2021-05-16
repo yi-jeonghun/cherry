@@ -558,46 +558,6 @@ router.post('/update_playlist', async function(req, res){
 	}
 });
 
-//FIXME ID ckeck
-router.post('/add_playlist_and_music_list', async function(req, res){
-	try{
-		var user_id = await permission_service.GetUserID(req);
-		var playlist = req.body;
-		var playlist_id = await cherry_service.AddPlaylist(playlist, user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
-		res.send({
-			ok: 1,
-			playlist_id: playlist_id
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Fail add_playlist_and_music_list'
-		});
-	}
-});
-
-//FIXME ID check
-router.post('/update_playlist_and_music_list', async function(req, res){
-	try{
-		var user_id = await permission_service.GetUserID(req);
-		var playlist = req.body;
-		console.log('playlist id ' + playlist.playlist_id);
-		await cherry_service.UpdatePlaylist(playlist, user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist.playlist_id, playlist.music_id_list);
-		res.send({
-			ok: 1
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Fail update_playlist_and_music_list'
-		});
-	}
-});
-
 router.post('/add_music_list_to_playlist', async function(req, res){
 	try{
 		var is_allowed = false;

@@ -99,7 +99,7 @@ function ArtistControl(){
 
 	this.AutoMusicRegisterProcess = function(video_id){
 		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
-		if(dj_user_id == -1){
+		if(dj_user_id == null){
 			alert("Please Choose DJ");
 			return;
 		}

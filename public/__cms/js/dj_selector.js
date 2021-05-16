@@ -5,7 +5,7 @@ $('document').ready(function(){
 function DJSelector(){
 	var self = this;
 	this._dj_list = [];
-	this._dj_user_id = -1;
+	this._dj_user_id = null;
 
 	this.Init = function(){
 		self.GetDJList();
@@ -20,7 +20,11 @@ function DJSelector(){
 	////////////////////////////////////////////////////////////////////
 
 	this.OnChange_id_select_menu_dj_list = function(){
-		self._dj_user_id = $('#id_select_menu_dj_list').val();
+		var val = $('#id_select_menu_dj_list').val();
+		if(val == -1){
+			val = null;
+		}
+		self._dj_user_id = val;
 	};
 
 	////////////////////////////////////////////////////////////////////
