@@ -4,12 +4,18 @@ $('document').ready(function(){
 	window._cherry_player = new CherryPlayer().Init(is_for_single_play);
 });
 
+const ARTIST_EDIT_MODE = {
+	NEW: 0,
+	EDIT: 1
+};
+
 function ArtistControl(){
 	var self = this;
 	this._artist_name = null;
 	this._selected_artist_id = null;
 	this._youtube = null;
 	this._youtube_searched_video_list = [];
+	this._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -22,6 +28,8 @@ function ArtistControl(){
 		console.log('InitComponentHandle ');
 		$('#id_input_artist_keyword').keyup(self.OnInputArtistKeyword);
 		$('#id_btn_search_youtube').on('click', self.OnClickSearchYoutube);
+		$('#id_btn_cms_artist_add').on('click', self.OnClick_id_btn_cms_artist_add);
+		$('#id_btn_cms_artist_edit_ok').on('click', self.OnClick_id_btn_cms_artist_edit_ok);
 		$('.slider_line_div').on('mousedown', self.OnTimeBarClick);
 	};
 
@@ -74,7 +82,91 @@ function ArtistControl(){
 		self._youtube.Search(keyword, self.DISP_YoutubeSearchResult, self.DISP_YoutubeVideoInfo);
 	};
 
+	this.OnClick_id_btn_cms_artist_add = function(){
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		if(dj_user_id == null){
+			alert('Choose DJ');
+			return;
+		}
+		
+		self._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
+		$('#id_input_cms_artist_name').val('');
+		$('.modal').modal('show');
+	};
+
+	this.OnClick_id_btn_cms_artist_edit_ok = function(){
+		var artist_name = $('#id_input_cms_artist_name').val().trim();
+		var artist_name_list = [];
+		var is_various_artist = false;
+		//various artist인지 확인.
+		{
+			artist_name_list = artist_name.split(',');
+
+			for(var i=0 ; i<artist_name_list.length ; i++){
+				artist_name_list[i] = artist_name_list[i].trim();
+			}
+
+			console.log('_name.length ' + artist_name_list.length);
+			if(artist_name_list.length > 1){
+				is_various_artist = true;
+			}
+		}
+
+		if(self._artist_edit_mode == ARTIST_EDIT_MODE.NEW){
+			if(is_various_artist){
+				self.FindOrAddVariousArtist(artist_name_list);
+			}else{
+				self.FindOrAddArtist(artist_name);
+			}
+		}else if(self._artist_edit_mode == ARTIST_EDIT_MODE.NEW){
+
+		}
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
+
+	this.FindOrAddArtist = function(artist_name){
+		var req_data = {
+			artist_name: artist_name.trim()
+		};
+		$.ajax({
+			url: '/__cms_api/find_or_add_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.OnChooseArtiat(artist_name, res.artist_id);
+					$('.modal').modal('hide');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.FindOrAddVariousArtist = function(artist_name_list){
+		var req_data = {
+			artist_name_list: artist_name_list
+		};
+		$.ajax({
+			url: '/__cms_api/find_or_add_various_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					var va_artist_name = artist_name_list.join(', ');
+					self.OnChooseArtiat(va_artist_name, res.artist_id);
+					$('.modal').modal('hide');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
 
 	this.GetMusicListOfArtist = function(){
 		var req_data = {

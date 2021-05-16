@@ -18,8 +18,11 @@
 		</div>
 
 		<div class="row border" style="height: 70px;">
-			<div class="col-3">
+			<div class="col-3 my-auto" style="">
 				<h5>Artist</h5>
+			</div>
+			<div class="col-9 my-auto text-right" style="">
+				<button type="button" class="btn btn-sm border" id="id_btn_cms_artist_add">Add</button>
 			</div>
 		</div>
 
@@ -84,6 +87,26 @@
 	</div>
 </body>
 </html>
+
+<div class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Artist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" id="id_input_cms_artist_name">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="id_btn_cms_artist_edit_ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 <script type="text/javascript" src="/js/cherry_player.js"></script>
