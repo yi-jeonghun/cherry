@@ -342,16 +342,21 @@ function ArtistControl(){
 			var OnOkClick = `window._artist_control.AutoMusicRegisterProcess('${video_id}')`;
 
 			h += `
-			<div class="row" style="margin-top:10px; border-bottom: 1px solid #eeeeee; cursor:pointer" id="${id_youtube_video_row_str}">
+			<div class="row" style="margin-top:10px; border-bottom: 1px solid #eeeeee" id="${id_youtube_video_row_str}">
 				<div class="col-1">
 					<image style="height: 50px; width: 50px;" src="${img_src}">
 				</div>
 				<div class="col-1" id="${id_video_duration_str}">00:00:00</div>
-				<div class="col-9 d-flex" onclick="${OnChooseVideo}">
+				<div class="col-8 d-flex">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
 						<div class="text-secondary" style="font-size: 0.8em">${channel}</div>
 					</div>
+				</div>
+				<div class="col-1">
+					<button type="button" class="btn btn-sm border" onclick="${OnChooseVideo}">
+						<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
+					</button>
 				</div>
 				<div class="col-1">
 					<button class="btn btn-sm btn-primary" type="button" onClick="${OnOkClick}">OK</button>
