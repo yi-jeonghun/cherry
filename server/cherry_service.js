@@ -1058,9 +1058,10 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT playlist_id, country_code, user_id, title, comment, like_count, is_open, timestamp_created, timestamp_updated
-				FROM playlist
-				WHERE playlist_id=?
+				SELECT p.playlist_id, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated
+				FROM playlist p
+				JOIN user u ON u.user_id = p.user_id
+				WHERE p.playlist_id=?
 				`;
 				var val = [playlist_id];
 				conn.query(sql, val, function(err, result){
@@ -1090,9 +1091,10 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT playlist_id, country_code, user_id, title, comment, like_count, is_open, timestamp_created, timestamp_updated
-				FROM playlist
-				WHERE country_code=?
+				SELECT p.playlist_id, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated
+				FROM playlist p
+				JOIN user u ON u.user_id = p.user_id
+				WHERE p.country_code=?
 				`;
 
 				if(mine_only){

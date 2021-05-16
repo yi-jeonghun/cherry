@@ -50,8 +50,9 @@ function OpenPlaylistControl(){
 		var h = `
 			<table class="table table-sm table-striped" style="margin: 0px">
 			<tr>
-			<th>Title</th>
-			<th>Like</th>
+				<th>Title</th>
+				<th>Like</th>
+				<th>User</th>
 			</tr>
 		`;
 
@@ -64,6 +65,7 @@ function OpenPlaylistControl(){
 			<tr>
 				<td onClick="${on_click_title}">${p.title}</td>
 				<td onClick="${on_click_title}">${p.like_count}</td>
+				<td onClick="${on_click_title}">${p.user_name}</td>
 			</tr>
 			`;
 		}
