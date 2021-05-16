@@ -216,6 +216,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					alert('success');
 					self.GetMusicListOfArtist();
 				}else{
 					console.log('res.err_code ' + res.err_code);
