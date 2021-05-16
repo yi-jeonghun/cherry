@@ -4,6 +4,7 @@ var router = express.Router();
 var cms_service = require('./cms_service');
 var top_rank_parser = require('./top_rank_parser/top_rank_parser');
 var permission_service = require('./permission_service');
+var auth_service = require('./auth_service');
 var randomstring = require("randomstring");
 
 router.post('/fetch_content_from_url', async function(req, res){
@@ -263,6 +264,53 @@ router.post('/dj/edit_dj', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Fail /dj/add_dj'
+		});
+	}
+});
+
+router.post('/add_music', async function(req, res){
+	try{
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok:0,
+				err_code:-2,
+				err_msg: 'Sign in required'
+			});
+			return;
+		}
+
+		var dj_user_id = req.body.dj_user_id;
+		var music = req.body.music;
+		
+		var result = await cherry_service.FindSameMusic(music);
+		if(result.t_cnt > 0){
+			res.send({
+				ok:0,
+				err_code:-3,
+				err_msg:'Same title exists'
+			});
+		}else if(result.v_cnt > 0){
+			res.send({
+				ok:0,
+				err_code:-4,
+				err_msg:'Same video exists'
+			});
+		}else{
+			var music_id = await cherry_service.AddMusic(music, dj_user_id);
+			var music_info = await cherry_service.GetMusicInfo(music_id);
+
+			res.send({
+				ok: 1,
+				music_info: music_info
+			});
+		}
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err_code:-1,
+			err_msg:'Failed to add Music'
 		});
 	}
 });

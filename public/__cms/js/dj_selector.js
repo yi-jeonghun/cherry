@@ -5,7 +5,7 @@ $('document').ready(function(){
 function DJSelector(){
 	var self = this;
 	this._dj_list = [];
-	this._dj_user_id = null;
+	this._dj_user_id = -1;
 
 	this.Init = function(){
 		self.GetDJList();
@@ -54,5 +54,11 @@ function DJSelector(){
 			`;
 		}
 		$('#id_select_menu_dj_list').html(h);
+	};
+
+	///////////////////////////////////////////////////////////////////////
+
+	this.API_Get_Choosed_DJs_UserID = function(){
+		return self._dj_user_id;
 	};
 }
