@@ -63,9 +63,9 @@ function OpenPlaylistControl(){
 
 			h += `
 			<tr>
-				<td onClick="${on_click_title}">${p.title}</td>
-				<td onClick="${on_click_title}">${p.like_count}</td>
-				<td onClick="${on_click_title}">${p.user_name}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.title}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.like_count}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.user_name}</td>
 			</tr>
 			`;
 		}

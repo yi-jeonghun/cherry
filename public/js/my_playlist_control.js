@@ -198,9 +198,9 @@ function MyPlaylistControl(){
 
 			h += `
 			<tr>
-				<td onClick="${on_click_title}">${p.title}</td>
-				<td onClick="${on_click_title}">${p.like_count}</td>
-				<td onClick="${on_click_title}">${p.is_open}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.title}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.like_count}</td>
+				<td style="cursor:pointer" onClick="${on_click_title}">${p.is_open}</td>
 				<td style="${display}">
 					<button type="button" class="btn btn-light" onClick="${on_click_trash}">
 						<i class="fas fa-trash-alt"></i>
