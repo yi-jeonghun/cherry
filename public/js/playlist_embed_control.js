@@ -12,7 +12,7 @@ function PlaylistEmbedControl(playlist_id){
 
 	/////////////////////////////////////////////////////////////
 
-	this.OnPlayerReady = function(){
+	this.OnPlayStarted = function(){
 		$('#id_btn_play_pause').css('display', '');
 	};
 
@@ -34,7 +34,7 @@ function PlaylistEmbedControl(playlist_id){
 					self._music_list = res.music_list;
 
 					var playlist_storage = new PlaylistStorage_Memory(self._music_list);
-					window._cherry_player = new CherryPlayer().Init(playlist_storage, self.OnPlayerReady);
+					window._cherry_player = new CherryPlayer().Init(playlist_storage, self.OnPlayStarted);
 				}
 			}
 		});	
