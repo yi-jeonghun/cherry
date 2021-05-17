@@ -15,6 +15,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 	this.InitHandle = function(){
 		$('#id_btn_open_playlist_detail_listen_all').on('click', self.ListenAll);
 		$('#id_btn_playlist_detail_like').on('click', self.OnClick_id_btn_playlist_detail_like);
+		$('#id_btn_open_playlist_detail_export').on('click', self.OnClick_id_btn_open_playlist_detail_export);
 	};
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -55,6 +56,14 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 				}
 			}
 		});	
+	};
+
+	this.OnClick_id_btn_open_playlist_detail_export = function(){
+		var embed = `
+		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_id}" width="400" height="600"></iframe>
+		`;
+		$('#id_div_open_playlist_embed').val(embed.trim());
+		$('#id_modal_open_playlis_detail_export').modal('show');
 	};
 
 	//////////////////////////////////////////////////////////////////////////////

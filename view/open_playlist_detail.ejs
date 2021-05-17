@@ -7,6 +7,9 @@
 			<button class="btn btn-sm btn-light" id="id_btn_playlist_detail_like">
 				<i id="id_icon_playlist_detail_like" style="color: #bbbbbb; font-size: 1.4em;" class="fas fa-heart"></i>
 			</button>
+			<button id="id_btn_open_playlist_detail_export" type="button" class="btn btn-sm btn-primary">
+				<i class="fas fa-file-export" style="font-size: 1.4em"></i>
+			</button>
 			<button type="button" class="btn btn-sm btn-primary" id="id_btn_open_playlist_detail_listen_all">
 				<span>All</span>
 				<i style="margin-left:3px" class="fas fa-play"></i>
@@ -27,6 +30,22 @@
 			</div>			
 		</div>
 	</div>
+</div>
+
+<div id="id_modal_open_playlis_detail_export" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Embed Playlist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea id="id_div_open_playlist_embed" class="form-control" style="width: 100%; height: 100px;"></textarea>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript" src="/js/open_playlist_detail_control.js"></script>

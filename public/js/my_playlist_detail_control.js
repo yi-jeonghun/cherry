@@ -22,7 +22,10 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 		$('#id_btn_my_playlist_detail_close_add').on('click', self.OnClick_id_btn_my_playlist_detail_close_add);
 		$('#id_input_my_playlist_detail_search_keyword').keyup(self.OnChangeKeyword);
 		$('#id_btn_my_playlist_detail_add_music_complete').on('click', self.OnClick_id_btn_my_playlist_detail_add_music_complete);
+		$('#id_btn_my_playlist_detail_export').on('click', self.OnClick_id_btn_my_playlist_detail_export);
 	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.OnClick_id_btn_my_playlist_detail_add_music_complete = function(){
 		var req_data = {
@@ -101,6 +104,16 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 		self._is_edit_mode = !self._is_edit_mode;
 		self.DISP_music_list();	
 	};
+
+	this.OnClick_id_btn_my_playlist_detail_export = function(){
+		var embed = `
+		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_id}" width="400" height="600"></iframe>
+		`;
+		$('#id_div_my_playlist_embed').val(embed.trim());
+		$('#id_modal_my_playlis_detail_export').modal('show');
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.ListenAll = function(){
 		window._cherry_player.LoadMusicList(self._music_list);
