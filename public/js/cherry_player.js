@@ -54,9 +54,11 @@ function CherryPlayer(){
 	this._id_slider_fill = null;
 	this._is_edit_mode = false;
 	this._playlist_storage = null;
+	this._cb_on_player_ready = null;
 
-	this.Init = function(playlist_storage){
+	this.Init = function(playlist_storage, cb_on_player_ready){
 		self._playlist_storage = playlist_storage;
+		self._cb_on_player_ready = cb_on_player_ready;
 
 		self.CreateYoutubePlayer();
 
@@ -85,6 +87,9 @@ function CherryPlayer(){
 	this.OnPlayerReady = function(pb_rates, duration, volume){
 		$('#id_slider_volume').val(volume);
 		self.DisplayDuration(duration);
+		if(self._cb_on_player_ready != null){
+			self._cb_on_player_ready();
+		}
 	};
 
 	this.OnFlowEvent = function(play_time){
