@@ -32,6 +32,7 @@ function PlaylistEmbedControl(playlist_id){
 				if(res.ok){
 					self._playlist_info = res.playlist_info;
 					self._music_list = res.music_list;
+					self.DISP_PlaylistInfo();
 
 					var playlist_storage = new PlaylistStorage_Memory(self._music_list);
 					window._cherry_player = new CherryPlayer().Init(playlist_storage, self.OnPlayStarted);
@@ -43,10 +44,7 @@ function PlaylistEmbedControl(playlist_id){
 	/////////////////////////////////////////////////////////////
 
 	this.DISP_PlaylistInfo = function(){
-
-	};
-
-	this.DISP_MusicList = function(){
-
+		$('#id_label_playlist_embed_title').html(self._playlist_info.title);
+		$('#id_label_playlist_embed_comment').html(self._playlist_info.comment);
 	};
 }
