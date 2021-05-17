@@ -6,8 +6,8 @@ $('document').ready(function(){
 	window._country_code = window._const.COUNTRY_CODE.US;
 	window._router = new Router().Init();
 	window._main = new Control().Init();
-	var is_for_single_play = false;
-	window._cherry_player = new CherryPlayer().Init(is_for_single_play);
+	var playlist_storage = new PlaylistStorage_Local();
+	window._cherry_player = new CherryPlayer().Init(playlist_storage);
 });
 
 //FIXME 필요한 곳에서 직접 호출하도록 변경할 것.

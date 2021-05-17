@@ -169,6 +169,7 @@ function YoutubePlayer(){
 
 	this.Play = function(){
 		if(self._player == null){
+			console.log('_player is null');
 			return;
 		}
 		// if(self._is_playing == false){

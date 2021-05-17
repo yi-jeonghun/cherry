@@ -1,7 +1,7 @@
 $('document').ready(function(){
 	window._top_rank_control = new TopRankControl().Init();
-	var is_for_single_play = true;
-	window._cherry_player = new CherryPlayer().Init(is_for_single_play);
+	var playlist_storage = new PlaylistStorage_Memory();
+	window._cherry_player = new CherryPlayer().Init(playlist_storage);
 });
 
 //-----------------------------------------------------------------

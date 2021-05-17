@@ -63,6 +63,16 @@ router.get('/**/like.go', async function(req, res){
 });
 
 //###################################################################################
+
+router.get('/playlist_embed.go', async function(req, res){
+	var pid = req.query.pid;
+	res.render('playlist_embed', {
+		dev_mode: _dev_mode,
+		playlist_id: pid
+	});
+});
+
+//###################################################################################
 //inline pages
 router.get('/top_rank.vu', async function(req, res){
 	var data = {

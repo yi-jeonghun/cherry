@@ -10,6 +10,36 @@ const REPEAT_TYPE = {
 	END : 2
 };
 
+function PlaylistStorage_Local(){
+	this.GetPlaylist = function(){
+		var music_list = [];
+		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
+		if(saved_play_list == null || saved_play_list == ''){
+			return music_list;
+		}
+
+		music_list = JSON.parse((saved_play_list));
+		return music_list;
+	};
+
+	this.SavePlaylist = function(music_list){
+		window.localStorage.setItem('PLAY_LIST', JSON.stringify(self._music_list));
+	};
+}
+
+function PlaylistStorage_Memory(music_list){
+	var self = this;
+	this._music_list = music_list;
+
+	this.GetPlaylist = function(){
+		return self._music_list;
+	};
+
+	this.SavePlaylist = function(music_list){
+		self._music_list = music_list;
+	};
+}
+
 function CherryPlayer(){
 	var self = this;
 	this.__yt_player = null;
@@ -23,12 +53,11 @@ function CherryPlayer(){
 	this._b_volume_show = false;
 	this._id_slider_fill = null;
 	this._is_edit_mode = false;
-	this._is_for_single_play = true;
+	this._playlist_storage = null;
 
-	this.Init = function(is_for_single_play){
-		if(is_for_single_play != undefined){
-			self._is_for_single_play = is_for_single_play;
-		}
+	this.Init = function(playlist_storage){
+		self._playlist_storage = playlist_storage;
+
 		self.CreateYoutubePlayer();
 
 		$('#id_player_music_list_div').hide();
@@ -49,9 +78,7 @@ function CherryPlayer(){
 	//===========================================================================
 	//youtube iframe api가 준비된 상태이므로 이 단계에서는 Load를 할 수 있음.
 	this.OnYouTubeIframeAPIReady = function(){
-		if(self._is_for_single_play == false){
-			self.ReloadPlayList();
-		}
+		self.ReloadPlayList();
 	};
 
 	//Load가 된 상태이므로 play를 할 수 있음.
@@ -166,6 +193,8 @@ function CherryPlayer(){
 		// 	return;
 		// }
 
+		console.log('self.__yt_player.IsPlaying() ' + self.__yt_player.IsPlaying());
+
 		if(self.__yt_player.IsPlaying()){
 			self.__yt_player.Pause();
 			window.localStorage.setItem('PLAY_LAST_STATE', '0');
@@ -243,16 +272,11 @@ function CherryPlayer(){
 	};
 
 	this.SavePlayList = function(){
-		window.localStorage.setItem('PLAY_LIST', JSON.stringify(self._music_list));
+		self._playlist_storage.SavePlaylist(self._music_list);
 	};
 
 	this.ReloadPlayList = function(){
-		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
-		if(saved_play_list == null || saved_play_list == ''){
-			return;
-		}
-
-		self._music_list = JSON.parse((saved_play_list));
+		self._music_list = self._playlist_storage.GetPlaylist();
 		if(self._music_list.length == 0){
 			return;
 		}
