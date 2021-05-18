@@ -32,13 +32,13 @@ function CherryService(){
 		});
 	};
 
-	this.AddVariousArtist = async function(artist_id, member_artist_id){
+	this.AddVariousArtist = async function(artist_uid, member_artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INFO artist_various(artist_id, member_artist_id) VALUES(?, ?)';
-				var val = [artist_id, member_artist_id];
+				var sql_register = 'INSERT INFO artist_various(artist_uid, member_artist_uid) VALUES(?, ?)';
+				var val = [artist_uid, member_artist_uid];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -56,16 +56,16 @@ function CherryService(){
 		});
 	};
 
-	this.UpdateIsVarious = async function (artist_id){
+	this.UpdateIsVarious = async function (artist_uid){
 		return new Promise(async function(resolve, reject){
-			console.log('UpdateIsVarious ' + artist_id);
+			console.log('UpdateIsVarious ' + artist_uid);
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = 'UPDATE artist SET ? WHERE ?';
 				var val = [
 					{is_various: 'y'},
-					{artist_id: artist_id}
+					{artist_uid: artist_uid}
 				];
 	
 				conn.query(sql, val, function(err, result){
@@ -85,23 +85,23 @@ function CherryService(){
 		});
 	};
 
-	this.SearchVariousArtist = function(member_artist_id_list){
+	this.SearchVariousArtist = function(member_artist_uid_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT artist_id, GROUP_CONCAT(member_artist_id) member_arr
+					SELECT artist_uid, GROUP_CONCAT(member_artist_uid) member_arr
 					FROM artist_various av
-					WHERE av.artist_id IN (
-						SELECT av_sub.artist_id
+					WHERE av.artist_uid IN (
+						SELECT av_sub.artist_uid
 						FROM artist_various av_sub
-						WHERE av_sub.member_artist_id IN (?)
-						GROUP BY artist_id
+						WHERE av_sub.member_artist_uid IN (?)
+						GROUP BY artist_uid
 					)
-					GROUP BY artist_id
+					GROUP BY artist_uid
 				`;
-				var str_list = member_artist_id_list.join(',');
+				var str_list = member_artist_uid_list.join(',');
 				console.log('str_list ' + str_list);
 				var val = [str_list];
 	
@@ -116,15 +116,15 @@ function CherryService(){
 								found:false
 							});
 						}else{
-							var artist_id = self.FindSameVariousArtistID(member_artist_id_list, result);
-							if(artist_id == -1){
+							var artist_uid = self.FindSameVariousArtistID(member_artist_uid_list, result);
+							if(artist_uid == -1){
 								resolve({
 									found:false
 								});
 							}else{
 								resolve({
 									found:true,
-									artist_id: artist_id
+									artist_uid: artist_uid
 								});
 							}
 						}
@@ -139,10 +139,10 @@ function CherryService(){
 		});
 	};
 
-	this.FindSameVariousArtistID = function(member_artist_id_list, result){
+	this.FindSameVariousArtistID = function(member_artist_uid_list, result){
 		console.log('FindSameVariousArtistID ' );
 		for (var i=0; i<result.length; i++) {
-			console.log('artist_id ' + result[i].artist_id + ' members ' + result[i].member_arr);
+			console.log('artist_uid ' + result[i].artist_uid + ' members ' + result[i].member_arr);
 		}		
 
 		for (var i=0; i<result.length; i++) {
@@ -151,14 +151,14 @@ function CherryService(){
 				console.log('mem_arr ' + mem_arr[m]);
 			}
 
-			console.log('member_artist_id_list.length ' + member_artist_id_list.length + ' mem_arr.length ' + mem_arr.length);
-			if(member_artist_id_list.length != mem_arr.length){
+			console.log('member_artist_uid_list.length ' + member_artist_uid_list.length + ' mem_arr.length ' + mem_arr.length);
+			if(member_artist_uid_list.length != mem_arr.length){
 				continue;
 			}
 
 			var contain_cnt = 0;
-			for(var a=0 ; a<member_artist_id_list.length ; a++){
-				var id1 = member_artist_id_list[a];
+			for(var a=0 ; a<member_artist_uid_list.length ; a++){
+				var id1 = member_artist_uid_list[a];
 				console.log('include id1 ' + id1);
 
 				for(var m=0 ; m<mem_arr.length ; m++){
@@ -172,9 +172,9 @@ function CherryService(){
 				}
 			}
 
-			if(contain_cnt == member_artist_id_list.length){
-				console.log('found result[i].artist_id ' + result[i].artist_id);
-				return result[i].artist_id;
+			if(contain_cnt == member_artist_uid_list.length){
+				console.log('found result[i].artist_uid ' + result[i].artist_uid);
+				return result[i].artist_uid;
 			}
 		}
 		return -1;
@@ -210,7 +210,7 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'SELECT artist_id FROM artist WHERE name=?';
+				var sql_register = 'SELECT artist_uid FROM artist WHERE name=?';
 				var val = [artist_name];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
@@ -219,11 +219,11 @@ function CherryService(){
 					}else{
 						var ret_data = {
 							found:false,
-							artist_id:-1
+							artist_uid:-1
 						};
 						if(result.length > 0){
 							ret_data.found = true;
-							ret_data.artist_id = result[0].artist_id;
+							ret_data.artist_uid = result[0].artist_uid;
 							resolve(ret_data)
 						}else{
 							resolve(ret_data);
@@ -239,13 +239,13 @@ function CherryService(){
 		});
 	};
 
-	this.IsMyLikeArtiat = async function(user_id, artist_id){
+	this.IsMyLikeArtiat = async function(user_id, artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = 'SELECT count(*) cnt FROM like_artist WHERE user_id=? AND artist_id=?';
-				var val = [user_id, artist_id];
+				var sql = 'SELECT count(*) cnt FROM like_artist WHERE user_id=? AND artist_uid=?';
+				var val = [user_id, artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -297,7 +297,7 @@ function CherryService(){
 		});
 	};
 
-	this.UpdateArtistLike = async function(artist_id, user_id, is_like){
+	this.UpdateArtistLike = async function(artist_uid, user_id, is_like){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -305,14 +305,14 @@ function CherryService(){
 				var sql = '';
 				if(is_like){
 					sql = `
-					INSERT INTO like_artist (user_id, artist_id) VALUES (?, ?)
+					INSERT INTO like_artist (user_id, artist_uid) VALUES (?, ?)
 					`;
 				}else{
 					sql = `
-					DELETE FROM like_artist WHERE user_id=? and artist_id=?
+					DELETE FROM like_artist WHERE user_id=? and artist_uid=?
 					`;
 				}
-				var val = [user_id, artist_id];
+				var val = [user_id, artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -363,18 +363,18 @@ function CherryService(){
 		});
 	};
 
-	this.UpdateArtistLikeCount = async function(artist_id){
+	this.UpdateArtistLikeCount = async function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
 				UPDATE artist SET like_count = (
-					SELECT count(*) FROM like_artist WHERE artist_id=?
+					SELECT count(*) FROM like_artist WHERE artist_uid=?
 				)
-				WHERE artist_id=?
+				WHERE artist_uid=?
 				`;
-				var val = [artist_id, artist_id];
+				var val = [artist_uid, artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -453,8 +453,8 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT * FROM artist WHERE artist_id IN (
-					SELECT artist_id FROM like_artist
+				SELECT * FROM artist WHERE artist_uid IN (
+					SELECT artist_uid FROM like_artist
 					WHERE user_id=?
 				) 
 				`;
@@ -504,14 +504,14 @@ function CherryService(){
 		});
 	};
 
-	this.AddVariousArtist = async function(artist_id, member_artist_id){
+	this.AddVariousArtist = async function(artist_uid, member_artist_uid){
 		return new Promise(async function(resolve, reject){
-			console.log('AddVariousArtist ' + artist_id + ' member ' + member_artist_id);
+			console.log('AddVariousArtist ' + artist_uid + ' member ' + member_artist_uid);
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = 'INSERT INTO artist_various( artist_id, member_artist_id ) VALUES (?, ?)';
-				var val = [artist_id, member_artist_id];
+				var sql = 'INSERT INTO artist_various( artist_uid, member_artist_uid ) VALUES (?, ?)';
+				var val = [artist_uid, member_artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -537,13 +537,13 @@ function CherryService(){
 				var sql = `
 					SELECT t.cnt t_cnt, v.cnt v_cnt
 					FROM (
-						SELECT COUNT(*) cnt FROM music WHERE artist_id=? AND title=?
+						SELECT COUNT(*) cnt FROM music WHERE artist_uid=? AND title=?
 					) t,
 					(
-						SELECT COUNT(*) cnt FROM music WHERE artist_id=? AND video_id=?
+						SELECT COUNT(*) cnt FROM music WHERE artist_uid=? AND video_id=?
 					) v
 				`;
-				var val = [music.artist_id, music.title, music.artist_id, music.video_id];
+				var val = [music.artist_uid, music.title, music.artist_uid, music.video_id];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -566,9 +566,9 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO music( artist_id, title, video_id, user_id )' +
+				var sql_register = 'INSERT INTO music( artist_uid, title, video_id, user_id )' +
 					' VALUES (?, ?, ?, ?)';
-				var val = [music.artist_id, music.title, music.video_id, user_id];
+				var val = [music.artist_uid, music.title, music.video_id, user_id];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -594,7 +594,7 @@ function CherryService(){
 				var sql = 'UPDATE music SET ? WHERE ?';
 				var val = [
 					{
-						artist_id: music.artist_id,
+						artist_uid: music.artist_uid,
 						title:     music.title,
 						video_id:  music.video_id,
 					},
@@ -626,10 +626,10 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT m.music_id, m.artist_id, a.is_various, m.title, m.video_id
+				SELECT m.music_id, m.artist_uid, a.is_various, m.title, m.video_id
 				FROM music m
 				JOIN artist a
-				ON m.artist_id=a.artist_id
+				ON m.artist_uid=a.artist_uid
 				WHERE music_id=?				
 				`;
 				var val = [music_id];
@@ -684,7 +684,7 @@ function CherryService(){
 				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'ON m.artist_uid = a.artist_uid ';
 				sql += 'ORDER BY m.music_id DESC ';
 				sql += 'LIMIT 10 ';
 				var val = [];
@@ -714,7 +714,7 @@ function CherryService(){
 				sql += 'SELECT m.music_id, a.name AS artist, m.title, m.video_id ';
 				sql += 'FROM music m ';
 				sql += 'JOIN artist a ';
-				sql += 'ON m.artist_id = a.artist_id ';
+				sql += 'ON m.artist_uid = a.artist_uid ';
 				sql += 'WHERE m.music_id = ? ';
 				var val = [music_id];
 				conn.query(sql, val, function(err, result){
@@ -734,7 +734,7 @@ function CherryService(){
 		});
 	};
 	
-	this.GetMusicListByArtist = async function(artist_id){
+	this.GetMusicListByArtist = async function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -742,11 +742,11 @@ function CherryService(){
 				var sql = `
 					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m 
-					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
-					WHERE m.artist_id = ?
+					WHERE m.artist_uid = ?
 				`;
-				var val = [artist_id];
+				var val = [artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -770,11 +770,11 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_id, m.artist_id, a.name AS artist, m.title, m.video_id, m.user_id
+					SELECT m.music_id, m.artist_uid, a.name AS artist, m.title, m.video_id, m.user_id
 					FROM music m
-					JOIN artist a ON m.artist_id=a.artist_id
-					WHERE m.artist_id IN(
-					SELECT aa.artist_id FROM artist aa WHERE LOWER(aa.name) LIKE ?
+					JOIN artist a ON m.artist_uid=a.artist_uid
+					WHERE m.artist_uid IN(
+					SELECT aa.artist_uid FROM artist aa WHERE LOWER(aa.name) LIKE ?
 					)
 					ORDER BY a.name
 				`;
@@ -802,12 +802,12 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+					SELECT m.music_id, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m 
-					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
-					WHERE m.artist_id IN ( 
-						SELECT ia.artist_id FROM artist ia WHERE ia.name LIKE "%${keyword}%" 
+					WHERE m.artist_uid IN ( 
+						SELECT ia.artist_uid FROM artist ia WHERE ia.name LIKE "%${keyword}%" 
 					) 
 				`;
 				var val = [];
@@ -828,7 +828,7 @@ function CherryService(){
 		});
 	};
 
-	this.GetMusicListByVariousArtist = async function(member_artist_id){
+	this.GetMusicListByVariousArtist = async function(member_artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -836,14 +836,14 @@ function CherryService(){
 				var sql = `
 					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m
-					JOIN artist a	ON m.artist_id = a.artist_id
+					JOIN artist a	ON m.artist_uid = a.artist_uid
 					JOIN user u ON m.user_id = u.user_id
-					WHERE m.artist_id IN (
-						SELECT VA.artist_id FROM artist_various VA WHERE VA.member_artist_id=?
+					WHERE m.artist_uid IN (
+						SELECT VA.artist_uid FROM artist_various VA WHERE VA.member_artist_uid=?
 					)
 				`;
 
-				var val = [member_artist_id];
+				var val = [member_artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -867,9 +867,9 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+					SELECT m.music_id, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m 
-					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
 					WHERE m.title LIKE "%${keyword}%" 
 				`;
@@ -900,7 +900,7 @@ function CherryService(){
 				var sql = `
 					SELECT m.music_id, a.name AS artist, m.title, m.video_id, m.music_id, u.name user_name
 					FROM music m 
-					JOIN artist a ON m.artist_id = a.artist_id 
+					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
 					WHERE m.title LIKE "%${keyword}%" 
 				`;
@@ -1272,9 +1272,9 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT m.music_id, a.name AS artist, a.artist_id, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
+				SELECT m.music_id, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_id, u.name user_name
 				FROM music m 
-				JOIN artist a ON m.artist_id = a.artist_id 
+				JOIN artist a ON m.artist_uid = a.artist_uid 
 				JOIN user u ON m.user_id = u.user_id
 				WHERE m.music_id IN(
 					SELECT pm.music_id FROM playlist_music pm WHERE playlist_uid=?

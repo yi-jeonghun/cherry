@@ -30,21 +30,21 @@ router.post('/fetch_content_from_url', async function(req, res){
 router.post('/find_or_add_artist', async function(req, res){
 	try{
 		var artist_name = req.body.artist_name;
-		var artist_id = null;
+		var artist_uid = null;
 
 		var artist_found_res = await cherry_service.SearchArtist(artist_name);
 		console.log('search result ' + artist_found_res.found);
 		if(artist_found_res.found == false){
-			artist_id = await cherry_service.AddArtist(artist_name, false);
-			console.log('add result ' + artist_id);
+			artist_uid = await cherry_service.AddArtist(artist_name, false);
+			console.log('add result ' + artist_uid);
 		}else{
-			artist_id = artist_found_res.artist_id;
-			console.log('found id ' + artist_id);
+			artist_uid = artist_found_res.artist_uid;
+			console.log('found id ' + artist_uid);
 		}
 
 		res.send({
 			ok: 1,
-			artist_id: artist_id
+			artist_uid: artist_uid
 		});
 	}catch(err){
 		console.error(err);
@@ -58,8 +58,8 @@ router.post('/find_or_add_artist', async function(req, res){
 router.post('/find_or_add_various_artist', async function(req, res){
 	try{
 		var artist_name_list = req.body.artist_name_list;
-		var member_artist_id_list = [];
-		var artist_id = null;
+		var member_artist_uid_list = [];
+		var artist_uid = null;
 
 		for (let i = 0; i < artist_name_list.length; i++) {
 			const artist_name = artist_name_list[i];
@@ -67,29 +67,29 @@ router.post('/find_or_add_various_artist', async function(req, res){
 
 			var artist_found_res = await cherry_service.SearchArtist(artist_name);
 			if(artist_found_res.found){
-				member_artist_id_list[i] = artist_found_res.artist_id;
-				console.log('member ' + member_artist_id_list[i]);
+				member_artist_uid_list[i] = artist_found_res.artist_uid;
+				console.log('member ' + member_artist_uid_list[i]);
 			}else{
-				member_artist_id_list[i] = await cherry_service.AddArtist(artist_name, false);
-				console.log('member ' + member_artist_id_list[i]);
+				member_artist_uid_list[i] = await cherry_service.AddArtist(artist_name, false);
+				console.log('member ' + member_artist_uid_list[i]);
 			}
 		}
 
-		var search_result = await cherry_service.SearchVariousArtist(member_artist_id_list);
+		var search_result = await cherry_service.SearchVariousArtist(member_artist_uid_list);
 		if(search_result.found == false){
 			var sum_artist_name = artist_name_list.join(', ');
 
-			artist_id = await cherry_service.AddArtist(sum_artist_name, true);
-			for(var i=0 ; i<member_artist_id_list.length ; i++){
-				await cherry_service.AddVariousArtist(artist_id, member_artist_id_list[i]);
+			artist_uid = await cherry_service.AddArtist(sum_artist_name, true);
+			for(var i=0 ; i<member_artist_uid_list.length ; i++){
+				await cherry_service.AddVariousArtist(artist_uid, member_artist_uid_list[i]);
 			}
 		}else{
-			artist_id = search_result.artist_id;
+			artist_uid = search_result.artist_uid;
 		}
 
 		res.send({
 			ok: 1,
-			artist_id: artist_id
+			artist_uid: artist_uid
 		});
 	}catch(err){
 		console.error(err);

@@ -61,10 +61,10 @@ function CMS_Service(){
 			var conn = null;
 
 			var sql = `
-				SELECT t.rank_num, t.music_id, t.artist, a.artist_id, a.is_various, t.title, t.video_id
+				SELECT t.rank_num, t.music_id, t.artist, a.artist_uid, a.is_various, t.title, t.video_id
 				FROM top_rank_list_draft t
 				LEFT JOIN music m ON t.music_id=m.music_id
-				LEFT JOIN artist a ON a.artist_id=m.artist_id
+				LEFT JOIN artist a ON a.artist_uid=m.artist_uid
 				WHERE country_code=?
 			`;
 			var val = [country_code];
@@ -95,10 +95,10 @@ function CMS_Service(){
 			console.log('country_code ' + country_code);
 
 			var sql = `
-				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_id, a.is_various, m.video_id, u.name user_name
+				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_uid, a.is_various, m.video_id, u.name user_name
 				FROM top_rank_list t
 				JOIN music m ON t.music_id=m.music_id
-				JOIN artist a ON a.artist_id=m.artist_id
+				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
 				WHERE t.country_code = ?
 			`;
@@ -298,8 +298,8 @@ function CMS_Service(){
 				SELECT m.music_id, m.video_id
 				FROM music m
 				WHERE m.title=?
-				AND m.artist_id=(
-					SELECT artist_id 
+				AND m.artist_uid=(
+					SELECT artist_uid 
 					FROM artist
 					WHERE NAME=?
 					LIMIT 1

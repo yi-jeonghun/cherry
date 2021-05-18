@@ -1,16 +1,16 @@
 function ArtistControl(){
 	var self = this;
 	this._artist_name = null;
-	this._artist_id = null;
+	this._artist_uid = null;
 	this._music_list = [];
 	this._api_key = 'AIzaSyAavEwSLYg0zl1fxk_5uAZdx3_4tzbmSyQ';
 	this._youtube_video_list = [];
 	this._video_id_to_add = null;
 	this._is_my_like_artist = false;
 
-	this.Init = function(artist_name, artist_id){
+	this.Init = function(artist_name, artist_uid){
 		self._artist_name = artist_name;
-		self._artist_id = artist_id;
+		self._artist_uid = artist_uid;
 		$('#id_label_artist-ARTIST_EJS').html(artist_name);
 		self.InitHandle();
 		self.GetArtistLike();
@@ -53,7 +53,7 @@ function ArtistControl(){
 		}
 
 		var req_data = {
-			artist_id: self._artist_id,
+			artist_uid: self._artist_uid,
 			title:     title,
 			video_id:  self._video_id_to_add
 		};
@@ -140,7 +140,7 @@ function ArtistControl(){
 		self._is_my_like_artist = !self._is_my_like_artist;
 
 		var req_data = {
-			artist_id: self._artist_id,
+			artist_uid: self._artist_uid,
 			is_my_like_artist: self._is_my_like_artist
 		};
 
@@ -168,7 +168,7 @@ function ArtistControl(){
 		}
 
 		var req_data = {
-			artist_id: self._artist_id
+			artist_uid: self._artist_uid
 		};
 
 		$.ajax({
@@ -201,11 +201,11 @@ function ArtistControl(){
 	this.GetMusicList = function(){
 		console.log('self._artist_name ' + self._artist_name);
 		var req_data = {
-			artist_id: self._artist_id
+			artist_uid: self._artist_uid
 		};
 
 		$.ajax({
-			url: '/cherry_api/fetch_music_list_by_artist_id',
+			url: '/cherry_api/fetch_music_list_by_artist_uid',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -224,11 +224,11 @@ function ArtistControl(){
 
 	this.GetMusicListVA = function(){
 		var req_data = {
-			artist_id: self._artist_id
+			artist_uid: self._artist_uid
 		};
 
 		$.ajax({
-			url: '/cherry_api/fetch_VA_music_list_by_artist_id',
+			url: '/cherry_api/fetch_VA_music_list_by_artist_uid',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',

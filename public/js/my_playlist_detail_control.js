@@ -181,13 +181,13 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 		$('#id_btn_my_playlist_detail_add_music_complete').show();
 	};
 
-	this.GetArtistMusicList = function(artist_id){
+	this.GetArtistMusicList = function(artist_uid){
 		var req_data = {
-			artist_id: artist_id
+			artist_uid: artist_uid
 		};
 
 		$.ajax({
-			url: '/cherry_api/fetch_music_list_by_artist_id',
+			url: '/cherry_api/fetch_music_list_by_artist_uid',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -294,7 +294,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 
 			for (let i = 0; i < self._searched_artist_list.length; i++) {
 				var artist = self._searched_artist_list[i];
-				var onclick = `window._my_playlist_detail_control.GetArtistMusicList(${artist.artist_id})`;
+				var onclick = `window._my_playlist_detail_control.GetArtistMusicList(${artist.artist_uid})`;
 				h += `
 					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
 						<div onclick="${onclick}" class="col-12">${artist.name}</div>

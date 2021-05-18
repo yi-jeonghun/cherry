@@ -60,7 +60,7 @@ router.post('/search_artist', async function(req, res){
 
 router.post('/is_my_like_artist', async function(req, res){
 	try{
-		var artist_id = req.body.artist_id;
+		var artist_uid = req.body.artist_uid;
 		var user_id = auth_service.GetLoginUserID(req);
 		if(user_id == null){
 			res.send({
@@ -70,7 +70,7 @@ router.post('/is_my_like_artist', async function(req, res){
 			return;
 		}
 
-		var ret = await cherry_service.IsMyLikeArtiat(user_id, artist_id);
+		var ret = await cherry_service.IsMyLikeArtiat(user_id, artist_uid);
 		res.send({
 			ok: 1,
 			is_like_artist : ret
@@ -86,7 +86,7 @@ router.post('/is_my_like_artist', async function(req, res){
 
 router.post('/update_artist_like', async function(req, res){
 	try{
-		var artist_id = req.body.artist_id;
+		var artist_uid = req.body.artist_uid;
 		var is_my_like_artist = req.body.is_my_like_artist;
 		var user_id = auth_service.GetLoginUserID(req);
 		if(user_id == null){
@@ -98,8 +98,8 @@ router.post('/update_artist_like', async function(req, res){
 			return;
 		}
 
-		await cherry_service.UpdateArtistLike(artist_id, user_id, is_my_like_artist);
-		await cherry_service.UpdateArtistLikeCount(artist_id);
+		await cherry_service.UpdateArtistLike(artist_uid, user_id, is_my_like_artist);
+		await cherry_service.UpdateArtistLikeCount(artist_uid);
 		res.send({
 			ok: 1
 		});
@@ -189,22 +189,22 @@ router.post('/update_music', async function(req, res){
 	try{
 		var req_data = req.body;
 		var music = req_data.music;
-		var artist_id = '';
+		var artist_uid = '';
 
 		//search artist
 		var artist_found_res = await cherry_service.SearchArtist(music.artist);
 		console.log('search result ' + artist_found_res.found);
 		if(artist_found_res.found == false){
-			artist_id = await cherry_service.AddArtist(music.artist);
-			console.log('add result ' + artist_id);
+			artist_uid = await cherry_service.AddArtist(music.artist);
+			console.log('add result ' + artist_uid);
 		}else{
-			artist_id = artist_found_res.artist_id;
-			console.log('found id ' + artist_id);
+			artist_uid = artist_found_res.artist_uid;
+			console.log('found id ' + artist_uid);
 		}
 
 		var music_info = {
 			music_id:  req_data.music_id,
-			artist_id: artist_id,
+			artist_uid: artist_uid,
 			title:     music.title,
 			video_id:  music.video_id
 		};
@@ -265,10 +265,10 @@ router.get('/get_music_list', async function(req, res){
 	}
 });
 
-router.post('/fetch_music_list_by_artist_id', async function(req, res){
+router.post('/fetch_music_list_by_artist_uid', async function(req, res){
 	try{
-		var artist_id = req.body.artist_id;
-		var music_list = await cherry_service.GetMusicListByArtist(artist_id);
+		var artist_uid = req.body.artist_uid;
+		var music_list = await cherry_service.GetMusicListByArtist(artist_uid);
 		
 		res.send({
 			ok: 1,
@@ -278,15 +278,15 @@ router.post('/fetch_music_list_by_artist_id', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to fetch_music_list_by_artist_id'
+			err:'Failed to fetch_music_list_by_artist_uid'
 		});
 	}
 });
 
-router.post('/fetch_VA_music_list_by_artist_id', async function(req, res){
+router.post('/fetch_VA_music_list_by_artist_uid', async function(req, res){
 	try{
-		var artist_id = req.body.artist_id;
-		var music_list = await cherry_service.GetMusicListByVariousArtist(artist_id);
+		var artist_uid = req.body.artist_uid;
+		var music_list = await cherry_service.GetMusicListByVariousArtist(artist_uid);
 		
 		res.send({
 			ok: 1,
@@ -296,7 +296,7 @@ router.post('/fetch_VA_music_list_by_artist_id', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Failed to fetch_VA_music_list_by_artist_id'
+			err:'Failed to fetch_VA_music_list_by_artist_uid'
 		});
 	}
 });

@@ -17,7 +17,7 @@ const ARTIST_LIST_TYPE = {
 function ArtistControl(){
 	var self = this;
 	this._artist_name = null;
-	this._selected_artist_id = null;
+	this._selected_artist_uid = null;
 	this._youtube = null;
 	this._youtube_searched_video_list = [];
 	this._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
@@ -87,11 +87,11 @@ function ArtistControl(){
 		});	
 	};
 
-	this.OnChooseArtiat = function(name, artist_id){
+	this.OnChooseArtiat = function(name, artist_uid){
 		$('#id_div_music_list').empty();
 		$('#id_label_artist_name').html(name);
 		self._artist_name = name;
-		self._selected_artist_id = artist_id;
+		self._selected_artist_uid = artist_uid;
 		self.GetMusicListOfArtist();
 	};
 
@@ -201,7 +201,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.OnChooseArtiat(self._artist_name, self._selected_artist_id);
+					self.OnChooseArtiat(self._artist_name, self._selected_artist_uid);
 					$('#id_modal_cms_artist_music_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -237,7 +237,7 @@ function ArtistControl(){
 
 	this.OnChoose_FavoriteArtist = function(idx){
 		self._cms_favorite_artist_list.push({
-			artist_id: self._artist_searched_list[idx].artist_id,
+			artist_uid: self._artist_searched_list[idx].artist_uid,
 			name: self._artist_searched_list[idx].name
 		});
 		window.localStorage.setItem('CMS_FAVORITE_ARTIST_LIST', JSON.stringify(self._cms_favorite_artist_list));
@@ -245,9 +245,9 @@ function ArtistControl(){
 		self.DISP_FavoriteArtistList();
 	};
 
-	this.OnChoose_FavoriteArtist_Del = function(artist_id){
+	this.OnChoose_FavoriteArtist_Del = function(artist_uid){
 		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
-			if(self._cms_favorite_artist_list[i].artist_id == artist_id){
+			if(self._cms_favorite_artist_list[i].artist_uid == artist_uid){
 				self._cms_favorite_artist_list.splice(i, 1);
 				break;
 			}
@@ -272,7 +272,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.OnChooseArtiat(artist_name, res.artist_id);
+					self.OnChooseArtiat(artist_name, res.artist_uid);
 					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -294,7 +294,7 @@ function ArtistControl(){
 			success: function (res) {
 				if(res.ok){
 					var va_artist_name = artist_name_list.join(', ');
-					self.OnChooseArtiat(va_artist_name, res.artist_id);
+					self.OnChooseArtiat(va_artist_name, res.artist_uid);
 					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -305,11 +305,11 @@ function ArtistControl(){
 
 	this.GetMusicListOfArtist = function(){
 		var req_data = {
-			artist_id: self._selected_artist_id
+			artist_uid: self._selected_artist_uid
 		};
 
 		$.ajax({
-			url: '/cherry_api/fetch_music_list_by_artist_id',
+			url: '/cherry_api/fetch_music_list_by_artist_uid',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -338,7 +338,7 @@ function ArtistControl(){
 		var req_data = {
 			dj_user_id: dj_user_id,
 			music:{
-				artist_id: self._selected_artist_id,
+				artist_uid: self._selected_artist_uid,
 				title:     title,
 				video_id:  video_id
 			}
@@ -385,12 +385,12 @@ function ArtistControl(){
 
 		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
 			var a = self._cms_favorite_artist_list[i];
-			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_id}')`;
-			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_id})`;
+			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_uid}')`;
+			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_uid})`;
 
 			h += `
 			<tr>
-				<td>${a.artist_id}</td>
+				<td>${a.artist_uid}</td>
 				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
 				<td onClick="${on_click_check}" style="cursor:pointer">
 					<i class="fas fa-check" style="color:red"></i>
@@ -416,20 +416,20 @@ function ArtistControl(){
 		`;
 		for(var i=0 ; i<self._artist_searched_list.length ; i++){
 			var a = self._artist_searched_list[i];
-			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_id}')`;
+			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_uid}')`;
 			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist(${i})`;
 			var check_color = '#aaaaaa';
 			for(var k=0 ; k<self._cms_favorite_artist_list.length ; k++){
-				if(self._cms_favorite_artist_list[k].artist_id == a.artist_id){
+				if(self._cms_favorite_artist_list[k].artist_uid == a.artist_uid){
 					check_color = 'red';
-					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_id})`;
+					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_uid})`;
 					break;
 				}
 			}
 
 			h += `
 			<tr>
-				<td>${a.artist_id}</td>
+				<td>${a.artist_uid}</td>
 				<td>${a.is_various}</td>
 				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
 				<td onClick="${on_click_check}" style="cursor:pointer">
