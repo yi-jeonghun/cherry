@@ -1,14 +1,14 @@
 const db_conn = require('./db_conn');
 var randomstring = require("randomstring");
 
-async function UpdatePlaylistMusic(playlist_uid, playlist_uid){
+async function UpdatePlaylistMusic(playlist_id, playlist_uid){
 	return new Promise(async function(resolve, rejeect){
 		try{
 			var conn = await db_conn.GetConnection();
 			var sql = 'UPDATE playlist_music SET ? WHERE ?';
 			var val = [
 				{playlist_uid:playlist_uid},
-				{playlist_uid:playlist_uid}
+				{playlist_id:playlist_id}
 			];
 			conn.query(sql, val, function(err, result){
 				if(err){
@@ -27,14 +27,14 @@ async function UpdatePlaylistMusic(playlist_uid, playlist_uid){
 	});
 }
 
-async function UpdateLikePlaylist(playlist_uid, playlist_uid){
+async function UpdateLikePlaylist(playlist_id, playlist_uid){
 	return new Promise(async function(resolve, rejeect){
 		try{
 			var conn = await db_conn.GetConnection();
 			var sql = 'UPDATE like_playlist SET ? WHERE ?';
 			var val = [
 				{playlist_uid:playlist_uid},
-				{playlist_uid:playlist_uid}
+				{playlist_id:playlist_id}
 			];
 			conn.query(sql, val, function(err, result){
 				if(err){
@@ -53,14 +53,14 @@ async function UpdateLikePlaylist(playlist_uid, playlist_uid){
 	});
 }
 
-async function UpdatePlayst(playlist_uid, playlist_uid){
+async function UpdatePlayst(playlist_id, playlist_uid){
 	return new Promise(async function(resolve, rejeect){
 		try{
 			var conn = await db_conn.GetConnection();
 			var sql = 'UPDATE playlist SET ? WHERE ?';
 			var val = [
 				{playlist_uid:playlist_uid},
-				{playlist_uid:playlist_uid}
+				{playlist_id:playlist_id}
 			];
 			conn.query(sql, val, function(err, result){
 				if(err){
