@@ -1,6 +1,6 @@
 $('document').ready(function(){
 	window._top_rank_control = new TopRankControl().Init();
-	var playlist_storage = new PlaylistStorage_Memory();
+	var playlist_storage = new PlaylistStorage_Memory([]);
 	window._cherry_player = new CherryPlayer().Init(playlist_storage);
 });
 
