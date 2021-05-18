@@ -68,7 +68,7 @@ router.get('/playlist_embed.go', async function(req, res){
 	var pid = req.query.pid;
 	res.render('playlist_embed', {
 		dev_mode: _dev_mode,
-		playlist_id: pid
+		playlist_uid: pid
 	});
 });
 
@@ -109,10 +109,10 @@ router.get('/my_playlist.vu', async function(req, res){
 
 router.get('/my_playlist_detail.vu', async function(req, res){
 	var playlist_name = req.query.pn;
-	var playlist_id = req.query.pid;
+	var playlist_uid = req.query.pid;
 	var data = {
 		playlist_name  : playlist_name,
-		playlist_id    : playlist_id,
+		playlist_uid    : playlist_uid,
 		dev_mode       : _dev_mode
 	};
 	res.render('my_playlist_detail', data);
@@ -127,10 +127,10 @@ router.get('/open_playlist.vu', async function(req, res){
 
 router.get('/open_playlist_detail.vu', async function(req, res){
 	var playlist_name = req.query.pn;
-	var playlist_id = req.query.pid;
+	var playlist_uid = req.query.pid;
 	var data = {
 		playlist_name  : playlist_name,
-		playlist_id    : playlist_id,
+		playlist_uid    : playlist_uid,
 		dev_mode       : _dev_mode
 	};
 	res.render('open_playlist_detail', data);

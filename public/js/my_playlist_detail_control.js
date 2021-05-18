@@ -1,7 +1,7 @@
-function MyPlaylistDetailControl(playlist_name, playlist_id){
+function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	var self = this;
 	this._playlist_name = decodeURI(playlist_name);
-	this._playlist_id = playlist_id;
+	this._playlist_uid = playlist_uid;
 	this._playlist_info = null;
 	this._music_list = [];
 	this._is_edit_mode = false;
@@ -29,7 +29,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 
 	this.OnClick_id_btn_my_playlist_detail_add_music_complete = function(){
 		var req_data = {
-			playlist_id: self._playlist_id,
+			playlist_uid: self._playlist_uid,
 			music_id_list: self._music_id_list_to_add,
 			begin_order: self._music_list.length+1
 		};
@@ -107,7 +107,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 
 	this.OnClick_id_btn_my_playlist_detail_export = function(){
 		var embed = `
-		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_id}" width="400" height="600"></iframe>
+		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_uid}" width="400" height="600"></iframe>
 		`;
 		$('#id_div_my_playlist_embed').val(embed.trim());
 		$('#id_modal_my_playlis_detail_export').modal('show');
@@ -125,7 +125,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 
 	this.DeleteMusic = function(idx){
 		var req_data = {
-			playlist_id: self._playlist_id,
+			playlist_uid: self._playlist_uid,
 			music_id: self._music_list[idx].music_id
 		};
 
@@ -146,9 +146,9 @@ function MyPlaylistDetailControl(playlist_name, playlist_id){
 	};
 
 	this.LoadPlaylistDetail = function(){
-		console.log('playlist_id ' + self._playlist_id);
+		console.log('playlist_uid ' + self._playlist_uid);
 		var req_data = {
-			playlist_id: self._playlist_id
+			playlist_uid: self._playlist_uid
 		};
 
 		$.ajax({

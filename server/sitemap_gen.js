@@ -112,7 +112,7 @@ async function GetPlaylist(){
 
 				xml += `
 				<url>
-					<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&pid=${p.playlist_id}</loc>
+					<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&pid=${p.playlist_uid}</loc>
 				</url>
 				`;
 			}

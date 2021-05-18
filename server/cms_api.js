@@ -349,11 +349,11 @@ router.post('/add_playlist_and_music_list', async function(req, res){
 	try{
 		var dj_user_id = req.body.dj_user_id;
 		var playlist = req.body.playlist;
-		var playlist_id = await cherry_service.AddPlaylist(playlist, dj_user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist_id, playlist.music_id_list);
+		var playlist_uid = await cherry_service.AddPlaylist(playlist, dj_user_id);
+		await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_id_list);
 		res.send({
 			ok: 1,
-			playlist_id: playlist_id
+			playlist_uid: playlist_uid
 		});
 	}catch(err){
 		console.error(err);
@@ -368,9 +368,9 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 	try{
 		var user_id = req.body.dj_user_id;
 		var playlist = req.body.playlist;
-		console.log('playlist id ' + playlist.playlist_id);
+		console.log('playlist id ' + playlist.playlist_uid);
 		await cherry_service.UpdatePlaylist(playlist, user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist.playlist_id, playlist.music_id_list);
+		await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_id_list);
 		res.send({
 			ok: 1
 		});

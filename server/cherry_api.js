@@ -114,7 +114,7 @@ router.post('/update_artist_like', async function(req, res){
 
 router.post('/update_playlist_like', async function(req, res){
 	try{
-		var playlist_id = req.body.playlist_id;
+		var playlist_uid = req.body.playlist_uid;
 		var is_like = req.body.is_my_like_playlist;
 		var user_id = auth_service.GetLoginUserID(req);
 		if(user_id == null){
@@ -126,8 +126,8 @@ router.post('/update_playlist_like', async function(req, res){
 			return;
 		}
 
-		await cherry_service.UpdatePlaylistLike(playlist_id, user_id, is_like);
-		await cherry_service.UpdatePlaylistLikeCount(playlist_id);
+		await cherry_service.UpdatePlaylistLike(playlist_uid, user_id, is_like);
+		await cherry_service.UpdatePlaylistLikeCount(playlist_uid);
 		res.send({
 			ok: 1
 		});
@@ -507,10 +507,10 @@ router.post('/add_playlist', async function(req, res){
 			return;
 		}
 
-		var playlist_id = await cherry_service.AddPlaylist(playlist, user_id);
+		var playlist_uid = await cherry_service.AddPlaylist(playlist, user_id);
 		res.send({
 			ok: 1,
-			playlist_id: playlist_id
+			playlist_uid: playlist_uid
 		});
 	}catch(err){
 		console.error(err);
@@ -565,47 +565,47 @@ router.post('/add_music_list_to_playlist', async function(req, res){
 			is_allowed = true;
 		}
 
-		var playlist_id = req.body.playlist_id;
+		var playlist_uid = req.body.playlist_uid;
 		var music_id_list = req.body.music_id_list;
 		var begin_order = req.body.begin_order;
 
 		if(is_allowed == false){
 			var user_id = await permission_service.GetUserID(req);
-			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+			if(cherry_service.CheckMyPlaylist(playlist_uid, user_id)){
 				is_allowed = true;
 			}
 		}
 
 		if(is_allowed){
-			await cherry_service.AddMusicListToPlaylist(playlist_id, music_id_list, begin_order);
+			await cherry_service.AddMusicListToPlaylist(playlist_uid, music_id_list, begin_order);
 			res.send({
 				ok: 1
 			});	
 		}else{
 			res.send({
 				ok:0,
-				err:'Fail delete_playlist, no permission.'
+				err:'Fail add_music_list_to_playlist, no permission.'
 			});	
 		}
 	}catch(err){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail delete_playlist'
+			err:'Fail add_music_list_to_playlist'
 		});
 	}
 });
 
 router.post('/get_playlist_info', async function(req, res){
 	try{
-		var playlist_id = req.body.playlist_id;
-		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_id);
-		var music_list = await cherry_service.GetPlaylistMusicList(playlist_id);
+		var playlist_uid = req.body.playlist_uid;
+		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_uid);
+		var music_list = await cherry_service.GetPlaylistMusicList(playlist_uid);
 		var is_my_like_playlist = false;
 		var user_id = await permission_service.GetUserID(req);
 		console.log('user_id ' + user_id);
 		if(user_id != null){
-			is_my_like_playlist = await cherry_service.IsMyLikePlaylist(user_id, playlist_id);
+			is_my_like_playlist = await cherry_service.IsMyLikePlaylist(user_id, playlist_uid);
 		}
 		res.send({
 			ok: 1,
@@ -659,16 +659,17 @@ router.post('/delete_playlist', async function(req, res){
 			is_allowed = true;
 		}
 
-		var playlist_id = req.body.playlist_id;
+		var playlist_uid = req.body.playlist_uid;
 		if(is_allowed == false){
 			var user_id = await permission_service.GetUserID(req);
-			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+			if(cherry_service.CheckMyPlaylist(playlist_uid, user_id)){
 				is_allowed = true;
 			}
 		}
 
 		if(is_allowed){
-			await cherry_service.DeletePlaylist(playlist_id);
+			await cherry_service.DeletePlaylist(playlist_uid);
+			await cherry_service.DeleteAllMusicFromPlaylist(playlist_uid);
 			res.send({
 				ok: 1
 			});	
@@ -687,7 +688,6 @@ router.post('/delete_playlist', async function(req, res){
 	}
 });
 
-
 router.post('/delete_music_from_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
@@ -695,17 +695,17 @@ router.post('/delete_music_from_playlist', async function(req, res){
 			is_allowed = true;
 		}
 
-		var playlist_id = req.body.playlist_id;
+		var playlist_uid = req.body.playlist_uid;
 		var music_id = req.body.music_id;
 		if(is_allowed == false){
 			var user_id = await permission_service.GetUserID(req);
-			if(cherry_service.CheckMyPlaylist(playlist_id, user_id)){
+			if(cherry_service.CheckMyPlaylist(playlist_uid, user_id)){
 				is_allowed = true;
 			}
 		}
 
 		if(is_allowed){
-			await cherry_service.DeleteMusicFromPlaylist(playlist_id, music_id);
+			await cherry_service.DeleteOneMusicFromPlaylist(playlist_uid, music_id);
 			res.send({
 				ok: 1
 			});	

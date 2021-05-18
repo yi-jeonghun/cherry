@@ -1,11 +1,11 @@
-function PlaylistEmbedControl(playlist_id){
+function PlaylistEmbedControl(playlist_uid){
 	var self = this;
-	this._playlist_id = playlist_id;
+	this._playlist_uid = playlist_uid;
 	this._playlist_info = null;
 	this._music_list = null;
 
 	this.Init = function(){
-		console.log('self._playlist_id ' + self._playlist_id);
+		console.log('self._playlist_uid ' + self._playlist_uid);
 		self.GetPlaylist();
 		return self;
 	};
@@ -20,7 +20,7 @@ function PlaylistEmbedControl(playlist_id){
 
 	this.GetPlaylist = function(){
 		var req_data = {
-			playlist_id: self._playlist_id
+			playlist_uid: self._playlist_uid
 		};
 		$.ajax({
 			url: '/cherry_api/get_playlist_info',

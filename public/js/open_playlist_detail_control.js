@@ -1,7 +1,7 @@
-function OpenPlaylistDetailControl(playlist_name, playlist_id){
+function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 	var self = this;
 	this._playlist_name = decodeURI(playlist_name);
-	this._playlist_id = playlist_id;
+	this._playlist_uid = playlist_uid;
 	this._playlist_info = null;
 	this._music_list = [];
 	this._is_my_like_playlist = false;
@@ -38,7 +38,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 		console.log('self._is_my_like_playlist ' + self._is_my_like_playlist);
 
 		var req_data = {
-			playlist_id: self._playlist_id,
+			playlist_uid: self._playlist_uid,
 			is_my_like_playlist: self._is_my_like_playlist
 		};
 
@@ -60,7 +60,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 
 	this.OnClick_id_btn_open_playlist_detail_export = function(){
 		var embed = `
-		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_id}" width="400" height="600"></iframe>
+		<iframe src="http://cherrymusic.io/playlist_embed.go?pid=${self._playlist_uid}" width="400" height="600"></iframe>
 		`;
 		$('#id_div_open_playlist_embed').val(embed.trim());
 		$('#id_modal_open_playlis_detail_export').modal('show');
@@ -69,9 +69,9 @@ function OpenPlaylistDetailControl(playlist_name, playlist_id){
 	//////////////////////////////////////////////////////////////////////////////
 
 	this.LoadPlaylistDetail = function(){
-		console.log('playlist_id ' + self._playlist_id);
+		console.log('playlist_uid ' + self._playlist_uid);
 		var req_data = {
-			playlist_id: self._playlist_id
+			playlist_uid: self._playlist_uid
 		};
 
 		$.ajax({

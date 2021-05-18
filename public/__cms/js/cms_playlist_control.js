@@ -162,16 +162,16 @@ function PlaylistControl(){
 			music_id_list.push(self._playlist_music_list[i].music_id);
 		}
 
-		var playlist_id = null;
+		var playlist_uid = null;
 		if(self._edit_mode == EDIT_MODE.UPDATE){
-			console.log('self._playlist_info.playlist_id ' + self._playlist_info.playlist_id);
-			playlist_id = self._playlist_info.playlist_id;
+			console.log('self._playlist_info.playlist_uid ' + self._playlist_info.playlist_uid);
+			playlist_uid = self._playlist_info.playlist_uid;
 		}
 
 		var req_data = {
 			dj_user_id: dj_user_id,
 			playlist: {
-				playlist_id:   playlist_id,
+				playlist_uid:   playlist_uid,
 				country_code:  self._country_code_for_edit,
 				title:         title,
 				comment:       comment,
@@ -190,7 +190,7 @@ function PlaylistControl(){
 				success: function (res) {
 					if(res.ok){
 						self.GetPlaylistList();
-						self.OpenPlaylistForEdit(res.playlist_id);
+						self.OpenPlaylistForEdit(res.playlist_uid);
 						alert('success');
 					}else{
 						alert(res.err);
@@ -207,7 +207,7 @@ function PlaylistControl(){
 				success: function (res) {
 					if(res.ok){
 						self.GetPlaylistList();
-						self.OpenPlaylistForEdit(self._playlist_info.playlist_id);
+						self.OpenPlaylistForEdit(self._playlist_info.playlist_uid);
 						alert('success');
 					}else{
 						alert(res.err);
@@ -217,10 +217,10 @@ function PlaylistControl(){
 		}
 	};
 
-	this.OpenPlaylistForEdit = function(playlist_id){
+	this.OpenPlaylistForEdit = function(playlist_uid){
 		self._edit_mode = EDIT_MODE.UPDATE;
 		var req_data = {
-			playlist_id: playlist_id
+			playlist_uid: playlist_uid
 		};
 
 		$.ajax({
@@ -294,13 +294,13 @@ function PlaylistControl(){
 		self.DISP_PlaylistMusicList();
 	};
 
-	this.OnClickDeletePlaylist = function(playlist_id){
-		if(self._playlist_info != null && self._playlist_info.playlist_id == playlist_id){
+	this.OnClickDeletePlaylist = function(playlist_uid){
+		if(self._playlist_info != null && self._playlist_info.playlist_uid == playlist_uid){
 			self.OnPlaylistNewClick();
 		}
 
 		var req_data = {
-			playlist_id: playlist_id
+			playlist_uid: playlist_uid
 		};
 
 		$.ajax({
@@ -323,7 +323,7 @@ function PlaylistControl(){
 
 	this.DISP_NewPlaylist = function(){
 		$('#id_leable_playlist_edit_mode').html('New Mode');
-		$('#id_label_playlist_id').html('');
+		$('#id_label_playlist_uid').html('');
 		$('#id_label_playlist_country_code').html(self._country_code_for_edit);
 		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
 		$('#id_label_playlist_user_id').html(dj_user_id);
@@ -336,7 +336,7 @@ function PlaylistControl(){
 
 	this.DISP_PlaylistInfo = function(){
 		$('#id_leable_playlist_edit_mode').html('Update Mode');
-		$('#id_label_playlist_id').html(self._playlist_info.playlist_id);
+		$('#id_label_playlist_uid').html(self._playlist_info.playlist_uid);
 		$('#id_label_playlist_country_code').html(self._playlist_info.country_code);
 		$('#id_input_playlist_title').val(self._playlist_info.title);
 		$('#id_input_playlist_comment').val(self._playlist_info.comment);
@@ -366,8 +366,8 @@ function PlaylistControl(){
 		for(var i=0 ; i<playlist_list.length ; i++){
 			var p = playlist_list[i];
 
-			var on_click_title = `window._playlist_control.OpenPlaylistForEdit('${p.playlist_id}')`;
-			var on_click_delete = `window._playlist_control.OnClickDeletePlaylist('${p.playlist_id}')`;
+			var on_click_title = `window._playlist_control.OpenPlaylistForEdit('${p.playlist_uid}')`;
+			var on_click_delete = `window._playlist_control.OnClickDeletePlaylist('${p.playlist_uid}')`;
 
 			h += `
 			<tr style="cursor:pointer">
