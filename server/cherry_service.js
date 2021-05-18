@@ -9,23 +9,81 @@ function CherryService(){
 			var conn = null;
 			artist_name = artist_name.trim();
 			try{
+				var artist_uid = await self.GetArtistUID();
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO artist( name, is_various )' +
-					' VALUES (?, ?)';
+				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid )' +
+					' VALUES (?, ?, ?)';
 				
 				var val_various = is_various == true ? 'Y' : 'N';
-				var val = [artist_name, val_various];
+				var val = [artist_name, val_various, artist_uid];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
 						reject('FAIL CherryService AddArtist #0');
 					}else{
-						resolve(result.insertId);
+						resolve(artist_uid);
 					}
 				});
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService AddArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetArtistUID = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				var artist_uid = await self.__GetArtistUID__();
+				if(artist_uid != null){
+					resolve(artist_uid);
+					return;
+				}
+
+				artist_uid = await self.__GetArtistUID__();
+				if(artist_uid != null){
+					resolve(artist_uid);
+					return;
+				}
+
+				artist_uid = await self.__GetArtistUID__();
+				if(artist_uid != null){
+					resolve(artist_uid);
+					return;
+				}
+
+				reject('FAIL GetArtistUID #1');
+			}catch(err){
+				reject('FAIL GetArtistUID #2');
+			}
+		});
+	}
+
+	this.__GetArtistUID__ = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				conn = await db_conn.GetConnection();
+				var artist_uid = randomstring.generate(10);
+
+				var sql = 'SELECT count(*) cnt FROM artist WHERE artist_uid=?';
+				var val = [artist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService __GetArtistUID__ #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(null);
+						}else{
+							resolve(artist_uid);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService __GetArtistUID__ #1');
 			}finally{
 				if(conn) conn.release();
 			}
