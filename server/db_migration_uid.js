@@ -109,10 +109,10 @@ async function Main(){
 	for(var i=0 ; i<playlist_list.length ; i++){
 		var p = playlist_list[i];
 		var playlist_uid = randomstring.generate(10);
-		console.log('playlist_uid ' + p.playlist_uid + ' => ' + playlist_uid);
-		await UpdatePlayst(p.playlist_uid, playlist_uid);
-		await UpdateLikePlaylist(p.playlist_uid, playlist_uid);
-		await UpdatePlaylistMusic(p.playlist_uid, playlist_uid);
+		console.log('playlist_uid ' + p.playlist_id + ' => ' + playlist_uid);
+		await UpdatePlayst(p.playlist_id, playlist_uid);
+		await UpdateLikePlaylist(p.playlist_id, playlist_uid);
+		await UpdatePlaylistMusic(p.playlist_id, playlist_uid);
 	}
 
 	console.log('Finished');
