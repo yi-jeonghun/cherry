@@ -101,6 +101,7 @@ function CMS_Service(){
 				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
 				WHERE t.country_code = ?
+				ORDER BY t.rank_num ASC
 			`;
 			var val = [country_code];
 
