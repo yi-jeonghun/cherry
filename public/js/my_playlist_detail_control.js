@@ -7,7 +7,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	this._is_edit_mode = false;
 	this._searched_artist_list = [];
 	this._searched_music_list = [];
-	this._music_id_list_to_add = [];
+	this._music_uid_list_to_add = [];
 
 	this.Init = function(){
 		self.InitHandle();
@@ -30,7 +30,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	this.OnClick_id_btn_my_playlist_detail_add_music_complete = function(){
 		var req_data = {
 			playlist_uid: self._playlist_uid,
-			music_id_list: self._music_id_list_to_add,
+			music_uid_list: self._music_uid_list_to_add,
 			begin_order: self._music_list.length+1
 		};
 
@@ -126,7 +126,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	this.DeleteMusic = function(idx){
 		var req_data = {
 			playlist_uid: self._playlist_uid,
-			music_id: self._music_list[idx].music_id
+			music_uid: self._music_list[idx].music_uid
 		};
 
 		$.ajax({
@@ -171,8 +171,8 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	};
 
 	this.ChooseMusicToAdd = function(idx){
-		var music_id = self._searched_music_list[idx].music_id;
-		self._music_id_list_to_add.push(music_id);
+		var music_uid = self._searched_music_list[idx].music_uid;
+		self._music_uid_list_to_add.push(music_uid);
 		// _music_list_to_add가 0보다 크면 X 버튼 대신 완료 버튼으로 바꾸기.
 		// 선택된 음악의 체크박스 색을 파란색으로.
 		$('#id_music_checkbox-'+idx).css('color', 'green');

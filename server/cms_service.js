@@ -61,9 +61,9 @@ function CMS_Service(){
 			var conn = null;
 
 			var sql = `
-				SELECT t.rank_num, t.music_id, t.artist, a.artist_uid, a.is_various, t.title, t.video_id
+				SELECT t.rank_num, t.music_uid, t.artist, a.artist_uid, a.is_various, t.title, t.video_id
 				FROM top_rank_list_draft t
-				LEFT JOIN music m ON t.music_id=m.music_id
+				LEFT JOIN music m ON t.music_uid=m.music_uid
 				LEFT JOIN artist a ON a.artist_uid=m.artist_uid
 				WHERE country_code=?
 			`;
@@ -95,9 +95,9 @@ function CMS_Service(){
 			console.log('country_code ' + country_code);
 
 			var sql = `
-				SELECT t.rank_num, m.music_id, m.title, a.name artist, a.artist_uid, a.is_various, m.video_id, u.name user_name
+				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, a.is_various, m.video_id, u.name user_name
 				FROM top_rank_list t
-				JOIN music m ON t.music_id=m.music_id
+				JOIN music m ON t.music_uid=m.music_uid
 				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
 				WHERE t.country_code = ?
@@ -172,13 +172,13 @@ function CMS_Service(){
 	this.UpdateTopRankDraft_OneRecord = async function(conn, country_code, music){
 		return new Promise(async function(resolve, reject){
 
-			// console.log('rank_num ' + music.rank_num + ' music_id ' + music.music_id);
+			// console.log('rank_num ' + music.rank_num + ' music_uid ' + music.music_uid);
 			var sql = `
-			INSERT INTO top_rank_list_draft(country_code, rank_num, music_id, artist, title, video_id) 
+			INSERT INTO top_rank_list_draft(country_code, rank_num, music_uid, artist, title, video_id) 
 			VALUES(?, ?, ?, ?, ?, ?) 
 			ON DUPLICATE KEY UPDATE country_code=?, rank_num=?
 			`;
-			var val = [country_code, music.rank_num, music.music_id, music.artist, music.title, music.video_id, 
+			var val = [country_code, music.rank_num, music.music_uid, music.artist, music.title, music.video_id, 
 				country_code, music.rank_num];
 			conn.query(sql, val, function(err, result){
 				if(err){
@@ -199,7 +199,7 @@ function CMS_Service(){
 				conn = await db_conn.GetConnection();
 				for(var i=0 ; i<music_list.length ; i++){
 					var m = music_list[i];
-					if(m.music_id != null){
+					if(m.music_uid != null){
 						await self.UpdateTopRankRelease_OneRecord(conn, country_code, m);
 					}
 				}
@@ -217,11 +217,11 @@ function CMS_Service(){
 	this.UpdateTopRankRelease_OneRecord = async function(conn, country_code, music){
 		return new Promise(async function(resolve, reject){
 			var sql = `
-			INSERT INTO top_rank_list(country_code, rank_num, music_id) 
+			INSERT INTO top_rank_list(country_code, rank_num, music_uid) 
 			VALUES(?, ?, ?) 
 			ON DUPLICATE KEY UPDATE country_code=?, rank_num=?
 			`;
-			var val = [country_code, music.rank_num, music.music_id,  
+			var val = [country_code, music.rank_num, music.music_uid,  
 				country_code, music.rank_num];
 			conn.query(sql, val, function(err, result){
 				if(err){
@@ -278,7 +278,7 @@ function CMS_Service(){
 					var m = music_list[i];
 					var result = await self.GetMusicByArtistAndTitle(conn, m.artist, m.title);
 					if(result.ok){
-						music_list[i].music_id = result.music.music_id;
+						music_list[i].music_uid = result.music.music_uid;
 						music_list[i].video_id = result.music.video_id;
 					}
 				}
@@ -295,7 +295,7 @@ function CMS_Service(){
 	this.GetMusicByArtistAndTitle = async function(conn, artist, title){
 		return new Promise(async function(resolve, reject){
 			var sql = `
-				SELECT m.music_id, m.video_id
+				SELECT m.music_uid, m.video_id
 				FROM music m
 				WHERE m.title=?
 				AND m.artist_uid=(
@@ -475,13 +475,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateMusic = async function(music_id, title){
+	this.UpdateMusic = async function(music_uid, title){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = `UPDATE music SET title=? WHERE music_id=?`;
-				var val = [title, music_id];
+				var sql = `UPDATE music SET title=? WHERE music_uid=?`;
+				var val = [title, music_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

@@ -297,8 +297,8 @@ router.post('/add_music', async function(req, res){
 				err_msg:'Same video exists'
 			});
 		}else{
-			var music_id = await cherry_service.AddMusic(music, dj_user_id);
-			var music_info = await cherry_service.GetMusicInfo(music_id);
+			var music_uid = await cherry_service.AddMusic(music, dj_user_id);
+			var music_info = await cherry_service.GetMusicInfo(music_uid);
 
 			res.send({
 				ok: 1,
@@ -350,7 +350,7 @@ router.post('/add_playlist_and_music_list', async function(req, res){
 		var dj_user_id = req.body.dj_user_id;
 		var playlist = req.body.playlist;
 		var playlist_uid = await cherry_service.AddPlaylist(playlist, dj_user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_id_list);
+		await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_uid_list);
 		res.send({
 			ok: 1,
 			playlist_uid: playlist_uid
@@ -370,7 +370,7 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 		var playlist = req.body.playlist;
 		console.log('playlist id ' + playlist.playlist_uid);
 		await cherry_service.UpdatePlaylist(playlist, user_id);
-		await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_id_list);
+		await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_uid_list);
 		res.send({
 			ok: 1
 		});
@@ -402,8 +402,8 @@ router.post('/get_user_list', async function(req, res){
 router.post('/update_music', async function(req, res){
 	try{
 		var title = req.body.title;
-		var music_id = req.body.music_id;
-		await cms_service.UpdateMusic(music_id, title);
+		var music_uid = req.body.music_uid;
+		await cms_service.UpdateMusic(music_uid, title);
 		res.send({
 			ok: 1
 		});

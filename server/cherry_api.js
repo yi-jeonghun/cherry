@@ -167,8 +167,8 @@ router.post('/add_music', async function(req, res){
 				err_msg:'Same video exists'
 			});
 		}else{
-			var music_id = await cherry_service.AddMusic(music, user_id);
-			var music_info = await cherry_service.GetMusicInfo(music_id);
+			var music_uid = await cherry_service.AddMusic(music, user_id);
+			var music_info = await cherry_service.GetMusicInfo(music_uid);
 
 			res.send({
 				ok: 1,
@@ -203,7 +203,7 @@ router.post('/update_music', async function(req, res){
 		}
 
 		var music_info = {
-			music_id:  req_data.music_id,
+			music_uid:  req_data.music_uid,
 			artist_uid: artist_uid,
 			title:     music.title,
 			video_id:  music.video_id
@@ -233,9 +233,9 @@ router.post('/update_music', async function(req, res){
 router.post('/delete_music', async function(req, res){
 	try{
 		var req_data = req.body;
-		var music_id = req_data.music_id;
+		var music_uid = req_data.music_uid;
 
-		await cherry_service.DeleteMusic(music_id);
+		await cherry_service.DeleteMusic(music_uid);
 		res.send({
 			ok: 1
 		});
@@ -350,8 +350,8 @@ router.post('/search_music_smart', async function(req, res){
 
 router.post('/get_music_by_id', async function(req, res){
 	try{
-		var music_id = req.body.music_id;
-		var music_list = await cherry_service.GetMusicById(music_id);
+		var music_uid = req.body.music_uid;
+		var music_list = await cherry_service.GetMusicById(music_uid);
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -566,7 +566,7 @@ router.post('/add_music_list_to_playlist', async function(req, res){
 		}
 
 		var playlist_uid = req.body.playlist_uid;
-		var music_id_list = req.body.music_id_list;
+		var music_uid_list = req.body.music_uid_list;
 		var begin_order = req.body.begin_order;
 
 		if(is_allowed == false){
@@ -577,7 +577,7 @@ router.post('/add_music_list_to_playlist', async function(req, res){
 		}
 
 		if(is_allowed){
-			await cherry_service.AddMusicListToPlaylist(playlist_uid, music_id_list, begin_order);
+			await cherry_service.AddMusicListToPlaylist(playlist_uid, music_uid_list, begin_order);
 			res.send({
 				ok: 1
 			});	
@@ -696,7 +696,7 @@ router.post('/delete_music_from_playlist', async function(req, res){
 		}
 
 		var playlist_uid = req.body.playlist_uid;
-		var music_id = req.body.music_id;
+		var music_uid = req.body.music_uid;
 		if(is_allowed == false){
 			var user_id = await permission_service.GetUserID(req);
 			if(cherry_service.CheckMyPlaylist(playlist_uid, user_id)){
@@ -705,7 +705,7 @@ router.post('/delete_music_from_playlist', async function(req, res){
 		}
 
 		if(is_allowed){
-			await cherry_service.DeleteOneMusicFromPlaylist(playlist_uid, music_id);
+			await cherry_service.DeleteOneMusicFromPlaylist(playlist_uid, music_uid);
 			res.send({
 				ok: 1
 			});	

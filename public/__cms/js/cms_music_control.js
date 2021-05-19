@@ -31,8 +31,8 @@ const EDIT_MODE = {
 
 var _music_list = [];
 var _cur_mode = EDIT_MODE.ADD;
-var _music_id_for_edit = -1;
-var _music_id_for_update = null;
+var _music_uid_for_edit = -1;
+var _music_uid_for_update = null;
 
 function OnEnterKeyPressed(e){
 	if(e.keyCode == 13){
@@ -173,12 +173,12 @@ function DisplayMusicList(){
 	for(var i=0 ; i<_music_list.length ; i++){
 		var m = _music_list[i];
 		h += '<tr>';
-		h += '	<td>' + m.music_id + '</td>';
+		h += '	<td>' + m.music_uid + '</td>';
 		h += '	<td>' + m.artist + '</td>';
 		h += '	<td>' + m.title + '</td>';
 		h += '	<td>' + m.video_id + '</td>';
 		h += '	<td>';
-		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic('+m.music_id+')">';
+		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="DeleteMusic('+m.music_uid+')">';
 		h += '			<i class="fas fa-trash-alt"></i>';
 		h += '		</span>';
 		h += '		<span class="badge badge-primary" style="cursor:pointer" onclick="OnEditMusic('+i+')">';
@@ -192,14 +192,14 @@ function DisplayMusicList(){
 	$('#id_div_music_list').html(h);
 }
 
-function DeleteMusic(music_id){
+function DeleteMusic(music_uid){
 	var answer = confirm('sure to delete?');
 	if(answer == false){
 		return;
 	}
 
 	var req_data = {
-		music_id: music_id
+		music_uid: music_uid
 	};
 
 	$.ajax({
@@ -220,7 +220,7 @@ function DeleteMusic(music_id){
 }
 
 function OnEditMusic(idx){
-	_music_id_for_update = _music_list[idx].music_id;
+	_music_uid_for_update = _music_list[idx].music_uid;
 	_cur_mode = EDIT_MODE.UPDATE;
 	$('#id_text_artist_name').val(_music_list[idx].artist);
 	$('#id_text_title').val(_music_list[idx].title);
@@ -235,11 +235,11 @@ function UpdateMusic(){
 	}
 
 	var req_data = {
-		music_id: _music_id_for_update,
+		music_uid: _music_uid_for_update,
 		music:    music
 	};
 
-	console.log('req music_id ' + req_data.music_id);
+	console.log('req music_uid ' + req_data.music_uid);
 
 	$.ajax({
 		url: '/cherry_api/update_music',
@@ -249,7 +249,7 @@ function UpdateMusic(){
 		dataType: 'json',
 		success: function (res) {
 			if(res.ok){
-				_music_id_for_update = null;
+				_music_uid_for_update = null;
 				_cur_mode = EDIT_MODE.ADD;
 				$('#id_btn_add_ok').html('OK');
 				alert('Success');
@@ -292,7 +292,7 @@ function SearchMusic(){
 					var m1 = list1[i1];
 					for(var i2=0 ; i2<list2.length ; i2++){
 						var m2 = list2[i2];
-						if(m1.music_id == m2.music_id){
+						if(m1.music_uid == m2.music_uid){
 							list2.splice(i2, 1);
 							break;
 						}

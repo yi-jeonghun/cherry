@@ -14,6 +14,10 @@ function PlaylistStorage_Local(){
 	this.GetPlaylist = function(){
 		var music_list = [];
 		var saved_play_list = window.localStorage.getItem('PLAY_LIST');
+		if(saved_play_list === undefined || saved_play_list == 'undefined'){
+			console.log('undefined ');
+			saved_play_list = '';
+		}
 		if(saved_play_list == null || saved_play_list == ''){
 			return music_list;
 		}
@@ -23,7 +27,7 @@ function PlaylistStorage_Local(){
 	};
 
 	this.SavePlaylist = function(music_list){
-		window.localStorage.setItem('PLAY_LIST', JSON.stringify(self._music_list));
+		window.localStorage.setItem('PLAY_LIST', JSON.stringify(music_list));
 	};
 }
 
@@ -45,7 +49,7 @@ function CherryPlayer(){
 	this.__yt_player = null;
 	this._music_list = [];
 	this._cur_video_id = null;
-	this._cur_music_idx = -1;
+	this._cur_music_uidx = -1;
 	this._play_time_ms = 0;
 	this._seq_type = SEQ_TYPE.Sequence;
 	this._repeat_type = REPEAT_TYPE.ALL;
@@ -287,15 +291,15 @@ function CherryPlayer(){
 		}
 		self.DisplayMusicList();
 
-		var select_music_idx = 0;
+		var select_music_uidx = 0;
 		{
-			var last_played_music_id = window.localStorage.getItem('PLAYER.LAST_PLAYED_MUSIC_ID');
-			// console.log('last_played_music_id ' + last_played_music_id);
-			if(last_played_music_id != null){
+			var last_played_music_uid = window.localStorage.getItem('PLAYER.LAST_PLAYED_music_uid');
+			// console.log('last_played_music_uid ' + last_played_music_uid);
+			if(last_played_music_uid != null){
 				for(var i=0 ; i<self._music_list.length ; i++){
-					// console.log('i ' + i + ' == ' + self._music_list[i].music_id);
-					if(self._music_list[i].music_id == last_played_music_id){
-						select_music_idx = i;
+					// console.log('i ' + i + ' == ' + self._music_list[i].music_uid);
+					if(self._music_list[i].music_uid == last_played_music_uid){
+						select_music_uidx = i;
 						break;
 					}
 				}
@@ -322,14 +326,14 @@ function CherryPlayer(){
 		if(auto_play_start){
 			var last_play_ms = window.localStorage.getItem('PLAYER.LAST_PLAY_MS');
 			if(last_play_ms == null){
-				self.SelectMusic(select_music_idx);
+				self.SelectMusic(select_music_uidx);
 				self.__yt_player.LoadAndPlay(self._cur_video_id);
 			}else{
-				self.SelectMusic(select_music_idx);
+				self.SelectMusic(select_music_uidx);
 				self.__yt_player.LoadAndSeekPlay(self._cur_video_id, last_play_ms);
 			}
 		}else{
-			self.SelectMusic(select_music_idx, false);
+			self.SelectMusic(select_music_uidx, false);
 			self.__yt_player.LoadButNotPlay(self._cur_video_id);
 		}
 
@@ -425,9 +429,9 @@ function CherryPlayer(){
 		}
 
 		// console.log('HighlightCurrentMusic ');
-		// console.log('self._cur_music_idx ' + self._cur_music_idx);
+		// console.log('self._cur_music_uidx ' + self._cur_music_uidx);
 
-		var id = '#id_music_title_' + self._cur_music_idx;
+		var id = '#id_music_title_' + self._cur_music_uidx;
 		// console.log('id ' + id);
 		$(id).addClass('playlist_music_highlight');
 	};
@@ -507,13 +511,13 @@ function CherryPlayer(){
 	};
 
 	this.SelectMusic = function(id){
-		self._cur_music_idx = id;
-		self._cur_video_id = self._music_list[self._cur_music_idx].video_id;
-		var music_id = self._music_list[self._cur_music_idx].music_id;
-		window.localStorage.setItem('PLAYER.LAST_PLAYED_MUSIC_ID', music_id);
+		self._cur_music_uidx = id;
+		self._cur_video_id = self._music_list[self._cur_music_uidx].video_id;
+		var music_uid = self._music_list[self._cur_music_uidx].music_uid;
+		window.localStorage.setItem('PLAYER.LAST_PLAYED_music_uid', music_uid);
 		self.DisplayTitleArtist(
-			self._music_list[self._cur_music_idx].title,
-			self._music_list[self._cur_music_idx].artist
+			self._music_list[self._cur_music_uidx].title,
+			self._music_list[self._cur_music_uidx].artist
 		);
 
 		self.HighlightCurrentMusic();
@@ -553,11 +557,11 @@ function CherryPlayer(){
 			return;
 		}else if(self._seq_type == SEQ_TYPE.Sequence){
 			//순차적으로 전체를 반복
-			var next_music_idx = self._cur_music_idx + 1;
-			if(self._music_list.length == next_music_idx){
-				next_music_idx = 0;
+			var next_music_uidx = self._cur_music_uidx + 1;
+			if(self._music_list.length == next_music_uidx){
+				next_music_uidx = 0;
 			}
-			self.SelectMusic(next_music_idx);
+			self.SelectMusic(next_music_uidx);
 			self.__yt_player.LoadAndPlay(self._cur_video_id);
 			return;		
 		}
@@ -571,7 +575,7 @@ function CherryPlayer(){
 
 		if(self._repeat_type == REPEAT_TYPE.ONE){
 			//한 곡만 반복
-			self.SelectMusic(self._cur_music_idx);
+			self.SelectMusic(self._cur_music_uidx);
 			self.__yt_player.LoadAndPlay(self._cur_video_id);
 			return;
 		}else if(self._repeat_type == REPEAT_TYPE.ALL){
@@ -581,11 +585,11 @@ function CherryPlayer(){
 				return;
 			}else if(self._seq_type == SEQ_TYPE.Sequence){
 				//순차적으로 전체를 반복
-				var next_music_idx = self._cur_music_idx + 1;
-				if(self._music_list.length == next_music_idx){
-					next_music_idx = 0;
+				var next_music_uidx = self._cur_music_uidx + 1;
+				if(self._music_list.length == next_music_uidx){
+					next_music_uidx = 0;
 				}
-				self.SelectMusic(next_music_idx);
+				self.SelectMusic(next_music_uidx);
 				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;		
 			}
@@ -596,11 +600,11 @@ function CherryPlayer(){
 				return;
 			}else if(self._seq_type == SEQ_TYPE.Sequence){
 				//순차적으로 전체를 반복
-				var next_music_idx = self._cur_music_idx + 1;
-				if(self._music_list.length == next_music_idx){
+				var next_music_uidx = self._cur_music_uidx + 1;
+				if(self._music_list.length == next_music_uidx){
 					return;
 				}
-				self.SelectMusic(next_music_idx);
+				self.SelectMusic(next_music_uidx);
 				self.__yt_player.LoadAndPlay(self._cur_video_id);
 				return;		
 			}

@@ -21,7 +21,7 @@ function ArtistControl(){
 	this._youtube = null;
 	this._youtube_searched_video_list = [];
 	this._artist_edit_mode = ARTIST_EDIT_MODE.NEW;
-	this._music_id_to_edit = null;
+	this._music_uid_to_edit = null;
 	this._artist_list_type = ARTIST_LIST_TYPE.FAVORITE;
 	this._artist_searched_list = [];
 	this._cms_favorite_artist_list = [];
@@ -182,7 +182,7 @@ function ArtistControl(){
 
 	this.OnClick_MusicEdit = function(idx){
 		var m = self._music_list[idx];
-		self._music_id_to_edit = m.music_id;
+		self._music_uid_to_edit = m.music_uid;
 		$('#id_input_cms_artist_music_title').val(m.title);
 		$('#id_modal_cms_artist_music_edit').modal('show');
 	};
@@ -190,7 +190,7 @@ function ArtistControl(){
 	this.OnClick_id_btn_cms_artist_music_edit_ok = function(){
 		var title = $('#id_input_cms_artist_music_title').val().trim();
 		var req_data = {
-			music_id: self._music_id_to_edit,
+			music_uid: self._music_uid_to_edit,
 			title:    title   
 		};
 		$.ajax({
@@ -462,7 +462,7 @@ function ArtistControl(){
 			h += `
 			<tr>
 				<td>${m.title}</td>
-				<td>${m.music_id}</td>
+				<td>${m.music_uid}</td>
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
 				<td>

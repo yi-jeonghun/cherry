@@ -156,10 +156,10 @@ function PlaylistControl(){
 		var is_open = $('#id_checkbox_playlist_is_open').is(":checked");
 		console.log('is_open ' + is_open);
 
-		var music_id_list = [];
+		var music_uid_list = [];
 
 		for(var i=0 ; i<self._playlist_music_list.length ; i++){
-			music_id_list.push(self._playlist_music_list[i].music_id);
+			music_uid_list.push(self._playlist_music_list[i].music_uid);
 		}
 
 		var playlist_uid = null;
@@ -176,7 +176,7 @@ function PlaylistControl(){
 				title:         title,
 				comment:       comment,
 				is_open:       is_open,
-				music_id_list: music_id_list	
+				music_uid_list: music_uid_list	
 			}
 		};
 
@@ -273,14 +273,14 @@ function PlaylistControl(){
 		var m = self._searched_music_list[idx];
 
 		for(var i=0 ; i<self._playlist_music_list.length ; i++){
-			if(m.music_id == self._playlist_music_list[i].music_id){
+			if(m.music_uid == self._playlist_music_list[i].music_uid){
 				alert('Already added');
 				return;
 			}
 		}
 
 		var copy = {
-			music_id: m.music_id,
+			music_uid: m.music_uid,
 			artist:   m.artist,
 			title:    m.title,
 			video_id: m.video_id

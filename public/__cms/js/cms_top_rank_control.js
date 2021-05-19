@@ -233,7 +233,7 @@ function TopRankControl(){
 							title: res.music_list[i].title,
 							artist: res.music_list[i].artist,
 							video_id:null,
-							music_id:null
+							music_uid:null
 						};
 						self._music_list_draft.push(music);
 					}
@@ -251,7 +251,7 @@ function TopRankControl(){
 		var ok_cnt = 0;
 		for(var i=0 ; i<self._music_list_draft.length ; i++){
 			var m = self._music_list_draft[i];
-			if(m.music_id != null){
+			if(m.music_uid != null){
 				ok_cnt++;
 			}
 		}
@@ -278,8 +278,8 @@ function TopRankControl(){
 					for(var i=0 ; i<ret_music_list.length ; i++){
 						var m = ret_music_list[i];
 						self._music_list_draft[i].video_id = m.video_id;
-						self._music_list_draft[i].music_id = m.music_id;
-						$('#id_label_music_id_'+i).html(m.music_id);
+						self._music_list_draft[i].music_uid = m.music_uid;
+						$('#id_label_music_uid_'+i).html(m.music_uid);
 						$('#id_text_video_id_'+i).val(m.video_id);
 						self.DisplayVideoImage(i);
 					}
@@ -311,12 +311,12 @@ function TopRankControl(){
 			var m = self._music_list_draft[i];
 
 			if(self._filter_type == FILTER_TYPE.NG){
-				if(m.music_id != null){
+				if(m.music_uid != null){
 					continue;
 				}	
 			}
 			if(self._filter_type == FILTER_TYPE.OK){
-				if(m.music_id == null){
+				if(m.music_uid == null){
 					continue;
 				}	
 			}
@@ -336,7 +336,7 @@ function TopRankControl(){
 					<input type="text" style="width:100px; font-size:0.8em" id="id_text_video_id_${i}" onFocusOut="window._top_rank_control.CheckVideoID(this, ${i})" value="${m.video_id}"></input>
 				</td>
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
-				<td id="id_label_music_id_${i}">${m.music_id}</td>
+				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
 			</tr>
 			`;
 		}
@@ -377,7 +377,7 @@ function TopRankControl(){
 				<td>${m.title}</td>
 				<td>${m.video_id}</td>
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
-				<td id="id_label_music_id_${i}">${m.music_id}</td>
+				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
 			</tr>
 			`;
 		}
@@ -486,12 +486,12 @@ function TopRankControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self._music_list_draft[self._working_idx].music_id = res.music_info.music_id;
+					self._music_list_draft[self._working_idx].music_uid = res.music_info.music_uid;
 
 					console.log('res.music_info.artist_uid ' + res.music_info.artist_uid);
 					console.log('res.music_info.is_various ' + res.music_info.is_various);
 
-					$('#id_label_music_id_'+self._working_idx).html(res.music_info.music_id);
+					$('#id_label_music_uid_'+self._working_idx).html(res.music_info.music_uid);
 					$('#id_label_artist_uid_'+self._working_idx).html(res.music_info.artist_uid);
 					$('#id_label_is_various_'+self._working_idx).html(res.music_info.is_various=='Y'?'O':'');
 
@@ -664,7 +664,7 @@ function TopRankControl(){
 						var m1 = list1[i1];
 						for(var i2=0 ; i2<list2.length ; i2++){
 							var m2 = list2[i2];
-							if(m1.music_id == m2.music_id){
+							if(m1.music_uid == m2.music_uid){
 								list2.splice(i2, 1);
 								break;
 							}
@@ -675,8 +675,8 @@ function TopRankControl(){
 
 					// if(self._searched_music_list.length > 0){
 					// 	self._music_list_draft[idx].video_id = self._searched_music_list[0].video_id;
-					// 	self._music_list_draft[idx].music_id = self._searched_music_list[0].music_id;
-					// 	$('#id_label_music_id_'+idx).html(self._searched_music_list[0].music_id);
+					// 	self._music_list_draft[idx].music_uid = self._searched_music_list[0].music_uid;
+					// 	$('#id_label_music_uid_'+idx).html(self._searched_music_list[0].music_uid);
 					// 	$('#id_text_video_id_'+idx).val(self._searched_music_list[0].video_id);
 					// 	DisplayVideoImage(idx);
 					// 	NeedToSave();
@@ -707,7 +707,7 @@ function TopRankControl(){
 
 			h += `
 			<tr>
-				<td>${m.music_id}</td>
+				<td>${m.music_uid}</td>
 				<td>${m.artist}</td>
 				<td>${m.title}</td>
 				<td>${m.video_id}</td>
@@ -726,15 +726,15 @@ function TopRankControl(){
 		$('#id_div_search_result').html(h);
 	};
 
-	this.UseThisMusicID = function(searched_music_idx){
-		console.log('searched_music_idx ' + searched_music_idx);
+	this.UseThisMusicID = function(searched_music_uidx){
+		console.log('searched_music_uidx ' + searched_music_uidx);
 
-		self._music_list_draft[self._working_idx].video_id = self._searched_music_list[searched_music_idx].video_id;
-		self._music_list_draft[self._working_idx].music_id = self._searched_music_list[searched_music_idx].music_id;
-		$('#id_label_music_id_'+self._working_idx).html(self._searched_music_list[searched_music_idx].music_id);
-		$('#id_label_artist_uid_'+self._working_idx).html(self._searched_music_list[searched_music_idx].artist_uid);
-		$('#id_label_is_various_'+self._working_idx).html(self._searched_music_list[searched_music_idx].is_various=='Y'?'O':'');
-		$('#id_text_video_id_'+self._working_idx).val(self._searched_music_list[searched_music_idx].video_id);
+		self._music_list_draft[self._working_idx].video_id = self._searched_music_list[searched_music_uidx].video_id;
+		self._music_list_draft[self._working_idx].music_uid = self._searched_music_list[searched_music_uidx].music_uid;
+		$('#id_label_music_uid_'+self._working_idx).html(self._searched_music_list[searched_music_uidx].music_uid);
+		$('#id_label_artist_uid_'+self._working_idx).html(self._searched_music_list[searched_music_uidx].artist_uid);
+		$('#id_label_is_various_'+self._working_idx).html(self._searched_music_list[searched_music_uidx].is_various=='Y'?'O':'');
+		$('#id_text_video_id_'+self._working_idx).val(self._searched_music_list[searched_music_uidx].video_id);
 		self.DisplayVideoImage(self._working_idx);
 		self.NeedToSave();
 		self.DisplayDraftStatus();

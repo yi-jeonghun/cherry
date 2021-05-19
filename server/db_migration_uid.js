@@ -294,4 +294,152 @@ async function ArtistMigration(){
 	process.exit();
 }
 
-ArtistMigration();
+///////////////////////////////////////////////////////////////////////////
+
+async function UpdateTopRankListDraft(music_id, music_uid){
+	return new Promise(async function(resolve, rejeect){
+		try{
+			var conn = await db_conn.GetConnection();
+			var sql = 'UPDATE top_rank_list_draft SET ? WHERE ?';
+			var val = [
+				{music_uid:music_uid},
+				{music_id:music_id}
+			];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL UpdateTopRankListDraft #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.log('err ' + err);
+			reject('FAIL UpdateTopRankListDraft #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function UpdateTopRankList(music_id, music_uid){
+	return new Promise(async function(resolve, rejeect){
+		try{
+			var conn = await db_conn.GetConnection();
+			var sql = 'UPDATE top_rank_list SET ? WHERE ?';
+			var val = [
+				{music_uid:music_uid},
+				{music_id:music_id}
+			];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL UpdateTopRankList #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.log('err ' + err);
+			reject('FAIL UpdateTopRankList #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function UpdatePlaylistMusic(music_id, music_uid){
+	return new Promise(async function(resolve, rejeect){
+		try{
+			var conn = await db_conn.GetConnection();
+			var sql = 'UPDATE playlist_music SET ? WHERE ?';
+			var val = [
+				{music_uid:music_uid},
+				{music_id:music_id}
+			];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL UpdatePlaylistMusic #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.log('err ' + err);
+			reject('FAIL UpdatePlaylistMusic #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function UpdateMusic(music_id, music_uid){
+	return new Promise(async function(resolve, rejeect){
+		try{
+			var conn = await db_conn.GetConnection();
+			var sql = 'UPDATE music SET ? WHERE ?';
+			var val = [
+				{music_uid:music_uid},
+				{music_id:music_id}
+			];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL UpdateMusic #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.log('err ' + err);
+			reject('FAIL UpdateMusic #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function GetMusictList(){
+	return new Promise(async function(resolve, reject){
+		try{
+			var conn = await db_conn.GetConnection();
+			var sql = 'SELECT * FROM music';
+			var val = [];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL GetMusictList #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.log('err ' + err);
+			reject('FAIL GetMusictList #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function MusicMigration(){
+	var music_list = await GetMusictList();
+	console.log('music_list len ' + music_list.length);
+
+	for (let i = 0; i < music_list.length; i++) {
+		const m = music_list[i];
+		var music_uid = randomstring.generate(10);
+		console.log('m.music_id ' + m.music_id + ' => ' + music_uid);
+
+		await UpdateMusic(m.music_id, music_uid);
+		await UpdatePlaylistMusic(m.music_id, music_uid);
+		await UpdateTopRankList(m.music_id, music_uid);
+		await UpdateTopRankListDraft(m.music_id, music_uid);
+	}
+
+	console.log('Finished');
+	process.exit();
+}
+
+MusicMigration();
