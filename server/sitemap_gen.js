@@ -78,16 +78,45 @@ async function GetArtistList(){
 			var country_code = CONST.__COUNTRY_CODE_LIST[i];
 
 			for(var a=0 ; a<artist_list.length ; a++){
-				var artist_name = encodeURI(artist_list[a].name);
-				var artist_uid = artist_list[a].artist_uid;
+				var artist = artist_list[a];
+				if(artist.is_various == 'Y'){
+					{
+						var encoded_name = encodeURI(artist.name);
+						var artist_uid = artist.artist_uid;
+						xml += `
+						<url>
+							<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&aid=${artist_uid}</loc>
+							<lastmod>${date_str}</lastmod>
+							<priority>0.8</priority>
+						</url>
+						`;		
+					}
 
-				xml += `
-				<url>
-					<loc>https://cherrymusic.io/${country_code}/artist.go?a=${artist_name}&aid=${artist_uid}</loc>
-					<lastmod>${date_str}</lastmod>
-					<priority>0.8</priority>
-				</url>
-				`;
+					{
+						var member_list = JSON.parse(artist.member_list_json);
+						for(var m=0 ; m<member_list.length ; m++){
+							var encoded_name = member_list[m].name;
+							var artist_uid = member_list[m].artist_uid;
+							xml += `
+							<url>
+								<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&aid=${artist_uid}</loc>
+								<lastmod>${date_str}</lastmod>
+								<priority>0.8</priority>
+							</url>
+							`;		
+						}
+					}
+				}else{
+					var encoded_name = encodeURI(artist.name);
+					var artist_uid = artist.artist_uid;
+					xml += `
+					<url>
+						<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&aid=${artist_uid}</loc>
+						<lastmod>${date_str}</lastmod>
+						<priority>0.8</priority>
+					</url>
+					`;	
+				}
 			}
 		}
 		resolve();
