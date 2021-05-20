@@ -27,6 +27,7 @@ function Router(){
 	};
 
 	this.Go = function(path){
+		console.log('path ' + path);
 		window.history.pushState('', '', path);
 		self.Crossroad(path);
 	};
@@ -34,12 +35,13 @@ function Router(){
 	//path는 항상 다음의 형태
 	//  /<2자리 국가코드>/<feature>.go?key=value&...
 	this.Crossroad = function(path){
+		console.log('Crossroad ' + path);
 		self._cur_path = path;
 		// console.log('path ' + path);
 		var path_after_cc = path.substr(4);
 		var path_arr = path_after_cc.split('?');
 		var feature = path_arr[0];
-		// console.log('feature ' + feature);
+		console.log('feature ' + feature);
 
 		var args = path_arr.length > 1 ? path_arr[1] : null;
 		var arg_list = self.ParseArgs(args);
@@ -55,6 +57,7 @@ function Router(){
 			$('#id_router-like').hide();
 		}
 
+		console.log('Crossroad 3');
 		switch(feature){
 			case 'top_rank.go':
 				$('#id_router-top_rank').show();
@@ -106,6 +109,7 @@ function Router(){
 	};
 
 	this.GoTo_Artist = function(args, arg_list){
+		console.log('GoTo_Artist 1'  );
 		{
 			var country_name = COUNTRY_NAME_LIST[window._country_code];
 			var artist = arg_list['a'];
@@ -115,8 +119,13 @@ function Router(){
 			this.UpdateMeta(title, keywords, desc);	
 		}
 
+		console.log('GoTo_Artist 2'  );
+
 		var target_div = 'id_router-artist';
 		var route_url = '/artist.vu?'+args;
+
+		console.log('GoTo_Artist 3'  );
+
 		self.LoadInnerView(target_div, route_url);
 	};
 

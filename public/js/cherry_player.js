@@ -349,16 +349,6 @@ function CherryPlayer(){
 			var num = (i*1) + 1;
 			var artist_list = [];
 			{
-				// var artist_arr = m.artist.split(',');
-				// for(var j=0 ; j<artist_arr.length ; j++){
-				// 	var name = artist_arr[j].trim();
-				// 	var name_encoded = encodeURI(artist_arr[j].trim());
-				// 	artist_list.push({
-				// 		name: name,
-				// 		onclick: `window._cherry_player.GoToArtist('${name}', '${m.artist_uid}')`
-				// 	});
-				// }
-
 				if(m.is_various == 'Y'){
 					var member_list = JSON.parse(m.member_list_json);
 					for(var j=0 ; j<member_list.length ; j++){
@@ -366,14 +356,12 @@ function CherryPlayer(){
 						var artist_uid = member_list[j].artist_uid;
 						artist_list.push({
 							name: name,
-							// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
 							onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
 						});
 					}
 				}else{
 					artist_list.push({
 						name: m.artist,
-						// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
 						onclick: `window._cherry_player.GoToArtist('${m.artist}', '${m.artist_uid}')`
 					});
 				}
@@ -561,14 +549,12 @@ function CherryPlayer(){
 					var artist_uid = member_list[j].artist_uid;
 					artist_list.push({
 						name: name,
-						// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
 						onclick: `window._cherry_player.OnClickArtist('${name}', '${artist_uid}')`
 					});
 				}
 			}else{
 				artist_list.push({
 					name: m.artist,
-					// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
 					onclick: `window._cherry_player.OnClickArtist('${m.artist}', '${m.artist_uid}')`
 				});
 			}

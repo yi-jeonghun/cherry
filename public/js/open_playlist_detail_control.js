@@ -126,7 +126,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 						});
 					}
 				}else{
-					var name_encoded = m.artist;
+					var name_encoded = encodeURI(m.artist);
 					artist_list.push({
 						name: m.artist,
 						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`

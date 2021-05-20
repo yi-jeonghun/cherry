@@ -83,12 +83,11 @@ router.get('/top_rank.vu', async function(req, res){
 
 router.get('/artist.vu', async function(req, res){
 	var artist_name = req.query.a;
-	//FIXME artist_uid를 argument로 넘길 것.
-	var ret_data = await cherry_service.SearchArtist(artist_name);
+	var artist_uid = req.query.aid;
 
 	var data = {
 		artist_name: artist_name,
-		artist_uid: ret_data.artist_uid
+		artist_uid: artist_uid
 	};
 	res.render('artist', data);
 });
