@@ -1,0 +1,3949 @@
+
+			<?xml version="1.0" encoding="UTF-8"?>
+			<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+				<url>
+					<loc>https://cherrymusic.io/</loc>
+					<lastmod> 2021-05-19T11:27:26.817Z </lastmod>
+					<priority>0.5</priority>
+				</url>
+		
+				<url>
+					<loc>https://cherrymusic.io/US/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/GB/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/KR/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/DE/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/FR/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/AU/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/CA/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/BR/top_rank.go</loc>
+					<lastmod>2021-05-19T11:27:26.818Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+			
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/US/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/GB/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/DE/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/FR/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/AU/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/CA/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Queen</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Scolpions</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Bon%20Jovi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=BTS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Carla%20Bruni</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%EC%84%A4%EC%9A%B4%EB%8F%84</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%EB%B8%8C%EB%A0%88%EC%9D%B4%EB%B8%8C%EA%B1%B8%EC%8A%A4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%E3%85%82%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%E3%85%81%E3%84%B4%E3%85%87%E3%84%B9</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=test</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%EC%9D%B4%EC%A0%95%ED%9B%88</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%EC%95%84%EC%9D%B4%EC%9C%A0</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Polo%20G</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Justin%20Bieber</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Lil%20Nas%20X</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=DMX</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Lil%20Tjay,%206LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Bruno%20Mars,%20Anderson%20.Paak,%20Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Drake</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Cardi%20B</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Rod%20Wave</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Pooh%20Shiesty</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=GIV%C4%92ON</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Doja%20Cat</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Masked%20Wolf</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Joel%20Corry,%20RAYE,%20David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Gazo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Glass%20Animals</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Lil%20Tjay</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=6LACK</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Bruno%20Mars</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Anderson%20.Paak</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Joel%20Corry</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Silk%20Sonic</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=RAYE</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=David%20Guetta</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=The%20Weeknd%20</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Ariana%20Grande</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Young%20Stoner%20Life</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Young%20Thug</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Moneybagg%20Yo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Moneybagg%20Yo,%20BIG30</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Only%20The%20Family</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Only%20The%20Family,%20Lil%20Durk</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Young%20Stoner%20Life,%20Young%20Thug,%20Gunna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Baby%20Keem</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Baby%20Keem,%20Travis%20Scott</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Djadja</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Djadja,%20Dinaz</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=DJ%20Khaled</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Ozuna</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Ozuna,%20Doja%20Cat,%20Sia</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Israel</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Israel,%20Rodolffo</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Ra%C3%AD%20Saia%20Rodada</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Dua%20Lipa</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Wesley%20Safad%C3%A3o</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Wesley%20Safad%C3%A3o,%20Os%20Bar%C3%B5es%20da%20Pisadinha</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=ROS%C3%89</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Years,%20Years</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Karol%20Conk%C3%A1</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Karol%20Conk%C3%A1,%20Leo%20Justi</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=DENNIS</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=Xam%C3%A3</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=DENNIS,%20Xam%C3%A3,%20LUDMILLA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=%EB%A7%88%EB%A7%88%EB%AC%B4</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/BR/artist.go?a=ABBA</loc>
+					<lastmod>2021-05-19T11:27:26.820Z</lastmod>
+					<priority>0.8</priority>
+				</url>
+				
+				<url>
+					<loc>https://cherrymusic.io/KR/my_playlist_detail.go?pn=%EC%A2%8B%EC%9D%80%20%EB%85%B8%EB%9E%98&pid=lA2BzLQvHx</loc>
+				</url>
+				</urlset>

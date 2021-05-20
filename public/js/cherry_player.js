@@ -165,7 +165,7 @@ function CherryPlayer(){
 		self.SavePlayList();
 		self.DisplayMusicList();
 		self.__yt_player.ClearPlayer();
-		self.DisplayTitleArtist('', '');
+		self.DisplayTitleArtist(null);
 	};
 
 	this.UpdatePlayPauseButton = function(){
@@ -248,16 +248,16 @@ function CherryPlayer(){
 		$('#id_player_music_list_div').hide();
 	};
 
-	this.GoToArtist = function(artist_name){
+	this.GoToArtist = function(artist_name, artist_uid){
 		self.HidePlayList();
 		var encode_name = encodeURI(artist_name);
-		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}`);
+		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}`);
 	};
 
 	this.TryMusic = function(music){
 		console.log('music.video_id ' + music.video_id);
 		self.__yt_player.LoadAndPlay(music.video_id);
-		self.DisplayTitleArtist(music.title, music.artist);
+		self.DisplayTitleArtist(music);
 	};
 
 	this.AddMusic = function(music){
@@ -349,20 +349,38 @@ function CherryPlayer(){
 			var num = (i*1) + 1;
 			var artist_list = [];
 			{
-				var artist_arr = m.artist.split(',');
-				for(var j=0 ; j<artist_arr.length ; j++){
-					var name = artist_arr[j].trim();
-					var name_encoded = encodeURI(artist_arr[j].trim());
+				// var artist_arr = m.artist.split(',');
+				// for(var j=0 ; j<artist_arr.length ; j++){
+				// 	var name = artist_arr[j].trim();
+				// 	var name_encoded = encodeURI(artist_arr[j].trim());
+				// 	artist_list.push({
+				// 		name: name,
+				// 		onclick: `window._cherry_player.GoToArtist('${name}', '${m.artist_uid}')`
+				// 	});
+				// }
+
+				if(m.is_various == 'Y'){
+					var member_list = JSON.parse(m.member_list_json);
+					for(var j=0 ; j<member_list.length ; j++){
+						var name = member_list[j].name;
+						var artist_uid = member_list[j].artist_uid;
+						artist_list.push({
+							name: name,
+							// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+							onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
+						});
+					}
+				}else{
 					artist_list.push({
-						name: name,
-						onclick: `window._cherry_player.GoToArtist('${name}')`
+						name: m.artist,
+						// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
+						onclick: `window._cherry_player.GoToArtist('${m.artist}', '${m.artist_uid}')`
 					});
 				}
 			}
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
-			// var goto_artist = `window._cherry_player.GoToArtist('${m.artist}')`;
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){
@@ -515,28 +533,60 @@ function CherryPlayer(){
 		self._cur_video_id = self._music_list[self._cur_music_uidx].video_id;
 		var music_uid = self._music_list[self._cur_music_uidx].music_uid;
 		window.localStorage.setItem('PLAYER.LAST_PLAYED_music_uid', music_uid);
-		self.DisplayTitleArtist(
-			self._music_list[self._cur_music_uidx].title,
-			self._music_list[self._cur_music_uidx].artist
-		);
-
+		self.DisplayTitleArtist(self._music_list[self._cur_music_uidx]);
 		self.HighlightCurrentMusic();
 	};
 
-	this.OnClickArtist = function(artist){
+	this.OnClickArtist = function(artist, artist_uid){
 		self.HidePlayList();
 		var a_encoded = encodeURI(artist);
-		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}`);
+		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
 	};
 
-	this.DisplayTitleArtist = function(title, artist){
-		$('#id_label_title').html(title);
+	this.DisplayTitleArtist = function(music){
+		if(music == null){
+			$('#id_label_title').html('');
+			$('#id_label_artist').html('');	
+			return;
+		}
+		//title, artist, artist_uid
+		$('#id_label_title').html(music.title);
 
-		var a_click = `window._cherry_player.OnClickArtist('${artist}')`;
-		var a_str = `
-		<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; " onClick="${a_click}">${artist}</span>
-		`;
-		$('#id_label_artist').html(a_str);	
+		var artist_list = [];
+		{
+			if(music.is_various == 'Y'){
+				var member_list = JSON.parse(music.member_list_json);
+				for(var j=0 ; j<member_list.length ; j++){
+					var name = member_list[j].name;
+					var artist_uid = member_list[j].artist_uid;
+					artist_list.push({
+						name: name,
+						// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+						onclick: `window._cherry_player.OnClickArtist('${name}', '${artist_uid}')`
+					});
+				}
+			}else{
+				artist_list.push({
+					name: m.artist,
+					// onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
+					onclick: `window._cherry_player.OnClickArtist('${m.artist}', '${m.artist_uid}')`
+				});
+			}
+		}
+		if(music.is_various == 'Y'){
+
+		}else{
+
+		}
+
+		var a_str = '';
+		for(var k=0 ; k<artist_list.length ; k++){
+			a_str += `
+			<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; " onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+			`;
+		}
+
+		$('#id_label_artist').html(a_str);
 	};
 
 	this.GetRandomIndex = function(){

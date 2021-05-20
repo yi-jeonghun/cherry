@@ -1,59 +1,100 @@
-var cherry_service = require('./cherry_service');
+const db_conn = require('./db_conn');
 
-async function ProcVarious(artist_id, artist_names){
-	return new Promise(async function(resolve, reject){
+async function Update(artist_uid, member_list_json){
+	return new Promise(async function(resolve, rejeect){
 		try{
-			var artist_name_list = ParseVarious(artist_names);
-			for(var i=0 ; i<artist_name_list.length ; i++){
-				var artist_name = artist_name_list[i];
-				var member_artist_id = null;
-				var find_result = await cherry_service.SearchArtist(artist_name);
-				if(find_result.found){
-					member_artist_id = find_result.artist_id;
-					console.log('Found artist ID ' + member_artist_id);
+			var conn = await db_conn.GetConnection();
+			var sql = 'UPDATE artist SET ? WHERE ?';
+			var val = [
+				{member_list_json:member_list_json},
+				{artist_uid:artist_uid}
+			];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL Updat #0');
 				}else{
-					member_artist_id = await cherry_service.AddArtist(artist_name);
-					console.log('New Added artist ID ' + member_artist_id);
+					resolve();
 				}
-
-				await cherry_service.AddVariousArtist(artist_id, member_artist_id);
-			}
-			resolve();
+			});
 		}catch(err){
-			reject('FAIL Various #1');
+			console.log('err ' + err);
+			reject('FAIL Updat #1');
 		}finally{
+			if(conn) conn.release();
 		}
 	});
 }
 
-function ParseVarious(artist_names){
-	var arr = artist_names.split(',');
-	var list = [];
-	for(var i=0 ; i<arr.length ; i++){
-		var name = arr[i];
-		name = name.trim();
-		list.push(name);
-	}
-	return list;
+async function GetMemberUID(name){
+	return new Promise(async function(resolve, reject){
+		var conn = null;
+		try{
+			conn = await db_conn.GetConnection();
+			var sql_register = 'SELECT artist_uid FROM artist WHERE name=?';
+			var val = [name];
+			conn.query(sql_register, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL CherryService GetMemberUID #0');
+				}else{
+					resolve(result[0].artist_uid);
+				}
+			});
+		}catch(err){
+			console.error(err);
+			reject('FAIL CherryService GetMemberUID #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
+}
+
+async function GetArtistList(){
+	return new Promise(async function(resolve, reject){
+		var conn = null;
+		try{
+			conn = await db_conn.GetConnection();
+			var sql_register = 'SELECT * FROM artist';
+			var val = [];
+			conn.query(sql_register, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL CherryService GetArtistList #0');
+				}else{
+					resolve(result);
+				}
+			});
+		}catch(err){
+			console.error(err);
+			reject('FAIL CherryService GetArtistList #1');
+		}finally{
+			if(conn) conn.release();
+		}
+	});
 }
 
 async function Main(){
-	var artist_list = await cherry_service.GetArtistList();
-	console.log('artist_list len ' + artist_list.length);
-	var various_count = 0;
+	var artist_list = await GetArtistList();
 	for(var i=0 ; i<artist_list.length ; i++){
-		var artist_info = artist_list[i];
-		console.log('========');
-		console.log('artist ' + artist_info.name + ' ID ' + artist_info.artist_id);
-		if(artist_info.name.includes(',')){
-			various_count++;
-			console.log('Is Various Artist ');
-			await cherry_service.UpdateIsVarious(artist_info.artist_id);
-			await ProcVarious(artist_info.artist_id, artist_info.name);
+		var a = artist_list[i];
+		if(a.is_various == 'Y'){
+			var member_list = [];
+			var tmp_name_list = a.name.split(',');
+			for(var t=0 ; t<tmp_name_list.length ; t++){
+				var name = tmp_name_list[t].trim();
+				var artist_uid = await GetMemberUID(name);
+				member_list.push({
+					name:name,
+					artist_uid:artist_uid
+				});
+			}
+			var member_list_json = JSON.stringify(member_list);
+			console.log(a.name + '\n' + member_list_json);
+			await Update(a.artist_uid, member_list_json);
 		}
 	}
 
-	console.log('various_count ' + various_count);
 	console.log('finish ');
 	process.exit();
 }

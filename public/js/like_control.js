@@ -82,7 +82,7 @@ function LikeControl(){
 		for (let i = 0; i < self._artist_list.length; i++) {
 			var artist = self._artist_list[i];
 			var encode_name = encodeURI(artist.name);
-			var onclick = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}')`;
+			var onclick = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}&aid=${artist.artist_uid}')`;
 			h += `
 				<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
 					<div onclick="${onclick}" class="col-12">${artist.name}</div>
@@ -104,9 +104,10 @@ function LikeControl(){
 				for(var j=0 ; j<artist_arr.length ; j++){
 					var name = artist_arr[j].trim();
 					var name_encoded = encodeURI(artist_arr[j].trim());
+					var artist_uid = artist_arr[j].artist_uid;
 					artist_list.push({
 						name: name,
-						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
 					});
 				}
 			}

@@ -79,10 +79,11 @@ async function GetArtistList(){
 
 			for(var a=0 ; a<artist_list.length ; a++){
 				var artist_name = encodeURI(artist_list[a].name);
+				var artist_uid = artist_list[a].artist_uid;
 
 				xml += `
 				<url>
-					<loc>https://cherrymusic.io/${country_code}/artist.go?a=${artist_name}</loc>
+					<loc>https://cherrymusic.io/${country_code}/artist.go?a=${artist_name}&aid=${artist_uid}</loc>
 					<lastmod>${date_str}</lastmod>
 					<priority>0.8</priority>
 				</url>

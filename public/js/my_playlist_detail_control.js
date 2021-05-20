@@ -182,6 +182,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	};
 
 	this.GetArtistMusicList = function(artist_uid){
+		console.log('artist_uid ' + artist_uid);
 		var req_data = {
 			artist_uid: artist_uid
 		};
@@ -194,6 +195,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					console.log('res.music_list ' + res.music_list.length);
 					self._searched_artist_list = [];
 					self._searched_music_list = res.music_list;
 					self.DisplaySearchResult();
@@ -233,16 +235,26 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 
 			var artist_list = [];
 			{
-				var artist_arr = m.artist.split(',');
-				for(var j=0 ; j<artist_arr.length ; j++){
-					var name = artist_arr[j].trim();
-					var name_encoded = encodeURI(artist_arr[j].trim());
+				if(m.is_various == 'Y'){
+					var member_list = JSON.parse(m.member_list_json);
+					for(var j=0 ; j<member_list.length ; j++){
+						var name = member_list[j].name;
+						var name_encoded = encodeURI(name);
+						var artist_uid = member_list[j].artist_uid;
+						artist_list.push({
+							name: name,
+							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+						});
+					}
+				}else{
+					var name_encoded = m.artist;
 					artist_list.push({
-						name: name,
-						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+						name: m.artist,
+						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
 					});
 				}
 			}
+
 			h += `
 				<div class="row border">
 					<div class="col-10 col-sm-11 d-flex" style="padding-left:0px">
@@ -294,7 +306,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 
 			for (let i = 0; i < self._searched_artist_list.length; i++) {
 				var artist = self._searched_artist_list[i];
-				var onclick = `window._my_playlist_detail_control.GetArtistMusicList(${artist.artist_uid})`;
+				var onclick = `window._my_playlist_detail_control.GetArtistMusicList('${artist.artist_uid}')`;
 				h += `
 					<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
 						<div onclick="${onclick}" class="col-12">${artist.name}</div>
@@ -317,13 +329,22 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 
 				var artist_list = [];
 				{
-					var artist_arr = m.artist.split(',');
-					for(var j=0 ; j<artist_arr.length ; j++){
-						var name = artist_arr[j].trim();
-						var name_encoded = encodeURI(artist_arr[j].trim());
+					if(m.is_various == 'Y'){
+						var member_list = JSON.parse(m.member_list_json);
+						for(var j=0 ; j<member_list.length ; j++){
+							var name = member_list[j].name;
+							var name_encoded = encodeURI(name);
+							var artist_uid = member_list[j].artist_uid;
+							artist_list.push({
+								name: name,
+								onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+							});
+						}
+					}else{
+						var name_encoded = m.artist;
 						artist_list.push({
-							name: name,
-							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}')`
+							name: m.artist,
+							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
 						});
 					}
 				}

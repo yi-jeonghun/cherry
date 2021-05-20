@@ -268,6 +268,7 @@ router.get('/get_music_list', async function(req, res){
 router.post('/fetch_music_list_by_artist_uid', async function(req, res){
 	try{
 		var artist_uid = req.body.artist_uid;
+		console.log('artist_uid ' + artist_uid);
 		var music_list = await cherry_service.GetMusicListByArtist(artist_uid);
 		
 		res.send({
@@ -368,7 +369,6 @@ router.post('/get_music_by_id', async function(req, res){
 router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
 		var data = req.body;
-		console.log('data.country_code ' + data.country_code);
 		var music_list = await cms_service.GetTopRankReleaseData(data.country_code);
 		res.send({
 			ok: 1,
