@@ -4,18 +4,19 @@ var randomstring = require("randomstring");
 function CherryService(){
 	var self = this;
 
-	this.AddArtist = async function(artist_name, is_various){
+	this.AddArtist = async function(artist_name, is_various, member_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			artist_name = artist_name.trim();
 			try{
 				var artist_uid = await self.GetArtistUID();
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid )' +
-					' VALUES (?, ?, ?)';
+				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid, member_list_json )' +
+					' VALUES (?, ?, ?, ?)';
 				
 				var val_various = is_various == true ? 'Y' : 'N';
-				var val = [artist_name, val_various, artist_uid];
+				var member_list_json = JSON.stringify(member_list);
+				var val = [artist_name, val_various, artist_uid, member_list_json];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -499,6 +500,34 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService SearchArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetArtistInfo = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql_register = 'SELECT * FROM artist WHERE artist_uid=?';
+				var val = [artist_uid];
+				conn.query(sql_register, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetArtistInfo #0');
+					}else{
+						if(result.length == 0){
+							reject('FAIL CherryService GetArtistInfo #2');
+						}else{
+							resolve(result[0]);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetArtistInfo #1');
 			}finally{
 				if(conn) conn.release();
 			}

@@ -25,6 +25,7 @@ function ArtistControl(){
 	this._artist_list_type = ARTIST_LIST_TYPE.FAVORITE;
 	this._artist_searched_list = [];
 	this._cms_favorite_artist_list = [];
+	this._artist_info = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -89,9 +90,9 @@ function ArtistControl(){
 
 	this.OnChooseArtiat = function(name, artist_uid){
 		$('#id_div_music_list').empty();
-		$('#id_label_artist_name').html(name);
 		self._artist_name = name;
 		self._selected_artist_uid = artist_uid;
+		self.GetArtistInfo();
 		self.GetMusicListOfArtist();
 	};
 
@@ -141,7 +142,7 @@ function ArtistControl(){
 			}else{
 				self.FindOrAddArtist(artist_name);
 			}
-		}else if(self._artist_edit_mode == ARTIST_EDIT_MODE.NEW){
+		}else if(self._artist_edit_mode == ARTIST_EDIT_MODE.EDIT){
 
 		}
 	};
@@ -296,6 +297,29 @@ function ArtistControl(){
 					var va_artist_name = artist_name_list.join(', ');
 					self.OnChooseArtiat(va_artist_name, res.artist_uid);
 					$('#id_modal_cms_artist_edit').modal('hide');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.GetArtistInfo = function(){
+		console.log(' GetArtistInfo' );
+		var req_data = {
+			artist_uid: self._selected_artist_uid
+		};
+
+		$.ajax({
+			url: '/cherry_api/get_artist_info_by_artist_uid',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._artist_info = res.artist_info;
+					self.DISP_ArtistInfo();
 				}else{
 					alert(res.err);
 				}
@@ -535,5 +559,37 @@ function ArtistControl(){
 		for(var i=0 ; i<video_list.length ; i++){
 			$('#id_video_duration-'+video_list[i].video_id).html(video_list[i].duration);
 		}
+	};
+
+	this.DISP_ArtistInfo = function(){
+		$('#id_label_cms_artist_name').html(self._artist_info.name);
+		if(self._artist_info.is_various == 'Y'){
+			$('#id_label_cms_artist_is_various').html('Y');
+		}else{
+			$('#id_label_cms_artist_is_various').html('N');
+		}
+
+		var member_list = JSON.parse(self._artist_info.member_list_json);
+		self.DISP_MemberList(member_list);
+	};
+
+	this.DISP_MemberList = function(member_list){
+		if(member_list == null){
+			$('#id_div_cms_artist_member_list').html('');
+			return;
+		}
+
+		var h = '';
+
+		for(var i=0 ; i<member_list.length ; i++){
+			var m = member_list[i];
+			h += `
+				<div>
+					${m.name}(${m.artist_uid})
+				</div>
+			`;
+		}
+
+		$('#id_div_cms_artist_member_list').html(h);
 	};
 }

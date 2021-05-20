@@ -7,23 +7,6 @@ var permission_service = require('./permission_service');
 var cms_service = require('./cms_service');
 var auth_service = require('./auth_service');
 
-router.post('/add_artist', async function(req, res){
-	try{
-		var data = req.body;
-		await cherry_service.AddArtist(data.artist_name);
-
-		res.send({
-			ok: 1
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to add artist'
-		});
-	}
-});
-
 router.get('/get_artist_list', async function(req, res){
 	try{
 		var artist_list = await cherry_service.GetArtistList();
@@ -185,6 +168,7 @@ router.post('/add_music', async function(req, res){
 	}
 });
 
+//FIXME 사용하는 함수인지 확인해 볼 것.
 router.post('/update_music', async function(req, res){
 	try{
 		var req_data = req.body;
@@ -398,6 +382,24 @@ router.get('/top_rank/get_release_time', async function(req, res){
 		});
 	}
 });
+
+router.post('/get_artist_info_by_artist_uid', async function(req, res){
+	try{
+		var artist_uid = req.body.artist_uid;
+		var artist_info = await cherry_service.GetArtistInfo(artist_uid);
+		res.send({
+			ok: 1,
+			artist_info:   artist_info
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_artist_info_by_artist_uid'
+		});
+	}
+});
+
 
 router.post('/search_artist_music_like', async function(req, res){
 	try{
