@@ -410,7 +410,7 @@ function ArtistControl(){
 		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
 			var a = self._cms_favorite_artist_list[i];
 			var on_click = `window._artist_control.OnChooseArtiat('${a.name}', '${a.artist_uid}')`;
-			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_uid})`;
+			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del('${a.artist_uid}')`;
 
 			h += `
 			<tr>
@@ -446,7 +446,7 @@ function ArtistControl(){
 			for(var k=0 ; k<self._cms_favorite_artist_list.length ; k++){
 				if(self._cms_favorite_artist_list[k].artist_uid == a.artist_uid){
 					check_color = 'red';
-					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del(${a.artist_uid})`;
+					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del('${a.artist_uid}')`;
 					break;
 				}
 			}
