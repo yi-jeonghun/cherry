@@ -17,8 +17,11 @@ function TopRankControl(){
 	};
 
 	this.GetMusicList = function(){
+		//FIXME : 향후 실제 source로 변경해야 함.
+		//현재는 apple만 지원하므로 'apple'로 hard code 하였음.
 		var req_data = {
-			country_code: window._country_code
+			country_code: window._country_code,
+			source:'apple'
 		};
 
 		$.ajax({

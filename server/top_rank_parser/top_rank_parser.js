@@ -1,5 +1,5 @@
 var https = require('https');
-var source = require('./source');
+const source_url_list = require('./source');
 var fs = require('fs');
 var cc = require('../../public/js/const/country_code');
 
@@ -8,9 +8,11 @@ function TopRankParser(){
 	this._music_list = [];
 	this.country_code = null;
 	this._parser = null;
+	this._source = null;
 
-	this.Init = function(country_code){
+	this.Init = function(country_code, source){
 		self._country_code = country_code;
+		self._source = source;
 		console.log('self._country_code ' + self._country_code);
 		switch(self._country_code){
 			case cc.COUNTRY_CODE.US:
@@ -34,7 +36,10 @@ function TopRankParser(){
 			try{
 				self._music_list = [];
 	
-				var url = source[self._country_code].apple;
+				var url = '';
+				if(self._source == 'apple'){
+					url = source_url_list[self._country_code].apple;
+				}
 
 				console.log('fatch html content from ' + url);
 				var data = await self.FetchContentFromURL(url);
@@ -51,7 +56,7 @@ function TopRankParser(){
 
 	this.SaveContent = async function(){
 		return new Promise(async function(resolve, reject){
-			var url = source[self._country_code].apple;
+			var url = source_url_list[self._country_code].apple;
 			var data = await self.FetchContentFromURL(url);
 			var file_name = `test_data_${self._country_code}.txt`;
 			fs.writeFile(file_name, data, function (err) {

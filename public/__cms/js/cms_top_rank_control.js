@@ -20,6 +20,7 @@ function TopRankControl(){
 	var self = this;
 	this._release_mode = RELEASE_MODE.DRAFT;
 	this._country_code = null;
+	this._source = null;
 	this._music_list_draft = [];
 	this._music_list_release = [];
 	this._searched_music_list = [];
@@ -73,23 +74,34 @@ function TopRankControl(){
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.DisplayCountryList = function(){
-		var h = '<table class="table table-sm">';
+		var h = '';
 	
 		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
 			var cc = COUNTRY_CODE_LIST[i];
+			var source_list = window._const.__COUNTRY_TOP_100_SOURCE_LIST[cc];
+
 			h += `
-			<tr>
-				<td>
-					<button type="button" class="btn btn-sm btn-light w-100" 
-					onclick="window._top_rank_control.ChooseCountry('${cc}')">${cc}</button>
-				</td>
-				<td id="id_label_country_release_time-${cc}" style="font-size:0.7em">
-				</td>
-			</tr>
+			<div class="border small">
+				<div>${cc}</div>
+			`;
+
+			for(var s=0 ; s<source_list.length ; s++){
+				var source = source_list[s];
+				var on_click = `window._top_rank_control.ChooseCountry('${cc}', '${source}')`;
+
+				h += `
+				<div class="d-flex" style="cursor:pointer" onClick="${on_click}">
+					<div class="col-3 my-auto text-right">${source}</div>
+					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}"></div>
+				</div>
+				`;
+			}
+
+			h += `
+				</div>
 			`;
 		}
 	
-		h += '</table>';
 		$('#id_div_country_list').html(h);
 	};
 	
@@ -111,7 +123,7 @@ function TopRankControl(){
 						const time = d.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', second:'numeric', hour12: true });
 						const date = d.toLocaleString('ko-KR', { day: 'numeric', month: 'numeric', year:'numeric' });
 
-						$(`#id_label_country_release_time-${c.country_code}`).html(date + '<br>' + time);
+						$(`#id_label_country_release_time-${c.country_code}`).html(date + ' ' + time);
 					}
 				}else{
 					alert(res.err);
@@ -152,9 +164,10 @@ function TopRankControl(){
 		}
 	};
 
-	this.ChooseCountry = function(country_code){
+	this.ChooseCountry = function(country_code, source){
 		console.log('country_code ' + country_code);
 		self._country_code = country_code;
+		self._source = source;
 		self.OpenWork();
 	};
 
@@ -168,9 +181,9 @@ function TopRankControl(){
 	this.DisplayRankTitle = function(){
 		var title = self._country_code;
 		if(self._release_mode == RELEASE_MODE.DRAFT){
-			title += '[Draft]';
+			title += `[Draft][${self._source}]`;
 		}else{
-			title += '[Release]';
+			title += `[Release][${self._source}]`;
 		}
 
 		$('#id_label_rank_title').html(title);
@@ -178,7 +191,8 @@ function TopRankControl(){
 
 	this.FetchTopRank = function(){
 		var req_data = {
-			country_code: self._country_code
+			country_code: self._country_code,
+			source: self._source
 		};
 
 		var url = '';
@@ -216,7 +230,8 @@ function TopRankControl(){
 		$('#id_div_music_list').empty();
 
 		var req_data = {
-			country_code: self._country_code
+			country_code: self._country_code,
+			source:       self._source
 		};
 
 		$.ajax({
@@ -293,7 +308,7 @@ function TopRankControl(){
 
 	this.DisplayMusicList_Draft = function(){
 		$('#id_div_music_list').empty();
-		var h = '<table class="table table-sm table-striped">';
+		var h = '<table class="table table-sm table-striped small">';
 		h += `
 		<tr>
 			<th>No.</th>
@@ -347,7 +362,7 @@ function TopRankControl(){
 
 	this.DisplayMusicList_Release = function(){
 		$('#id_div_music_list').empty();
-		var h = '<table class="table table-sm table-striped">';
+		var h = '<table class="table table-sm table-striped small">';
 		h += `
 		<tr>
 			<th>No.</th>
@@ -748,6 +763,7 @@ function TopRankControl(){
 
 		var req_data = {
 			country_code: self._country_code,
+			source:       self._source,
 			music_list:   self._music_list_draft
 		};
 
@@ -776,6 +792,7 @@ function TopRankControl(){
 
 		var req_data = {
 			country_code: self._country_code,
+			source:       self._source,
 			music_list:   self._music_list_draft
 		};
 

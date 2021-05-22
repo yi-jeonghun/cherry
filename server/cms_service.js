@@ -4,14 +4,14 @@ const db_conn = require('./db_conn');
 function CMS_Service(){
 	var self = this;
 
-	this.ClearTopRankDraftData = async function(country_type){
+	this.ClearTopRankDraftData = async function(country_code, source){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			var sql = '';
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'DELETE FROM top_rank_list_draft WHERE country_code=?';
-				var val = [country_type];
+				sql += 'DELETE FROM top_rank_list_draft WHERE country_code=? and source=?';
+				var val = [country_code, source];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -29,16 +29,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.ClearTopRankReleaseData = async function(country_type){
+	this.ClearTopRankReleaseData = async function(country_code, source){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-
-			var sql = '';
-
 			try{
 				conn = await db_conn.GetConnection();
-				sql += 'DELETE FROM top_rank_list WHERE country_code=?';
-				var val = [country_type];
+				var sql = 'DELETE FROM top_rank_list WHERE country_code=? and source=?';
+				var val = [country_code, source];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -56,7 +53,7 @@ function CMS_Service(){
 		});
 	};
 
-	this.GetTopRankDraftData = async function(country_code){
+	this.GetTopRankDraftData = async function(country_code, source){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
@@ -65,9 +62,10 @@ function CMS_Service(){
 				FROM top_rank_list_draft t
 				LEFT JOIN music m ON t.music_uid=m.music_uid
 				LEFT JOIN artist a ON a.artist_uid=m.artist_uid
-				WHERE country_code=?
+				WHERE country_code=? and source=?
+				ORDER BY t.rank_num ASC
 			`;
-			var val = [country_code];
+			var val = [country_code, source];
 
 			try{
 				conn = await db_conn.GetConnection();
@@ -88,7 +86,7 @@ function CMS_Service(){
 		});
 	};
 
-	this.GetTopRankReleaseData = async function(country_code){
+	this.GetTopRankReleaseData = async function(country_code, source){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
@@ -100,10 +98,10 @@ function CMS_Service(){
 				JOIN music m ON t.music_uid=m.music_uid
 				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
-				WHERE t.country_code = ?
+				WHERE t.country_code = ? and source = ?
 				ORDER BY t.rank_num ASC
 			`;
-			var val = [country_code];
+			var val = [country_code, source];
 
 			try{
 				conn = await db_conn.GetConnection();
@@ -150,7 +148,7 @@ function CMS_Service(){
 		});
 	};
 	
-	this.SaveTopRankDraft = async function(country_code, music_list){
+	this.SaveTopRankDraft = async function(country_code, source, music_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
@@ -158,29 +156,27 @@ function CMS_Service(){
 				conn = await db_conn.GetConnection();
 				for(var i=0 ; i<music_list.length ; i++){
 					var m = music_list[i];
-					await self.UpdateTopRankDraft_OneRecord(conn, country_code, m);
+					await self.UpdateTopRankDraft_OneRecord(conn, country_code, source, m);
 				}
 				resolve();
 			}catch(err){
 				console.error(err);
-				reject('FAIL CherryService ClearKpopTop100 #1');
+				reject('FAIL CherryService SaveTopRankDraft #1');
 			}finally{
 				if(conn) conn.release();
 			}
 		});
 	};
 
-	this.UpdateTopRankDraft_OneRecord = async function(conn, country_code, music){
+	this.UpdateTopRankDraft_OneRecord = async function(conn, country_code, source, music){
 		return new Promise(async function(resolve, reject){
 
 			// console.log('rank_num ' + music.rank_num + ' music_uid ' + music.music_uid);
 			var sql = `
-			INSERT INTO top_rank_list_draft(country_code, rank_num, music_uid, artist, title, video_id) 
-			VALUES(?, ?, ?, ?, ?, ?) 
-			ON DUPLICATE KEY UPDATE country_code=?, rank_num=?
+			INSERT INTO top_rank_list_draft(country_code, rank_num, music_uid, artist, title, video_id, source) 
+			VALUES(?, ?, ?, ?, ?, ?, ?)
 			`;
-			var val = [country_code, music.rank_num, music.music_uid, music.artist, music.title, music.video_id, 
-				country_code, music.rank_num];
+			var val = [country_code, music.rank_num, music.music_uid, music.artist, music.title, music.video_id, source];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);
@@ -192,7 +188,7 @@ function CMS_Service(){
 		});
 	};
 		
-	this.SaveTopRankRelease = async function(country_code, music_list){
+	this.SaveTopRankRelease = async function(country_code, source, music_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 
@@ -201,10 +197,10 @@ function CMS_Service(){
 				for(var i=0 ; i<music_list.length ; i++){
 					var m = music_list[i];
 					if(m.music_uid != null){
-						await self.UpdateTopRankRelease_OneRecord(conn, country_code, m);
+						await self.UpdateTopRankRelease_OneRecord(conn, country_code, source, m);
 					}
 				}
-				await self.UpdateTopRankReleaseTime(conn, country_code);
+				await self.UpdateTopRankReleaseTime(conn, country_code, source);
 				resolve();
 			}catch(err){
 				console.error(err);
@@ -215,15 +211,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateTopRankRelease_OneRecord = async function(conn, country_code, music){
+	this.UpdateTopRankRelease_OneRecord = async function(conn, country_code, source, music){
 		return new Promise(async function(resolve, reject){
 			var sql = `
-			INSERT INTO top_rank_list(country_code, rank_num, music_uid) 
-			VALUES(?, ?, ?) 
-			ON DUPLICATE KEY UPDATE country_code=?, rank_num=?
+			INSERT INTO top_rank_list(country_code, rank_num, music_uid, source) 
+			VALUES(?, ?, ?, ?) 
 			`;
-			var val = [country_code, music.rank_num, music.music_uid,  
-				country_code, music.rank_num];
+			var val = [country_code, music.rank_num, music.music_uid, source];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);
@@ -235,13 +229,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateTopRankReleaseTime = async function(conn, country_code){
+	this.UpdateTopRankReleaseTime = async function(conn, country_code, source){
 		return new Promise(async function(resolve, reject){
 			var sql = `
 			UPDATE top_rank_info SET release_time=CURRENT_TIMESTAMP()
-			WHERE country_code=?
+			WHERE country_code=? and source=?
 			`;
-			var val = [country_code];
+			var val = [country_code, source];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);

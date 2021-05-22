@@ -9,11 +9,10 @@ var randomstring = require("randomstring");
 
 router.post('/fetch_content_from_url', async function(req, res){
 	try{
-		var req_data = req.body;
-		var country_code = req_data.country_code;
-		top_rank_parser.Init(country_code);
-		var music_list = await top_rank_parser.GetTop100(country_code);
-		console.log('music_list len ' + music_list.length);
+		var country_code = req.body.country_code;
+		var source = req.body.source;
+		top_rank_parser.Init(country_code, source);
+		var music_list = await top_rank_parser.GetTop100();
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -114,8 +113,9 @@ router.post('/find_or_add_various_artist', async function(req, res){
 
 router.post('/top_rank/fetch_draft_data', async function(req, res){
 	try{
-		var data = req.body;
-		var music_list = await cms_service.GetTopRankDraftData(data.country_code);
+		var country_code = req.body.country_code;
+		var source = req.body.source;
+		var music_list = await cms_service.GetTopRankDraftData(country_code, source);
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -131,8 +131,9 @@ router.post('/top_rank/fetch_draft_data', async function(req, res){
 
 router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
-		var data = req.body;
-		var music_list = await cms_service.GetTopRankReleaseData(data.country_code);
+		var country_code = req.body.country_code;
+		var source = req.body.source;
+		var music_list = await cms_service.GetTopRankReleaseData(country_code, source);
 		res.send({
 			ok: 1,
 			music_list: music_list
@@ -148,9 +149,11 @@ router.post('/top_rank/fetch_release_data', async function(req, res){
 
 router.post('/top_rank/save_draft', async function(req, res){
 	try{
-		var data = req.body;
-		await cms_service.ClearTopRankDraftData(data.country_code);
-		await cms_service.SaveTopRankDraft(data.country_code, data.music_list);
+		var country_code = req.body.country_code;
+		var source = req.body.source;
+		var music_list = req.body.music_list;
+		await cms_service.ClearTopRankDraftData(country_code, source);
+		await cms_service.SaveTopRankDraft(country_code, source, music_list);
 		res.send({
 			ok: 1
 		});
@@ -165,9 +168,11 @@ router.post('/top_rank/save_draft', async function(req, res){
 
 router.post('/top_rank/release_draft', async function(req, res){
 	try{
-		var data = req.body;
-		await cms_service.ClearTopRankReleaseData(data.country_code);
-		await cms_service.SaveTopRankRelease(data.country_code, data.music_list);
+		var country_code = req.body.country_code;
+		var source = req.body.source;
+		var music_list = req.body.music_list;
+		await cms_service.ClearTopRankReleaseData(country_code, source);
+		await cms_service.SaveTopRankRelease(country_code, source, music_list);
 		res.send({
 			ok: 1
 		});
