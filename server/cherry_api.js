@@ -563,7 +563,7 @@ router.post('/update_playlist', async function(req, res){
 router.post('/add_music_list_to_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(await permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin(req.session.user_info)){
 			is_allowed = true;
 		}
 
@@ -657,7 +657,7 @@ router.post('/get_playlist_list', async function(req, res){
 router.post('/delete_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(await permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin(req.session.user_info)){
 			is_allowed = true;
 		}
 
@@ -693,7 +693,7 @@ router.post('/delete_playlist', async function(req, res){
 router.post('/delete_music_from_playlist', async function(req, res){
 	try{
 		var is_allowed = false;
-		if(await permission_service.IsAdmin()){
+		if(await permission_service.IsAdmin(req.session.user_info)){
 			is_allowed = true;
 		}
 

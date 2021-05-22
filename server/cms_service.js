@@ -452,13 +452,24 @@ function CMS_Service(){
 		});
 	};
 
-	this.GetUserList = async function(){
+	this.GetUserList = async function(type){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = `SELECT * FROM user`;
+				var sql = `
+				SELECT * FROM user
+				`;
 				var val = [];
+
+				console.log('type' + type);
+				if(type == 'user'){
+					sql += `WHERE is_admin != 'Y' and is_dj != 'Y' `;
+				}else if(type == 'dj'){
+					sql += `WHERE is_dj='Y'`;
+				}else if(type == 'admin'){
+					sql += `WHERE is_admin='Y'`;
+				}
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -502,6 +513,37 @@ function CMS_Service(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CMSService UpdateMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpgradeUserToAdmin = function(user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE user SET ? WHERE ?`;
+				var val = [
+					{
+						is_admin:'Y'
+					},
+					{
+						user_id:user_id
+					} 
+				];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpgradeUserToAdmin #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpgradeUserToAdmin #1');
 			}finally{
 				if(conn) conn.release();
 			}

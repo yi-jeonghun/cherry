@@ -19,21 +19,34 @@
 
 		<div class="row border" style="height: 70px;">
 			<div class="col-3 my-auto">
-				<h5>DJ</h5>
+				<h5>User</h5>
 			</div>
-			<div class="col-9 my-auto text-right">
-				<button type="button" class="btn btn-sm border" id="id_btn_cms_dj_add">Add</button>
+			<div class="col-5 my-auto text-right">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="#" id="id_tab_cms_user_user" onClick="window._user_control.OnClickTab(CMS_USER_LIST_TYPE.USER)">User</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" id="id_tab_cms_user_dj" onClick="window._user_control.OnClickTab(CMS_USER_LIST_TYPE.DJ)">DJ</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" id="id_tab_cms_user_admin" onClick="window._user_control.OnClickTab(CMS_USER_LIST_TYPE.ADMIN)">Admin</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-4 my-auto">
+				<button type="button" class="btn btn-sm border" id="id_btn_cms_user_add_dj">Add DJ</button>
 			</div>
 		</div>
 
 		<div class="row border" style="">
-			<div class="col-12" id="id_div_cms_dj_list">
+			<div class="col-12" id="id_div_cms_user_list">
 			</div>
 		</div>
 	</div>
 </body>
 
-<div class="modal" tabindex="-1">
+<div id="id_modal_cms_user_edit_dj" class="modal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,15 +58,16 @@
       <div class="modal-body">
 				<div class="d-flex">
 					<div class="col-3">Name</div>
-					<div class="col-9"><input type="input" class="form-control" id="id_input_cms_dj_name"></div>
+					<div class="col-9"><input type="input" class="form-control" id="id_input_cms_user_dj_name"></div>
 				</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="id_btn_cms_dj_add_ok">OK</button>
+        <button type="button" class="btn btn-primary" id="id_btn_cms_user_dj_ok">OK</button>
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript" src="/__cms/js/cms_dj_control.js"></script>
+
+<script type="text/javascript" src="/__cms/js/cms_user_control.js"></script>

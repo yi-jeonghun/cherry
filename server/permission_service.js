@@ -24,6 +24,22 @@ function PermissionService() {
 		});
 	};
 
+	this.IsSuperAdmin = async function(user_info){
+		return new Promise(async function (resolve, reject) {
+			if(user_info == 'undefined' || user_info == undefined || user_info == null){
+				resolve(false);
+				return;
+			}
+
+			var super_admin_list = [
+				'111374135736029697427',//guitar man
+			];
+
+			var is_super_admin = super_admin_list.includes(user_info.user_id);
+			resolve(is_super_admin);
+		});
+	};
+
 	this.IsAdmin = async function (user_info) {
 		return new Promise(async function (resolve, reject) {
 			if(user_info == 'undefined' || user_info == undefined || user_info == null){
@@ -31,6 +47,7 @@ function PermissionService() {
 				return;
 			}
 
+			console.log('user_info.user_id ' + user_info.user_id);
 			//FIXME DB화 할것.
 
 			var admin_list = [

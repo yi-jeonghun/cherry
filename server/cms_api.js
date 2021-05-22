@@ -215,6 +215,15 @@ router.get('/dj/get_dj_list', async function(req, res){
 
 router.post('/dj/add_dj', async function(req, res){
 	try{
+		var is_admin = await permission_service.IsSuperAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
 		var name = req.body.name;
 		var name_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(name);
 		if(name_duplicated){
@@ -256,6 +265,16 @@ router.post('/dj/add_dj', async function(req, res){
 
 router.post('/dj/edit_dj', async function(req, res){
 	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
 		var name = req.body.name;
 		var user_id = req.body.user_id;
 		var name_duplicated = await cms_service.CheckUserNameDuplicated_ForDJUser(name);
@@ -397,7 +416,8 @@ router.post('/update_playlist_and_music_list', async function(req, res){
 
 router.post('/get_user_list', async function(req, res){
 	try{
-		var user_list = await cms_service.GetUserList();
+		var type = req.body.type;
+		var user_list = await cms_service.GetUserList(type);
 		res.send({
 			ok: 1,
 			user_list: user_list
@@ -417,6 +437,29 @@ router.post('/update_music', async function(req, res){
 		var music_uid = req.body.music_uid;
 		var video_id = req.body.video_id;
 		await cms_service.UpdateMusic(music_uid, title, video_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_music'
+		});
+	}
+});
+
+router.post('/upgrade_user_to_admin', async function(req, res){
+	try{
+		var is_super_admin = permission_service.IsSuperAdmin(req.user_info);
+		if(is_super_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+		}
+		var user_id = req.body.user_id;
+		await cms_service.UpgradeUserToAdmin(user_id);
 		res.send({
 			ok: 1
 		});
