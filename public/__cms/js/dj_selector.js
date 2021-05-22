@@ -2,19 +2,45 @@ $('document').ready(function(){
 	window._dj_selector = new DJSelector().Init();
 });
 
+const DJ_SELECTOR_TYPE = {
+	FIXED:0,
+	RANDOM:1
+};
+
 function DJSelector(){
 	var self = this;
 	this._dj_list = [];
 	this._dj_user_id = null;
+	this._dj_selector_type = DJ_SELECTOR_TYPE.FIXED;
 
 	this.Init = function(){
-		self.GetDJList();
 		self.InitHandle();
+
+		{
+			var dj_selector_type = window.localStorage.getItem('CMS_DJ_SELECTOR_TYPE');
+			console.log('dj_selector_type ' + dj_selector_type);
+			if(dj_selector_type != null){
+				self._dj_selector_type = dj_selector_type;
+				console.log('dj_selector_type ' + dj_selector_type);
+			}
+			self.HighlightRandomButton();
+
+			var dj_user_id_from_local_storage = window.localStorage.getItem('CMS_FIXED_DJ_USER_ID');
+			if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
+				if(dj_user_id_from_local_storage != null){
+					self._dj_user_id = dj_user_id_from_local_storage;
+				}
+			}
+		}
+
+		self.GetDJList();
+
 		return self;
 	};
 
 	this.InitHandle = function(){
 		$('#id_select_menu_dj_list').on('change', self.OnChange_id_select_menu_dj_list);
+		$('#id_btn_dj_selector_random').on('click', self.OnClick_id_btn_dj_selector_random);
 	};
 
 	////////////////////////////////////////////////////////////////////
@@ -25,9 +51,33 @@ function DJSelector(){
 			val = null;
 		}
 		self._dj_user_id = val;
+		if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
+			window.localStorage.setItem('CMS_FIXED_DJ_USER_ID', self._dj_user_id);
+		}
+	};
+
+	this.OnClick_id_btn_dj_selector_random = function(){
+		if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
+			self._dj_selector_type = DJ_SELECTOR_TYPE.RANDOM;
+		}else{
+			self._dj_selector_type = DJ_SELECTOR_TYPE.FIXED;
+		}
+		window.localStorage.setItem('CMS_DJ_SELECTOR_TYPE', self._dj_selector_type);
+		self.HighlightRandomButton();
 	};
 
 	////////////////////////////////////////////////////////////////////
+
+	this.HighlightRandomButton = function(){
+		$('#id_btn_dj_selector_random').removeClass('border');
+		$('#id_btn_dj_selector_random').removeClass('btn-danger');
+
+		if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
+			$('#id_btn_dj_selector_random').addClass('border');
+		}else{
+			$('#id_btn_dj_selector_random').addClass('btn-danger');
+		}
+	};
 
 	this.GetDJList = function(){
 		$.ajax({
@@ -39,6 +89,10 @@ function DJSelector(){
 			success: function (res) {
 				if(res.ok){
 					self._dj_list = res.dj_list;
+					console.log('self._dj_selector_type ' + self._dj_selector_type);
+					if(self._dj_selector_type == DJ_SELECTOR_TYPE.RANDOM){
+						self.RandomSelectDJ();
+					}
 					self.DISP_DJList();
 				}else{
 					alert(res.err);
@@ -47,14 +101,28 @@ function DJSelector(){
 		});
 	};
 
+	this.RandomSelectDJ = function(){
+		var min = 0;
+		var max = self._dj_list.length - 1;
+		var random_idx = Math.floor(Math.random() * (max - min)) + min;
+		console.log('random_idx ' + random_idx);
+		self._dj_user_id = self._dj_list[random_idx].user_id;
+		console.log('random user ' + self._dj_user_id);
+	};
+
 	//////////////////////////////////////////////////////////////////////
 
 	this.DISP_DJList = function(){
 		var h = '<option value="-1">Choose DJ</option>';
 		for(var i=0 ; i<self._dj_list.length ; i++){
 			var dj = self._dj_list[i];
+			var selected_str = '';
+			if(dj.user_id == self._dj_user_id){
+				selected_str = ' selected ';
+			}
+
 			h += `
-			<option value="${dj.user_id}">${dj.name}</option>
+			<option value="${dj.user_id}" ${selected_str}>${dj.name}</option>
 			`;
 		}
 		$('#id_select_menu_dj_list').html(h);
