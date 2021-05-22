@@ -554,8 +554,8 @@ function CherryPlayer(){
 				}
 			}else{
 				artist_list.push({
-					name: m.artist,
-					onclick: `window._cherry_player.OnClickArtist('${m.artist}', '${m.artist_uid}')`
+					name: music.artist,
+					onclick: `window._cherry_player.OnClickArtist('${music.artist}', '${music.artist_uid}')`
 				});
 			}
 		}
