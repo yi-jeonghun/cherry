@@ -476,13 +476,21 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateMusic = async function(music_uid, title){
+	this.UpdateMusic = async function(music_uid, title, video_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = `UPDATE music SET title=? WHERE music_uid=?`;
-				var val = [title, music_uid];
+				var sql = `UPDATE music SET ? WHERE ?`;
+				var val = [
+					{
+						title:title,
+						video_id:video_id
+					},
+					{
+						music_uid:music_uid
+					} 
+				];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

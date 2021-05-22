@@ -415,7 +415,8 @@ router.post('/update_music', async function(req, res){
 	try{
 		var title = req.body.title;
 		var music_uid = req.body.music_uid;
-		await cms_service.UpdateMusic(music_uid, title);
+		var video_id = req.body.video_id;
+		await cms_service.UpdateMusic(music_uid, title, video_id);
 		res.send({
 			ok: 1
 		});

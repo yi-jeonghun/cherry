@@ -185,14 +185,28 @@ function ArtistControl(){
 		var m = self._music_list[idx];
 		self._music_uid_to_edit = m.music_uid;
 		$('#id_input_cms_artist_music_title').val(m.title);
+		$('#id_input_cms_artist_music_video_id').val(m.video_id);
 		$('#id_modal_cms_artist_music_edit').modal('show');
 	};
 
 	this.OnClick_id_btn_cms_artist_music_edit_ok = function(){
 		var title = $('#id_input_cms_artist_music_title').val().trim();
+		var video_id = $('#id_input_cms_artist_music_video_id').val().trim();
+
+		if(title == ''){
+			alert('title empty');
+			return;
+		}
+
+		if(video_id == ''){
+			alert('video id empty');
+			return;
+		}
+
 		var req_data = {
 			music_uid: self._music_uid_to_edit,
-			title:    title   
+			video_id:  video_id, 
+			title:     title   
 		};
 		$.ajax({
 			url: '/__cms_api/update_music',
