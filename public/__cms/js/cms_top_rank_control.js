@@ -85,6 +85,8 @@ function TopRankControl(){
 				<div>${cc}</div>
 			`;
 
+			console.log(cc + ' count ' + source_list.length);
+
 			for(var s=0 ; s<source_list.length ; s++){
 				var source = source_list[s];
 				var on_click = `window._top_rank_control.ChooseCountry('${cc}', '${source}')`;
@@ -92,7 +94,7 @@ function TopRankControl(){
 				h += `
 				<div class="d-flex" style="cursor:pointer" onClick="${on_click}">
 					<div class="col-3 my-auto text-right">${source}</div>
-					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}"></div>
+					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}-${source}"></div>
 				</div>
 				`;
 			}
@@ -116,14 +118,14 @@ function TopRankControl(){
 				if(res.ok){
 					console.log('release_time_list length ' + res.release_time_list.length);
 					for(var i=0 ; i<res.release_time_list.length ; i++){
-						var c = res.release_time_list[i];
-						var d = new Date(c.release_time);
-						// var date_str = d.getFullYear() + '-' + d.getMonth() + '-' + d.getDay() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+						var country_code = res.release_time_list[i].country_code;
+						var release_time = new Date(res.release_time_list[i].release_time);
+						var source = res.release_time_list[i].source;
 
-						const time = d.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', second:'numeric', hour12: true });
-						const date = d.toLocaleString('ko-KR', { day: 'numeric', month: 'numeric', year:'numeric' });
+						const time = release_time.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', second:'numeric', hour12: true });
+						const date = release_time.toLocaleString('ko-KR', { day: 'numeric', month: 'numeric', year:'numeric' });
 
-						$(`#id_label_country_release_time-${c.country_code}`).html(date + ' ' + time);
+						$(`#id_label_country_release_time-${country_code}-${source}`).html(date + ' ' + time);
 					}
 				}else{
 					alert(res.err);

@@ -125,10 +125,8 @@ function CMS_Service(){
 	this.GetTopRankReleaseTime = async function(){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-
-			var sql = `SELECT country_code, release_time FROM top_rank_info`;
+			var sql = `SELECT country_code, release_time, source FROM top_rank_info`;
 			var val = [];
-
 			try{
 				conn = await db_conn.GetConnection();
 				conn.query(sql, val, function(err, result){

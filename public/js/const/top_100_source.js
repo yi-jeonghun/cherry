@@ -4,7 +4,7 @@
 
   COUNTRY_TOP_100_SOURCE_LIST['US'] = ['apple'];
   COUNTRY_TOP_100_SOURCE_LIST['GB'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['KR'] = ['apple'];
+  COUNTRY_TOP_100_SOURCE_LIST['KR'] = ['apple', 'melon'];
   COUNTRY_TOP_100_SOURCE_LIST['DE'] = ['apple'];
   COUNTRY_TOP_100_SOURCE_LIST['FR'] = ['apple'];
   COUNTRY_TOP_100_SOURCE_LIST['AU'] = ['apple'];
