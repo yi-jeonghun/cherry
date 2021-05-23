@@ -764,9 +764,12 @@ function ArtistControl(){
 
 		for(var i=0 ; i<member_list.length ; i++){
 			var m = member_list[i];
+			var on_click = `window._artist_control.OnChooseArtist('${m.artist_uid}')`;
+
 			h += `
-				<div>
-					${m.name}(${m.artist_uid})
+				<div class="d-flex">
+					<div class="col-7 pl-2" style="cursor:pointer" onClick="${on_click}">${m.name}</div>
+					<div class="col-5" style="font-size:0.8em">${m.artist_uid}</div>
 				</div>
 			`;
 		}
