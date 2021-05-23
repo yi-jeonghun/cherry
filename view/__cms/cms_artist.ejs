@@ -62,11 +62,6 @@
 
 								</div>
 							</div>
-							<div class="d-flex mt-1">
-								<div>Title</div>
-								<div><input type="input" class="form-control small" id="id_input_music_search_keyword"></div>
-								<div><button type="button" class="btn btn-sm btn-primary" id="id_btn_search_youtube">Youtube</button></div>
-							</div>
 							<div id="id_div_music_list"></div>
 						</div>
 					</div>
@@ -98,10 +93,19 @@
 						</div>
 					</div>
 
+					<!-- Title / Youtube Search Button -->
+					<div class="d-flex" style="height: 40px;">
+						<div class="col-2 my-auto">Title</div>
+						<div class="col-8 my-auto">
+							<input type="input" class="w-100" id="id_input_music_search_keyword">
+						</div>
+						<div class="col-2 my-auto text-right"><button type="button" class="btn btn-sm btn-primary" id="id_btn_search_youtube">Youtube</button></div>
+					</div>
+
 					<!-- YOUTUBE SEARCH -->
-					<div class="row border" style="height: calc( 100% - 100px); overflow: auto; ">
+					<div class="row border" style="height: calc( 100% - 140px); overflow: auto; ">
 						<div class="col-12" >
-							<div id="id_div_youtube_search_result" style="width: 100%; border-top: 1px solid black;">
+							<div id="id_div_youtube_search_result">
 								Youtube search
 							</div>
 						</div>
