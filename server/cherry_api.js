@@ -420,8 +420,6 @@ router.post('/get_artist_diff_name_list', async function(req, res){
 	}
 });
 
-
-
 router.post('/search_artist_music_like', async function(req, res){
 	try{
 		var keyword = req.body.keyword;

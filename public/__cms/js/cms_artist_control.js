@@ -64,6 +64,7 @@ function ArtistControl(){
 		$('#id_nav_cms_artist_list_search').on('click', self.OnChangeTab_Search);
 		$('#id_btn_cms_artist_diff_name_add').on('click', self.OnClick_id_btn_cms_artist_diff_name_add);
 		$('#id_btn_cms_artist_diff_name_edit_ok').on('click', self.OnClick_id_btn_cms_artist_diff_name_edit_ok);
+		$('#id_btn_cms_artist_edit_artist').on('click', self.OnClick_id_btn_cms_artist_edit_artist);
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -98,9 +99,8 @@ function ArtistControl(){
 		});	
 	};
 
-	this.OnChooseArtist = function(name, artist_uid){
+	this.OnChooseArtist = function(artist_uid){
 		$('#id_div_music_list').empty();
-		self._artist_name = name;
 		self._selected_artist_uid = artist_uid;
 		self.GetArtistInfo();
 		self.GetArtistDiffNameList();
@@ -131,6 +131,11 @@ function ArtistControl(){
 
 	this.OnClick_id_btn_cms_artist_edit_ok = function(){
 		var artist_name = $('#id_input_cms_artist_name').val().trim();
+		if(artist_name == ''){
+			alert('name empty');
+			return;
+		}
+
 		var artist_name_list = [];
 		var is_various_artist = false;
 		//various artist인지 확인.
@@ -154,7 +159,26 @@ function ArtistControl(){
 				self.FindOrAddArtist(artist_name);
 			}
 		}else if(self._artist_edit_mode == ARTIST_EDIT_MODE.EDIT){
-
+			var req_data = {
+				artist_uid: self._selected_artist_uid,
+				name: artist_name
+			};
+	
+			$.ajax({
+				url: '/__cms_api/update_artist_info',
+				type: 'POST',
+				data: JSON.stringify(req_data),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (res) {
+					if(res.ok){
+						$('#id_modal_cms_artist_edit').modal('hide');
+						self.GetArtistInfo();
+					}else{
+						alert(res.err);
+					}
+				}
+			});	
 		}
 	};
 
@@ -227,7 +251,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.OnChooseArtist(self._artist_name, self._selected_artist_uid);
+					self.OnChooseArtist(self._selected_artist_uid);
 					$('#id_modal_cms_artist_music_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -376,6 +400,17 @@ function ArtistControl(){
 		});		
 	};
 
+	this.OnClick_id_btn_cms_artist_edit_artist = function(){
+		if(self._selected_artist_uid == null){
+			alert('choose artist first');
+			return;
+		}
+
+		self._artist_edit_mode = ARTIST_EDIT_MODE.EDIT;
+		$('#id_input_cms_artist_name').val(self._artist_name);
+		$('#id_modal_cms_artist_edit').modal('show');
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 
 	this.FindOrAddArtist = function(artist_name){
@@ -390,7 +425,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.OnChooseArtist(artist_name, res.artist_uid);
+					self.OnChooseArtist(res.artist_uid);
 					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -411,8 +446,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					var va_artist_name = artist_name_list.join(', ');
-					self.OnChooseArtist(va_artist_name, res.artist_uid);
+					self.OnChooseArtist(res.artist_uid);
 					$('#id_modal_cms_artist_edit').modal('hide');
 				}else{
 					alert(res.err);
@@ -547,7 +581,7 @@ function ArtistControl(){
 
 		for(var i=0 ; i<self._cms_favorite_artist_list.length ; i++){
 			var a = self._cms_favorite_artist_list[i];
-			var on_click = `window._artist_control.OnChooseArtist('${a.name}', '${a.artist_uid}')`;
+			var on_click = `window._artist_control.OnChooseArtist('${a.artist_uid}')`;
 			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del('${a.artist_uid}')`;
 
 			h += `
@@ -578,7 +612,7 @@ function ArtistControl(){
 		`;
 		for(var i=0 ; i<self._artist_searched_list.length ; i++){
 			var a = self._artist_searched_list[i];
-			var on_click = `window._artist_control.OnChooseArtist('${a.name}', '${a.artist_uid}')`;
+			var on_click = `window._artist_control.OnChooseArtist('${a.artist_uid}')`;
 			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist(${i})`;
 			var check_color = '#aaaaaa';
 			for(var k=0 ; k<self._cms_favorite_artist_list.length ; k++){
@@ -700,6 +734,7 @@ function ArtistControl(){
 	};
 
 	this.DISP_ArtistInfo = function(){
+		self._artist_name = self._artist_info.name;
 		$('#id_label_cms_artist_name').html(self._artist_info.name);
 		if(self._artist_info.is_various == 'Y'){
 			$('#id_label_cms_artist_is_various').html('Y');

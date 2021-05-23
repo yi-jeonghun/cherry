@@ -548,4 +548,28 @@ router.post('/delete_artist_diff_name', async function(req, res){
 	}
 });
 
+router.post('/update_artist_info', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+		var artist_uid = req.body.artist_uid;
+		var name = req.body.name;
+		await cherry_service.UpdateArtistInfo(artist_uid, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_artist_info'
+		});
+	}
+});
+
 module.exports = router;
