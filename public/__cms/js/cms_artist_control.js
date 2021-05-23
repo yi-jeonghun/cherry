@@ -285,10 +285,10 @@ function ArtistControl(){
 		}
 	};
 
-	this.OnChoose_FavoriteArtist = function(idx){
+	this.OnChoose_FavoriteArtist = function(artist_uid, name){
 		self._cms_favorite_artist_list.push({
-			artist_uid: self._artist_searched_list[idx].artist_uid,
-			name: self._artist_searched_list[idx].name
+			artist_uid: artist_uid,
+			name: name
 		});
 		window.localStorage.setItem('CMS_FAVORITE_ARTIST_LIST', JSON.stringify(self._cms_favorite_artist_list));
 		self.DISP_SearchedArtistList();
@@ -612,24 +612,31 @@ function ArtistControl(){
 		`;
 		for(var i=0 ; i<self._artist_searched_list.length ; i++){
 			var a = self._artist_searched_list[i];
-			var on_click = `window._artist_control.OnChooseArtist('${a.artist_uid}')`;
-			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist(${i})`;
+			var artist_uid = a.artist_uid
+			if(a.is_diff_name == 'Y'){
+				artist_uid = a.org_artist_uid;
+			}
+			var on_click = `window._artist_control.OnChooseArtist('${artist_uid}')`;
+			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist('${artist_uid}', '${a.name}')`;
 			var check_color = '#aaaaaa';
 			for(var k=0 ; k<self._cms_favorite_artist_list.length ; k++){
-				if(self._cms_favorite_artist_list[k].artist_uid == a.artist_uid){
+				console.log('fav uid ' + self._cms_favorite_artist_list[k].artist_uid + ' ' + artist_uid);
+				if(self._cms_favorite_artist_list[k].artist_uid == artist_uid){
+					console.log('is favoite ' );
 					check_color = 'red';
-					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del('${a.artist_uid}')`;
+					on_click_check = `window._artist_control.OnChoose_FavoriteArtist_Del('${artist_uid}')`;
 					break;
 				}
 			}
 
+			console.log('check_color ' + check_color);
 			h += `
 			<tr>
-				<td>${a.artist_uid}</td>
+				<td>${artist_uid}</td>
 				<td>${a.is_various}</td>
 				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
-				<td onClick="${on_click_check}" style="cursor:pointer">
-					<i class="fas fa-check" style="color:${check_color}"></i>
+				<td style="color:${check_color}">
+					<i class="fas fa-check" onClick="${on_click_check}" style="cursor:pointer"></i>
 				</td>
 			</tr>
 			`;
