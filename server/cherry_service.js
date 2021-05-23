@@ -64,6 +64,34 @@ function CherryService(){
 		});
 	};
 
+	this.UpdateArtistDiffName = function(artist_uid, artist_diff_name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			artist_diff_name = artist_diff_name.trim();
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					UPDATE artist SET name=? WHERE artist_uid=?
+				`;
+				
+				var val = [artist_diff_name, artist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdateArtistDiffName #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdateArtistDiffName #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.DeleteArtistDiffName = function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

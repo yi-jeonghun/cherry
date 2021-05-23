@@ -501,6 +501,30 @@ router.post('/add_artist_diff_name', async function(req, res){
 	}
 });
 
+router.post('/update_artist_diff_name', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+		var artist_uid = req.body.artist_uid;
+		var artist_diff_name = req.body.artist_diff_name;
+		await cherry_service.UpdateArtistDiffName(artist_uid, artist_diff_name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_artist_diff_name'
+		});
+	}
+});
+
 router.post('/delete_artist_diff_name', async function(req, res){
 	try{
 		if(permission_service.IsAdmin(req.session.user_info) == false){

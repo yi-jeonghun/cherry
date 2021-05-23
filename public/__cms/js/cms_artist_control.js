@@ -9,6 +9,11 @@ const ARTIST_EDIT_MODE = {
 	EDIT: 1
 };
 
+const DIFFERENT_NAME_EDIT_MODE = {
+	NEW: 0,
+	EDIT: 1
+};
+
 const ARTIST_LIST_TYPE = {
 	FAVORITE:0,
 	SEARCH:1
@@ -27,6 +32,8 @@ function ArtistControl(){
 	this._cms_favorite_artist_list = [];
 	this._artist_info = null;
 	this._artist_diff_name_list = [];
+	this._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.NEW;
+	this._diff_name_artist_uid = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -282,7 +289,15 @@ function ArtistControl(){
 			alert('choose artist first');
 			return;
 		}
+		self._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.NEW;
 		$('#id_input_cms_artist_diff_name').val('');
+		$('#id_modal_cms_artist_diff_name_edit').modal('show');
+	};
+
+	this.OnClick_EditDiffName = function(idx){
+		self._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.EDIT;
+		self._diff_name_artist_uid = self._artist_diff_name_list[idx].artist_uid;
+		$('#id_input_cms_artist_diff_name').val(self._artist_diff_name_list[idx].name);
 		$('#id_modal_cms_artist_diff_name_edit').modal('show');
 	};
 
@@ -298,25 +313,47 @@ function ArtistControl(){
 			return;
 		}
 
-		var req_data = {
-			org_artist_uid:   self._selected_artist_uid,
-			artist_diff_name: diff_name
-		};
-		$.ajax({
-			url: '/__cms_api/add_artist_diff_name',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					$('#id_modal_cms_artist_diff_name_edit').modal('hide');
-					self.GetArtistDiffNameList();
-				}else{
-					alert(res.err);
+		if(self._diff_name_edit_mode == DIFFERENT_NAME_EDIT_MODE.NEW){
+			var req_data = {
+				org_artist_uid:   self._selected_artist_uid,
+				artist_diff_name: diff_name
+			};
+			$.ajax({
+				url: '/__cms_api/add_artist_diff_name',
+				type: 'POST',
+				data: JSON.stringify(req_data),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (res) {
+					if(res.ok){
+						$('#id_modal_cms_artist_diff_name_edit').modal('hide');
+						self.GetArtistDiffNameList();
+					}else{
+						alert(res.err);
+					}
 				}
-			}
-		});
+			});	
+		}else if(self._diff_name_edit_mode == DIFFERENT_NAME_EDIT_MODE.EDIT){
+			var req_data = {
+				artist_uid:   self._diff_name_artist_uid,
+				artist_diff_name: diff_name
+			};
+			$.ajax({
+				url: '/__cms_api/update_artist_diff_name',
+				type: 'POST',
+				data: JSON.stringify(req_data),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (res) {
+					if(res.ok){
+						$('#id_modal_cms_artist_diff_name_edit').modal('hide');
+						self.GetArtistDiffNameList();
+					}else{
+						alert(res.err);
+					}
+				}
+			});	
+		}
 	};
 
 	this.OnClick_DeleteDiffName = function(artist_uid){
@@ -700,14 +737,18 @@ function ArtistControl(){
 		
 		for(var i=0 ; i<self._artist_diff_name_list.length ; i++){
 			var da = self._artist_diff_name_list[i];
-			var on_click = `window._artist_control.OnClick_DeleteDiffName('${da.artist_uid}')`;
+			var on_click_trash = `window._artist_control.OnClick_DeleteDiffName('${da.artist_uid}')`;
+			var on_click_edit = `window._artist_control.OnClick_EditDiffName(${i})`;
 
 			h += `
 			<div class="d-flex">
-				<div class="col-10">${da.name}</div>
-				<div class="col-2 text-right">
-					<span class="badge badge-sm border" style="cursor:pointer" onClick="${on_click}">
-					-
+				<div class="col-8">${da.name}</div>
+				<div class="col-4 text-right d-flex">
+					<span class="badge badge-sm border" style="cursor:pointer" onClick="${on_click_trash}">
+						<i class="fas fa-trash-alt"></i>
+					</span>
+					<span class="badge badge-sm border" style="cursor:pointer" onClick="${on_click_edit}">
+						<i class="fas fa-pen"></i>
 					</span>
 				</div>
 			</div>
