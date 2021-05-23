@@ -168,7 +168,6 @@ router.post('/add_music', async function(req, res){
 	}
 });
 
-//FIXME 사용하는 함수인지 확인해 볼 것.
 router.post('/update_music', async function(req, res){
 	try{
 		var req_data = req.body;
