@@ -572,7 +572,7 @@ function TopRankControl(){
 		$('#id_div_youtube_search_result').empty();
 
 		var h = `
-		<div class="container-fluid">
+		<div class="container-fluid small">
 		`;
 		for(var i=0 ; i<video_list.length ; i++){
 			var video = video_list[i];
@@ -709,7 +709,7 @@ function TopRankControl(){
 	this.DisplaySearchedMusicList = function(){
 		$('#id_div_search_result').empty();
 
-		var h = `<table class="table table-sm">
+		var h = `<table class="table table-sm small">
 		<tr>
 		<th>Music ID</th>
 		<th>Artist</th>
