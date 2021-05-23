@@ -34,6 +34,60 @@ function CherryService(){
 		});
 	};
 
+	this.AddArtistDiffName = function(org_artist_uid, artist_diff_name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			artist_diff_name = artist_diff_name.trim();
+			try{
+				var artist_uid = await self.GetArtistUID();
+				conn = await db_conn.GetConnection();
+				var sql = `
+					INSERT INTO artist( name, is_various, artist_uid, is_diff_name, org_artist_uid )
+					VALUES            ( ?,    'N',        ?,          'Y',          ?              )
+				`;
+				
+				var val = [artist_diff_name, artist_uid, org_artist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService AddArtistDiffName #0');
+					}else{
+						resolve(artist_uid);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AddArtistDiffName #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteArtistDiffName = function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist WHERE artist_uid=? AND is_diff_name='Y'`;				
+				var val = [artist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteArtistDiffName #0');
+					}else{
+						resolve(artist_uid);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteArtistDiffName #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.GetArtistUID = async function(){
 		return new Promise(async function(resolve, reject){
 			try{
@@ -528,6 +582,30 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService GetArtistInfo #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetArtistDiffNameList = function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql_register = 'SELECT * FROM artist WHERE org_artist_uid=?';
+				var val = [artist_uid];
+				conn.query(sql_register, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetArtistDiffNames #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetArtistDiffNames #1');
 			}finally{
 				if(conn) conn.release();
 			}

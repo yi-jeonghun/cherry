@@ -388,9 +388,11 @@ router.post('/get_artist_info_by_artist_uid', async function(req, res){
 	try{
 		var artist_uid = req.body.artist_uid;
 		var artist_info = await cherry_service.GetArtistInfo(artist_uid);
+		var artist_diff_name_list = await cherry_service.GetArtistDiffNameList(artist_uid);
 		res.send({
 			ok: 1,
-			artist_info:   artist_info
+			artist_info:           artist_info,
+			artist_diff_name_list: artist_diff_name_list
 		});
 	}catch(err){
 		console.error(err);
@@ -400,6 +402,24 @@ router.post('/get_artist_info_by_artist_uid', async function(req, res){
 		});
 	}
 });
+
+router.post('/get_artist_diff_name_list', async function(req, res){
+	try{
+		var artist_uid = req.body.artist_uid;
+		var artist_diff_name_list = await cherry_service.GetArtistDiffNameList(artist_uid);
+		res.send({
+			ok: 1,
+			artist_diff_name_list: artist_diff_name_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_artist_diff_name_list'
+		});
+	}
+});
+
 
 
 router.post('/search_artist_music_like', async function(req, res){

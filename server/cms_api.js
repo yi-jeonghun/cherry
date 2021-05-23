@@ -456,12 +456,12 @@ router.post('/update_music', async function(req, res){
 
 router.post('/upgrade_user_to_admin', async function(req, res){
 	try{
-		var is_super_admin = permission_service.IsSuperAdmin(req.user_info);
-		if(is_super_admin == false){
+		if(permission_service.IsSuperAdmin(req.session.user_info) == false){
 			res.send({
 				ok:0,
 				err:'Fail No Permission'
 			});	
+			return;
 		}
 		var user_id = req.body.user_id;
 		await cms_service.UpgradeUserToAdmin(user_id);
@@ -473,6 +473,53 @@ router.post('/upgrade_user_to_admin', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Fail update_music'
+		});
+	}
+});
+
+router.post('/add_artist_diff_name', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+		var org_artist_uid = req.body.org_artist_uid;
+		var artist_diff_name = req.body.artist_diff_name;
+		await cherry_service.AddArtistDiffName(org_artist_uid, artist_diff_name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_artist_diff_name'
+		});
+	}
+});
+
+router.post('/delete_artist_diff_name', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+		var artist_uid = req.body.artist_uid;
+		await cherry_service.DeleteArtistDiffName(artist_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_artist_diff_name'
 		});
 	}
 });
