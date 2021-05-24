@@ -109,6 +109,10 @@ async function GetArtistList(){
 				}else{
 					var encoded_name = encodeURI(artist.name);
 					var artist_uid = artist.artist_uid;
+					if(artist.is_diff_name == 'Y'){
+						artist_uid = artist.org_artist_uid;	
+					}
+
 					xml += `
 					<url>
 						<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&aid=${artist_uid}</loc>
