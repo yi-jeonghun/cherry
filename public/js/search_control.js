@@ -116,6 +116,9 @@ function SearchControl(){
 			var artist = self._artist_list[i];
 			var encode_name = encodeURI(artist.name);
 			var artist_uid = artist.artist_uid;
+			if(artist.is_diff_name == 'Y'){
+				artist_uid = artist.org_artist_uid;
+			}
 			var onclick = `window._router.Go('/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}')`;
 			h += `
 				<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
