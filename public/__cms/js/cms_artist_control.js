@@ -638,8 +638,10 @@ function ArtistControl(){
 		for(var i=0 ; i<self._artist_searched_list.length ; i++){
 			var a = self._artist_searched_list[i];
 			var artist_uid = a.artist_uid
+			var diff_name_color = '';
 			if(a.is_diff_name == 'Y'){
 				artist_uid = a.org_artist_uid;
+				diff_name_color = 'color:#aaaaaa'
 			}
 			var on_click = `window._artist_control.OnChooseArtist('${artist_uid}')`;
 			var on_click_check = `window._artist_control.OnChoose_FavoriteArtist('${artist_uid}', '${a.name}')`;
@@ -659,7 +661,7 @@ function ArtistControl(){
 			<tr>
 				<td>${artist_uid}</td>
 				<td>${a.is_various}</td>
-				<td onClick="${on_click}" style="cursor:pointer">${a.name}</td>
+				<td onClick="${on_click}" style="cursor:pointer; ${diff_name_color}">${a.name}</td>
 				<td style="color:${check_color}">
 					<i class="fas fa-check" onClick="${on_click_check}" style="cursor:pointer"></i>
 				</td>
