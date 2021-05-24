@@ -223,6 +223,7 @@ function ArtistControl(){
 		self._music_uid_to_edit = m.music_uid;
 		$('#id_input_cms_artist_music_title').val(m.title);
 		$('#id_input_cms_artist_music_video_id').val(m.video_id);
+		$('#id_input_cms_artist_music_artist_uid').val(m.artist_uid);
 		$('#id_modal_cms_artist_music_edit').modal('show');
 	};
 
@@ -254,6 +255,7 @@ function ArtistControl(){
 	this.OnClick_id_btn_cms_artist_music_edit_ok = function(){
 		var title = $('#id_input_cms_artist_music_title').val().trim();
 		var video_id = $('#id_input_cms_artist_music_video_id').val().trim();
+		var artist_uid = $('#id_input_cms_artist_music_artist_uid').val().trim();
 
 		if(title == ''){
 			alert('title empty');
@@ -265,10 +267,16 @@ function ArtistControl(){
 			return;
 		}
 
+		if(artist_uid == ''){
+			alert('Artist UID empty');
+			return;
+		}
+
 		var req_data = {
 			music_uid: self._music_uid_to_edit,
-			video_id:  video_id, 
-			title:     title   
+			video_id:   video_id, 
+			title:      title,
+			artist_uid: artist_uid
 		};
 		$.ajax({
 			url: '/__cms_api/update_music',
@@ -470,6 +478,7 @@ function ArtistControl(){
 					self._music_list = [];
 					$('#id_div_music_list').html('');
 					$('#id_label_cms_artist_name').html('');
+					$('#id_label_cms_artist_artist_uid').html('');
 					$('#id_label_cms_artist_is_various').html('');
 					$('#id_div_cms_artist_member_list').html('');
 					$('#id_div_cms_artist_diff_name_list').html('');
@@ -814,6 +823,7 @@ function ArtistControl(){
 	this.DISP_ArtistInfo = function(){
 		self._artist_name = self._artist_info.name;
 		$('#id_label_cms_artist_name').html(self._artist_info.name);
+		$('#id_label_cms_artist_artist_uid').html(self._artist_info.artist_uid);
 		if(self._artist_info.is_various == 'Y'){
 			$('#id_label_cms_artist_is_various').html('Y');
 		}else{

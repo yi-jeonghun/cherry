@@ -1097,7 +1097,7 @@ function CherryService(){
 				conn = await db_conn.GetConnection();
 				console.log('artist_uid ' + artist_uid);
 				var sql = `
-					SELECT m.music_uid, a.name AS artist, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
+					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id

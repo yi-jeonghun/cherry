@@ -481,7 +481,7 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateMusic = async function(music_uid, title, video_id){
+	this.UpdateMusic = async function(music_uid, title, video_id, artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -489,8 +489,9 @@ function CMS_Service(){
 				var sql = `UPDATE music SET ? WHERE ?`;
 				var val = [
 					{
-						title:title,
-						video_id:video_id
+						title:      title,
+						video_id:   video_id,
+						artist_uid: artist_uid
 					},
 					{
 						music_uid:music_uid
