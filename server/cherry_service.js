@@ -120,6 +120,11 @@ function CherryService(){
 		});
 	};
 
+	/**
+	 * artist table에서 diff_name으로 사용되는 레코드를 삭제한다.
+	 * @param {} artist_uid 
+	 * @returns 
+	 */
 	this.DeleteArtistDiffName = function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -1751,6 +1756,126 @@ function CherryService(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CherryService SearchPlaylistByTitleLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteLikeArtist = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM like_artist WHERE artist_uid=?`;
+				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteLikeArtist #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteLikeArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteVariousArtistMember = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist_various WHERE member_artist_uid=?`;
+				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteVariousArtistMember #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteVariousArtistMember #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteVariousArtist = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist_various WHERE artist_uid=?`;
+				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteVariousArtist #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteVariousArtist #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteArtistOfOrgArtistUID = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist WHERE org_artist_uid=?`;
+				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteArtistOfOrgArtistUID #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteArtistOfOrgArtistUID #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteArtist = async function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist WHERE artist_uid=?`;
+				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteArtist #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteArtist #1');
 			}finally{
 				if(conn) conn.release();
 			}

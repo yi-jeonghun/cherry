@@ -34,6 +34,7 @@ function ArtistControl(){
 	this._artist_diff_name_list = [];
 	this._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.NEW;
 	this._diff_name_artist_uid = null;
+	this._music_list = [];
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -65,6 +66,7 @@ function ArtistControl(){
 		$('#id_btn_cms_artist_diff_name_add').on('click', self.OnClick_id_btn_cms_artist_diff_name_add);
 		$('#id_btn_cms_artist_diff_name_edit_ok').on('click', self.OnClick_id_btn_cms_artist_diff_name_edit_ok);
 		$('#id_btn_cms_artist_edit_artist').on('click', self.OnClick_id_btn_cms_artist_edit_artist);
+		$('#id_btn_cms_artist_delete_artist').on('click', self.OnClick_id_btn_cms_artist_delete_artist);
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -434,6 +436,48 @@ function ArtistControl(){
 		self._artist_edit_mode = ARTIST_EDIT_MODE.EDIT;
 		$('#id_input_cms_artist_name').val(self._artist_name);
 		$('#id_modal_cms_artist_edit').modal('show');
+	};
+
+	this.OnClick_id_btn_cms_artist_delete_artist = function(){
+		if(self._selected_artist_uid == null){
+			alert('choose artist first');
+			return;
+		}
+
+		if(self._music_list.length > 0){
+			alert('music list not empty');
+			return;
+		}
+
+		if(confirm('Artist will be deleted.') == false){
+			return;
+		}
+
+		var req_data = {
+			artist_uid: self._selected_artist_uid
+		};
+
+		$.ajax({
+			url: '/cherry_api/delete_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.OnChoose_FavoriteArtist_Del(self._selected_artist_uid);
+					self._selected_artist_uid = null;
+					self._music_list = [];
+					$('#id_div_music_list').html('');
+					$('#id_label_cms_artist_name').html('');
+					$('#id_label_cms_artist_is_various').html('');
+					$('#id_div_cms_artist_member_list').html('');
+					$('#id_div_cms_artist_diff_name_list').html('');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////

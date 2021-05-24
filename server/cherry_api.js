@@ -223,15 +223,14 @@ router.post('/delete_music', async function(req, res){
 			return;
 		}
 
-		var req_data = req.body;
-		var music_uid = req_data.music_uid;
+		var music_uid = req.body.music_uid;
 
 		//playlist_music
-		await cherry_service.DeleteMusicInPlaylistMusic();
+		await cherry_service.DeleteMusicInPlaylistMusic(music_uid);
 		//top_rank_list
-		await cherry_service.DeleteMusicInTopRankList();
+		await cherry_service.DeleteMusicInTopRankList(music_uid);
 		//top_rank_list_draft
-		await cherry_service.DeleteMusicInTopRankListDraft();
+		await cherry_service.DeleteMusicInTopRankListDraft(music_uid);
 		//music
 		await cherry_service.DeleteMusic(music_uid);
 
@@ -243,6 +242,37 @@ router.post('/delete_music', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Failed to delete Music'
+		});
+	}
+});
+
+router.post('/delete_artist', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+
+		var artist_uid = req.body.artist_uid;
+
+		await cherry_service.DeleteLikeArtist(artist_uid);
+		await cherry_service.DeleteVariousArtistMember(artist_uid);
+		//artist 자체가 Various Artist인 경우가 있기 때문에 artist_various에서도 삭제되어야 한다.
+		await cherry_service.DeleteVariousArtist(artist_uid);
+		await cherry_service.DeleteArtistOfOrgArtistUID(artist_uid);
+		await cherry_service.DeleteArtist(artist_uid);
+
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to delete Artist'
 		});
 	}
 });
