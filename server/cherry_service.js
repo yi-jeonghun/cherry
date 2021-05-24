@@ -954,6 +954,78 @@ function CherryService(){
 		});
 	};
 
+	this.DeleteMusicInPlaylistMusic = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'DELETE FROM playlist_music WHERE music_uid=?';
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteMusicInPlaylistMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteMusicInPlaylistMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteMusicInTopRankList = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'DELETE FROM top_rank_list WHERE music_uid=?';
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteMusicInTopRankList #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteMusicInTopRankList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteMusicInTopRankListDraft = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'DELETE FROM top_rank_list_draft WHERE music_uid=?';
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteMusicInTopRankListDraft #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteMusicInTopRankListDraft #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.GetMusicList = async function(music){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

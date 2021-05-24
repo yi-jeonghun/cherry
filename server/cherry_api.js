@@ -215,10 +215,26 @@ router.post('/update_music', async function(req, res){
 
 router.post('/delete_music', async function(req, res){
 	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+
 		var req_data = req.body;
 		var music_uid = req_data.music_uid;
 
+		//playlist_music
+		await cherry_service.DeleteMusicInPlaylistMusic();
+		//top_rank_list
+		await cherry_service.DeleteMusicInTopRankList();
+		//top_rank_list_draft
+		await cherry_service.DeleteMusicInTopRankListDraft();
+		//music
 		await cherry_service.DeleteMusic(music_uid);
+
 		res.send({
 			ok: 1
 		});

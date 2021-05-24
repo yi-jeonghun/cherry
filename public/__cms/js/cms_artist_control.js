@@ -224,6 +224,31 @@ function ArtistControl(){
 		$('#id_modal_cms_artist_music_edit').modal('show');
 	};
 
+	this.OnClick_MusicDelete = function(idx){
+		var m = self._music_list[idx];
+		if(confirm('Sure to Delete?\n' + m.title) == false){
+			return;
+		}
+
+		var req_data = {
+			music_uid: m.music_uid
+		};
+		$.ajax({
+			url: '/cherry_api/delete_music',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetMusicListOfArtist();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
 	this.OnClick_id_btn_cms_artist_music_edit_ok = function(){
 		var title = $('#id_input_cms_artist_music_title').val().trim();
 		var video_id = $('#id_input_cms_artist_music_video_id').val().trim();
@@ -661,6 +686,7 @@ function ArtistControl(){
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
 			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
+			var on_trash_click = `window._artist_control.OnClick_MusicDelete(${i})`;
 
 			h += `
 			<tr>
@@ -669,9 +695,8 @@ function ArtistControl(){
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
 				<td>
-					<button class="btn btn-sm border" onClick="${on_edit_click}">
-						<i class="fas fa-pen"></i>
-					</button>
+					<i class="fas fa-pen border" onClick="${on_edit_click}" style="cursor:pointer"></i>
+					<i class="fas fa-trash-alt border" onClick="${on_trash_click}" style="cursor:pointer"></i>
 				</td>
 			</tr>
 			`;
