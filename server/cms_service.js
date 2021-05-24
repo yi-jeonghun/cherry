@@ -291,12 +291,14 @@ function CMS_Service(){
 				SELECT m.music_uid, m.video_id
 				FROM music m
 				WHERE m.title=?
-				AND m.artist_uid=(
-					SELECT artist_uid 
+				AND m.artist_uid=
+					(
+					SELECT IF(is_diff_name = 'Y', org_artist_uid, artist_uid)
 					FROM artist
 					WHERE NAME=?
 					LIMIT 1
-			)`;
+					)
+			`;
 			var val = [title, artist];
 			conn.query(sql, val, function(err, result){
 				if(err){
