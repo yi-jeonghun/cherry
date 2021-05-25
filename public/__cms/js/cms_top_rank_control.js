@@ -23,6 +23,7 @@ function TopRankControl(){
 	this._source = null;
 	this._music_list_draft = [];
 	this._music_list_release = [];
+	this._searched_artist_list = [];
 	this._searched_music_list = [];
 	this._working_idx = -1;
 	this._filter_type = FILTER_TYPE.NG;
@@ -51,8 +52,13 @@ function TopRankControl(){
 				case 49://1
 					self.SearchYoutube(self._working_idx);
 					break;
+				case 50://1
+					self.SearchArtist(self._working_idx);
+					self.OnClick_NavTab('artist');
+					break;
 				case 51://3
-				self.SearchMusic(self._working_idx);
+					self.SearchMusic(self._working_idx);
+					self.OnClick_NavTab('music');
 					break;
 			}
 		});
@@ -71,42 +77,65 @@ function TopRankControl(){
 		}
 	};
 
+	this.OnClick_NavTab = function(type){
+		$('#id_nav_cms_top_rank_artist').removeClass('active');
+		$('#id_nav_cms_top_rank_music').removeClass('active');
+		$('#id_div_cms_top_rank_music_search_result').hide();
+		$('#id_div_cms_top_rank_artist_search_result').hide();
+		if(type == 'artist'){
+			$('#id_nav_cms_top_rank_artist').addClass('active');
+			$('#id_div_cms_top_rank_artist_search_result').show();
+		}else if(type == 'music'){
+			$('#id_nav_cms_top_rank_music').addClass('active');
+			$('#id_div_cms_top_rank_music_search_result').show();
+		}
+	};
+
+	this.OnClick_SearchedArtistOK = function(artist_uid){
+		if(self._working_idx == -1 || self._working_idx == null){
+			alert('choose working music first');
+			return;
+		}
+		self._music_list_draft[self._working_idx].artist_uid = artist_uid;
+		$('#id_label_artist_uid_'+self._working_idx).html(artist_uid);
+	};
+
+	this.OnClick_AddArtist = function(){
+		var artist_name = $('#id_input_cms_top_rank_artist_search').val().trim();
+		if(artist_name == ''){
+			alert('artist name empty');
+			return;
+		}
+
+		var req_data = {
+			artist_name: artist_name
+		};
+
+		$.ajax({
+			url:  '/__cms_api/top_rank/find_or_add_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._SearchArtist(artist_name, function(res){
+						if(res.ok){
+							self._searched_artist_list = res.artist_list;
+							self.DISP_SearchedArtistList();
+						}else{
+							alert(res.err);
+						}
+					});
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	this.DisplayCountryList = function(){
-		var h = '';
-	
-		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
-			var cc = COUNTRY_CODE_LIST[i];
-			var source_list = window._const.__COUNTRY_TOP_100_SOURCE_LIST[cc];
-
-			h += `
-			<div class="border small">
-				<div>${cc}</div>
-			`;
-
-			console.log(cc + ' count ' + source_list.length);
-
-			for(var s=0 ; s<source_list.length ; s++){
-				var source = source_list[s];
-				var on_click = `window._top_rank_control.ChooseCountry('${cc}', '${source}')`;
-
-				h += `
-				<div class="d-flex" style="cursor:pointer" onClick="${on_click}">
-					<div class="col-3 my-auto text-right">${source}</div>
-					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}-${source}"></div>
-				</div>
-				`;
-			}
-
-			h += `
-				</div>
-			`;
-		}
-	
-		$('#id_div_country_list').html(h);
-	};
-	
 	this.GetReleaseTime = function(){
 		$.ajax({
 			url:  '/cherry_api/top_rank/get_release_time',
@@ -135,10 +164,20 @@ function TopRankControl(){
 	};
 
 	this.AutoMusicRegisterProcess = function(video_id){
-		console.log('video_id ' + video_id);
+		if(self._music_list_draft[self._working_idx].artist_uid == null){
+			alert('choose artist first');
+			return;
+		}
+
 		self._music_list_draft[self._working_idx].video_id = video_id;
 		$(`#id_text_video_id_${self._working_idx}`).val(video_id);
-		self.RegisterMusic();
+
+		if(self._music_list_draft[self._working_idx].video_id == null){
+			alert('video id null');
+			return;
+		}
+
+		self.AddMusic();
 	};
 
 	this.ToggleReleaseType = function(){
@@ -178,17 +217,6 @@ function TopRankControl(){
 		self._music_list_release = [];
 		self.DisplayRankTitle();
 		self.FetchTopRank();
-	};
-
-	this.DisplayRankTitle = function(){
-		var title = self._country_code;
-		if(self._release_mode == RELEASE_MODE.DRAFT){
-			title += `[Draft][${self._source}]`;
-		}else{
-			title += `[Release][${self._source}]`;
-		}
-
-		$('#id_label_rank_title').html(title);
 	};
 
 	this.FetchTopRank = function(){
@@ -308,101 +336,6 @@ function TopRankControl(){
 		});	
 	};
 
-	this.DisplayMusicList_Draft = function(){
-		$('#id_div_music_list').empty();
-		var h = '<table class="table table-sm table-striped small">';
-		h += `
-		<tr>
-			<th>No.</th>
-			<th>Artist</th>
-			<th>AID</th>
-			<th>VA</th>
-			<th>Title</th>
-			<th>Video ID</th>
-			<th>IMG</th>
-			<th>MID</th>
-		</tr>
-		`;
-
-		for(var i=0 ; i<self._music_list_draft.length ; i++){
-			var m = self._music_list_draft[i];
-
-			if(self._filter_type == FILTER_TYPE.NG){
-				if(m.music_uid != null){
-					continue;
-				}	
-			}
-			if(self._filter_type == FILTER_TYPE.OK){
-				if(m.music_uid == null){
-					continue;
-				}	
-			}
-
-			var img_url = '';
-			if(m.video_id != null)
-				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
-
-			h += `
-			<tr onclick="window._top_rank_control.ChooseMusicForWorking(${i})" id="id_row_music_${i}">
-				<td class="bd-danger">${m.rank_num}</td>
-				<td>${m.artist}</td>
-				<td id="id_label_artist_uid_${i}">${m.artist_uid}</td>
-				<td id="id_label_is_various_${i}">${m.is_various=='Y'?'O':''}</td>
-				<td>${m.title}</td>
-				<td>
-					<input type="text" style="width:100px; font-size:0.8em" id="id_text_video_id_${i}" onFocusOut="window._top_rank_control.CheckVideoID(this, ${i})" value="${m.video_id}"></input>
-				</td>
-				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
-				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
-			</tr>
-			`;
-		}
-		h += '</table>';
-
-		$('#id_div_music_list').html(h);
-	};
-
-	this.DisplayMusicList_Release = function(){
-		$('#id_div_music_list').empty();
-		var h = '<table class="table table-sm table-striped small">';
-		h += `
-		<tr>
-			<th>No.</th>
-			<th>Artist</th>
-			<th>AID</th>
-			<th>VA</th>
-			<th>Title</th>
-			<th>Video ID</th>
-			<th>IMG</th>
-			<th>MID</th>
-		</tr>
-		`;
-
-		for(var i=0 ; i<self._music_list_release.length ; i++){
-			var m = self._music_list_release[i];
-			var img_url = '';
-			if(m.video_id != null){
-				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
-			}
-
-			h += `
-			<tr>
-				<td class="bd-danger">${m.rank_num}</td>
-				<td>${m.artist}</td>
-				<td>${m.artist_uid}</td>
-				<td>${m.is_various=='Y'?'O':''}</td>
-				<td>${m.title}</td>
-				<td>${m.video_id}</td>
-				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
-				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
-			</tr>
-			`;
-		}
-		h += '</table>';
-
-		$('#id_div_music_list').html(h);
-	};
-
 	this.ChooseMusicForWorking = function(idx){
 		self._working_idx = idx;
 		console.log('idx ' + idx);
@@ -417,82 +350,11 @@ function TopRankControl(){
 		$(`#id_row_music_${idx}`).css('background-color', 'yellow');
 	};
 
-	this.RegisterMusic = function(){
-		if(self._music_list_draft[self._working_idx].video_id == null){
-			alert('video id null');
-			return;
-		}
-
-		var artist_name_list = [];
-		var is_various_artist = false;
-		//various artist인지 확인.
-		{
-			artist_name_list = self._music_list_draft[self._working_idx].artist.split(',');
-
-			for(var i=0 ; i<artist_name_list.length ; i++){
-				artist_name_list[i] = artist_name_list[i].trim();
-			}
-
-			console.log('_name.length ' + artist_name_list.length);
-			if(artist_name_list.length > 1){
-				is_various_artist = true;
-			}
-		}
-
-		if(is_various_artist){
-			self.FindOrAddVariousArtist(artist_name_list);
-		}else{
-			self.FindOrAddArtist(self._music_list_draft[self._working_idx].artist);
-		}
-	};
-
-	this.FindOrAddArtist = function(artist_name){
+	this.AddMusic = function(){
 		var req_data = {
-			artist_name: artist_name.trim()
-		};
-		$.ajax({
-			url: '/__cms_api/find_or_add_artist',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self.AddMusic(res.artist_uid);
-				}else{
-					alert(res.err);
-				}
-			}
-		});
-	};
-
-	this.FindOrAddVariousArtist = function(artist_name_list){
-		var req_data = {
-			artist_name_list: artist_name_list
-		};
-		$.ajax({
-			url: '/__cms_api/find_or_add_various_artist',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self.AddMusic(res.artist_uid);
-				}else{
-					alert(res.err);
-				}
-			}
-		});
-	};
-
-	this.AddMusic = function(artist_uid){
-		console.log('Add Music artist_uid ' + artist_uid);
-		var req_data = {
-			//FIXME
-			artist_uid: artist_uid,
-			title:     self._music_list_draft[self._working_idx].title,
-			video_id:  self._music_list_draft[self._working_idx].video_id
+			artist_uid: self._music_list_draft[self._working_idx].artist_uid,
+			title:      self._music_list_draft[self._working_idx].title,
+			video_id:   self._music_list_draft[self._working_idx].video_id
 		};
 
 		$.ajax({
@@ -599,7 +461,7 @@ function TopRankControl(){
 					</div>
 				</div>
 				<div class="col-1">
-					<button class="btn btn-sm btn-primary" type="button" onClick="${OnOkClick}">OK</button>
+					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${OnOkClick}">OK</span>
 				</div>
 			</div>
 			`;
@@ -658,6 +520,56 @@ function TopRankControl(){
 		}
 	};
 
+	this.SearchArtist = function(idx){
+		var artist_name_to_search = self._music_list_draft[idx].artist;
+		$('#id_input_cms_top_rank_artist_search').val(artist_name_to_search);
+
+		self._SearchArtist(artist_name_to_search, function(res){
+			if(res.ok){
+				self._searched_artist_list = res.artist_list;
+				var artist_uid_found = null;
+				for(var i=0 ; i<self._searched_artist_list.length ; i++){
+					var a = self._searched_artist_list[i];
+					if(a.name == artist_name_to_search){
+						if(a.is_diff_name == 'Y'){
+							artist_uid_found = a.org_artist_uid;
+						}else{
+							artist_uid_found = a.artist_uid;
+						}
+						break;
+					}
+				}
+				
+				if(artist_uid_found != null){
+					self._music_list_draft[self._working_idx].artist_uid = artist_uid_found;
+					$('#id_label_artist_uid_'+self._working_idx).html(artist_uid_found);
+				}
+				self.DISP_SearchedArtistList();		
+			}else{
+				alert(res.err);
+			}	
+		});
+	};
+
+	this._SearchArtist = function(keyword, cb){
+		var req_data = {
+			keyword: keyword
+		};
+
+		$.ajax({
+			url: '/cherry_api/search_artist_like',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(cb){
+					cb(res);
+				}
+			}
+		});
+	};
+
 	this.SearchMusic = function(idx){
 		self._searched_music_list = [];
 		console.log('idx ' + idx);
@@ -689,58 +601,12 @@ function TopRankControl(){
 					}
 
 					self._searched_music_list = list1.concat(list2);
-
-					// if(self._searched_music_list.length > 0){
-					// 	self._music_list_draft[idx].video_id = self._searched_music_list[0].video_id;
-					// 	self._music_list_draft[idx].music_uid = self._searched_music_list[0].music_uid;
-					// 	$('#id_label_music_uid_'+idx).html(self._searched_music_list[0].music_uid);
-					// 	$('#id_text_video_id_'+idx).val(self._searched_music_list[0].video_id);
-					// 	DisplayVideoImage(idx);
-					// 	NeedToSave();
-					// }
 					self.DisplaySearchedMusicList();
 				}else{
 					alert(res.err);
 				}
 			}
 		});
-	};
-
-	this.DisplaySearchedMusicList = function(){
-		$('#id_div_search_result').empty();
-
-		var h = `<table class="table table-sm small">
-		<tr>
-		<th>Music ID</th>
-		<th>Artist</th>
-		<th>Title</th>
-		<th>Video ID</th>
-		</tr>`;
-
-		for(var i=0 ; i<self._searched_music_list.length ; i++){
-			var m = self._searched_music_list[i];
-
-			var on_click = `window._top_rank_control.UseThisMusicID(${i})`;
-
-			h += `
-			<tr>
-				<td>${m.music_uid}</td>
-				<td>${m.artist}</td>
-				<td>${m.title}</td>
-				<td>${m.video_id}</td>
-				<td>
-					<button type="button" class="btn btn-sm btn-primary" onClick="${on_click}">OK</button>
-				</td>
-			</tr>`;
-		}
-
-		if(self._searched_music_list.length == 0){
-			h += '<tr><td colspan="4" class="text-center">No Result</td></tr>';
-		}
-
-		h += '</table>';
-
-		$('#id_div_search_result').html(h);
 	};
 
 	this.UseThisMusicID = function(searched_music_uidx){
@@ -841,5 +707,216 @@ function TopRankControl(){
 		}
 	};
 
+	this.DisplayMusicList_Draft = function(){
+		$('#id_div_music_list').empty();
+		var h = '<table class="table table-sm table-striped small">';
+		h += `
+		<tr>
+			<th>No.</th>
+			<th>Artist</th>
+			<th>AID</th>
+			<th>VA</th>
+			<th>Title</th>
+			<th>Video ID</th>
+			<th>IMG</th>
+			<th>MID</th>
+		</tr>
+		`;
+
+		for(var i=0 ; i<self._music_list_draft.length ; i++){
+			var m = self._music_list_draft[i];
+
+			if(self._filter_type == FILTER_TYPE.NG){
+				if(m.music_uid != null){
+					continue;
+				}	
+			}
+			if(self._filter_type == FILTER_TYPE.OK){
+				if(m.music_uid == null){
+					continue;
+				}	
+			}
+
+			var img_url = '';
+			if(m.video_id != null)
+				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+
+			h += `
+			<tr onclick="window._top_rank_control.ChooseMusicForWorking(${i})" id="id_row_music_${i}">
+				<td class="bd-danger">${m.rank_num}</td>
+				<td>${m.artist}</td>
+				<td id="id_label_artist_uid_${i}">${m.artist_uid}</td>
+				<td id="id_label_is_various_${i}">${m.is_various=='Y'?'O':''}</td>
+				<td>${m.title}</td>
+				<td>
+					<input type="text" style="width:100px; font-size:0.8em" id="id_text_video_id_${i}" onFocusOut="window._top_rank_control.CheckVideoID(this, ${i})" value="${m.video_id}"></input>
+				</td>
+				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
+				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
+			</tr>
+			`;
+		}
+		h += '</table>';
+
+		$('#id_div_music_list').html(h);
+	};
+
+	this.DisplayMusicList_Release = function(){
+		$('#id_div_music_list').empty();
+		var h = '<table class="table table-sm table-striped small">';
+		h += `
+		<tr>
+			<th>No.</th>
+			<th>Artist</th>
+			<th>AID</th>
+			<th>VA</th>
+			<th>Title</th>
+			<th>Video ID</th>
+			<th>IMG</th>
+			<th>MID</th>
+		</tr>
+		`;
+
+		for(var i=0 ; i<self._music_list_release.length ; i++){
+			var m = self._music_list_release[i];
+			var img_url = '';
+			if(m.video_id != null){
+				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+			}
+
+			h += `
+			<tr>
+				<td class="bd-danger">${m.rank_num}</td>
+				<td>${m.artist}</td>
+				<td>${m.artist_uid}</td>
+				<td>${m.is_various=='Y'?'O':''}</td>
+				<td>${m.title}</td>
+				<td>${m.video_id}</td>
+				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
+				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
+			</tr>
+			`;
+		}
+		h += '</table>';
+
+		$('#id_div_music_list').html(h);
+	};
+
+	this.DisplaySearchedMusicList = function(){
+		$('#id_div_cms_top_rank_music_search_result').empty();
+
+		var h = `<table class="table table-sm small">
+		<tr>
+		<th>Music ID</th>
+		<th>Artist</th>
+		<th>Title</th>
+		<th>Video ID</th>
+		</tr>`;
+
+		for(var i=0 ; i<self._searched_music_list.length ; i++){
+			var m = self._searched_music_list[i];
+
+			var on_click = `window._top_rank_control.UseThisMusicID(${i})`;
+
+			h += `
+			<tr>
+				<td>${m.music_uid}</td>
+				<td>${m.artist}</td>
+				<td>${m.title}</td>
+				<td>${m.video_id}</td>
+				<td>
+					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${on_click}">OK</span>
+				</td>
+			</tr>`;
+		}
+
+		if(self._searched_music_list.length == 0){
+			h += '<tr><td colspan="4" class="text-center">No Result</td></tr>';
+		}
+
+		h += '</table>';
+
+		$('#id_div_cms_top_rank_music_search_result').html(h);
+	};
+
+	this.DISP_SearchedArtistList = function(){
+		var h = `<table class="table table-sm small">
+		<tr>
+		<th>AID</th>
+		<th>Name</th>
+		<th>VA</th>
+		<th>Diff</th>
+		<th></th>
+		</tr>`;
+
+		for(var i=0 ; i<self._searched_artist_list.length ; i++){
+			var a = self._searched_artist_list[i];
+			console.log(a.name + ' ' + a.artist_uid + ' ' + a.is_diff_name + ' ' + a.org_artist_uid);
+			var artist_uid = a.artist_uid;
+			if(a.is_diff_name == 'Y'){
+				artist_uid = a.org_artist_uid;
+			}
+			var on_click_ok = `window._top_rank_control.OnClick_SearchedArtistOK('${artist_uid}')`;
+
+			h += `
+			<tr>
+				<td>${artist_uid}</td>
+				<td>${a.name}</td>
+				<td>${a.is_various}</td>
+				<td>${a.is_diff_name}</td>
+				<td>
+					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${on_click_ok}">OK</span>
+				</td>
+			</tr>
+			`;
+		}
+		
+		$('#id_div_cms_top_rank_artist_search_result').html(h);
+	};
+
+	this.DisplayRankTitle = function(){
+		var title = self._country_code;
+		if(self._release_mode == RELEASE_MODE.DRAFT){
+			title += `[Draft][${self._source}]`;
+		}else{
+			title += `[Release][${self._source}]`;
+		}
+
+		$('#id_label_rank_title').html(title);
+	};
+
+	this.DisplayCountryList = function(){
+		var h = '';
+	
+		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
+			var cc = COUNTRY_CODE_LIST[i];
+			var source_list = window._const.__COUNTRY_TOP_100_SOURCE_LIST[cc];
+
+			h += `
+			<div class="border small">
+				<div>${cc}</div>
+			`;
+
+			console.log(cc + ' count ' + source_list.length);
+
+			for(var s=0 ; s<source_list.length ; s++){
+				var source = source_list[s];
+				var on_click = `window._top_rank_control.ChooseCountry('${cc}', '${source}')`;
+
+				h += `
+				<div class="d-flex" style="cursor:pointer" onClick="${on_click}">
+					<div class="col-3 my-auto text-right">${source}</div>
+					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}-${source}"></div>
+				</div>
+				`;
+			}
+
+			h += `
+				</div>
+			`;
+		}
+	
+		$('#id_div_country_list').html(h);
+	};
 }
 

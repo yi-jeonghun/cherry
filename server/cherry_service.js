@@ -384,7 +384,7 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'SELECT artist_uid FROM artist WHERE name=?';
+				var sql_register = `SELECT IF(is_diff_name = 'Y', org_artist_uid, artist_uid) FROM artist WHERE name=?`;
 				var val = [artist_name];
 				conn.query(sql_register, val, function(err, result){
 					if(err){

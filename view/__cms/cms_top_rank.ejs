@@ -77,8 +77,27 @@
 					</div>
 				</div>					
 
-				<!-- MUSIC SEARCH -->
-				<div class="border" style="height: 200px; overflow: auto" id="id_div_search_result"></div>
+				<!-- ARTIST SEARCH / MUSIC SEARCH -->
+				<div class="border" style="height: 200px; overflow: auto">
+					<div class="d-flex">
+						<div class="col-6">
+							<ul class="nav nav-tabs small" style="font-size: 0.5em;">
+								<li class="nav-item">
+									<a class="nav-link active" style="cursor: pointer;" id="id_nav_cms_top_rank_artist" onClick="window._top_rank_control.OnClick_NavTab('artist')">Artist</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" style="cursor: pointer;" id="id_nav_cms_top_rank_music" onClick="window._top_rank_control.OnClick_NavTab('music')">Music</a>
+								</li>
+							</ul>	
+						</div>
+						<div class="col-6 text-right">
+							<input class="small my-auto" type="text" id="id_input_cms_top_rank_artist_search">
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddArtist()">Add</span>
+						</div>
+					</div>
+					<div id="id_div_cms_top_rank_artist_search_result"></div>
+					<div id="id_div_cms_top_rank_music_search_result" style="display: none;"></div>
+				</div>
 
 				<!-- YOUTUBE SEARCH -->
 				<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_youtube_search_result"></div>
