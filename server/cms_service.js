@@ -58,7 +58,7 @@ function CMS_Service(){
 			var conn = null;
 
 			var sql = `
-				SELECT t.rank_num, t.music_uid, t.artist, a.artist_uid, a.is_various, t.title, t.video_id
+				SELECT t.rank_num, t.music_uid, t.artist, t.artist_uid, a.is_various, t.title, t.video_id
 				FROM top_rank_list_draft t
 				LEFT JOIN music m ON t.music_uid=m.music_uid
 				LEFT JOIN artist a ON a.artist_uid=m.artist_uid
@@ -171,10 +171,10 @@ function CMS_Service(){
 
 			// console.log('rank_num ' + music.rank_num + ' music_uid ' + music.music_uid);
 			var sql = `
-			INSERT INTO top_rank_list_draft(country_code, rank_num, music_uid, artist, title, video_id, source) 
-			VALUES(?, ?, ?, ?, ?, ?, ?)
+			INSERT INTO top_rank_list_draft(country_code, rank_num, music_uid, artist, title, video_id, source, artist_uid) 
+			VALUES(?, ?, ?, ?, ?, ?, ?, ?)
 			`;
-			var val = [country_code, music.rank_num, music.music_uid, music.artist, music.title, music.video_id, source];
+			var val = [country_code, music.rank_num, music.music_uid, music.artist, music.title, music.video_id, source, music.artist_uid];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);
@@ -261,6 +261,56 @@ function CMS_Service(){
 		});
 	};
 
+	this.AutoSearchArtistList = function(music_list){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+
+			try{
+				conn = await db_conn.GetConnection();
+				for(var i=0 ; i<music_list.length ; i++){
+					var m = music_list[i];
+					var result = await self._GetArtistUID(conn, m.artist);
+					if(result.ok){
+						music_list[i].artist_uid = result.artist_uid;
+					}
+				}
+				resolve(music_list);
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService AutoSearchArtistList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this._GetArtistUID = async function(conn, artist_name){
+		return new Promise(async function(resolve, reject){
+			var sql = `
+				SELECT IF(is_diff_name = 'Y', org_artist_uid, artist_uid) as artist_uid
+				FROM artist
+				WHERE NAME=?
+				LIMIT 1
+			`;
+			var val = [artist_name];
+			conn.query(sql, val, function(err, result){
+				if(err){
+					console.error(err);
+					reject('FAIL CherryService _GetArtistUID #0');
+				}else{
+					if(result.length > 0){
+						resolve({
+							ok:1,
+							artist_uid:result[0].artist_uid
+						});
+					}else{
+						resolve({ok:0});
+					}
+				}
+			});	
+		});
+	};
+
 	this.AutoSearchMusicList = async function(music_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -269,41 +319,37 @@ function CMS_Service(){
 				conn = await db_conn.GetConnection();
 				for(var i=0 ; i<music_list.length ; i++){
 					var m = music_list[i];
-					var result = await self.GetMusicByArtistAndTitle(conn, m.artist, m.title);
-					if(result.ok){
-						music_list[i].music_uid = result.music.music_uid;
-						music_list[i].video_id = result.music.video_id;
+					if(m.artist_uid != null){
+						var result = await self._GetMusicByArtistAndTitle(conn, m.artist_uid, m.title);
+						if(result.ok){
+							music_list[i].music_uid = result.music.music_uid;
+							music_list[i].video_id = result.music.video_id;
+						}
 					}
 				}
 				resolve(music_list);
 			}catch(err){
 				console.error(err);
-				reject('FAIL CherryService ClearKpopTop100 #1');
+				reject('FAIL CherryService AutoSearchMusicList #1');
 			}finally{
 				if(conn) conn.release();
 			}
 		});
 	};
 
-	this.GetMusicByArtistAndTitle = async function(conn, artist, title){
+	this._GetMusicByArtistAndTitle = async function(conn, artist_uid, title){
 		return new Promise(async function(resolve, reject){
 			var sql = `
 				SELECT m.music_uid, m.video_id
 				FROM music m
 				WHERE m.title=?
-				AND m.artist_uid=
-					(
-					SELECT IF(is_diff_name = 'Y', org_artist_uid, artist_uid)
-					FROM artist
-					WHERE NAME=?
-					LIMIT 1
-					)
+				AND m.artist_uid=?
 			`;
-			var val = [title, artist];
+			var val = [title, artist_uid];
 			conn.query(sql, val, function(err, result){
 				if(err){
 					console.error(err);
-					reject('FAIL CherryService UpdateTopRank_OneRecord #0');
+					reject('FAIL CherryService _GetMusicByArtistAndTitle #0');
 				}else{
 					if(result.length > 0){
 						resolve({

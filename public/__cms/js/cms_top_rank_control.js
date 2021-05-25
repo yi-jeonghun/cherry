@@ -283,7 +283,7 @@ function TopRankControl(){
 						self._music_list_draft.push(music);
 					}
 					self.DisplayMusicList_Draft();
-					self.AutoSearchMusic();			
+					self.AutoSearchArtistAndMusic();			
 				}else{
 					alert(res.err);
 				}
@@ -304,14 +304,14 @@ function TopRankControl(){
 		$('#id_label_ng').text(self._music_list_draft.length - ok_cnt);
 	};
 
-	this.AutoSearchMusic = function(){
+	this.AutoSearchArtistAndMusic = function(){
 		console.log('start auto search ' );
 		var req_data = {
 			music_list: self._music_list_draft
 		};
 
 		$.ajax({
-			url: '/__cms_api/top_rank/auto_search_music_list',
+			url: '/__cms_api/top_rank/auto_search_artist_and_music_list',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -322,8 +322,10 @@ function TopRankControl(){
 
 					for(var i=0 ; i<ret_music_list.length ; i++){
 						var m = ret_music_list[i];
+						self._music_list_draft[i].artist_uid = m.artist_uid;
 						self._music_list_draft[i].video_id = m.video_id;
 						self._music_list_draft[i].music_uid = m.music_uid;
+						$('#id_label_artist_uid_'+i).html(m.artist_uid);
 						$('#id_label_music_uid_'+i).html(m.music_uid);
 						$('#id_text_video_id_'+i).val(m.video_id);
 						self.DisplayVideoImage(i);

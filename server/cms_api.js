@@ -186,9 +186,10 @@ router.post('/top_rank/release_draft', async function(req, res){
 	}
 });
 
-router.post('/top_rank/auto_search_music_list', async function(req, res){
+router.post('/top_rank/auto_search_artist_and_music_list', async function(req, res){
 	try{
 		var music_list = req.body.music_list;
+		music_list = await cms_service.AutoSearchArtistList(music_list);
 		var ret_music_list = await cms_service.AutoSearchMusicList(music_list);
 		res.send({
 			ok: 1,
@@ -198,7 +199,7 @@ router.post('/top_rank/auto_search_music_list', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail /top_rank/auto_search_music_list'
+			err:'Fail /top_rank/auto_search_artist_and_music_list'
 		});
 	}
 });
