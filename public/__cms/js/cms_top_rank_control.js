@@ -112,7 +112,7 @@ function TopRankControl(){
 		};
 
 		$.ajax({
-			url:  '/__cms_api/top_rank/find_or_add_artist',
+			url:  '/__cms_api/find_or_add_artist',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
@@ -130,6 +130,22 @@ function TopRankControl(){
 				}else{
 					alert(res.err);
 				}
+			}
+		});
+	};
+
+	this.OnClick_SearchArtist = function(){
+		var artist_name = $('#id_input_cms_top_rank_artist_search').val().trim();
+		if(artist_name == ''){
+			return;
+		}
+
+		self._SearchArtist(artist_name, function(res){
+			if(res.ok){
+				self._searched_artist_list = res.artist_list;
+				self.DISP_SearchedArtistList();
+			}else{
+				alert(res.err);
 			}
 		});
 	};
