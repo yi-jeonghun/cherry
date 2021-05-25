@@ -221,7 +221,7 @@ function ArtistControl(){
 	this.OnClick_MusicEdit = function(idx){
 		var m = self._music_list[idx];
 		self._music_uid_to_edit = m.music_uid;
-		$('#id_input_cms_artist_music_title').val(m.title);
+		$('#id_input_cms_artist_music_title').val(UTIL_UnescapeHTML(m.title));
 		$('#id_input_cms_artist_music_video_id').val(m.video_id);
 		$('#id_input_cms_artist_music_artist_uid').val(m.artist_uid);
 		$('#id_modal_cms_artist_music_edit').modal('show');

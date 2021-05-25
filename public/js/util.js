@@ -3,6 +3,14 @@ function UTIL_Escape(str){
 	return $('<div>').text(str).html();
 }
 
+function UTIL_UnescapeHTML(str){
+	return str.replace(/&amp;/g, '&')
+	.replace(/&quot;/g, '"')
+	.replace(/&#39;/g, '\'')
+	.replace(/&lt;/g, '<')
+	.replace(/&gt;/g, '>');
+}
+
 function UTIL_ShowCherryToast(msg){
 	$('#id_cherry_toast_text').html(msg);
 	$('.cherry_toast').show();

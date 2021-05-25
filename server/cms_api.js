@@ -6,6 +6,7 @@ var top_rank_parser = require('./top_rank_parser/top_rank_parser');
 var permission_service = require('./permission_service');
 var auth_service = require('./auth_service');
 var randomstring = require("randomstring");
+const util = require('./util');
 
 router.post('/fetch_content_from_url', async function(req, res){
 	try{
@@ -438,7 +439,7 @@ router.post('/get_user_list', async function(req, res){
 
 router.post('/update_music', async function(req, res){
 	try{
-		var title = req.body.title;
+		var title = util.EscapeHTML(req.body.title);
 		var music_uid = req.body.music_uid;
 		var video_id = req.body.video_id;
 		var artist_uid = req.body.artist_uid;
