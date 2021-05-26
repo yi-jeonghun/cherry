@@ -575,4 +575,78 @@ router.post('/update_artist_info', async function(req, res){
 	}
 });
 
+router.post('/get_music_diff_name_list', async function(req, res){
+	try{
+		var music_uid = req.body.music_uid;
+		var music_diff_name_list = await cherry_service.GetMusicDiffNameList(music_uid);
+		res.send({
+			ok: 1,
+			music_diff_name_list: music_diff_name_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_music_diff_name_list'
+		});
+	}
+});
+
+router.post('/add_music_diff_name', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var user_id = req.session.user_info.user_id;
+		var org_music_uid = req.body.org_music_uid;
+		var diff_name = util.EscapeHTML(req.body.diff_name);
+		var artist_uid = req.body.artist_uid;
+		var video_id = req.body.video_id;
+		await cherry_service.AddMusicDiffName(org_music_uid, diff_name, artist_uid, user_id, video_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_music_diff_name'
+		});
+	}
+});
+
+router.post('/delete_music_diff_name', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var music_uid = req.body.music_uid;
+		await cherry_service.DeleteMusicDiffName(music_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_music_diff_name'
+		});
+	}
+});
+
+
 module.exports = router;

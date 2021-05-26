@@ -29,6 +29,8 @@ function TopRankControl(){
 	this._filter_type = FILTER_TYPE.NG;
 	this._youtube = null;
 	this._youtube_searched_video_list = [];
+	this._music_diff_name_list = [];
+	this._working_music_idx = null;
 	
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -150,7 +152,121 @@ function TopRankControl(){
 		});
 	};
 
+	this.OnClick_AddDiffNameOfMusic = function(idx){
+		self._working_music_idx = idx;
+		var m = self._searched_music_list[idx];
+		self.GetMusicDiffNameList(m.music_uid);
+		$('#id_label_cms_top_rank_music_uid').html(m.music_uid);
+		$('#id_input_cms_top_rank_music_title').val(UTIL_UnescapeHTML(m.title));
+		$('#id_div_cms_top_rank_music_diff_name_list').html('');
+		$('#id_input_cms_top_rank_music_diff_name').val('');
+		$('#id_modal_cms_top_rank_music_edit').modal('show');
+	};
+
+	this.OnClick_MusicDiffNameAdd = function(){
+		var diff_name = $('#id_input_cms_top_rank_music_diff_name').val().trim();
+		if(diff_name == ''){
+			return;
+		}
+
+		var m = self._searched_music_list[self._working_music_idx];
+
+		var req_data = {
+			org_music_uid: m.music_uid,
+			diff_name: diff_name,
+			artist_uid: m.artist_uid,
+			video_id: m.video_id
+		};
+		$.ajax({
+			url:  '/__cms_api/add_music_diff_name',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetMusicDiffNameList(m.music_uid);
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_MusicUpdate = function(){
+		var title = $('#id_input_cms_top_rank_music_title').val().trim();
+		if(title == ''){
+			alert('title empty');
+			return;
+		}
+
+		var m = self._searched_music_list[self._working_music_idx];
+		var req_data = {
+			title: title,
+			music_uid: m.music_uid,
+			video_id: m.video_id,
+			artist_uid: m.artist_uid
+		};
+		$.ajax({
+			url:  '/__cms_api/update_music',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					$('#id_modal_cms_top_rank_music_edit').modal('hide');
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_DeleteMusicDiffName = function(music_uid){
+		var req_data = {
+			music_uid: music_uid
+		};
+		$.ajax({
+			url:  '/__cms_api/delete_music_diff_name',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetMusicDiffNameList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+
+	};
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	this.GetMusicDiffNameList = function(music_uid){
+		self._music_diff_name_list = [];
+		var req_data = {
+			music_uid: music_uid
+		};
+		$.ajax({
+			url:  '/__cms_api/get_music_diff_name_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._music_diff_name_list = res.music_diff_name_list;
+					self.DISP_MusicDiffNameList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
 
 	this.GetReleaseTime = function(){
 		$.ajax({
@@ -800,27 +916,44 @@ function TopRankControl(){
 	this.DISP_SearchedMusicList = function(){
 		$('#id_div_cms_top_rank_music_search_result').empty();
 
-		var h = `<table class="table table-sm small">
+		var h = `<table class="table table-sm table-striped small">
 		<tr>
-		<th>Music ID</th>
-		<th>Artist</th>
-		<th>Title</th>
-		<th>Video ID</th>
+			<th>Music ID</th>
+			<th>Artist</th>
+			<th>Title</th>
+			<th>Video ID</th>
+			<th></th>
 		</tr>`;
 
 		for(var i=0 ; i<self._searched_music_list.length ; i++){
 			var m = self._searched_music_list[i];
-
-			var on_click = `window._top_rank_control.UseThisMusicID(${i})`;
+			var on_click_ok = `window._top_rank_control.UseThisMusicID(${i})`;
+			var on_click_plus = `window._top_rank_control.OnClick_AddDiffNameOfMusic(${i})`;
+			var music_uid = m.music_uid;
+			console.log(m.title + ' ' + m.is_diff_name + ' ' + m.org_music_uid);
+			var title_color = 'black';
+			
+			if(m.is_diff_name == 'Y'){
+				music_uid = m.org_music_uid;
+				title_color = '#bbbbbb';
+			}
 
 			h += `
 			<tr>
-				<td>${m.music_uid}</td>
+				<td>${music_uid}</td>
 				<td>${m.artist}</td>
-				<td>${m.title}</td>
+				<td style="color:${title_color}">${m.title}</td>
 				<td>${m.video_id}</td>
-				<td>
-					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${on_click}">OK</span>
+				<td class="text-right">
+			`;
+
+			if(m.is_diff_name == 'N'){
+				h += `
+					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${on_click_ok}">OK</span>
+					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${on_click_plus}"><i class="fas fa-pen"></i></span>
+				`;
+			}
+			h += `
 				</td>
 			</tr>`;
 		}
@@ -937,6 +1070,28 @@ function TopRankControl(){
 		$('#id_img_'+idx).attr('src', img_url);
 	};
 
+	this.DISP_MusicDiffNameList = function(){
+		var h = `
+		<table class="table table-sm table-stripped">
+		`;
+
+		for(var i=0 ; i<self._music_diff_name_list.length ; i++){
+			var m = self._music_diff_name_list[i];
+			var on_click_trash = `window._top_rank_control.OnClick_DeleteMusicDiffName('${m.music_uid}')`;
+			h += `
+			<tr>
+				<td>
+					${m.title}
+					<span class="badge badge-sm badge-primary" style="cursor:poinger" onClick="${on_click_trash}"><i class="fas fa-trash-alt"></i></span>
+				</td>
+			</tr>
+			`;
+		}
+
+		h += '</table>';
+
+		$('#id_div_cms_top_rank_music_diff_name_list').html(h);
+	};
 
 }
 

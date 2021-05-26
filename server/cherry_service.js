@@ -1159,7 +1159,7 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name
+					SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name, m.is_diff_name, m.org_music_uid
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
@@ -1224,7 +1224,10 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
+					SELECT m.music_uid, 
+						a.name AS artist, a.artist_uid, a.is_various, a.member_list_json, 
+						m.title, m.video_id, m.music_uid, u.name user_name,
+						m.is_diff_name, m.org_music_uid
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
@@ -1881,6 +1884,86 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.GetMusicDiffNameList = function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT * FROM music WHERE org_music_uid=?`;
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService GetMusicDiffNameList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService GetMusicDiffNameList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddMusicDiffName = function(org_music_uid, diff_name,  artist_uid, user_id, video_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				var music_uid = await self.GetMusicUID();
+
+				conn = await db_conn.GetConnection();
+				var sql = `
+				INSERT INTO music (music_uid, title, is_diff_name, org_music_uid, artist_uid, user_id, video_id)
+				VALUES            (?,         ?,     'Y',          ?,             ?,          ?,       ?)
+				`;
+				var val = [music_uid, diff_name, org_music_uid, artist_uid, user_id, video_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService GetMusicDiffNameList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService GetMusicDiffNameList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteMusicDiffName = function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				DELETE FROM music WHERE music_uid=?
+				`;
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService DeleteMusicDiffName #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService DeleteMusicDiffName #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 }
 
 module.exports = new CherryService();
