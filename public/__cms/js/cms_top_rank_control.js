@@ -32,7 +32,7 @@ function TopRankControl(){
 	
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
-		self.DisplayCountryList();
+		self.DISP_CountryList();
 		self.GetReleaseTime();
 		self.InitHandle();
 		self.InitKeyHandle();
@@ -71,9 +71,9 @@ function TopRankControl(){
 		self.DISP_UpdateFilterTypeButton();
 
 		if(self._release_mode == RELEASE_MODE.DRAFT){
-			self.DisplayMusicList_Draft();
+			self.DISP_MusicList_Draft();
 		}else if(self._release_mode == RELEASE_MODE.RELEASE){
-			self.DisplayMusicList_Release();
+			self.DISP_MusicList_Release();
 		}
 	};
 
@@ -231,7 +231,7 @@ function TopRankControl(){
 	this.OpenWork = function(){
 		self._music_list_draft = [];
 		self._music_list_release = [];
-		self.DisplayRankTitle();
+		self.DISP_RankTitle();
 		self.FetchTopRank();
 	};
 
@@ -258,11 +258,11 @@ function TopRankControl(){
 				if(res.ok){
 					if(self._release_mode == RELEASE_MODE.DRAFT){
 						self._music_list_draft = res.music_list;
-						self.DisplayMusicList_Draft();
+						self.DISP_MusicList_Draft();
 						self.DisplayDraftStatus();
 					}else if(self._release_mode == RELEASE_MODE.RELEASE){
 						self._music_list_release = res.music_list;
-						self.DisplayMusicList_Release();
+						self.DISP_MusicList_Release();
 					}
 				}else{
 					alert(res.err);
@@ -298,7 +298,7 @@ function TopRankControl(){
 						};
 						self._music_list_draft.push(music);
 					}
-					self.DisplayMusicList_Draft();
+					self.DISP_MusicList_Draft();
 					self.AutoSearchArtistAndMusic();			
 				}else{
 					alert(res.err);
@@ -619,7 +619,7 @@ function TopRankControl(){
 					}
 
 					self._searched_music_list = list1.concat(list2);
-					self.DisplaySearchedMusicList();
+					self.DISP_SearchedMusicList();
 				}else{
 					alert(res.err);
 				}
@@ -725,7 +725,7 @@ function TopRankControl(){
 		}
 	};
 
-	this.DisplayMusicList_Draft = function(){
+	this.DISP_MusicList_Draft = function(){
 		$('#id_div_music_list').empty();
 		var h = '<table class="table table-sm table-striped small">';
 		h += `
@@ -779,7 +779,7 @@ function TopRankControl(){
 		$('#id_div_music_list').html(h);
 	};
 
-	this.DisplayMusicList_Release = function(){
+	this.DISP_MusicList_Release = function(){
 		$('#id_div_music_list').empty();
 		var h = '<table class="table table-sm table-striped small">';
 		h += `
@@ -820,7 +820,7 @@ function TopRankControl(){
 		$('#id_div_music_list').html(h);
 	};
 
-	this.DisplaySearchedMusicList = function(){
+	this.DISP_SearchedMusicList = function(){
 		$('#id_div_cms_top_rank_music_search_result').empty();
 
 		var h = `<table class="table table-sm small">
@@ -892,7 +892,7 @@ function TopRankControl(){
 		$('#id_div_cms_top_rank_artist_search_result').html(h);
 	};
 
-	this.DisplayRankTitle = function(){
+	this.DISP_RankTitle = function(){
 		var title = self._country_code;
 		if(self._release_mode == RELEASE_MODE.DRAFT){
 			title += `[Draft][${self._source}]`;
@@ -903,7 +903,7 @@ function TopRankControl(){
 		$('#id_label_rank_title').html(title);
 	};
 
-	this.DisplayCountryList = function(){
+	this.DISP_CountryList = function(){
 		var h = '';
 	
 		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
