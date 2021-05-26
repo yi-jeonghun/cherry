@@ -29,7 +29,7 @@ router.post('/fetch_content_from_url', async function(req, res){
 
 router.post('/find_or_add_artist', async function(req, res){
 	try{
-		var artist_name = req.body.artist_name;
+		var artist_name = util.EscapeHTML(req.body.artist_name);
 		var artist_uid = null;
 
 		var artist_found_res = await cherry_service.SearchArtist(artist_name);
@@ -64,7 +64,7 @@ router.post('/find_or_add_various_artist', async function(req, res){
 
 		// 개별 artist를 artist table에 입력.
 		for (let i = 0; i < artist_name_list.length; i++) {
-			const artist_name = artist_name_list[i];
+			const artist_name = util.EscapeHTML(artist_name_list[i]);
 			console.log('artist_name ' + artist_name);
 
 			var artist_found_res = await cherry_service.SearchArtist(artist_name);
