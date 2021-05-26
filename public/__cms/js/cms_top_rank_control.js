@@ -259,7 +259,7 @@ function TopRankControl(){
 					if(self._release_mode == RELEASE_MODE.DRAFT){
 						self._music_list_draft = res.music_list;
 						self.DISP_MusicList_Draft();
-						self.DisplayDraftStatus();
+						self.DISP_DraftStatus();
 					}else if(self._release_mode == RELEASE_MODE.RELEASE){
 						self._music_list_release = res.music_list;
 						self.DISP_MusicList_Release();
@@ -307,19 +307,6 @@ function TopRankControl(){
 		});	
 	};
 
-	this.DisplayDraftStatus = function(){
-		$('#id_label_total').text(self._music_list_draft.length);
-		var ok_cnt = 0;
-		for(var i=0 ; i<self._music_list_draft.length ; i++){
-			var m = self._music_list_draft[i];
-			if(m.music_uid != null){
-				ok_cnt++;
-			}
-		}
-		$('#id_label_ok').text(ok_cnt);
-		$('#id_label_ng').text(self._music_list_draft.length - ok_cnt);
-	};
-
 	this.AutoSearchArtistAndMusic = function(){
 		console.log('start auto search ' );
 		var req_data = {
@@ -344,9 +331,9 @@ function TopRankControl(){
 						$('#id_label_artist_uid_'+i).html(m.artist_uid);
 						$('#id_label_music_uid_'+i).html(m.music_uid);
 						$('#id_text_video_id_'+i).val(m.video_id);
-						self.DisplayVideoImage(i);
+						self.DISP_VideoImage(i);
 					}
-					self.DisplayDraftStatus();
+					self.DISP_DraftStatus();
 				}else{
 					alert(res.err);
 				}
@@ -392,9 +379,9 @@ function TopRankControl(){
 					$('#id_label_artist_uid_'+self._working_idx).html(res.music_info.artist_uid);
 					$('#id_label_is_various_'+self._working_idx).html(res.music_info.is_various=='Y'?'O':'');
 
-					self.DisplayVideoImage(self._working_idx);
+					self.DISP_VideoImage(self._working_idx);
 					self.NeedToSave();
-					self.DisplayDraftStatus();
+					self.DISP_DraftStatus();
 				}else{
 					console.log('res.err_code ' + res.err_code);
 					if(res.err_code == -2){
@@ -422,17 +409,7 @@ function TopRankControl(){
 
 		$(ele).val(video_id);
 		self._music_list_draft[idx].video_id = video_id;
-		self.DisplayVideoImage(idx);
-	};
-
-	this.DisplayVideoImage = function(idx){
-		var video_id = self._music_list_draft[idx].video_id;
-		var img_url = '';
-		if(video_id != null && video_id != ''){
-			img_url = `https://img.youtube.com/vi/${video_id}/0.jpg`;
-		}
-		
-		$('#id_img_'+idx).attr('src', img_url);
+		self.DISP_VideoImage(idx);
 	};
 
 	this.SearchYoutube = function(idx){
@@ -636,9 +613,9 @@ function TopRankControl(){
 		$('#id_label_artist_uid_'+self._working_idx).html(self._searched_music_list[searched_music_uidx].artist_uid);
 		$('#id_label_is_various_'+self._working_idx).html(self._searched_music_list[searched_music_uidx].is_various=='Y'?'O':'');
 		$('#id_text_video_id_'+self._working_idx).val(self._searched_music_list[searched_music_uidx].video_id);
-		self.DisplayVideoImage(self._working_idx);
+		self.DISP_VideoImage(self._working_idx);
 		self.NeedToSave();
-		self.DisplayDraftStatus();
+		self.DISP_DraftStatus();
 	};
 
 	this.Save = function(){
@@ -936,5 +913,30 @@ function TopRankControl(){
 	
 		$('#id_div_country_list').html(h);
 	};
+
+	this.DISP_DraftStatus = function(){
+		$('#id_label_total').text(self._music_list_draft.length);
+		var ok_cnt = 0;
+		for(var i=0 ; i<self._music_list_draft.length ; i++){
+			var m = self._music_list_draft[i];
+			if(m.music_uid != null){
+				ok_cnt++;
+			}
+		}
+		$('#id_label_ok').text(ok_cnt);
+		$('#id_label_ng').text(self._music_list_draft.length - ok_cnt);
+	};
+
+	this.DISP_VideoImage = function(idx){
+		var video_id = self._music_list_draft[idx].video_id;
+		var img_url = '';
+		if(video_id != null && video_id != ''){
+			img_url = `https://img.youtube.com/vi/${video_id}/0.jpg`;
+		}
+		
+		$('#id_img_'+idx).attr('src', img_url);
+	};
+
+
 }
 
