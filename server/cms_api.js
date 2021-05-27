@@ -55,51 +55,6 @@ router.post('/find_or_add_artist', async function(req, res){
 	}
 });
 
-router.post('/find_or_add_various_artist', async function(req, res){
-	try{
-		var artist_name_list = req.body.artist_name_list;
-		var member_artist_uid_list = [];
-		var artist_uid = null;
-
-		// 개별 artist를 artist table에 입력.
-		for (let i = 0; i < artist_name_list.length; i++) {
-			const artist_name = util.EscapeHTML(artist_name_list[i]);
-
-			var artist_found_res = await cherry_service.SearchArtist(artist_name);
-			if(artist_found_res.found){
-				member_artist_uid_list[i] = artist_found_res.artist_uid;
-			}else{
-				member_artist_uid_list[i] = await cherry_service.AddArtist(artist_name, false);
-			}
-		}
-
-		//artist_uid를 모아서 동일 멤버로 구성된 VA artist ID를 찾는다
-		//만약에 없으면 신규로 추가한다.
-		var search_result = await cherry_service.SearchVariousArtist(member_artist_uid_list);
-		if(search_result.found == false){
-			var sum_artist_name = artist_name_list.join(', ');
-
-			artist_uid = await cherry_service.AddArtist(sum_artist_name, true);
-			for(var i=0 ; i<member_artist_uid_list.length ; i++){
-				await cherry_service.AddVariousArtist(artist_uid, member_artist_uid_list[i]);
-			}
-		}else{
-			artist_uid = search_result.artist_uid;
-		}
-
-		res.send({
-			ok: 1,
-			artist_uid: artist_uid
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'fail find_or_add_various_artist'
-		});
-	}
-});
-
 router.post('/top_rank/fetch_draft_data', async function(req, res){
 	try{
 		var country_code = req.body.country_code;

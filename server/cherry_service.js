@@ -12,7 +12,7 @@ function CherryService(){
 				var artist_uid = await self.GetArtistUID();
 				conn = await db_conn.GetConnection();
 				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid )' +
-					' VALUES (?, ?, ?, ?)';
+					' VALUES (?, ?, ?)';
 				
 				var val_various = is_various == true ? 'Y' : 'N';
 				var val = [artist_name, val_various, artist_uid];
