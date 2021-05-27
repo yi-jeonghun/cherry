@@ -21,8 +21,21 @@ function Control(){
 	this.Init = function(){
 		self.InitComponentHandle();
 		self.ProcessCountryCode();
+		self.DISP_Top100List();
 		window._router.LoadInitRoute();
 		return self;
+	};
+
+	this.InitComponentHandle = function(){
+		$('#id_btn_menu_open').on('click', self.OpenMenu);
+		$('#id_btn_close_menu').on('click', self.CloseMenu);
+		$('#id_btn_flag').on('click', self.OnClickFlag);
+
+		//MENU Buttons
+		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
+		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
+		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
+		$('#id_btn_menu_like').on('click', self.OnClickMenuLike);
 	};
 
 	this.ProcessCountryCode = function(){
@@ -133,20 +146,6 @@ function Control(){
 		return detected_country;
 	};
 
-	this.InitComponentHandle = function(){
-		// console.log('InitComponentHandle ' );
-		$('#id_btn_menu_open').on('click', self.OpenMenu);
-		$('#id_btn_close_menu').on('click', self.CloseMenu);
-		$('#id_btn_flag').on('click', self.OnClickFlag);
-
-		//MENU Buttons
-		$('#id_btn_menu_top_100').on('click', self.OnClickMenuTop100);
-		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
-		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
-		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
-		$('#id_btn_menu_like').on('click', self.OnClickMenuLike);
-	};
-
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	this.OnClick_id_btn_menu_open_playlist = function(){
@@ -154,8 +153,8 @@ function Control(){
 		self.CloseMenu();
 	};
 
-	this.OnClickMenuTop100 = function(){
-		window._router.Go(`/${window._country_code}/top_rank.go`);
+	this.OnClickMenuTop100 = function(source){
+		window._router.Go(`/${window._country_code}/top_rank.go?s=${source}`);
 		self.CloseMenu();
 	};
 
@@ -214,5 +213,27 @@ function Control(){
 
 		window.localStorage.setItem('COUNTRY_CODE', country_code);
 		window.document.location.href = "/";
+	};
+
+	///////////////////////////////////////////////////////////////////////
+
+	this.DISP_Top100List = function(){
+		var cc = window._country_code;
+		var source_list = window._top_100_source.list[cc];
+		
+		var h = '';
+
+		for(var s=0 ; s<source_list.length ; s++){
+			var source = source_list[s];
+			// console.log('source ' + source);
+			var on_click = `window._main.OnClickMenuTop100('${source}')`;
+			h += `
+			<button onClick="${on_click}" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+				Top 100 (${source})
+			</button>
+			`;
+		}
+
+		$('#id_div_index_menu_top_rank_list').html(h);
 	};
 }

@@ -1,16 +1,14 @@
 (function(exports) {
-
-  var COUNTRY_TOP_100_SOURCE_LIST = [];
-
-  COUNTRY_TOP_100_SOURCE_LIST['US'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['GB'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['KR'] = ['apple', 'melon'];
-  COUNTRY_TOP_100_SOURCE_LIST['DE'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['FR'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['AU'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['CA'] = ['apple'];
-  COUNTRY_TOP_100_SOURCE_LIST['BR'] = ['apple'];
-
-  exports.__COUNTRY_TOP_100_SOURCE_LIST = COUNTRY_TOP_100_SOURCE_LIST;
-  
-  }) (typeof exports === 'undefined'? window._const={}: exports);
+  var list = [];
+  {
+    list['US'] = ['apple'];
+    list['GB'] = ['apple'];
+    list['KR'] = ['melon', 'apple'];
+    list['DE'] = ['apple'];
+    list['FR'] = ['apple'];
+    list['AU'] = ['apple'];
+    list['CA'] = ['apple'];
+    list['BR'] = ['apple'];  
+  }
+  exports.list = list;  
+  }) (typeof exports === 'undefined'? window._top_100_source={}: exports);

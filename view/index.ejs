@@ -52,7 +52,7 @@
 				</div>
 				<%- include('include/google_auth_html.ejs') %>
 				<hr></hr>
-				<div>
+				<div id="id_div_index_menu_top_rank_list">
 					<button id="id_btn_menu_top_100" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Top 100
 					</button>
@@ -191,11 +191,13 @@
 <% if(dev_mode){ %>
 	<script type="text/javascript" src="/js/const/country_code.js"></script>
 	<script type="text/javascript" src="/js/const/country_data.js"></script>
+	<script type="text/javascript" src="/js/const/top_100_source.js"></script>
 	<script type="text/javascript" src="/js/lang.js"></script>
 
 	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
 	<script type="text/javascript" src="/js/cherry_player.js"></script>
+
 
 	<!-- control.js 항상 마지막에 위치해야 함. -->
 	<script type="text/javascript" src="/js/control.js"></script>

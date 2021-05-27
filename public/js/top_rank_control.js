@@ -1,8 +1,21 @@
-function TopRankControl(){
+function TopRankControl(source){
 	var self = this;
 	this._music_list = [];
+	this._source = source;
+	this._source_list = [];
 
 	this.Init = function(){
+
+		{
+			self._source_list = window._top_100_source.list[window._country_code];
+			console.log('self._source ' + self._source);
+			if(self._source === undefined || self._source == null || self._source == ''){
+				console.log('no source ');
+				self._source = self._source_list[0];
+			}
+			$('#id_label_top_rank_source').html(self._source);
+		}
+
 		self.GetMusicList();
 		self.InitComponentHanele();
 		return self;
@@ -17,11 +30,9 @@ function TopRankControl(){
 	};
 
 	this.GetMusicList = function(){
-		//FIXME : 향후 실제 source로 변경해야 함.
-		//현재는 apple만 지원하므로 'apple'로 hard code 하였음.
 		var req_data = {
 			country_code: window._country_code,
-			source:'apple'
+			source: self._source
 		};
 
 		$.ajax({

@@ -1027,7 +1027,7 @@ function TopRankControl(){
 	
 		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
 			var cc = COUNTRY_CODE_LIST[i];
-			var source_list = window._const.__COUNTRY_TOP_100_SOURCE_LIST[cc];
+			var source_list = window._top_100_source.list[cc];
 
 			h += `
 			<div class="border small">

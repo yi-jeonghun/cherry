@@ -75,8 +75,10 @@ router.get('/playlist_embed.go', async function(req, res){
 //###################################################################################
 //inline pages
 router.get('/top_rank.vu', async function(req, res){
+	var source = req.query.s;
 	var data = {
-		dev_mode: _dev_mode
+		dev_mode: _dev_mode,
+		source: source
 	};
 	res.render('top_rank', data);
 });

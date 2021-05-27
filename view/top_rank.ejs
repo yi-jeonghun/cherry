@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-8">
-			<h5>Top 100</h5>
+			<h5>Top 100 - <span id="id_label_top_rank_source"></span></h5>
 		</div>
 		<div class="col-4 text-right">
 			<!-- FIXME -->
@@ -25,7 +25,7 @@
 <script type="text/javascript" src="/js/top_rank_control.js"></script>
 <script>
 $('document').ready(function(){
-	window._top_rank_control = new TopRankControl().Init();
+	window._top_rank_control = new TopRankControl('<%=source%>').Init();
 });
 
 function Top_Rank_ListenMusic(idx){

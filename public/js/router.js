@@ -19,7 +19,9 @@ function Router(){
 		var pathname = document.location.pathname;
 		var search = document.location.search;
 		if(pathname == '/'){
-			self.Go(`/${window._country_code}/top_rank.go`);
+			var source_list = window._top_100_source.list[window._country_code];
+			var source = source_list[0];
+			self.Go(`/${window._country_code}/top_rank.go?s=${source}`);
 		}else{
 			var path = pathname + search;
 			self.Go(path);
@@ -61,7 +63,7 @@ function Router(){
 		switch(feature){
 			case 'top_rank.go':
 				$('#id_router-top_rank').show();
-				self.GoTo_TopRank();
+				self.GoTo_TopRank(args, arg_list);
 				break;
 			case 'artist.go':
 				$('#id_router-artist').show();
@@ -94,7 +96,7 @@ function Router(){
 			}
 	};
 
-	this.GoTo_TopRank = function(){
+	this.GoTo_TopRank = function(args, arg_list){
 		{
 			var country_name = COUNTRY_NAME_LIST[window._country_code];
 			var title = country_name + ' Top 100 - Cherry Music [' + country_name + ']';
@@ -104,7 +106,7 @@ function Router(){
 		}
 
 		var target_div = 'id_router-top_rank';
-		var route_url = '/top_rank.vu';
+		var route_url = '/top_rank.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 
