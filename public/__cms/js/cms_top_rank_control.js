@@ -473,13 +473,14 @@ function TopRankControl(){
 
 	this.AddMusic = function(){
 		var req_data = {
+			dj_user_id: window._dj_selector.API_Get_Choosed_DJs_UserID(),
 			artist_uid: self._music_list_draft[self._working_idx].artist_uid,
 			title:      self._music_list_draft[self._working_idx].title,
 			video_id:   self._music_list_draft[self._working_idx].video_id
 		};
 
 		$.ajax({
-			url: '/cherry_api/add_music',
+			url: '/__cms_api/add_music',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
