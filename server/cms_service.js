@@ -560,6 +560,38 @@ function CMS_Service(){
 		});
 	};
 
+	this.UpdateMusicOfDiffNames = async function(music_uid, video_id, artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE music SET ? WHERE ?`;
+				var val = [
+					{
+						video_id:   video_id,
+						artist_uid: artist_uid
+					},
+					{
+						org_music_uid:music_uid
+					} 
+				];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpdateMusicOfDiffNames #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpdateMusicOfDiffNames #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.UpgradeUserToAdmin = function(user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
