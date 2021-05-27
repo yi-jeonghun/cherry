@@ -143,28 +143,8 @@ function ArtistControl(){
 			return;
 		}
 
-		var artist_name_list = [];
-		var is_various_artist = false;
-		//various artist인지 확인.
-		{
-			artist_name_list = artist_name.split(',');
-
-			for(var i=0 ; i<artist_name_list.length ; i++){
-				artist_name_list[i] = artist_name_list[i].trim();
-			}
-
-			console.log('_name.length ' + artist_name_list.length);
-			if(artist_name_list.length > 1){
-				is_various_artist = true;
-			}
-		}
-
 		if(self._artist_edit_mode == ARTIST_EDIT_MODE.NEW){
-			if(is_various_artist){
-				self.FindOrAddVariousArtist(artist_name_list);
-			}else{
-				self.FindOrAddArtist(artist_name);
-			}
+			self.FindOrAddArtist(artist_name);
 		}else if(self._artist_edit_mode == ARTIST_EDIT_MODE.EDIT){
 			var req_data = {
 				artist_uid: self._selected_artist_uid,
@@ -556,27 +536,6 @@ function ArtistControl(){
 		};
 		$.ajax({
 			url: '/__cms_api/find_or_add_artist',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self.OnChooseArtist(res.artist_uid);
-					$('#id_modal_cms_artist_edit').modal('hide');
-				}else{
-					alert(res.err);
-				}
-			}
-		});
-	};
-
-	this.FindOrAddVariousArtist = function(artist_name_list){
-		var req_data = {
-			artist_name_list: artist_name_list
-		};
-		$.ajax({
-			url: '/__cms_api/find_or_add_various_artist',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
