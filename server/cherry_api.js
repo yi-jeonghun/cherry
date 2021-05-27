@@ -168,51 +168,6 @@ router.post('/add_music', async function(req, res){
 	}
 });
 
-router.post('/update_music', async function(req, res){
-	try{
-		var req_data = req.body;
-		var music = req_data.music;
-		var artist_uid = '';
-
-		//search artist
-		var artist_found_res = await cherry_service.SearchArtist(music.artist);
-		console.log('search result ' + artist_found_res.found);
-		if(artist_found_res.found == false){
-			artist_uid = await cherry_service.AddArtist(music.artist);
-			console.log('add result ' + artist_uid);
-		}else{
-			artist_uid = artist_found_res.artist_uid;
-			console.log('found id ' + artist_uid);
-		}
-
-		var music_info = {
-			music_uid:  req_data.music_uid,
-			artist_uid: artist_uid,
-			title:     music.title,
-			video_id:  music.video_id
-		};
-
-		var found = await cherry_service.FindSameMusic(music_info);
-		if(found){
-			res.send({
-				ok: 0,
-				err: '이미 등록됨'
-			});
-		}else{
-			await cherry_service.UpdateMusic(music_info);
-			res.send({
-				ok: 1
-			});
-		}
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to add Music'
-		});
-	}
-});
-
 router.post('/delete_music', async function(req, res){
 	try{
 		if(permission_service.IsAdmin(req.session.user_info) == false){

@@ -241,25 +241,7 @@ function UpdateMusic(){
 
 	console.log('req music_uid ' + req_data.music_uid);
 
-	$.ajax({
-		url: '/cherry_api/update_music',
-		type: 'POST',
-		data: JSON.stringify(req_data),
-		contentType: 'application/json; charset=utf-8',
-		dataType: 'json',
-		success: function (res) {
-			if(res.ok){
-				_music_uid_for_update = null;
-				_cur_mode = EDIT_MODE.ADD;
-				$('#id_btn_add_ok').html('OK');
-				alert('Success');
-				ClearForm();
-				GetMusicList();
-			}else{
-				alert(res.err);
-			}
-		}
-	});
+
 }
 
 function SearchMusic(){
