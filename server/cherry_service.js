@@ -1096,7 +1096,7 @@ function CherryService(){
 				conn = await db_conn.GetConnection();
 				console.log('artist_uid ' + artist_uid);
 				var sql = `
-					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
+					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
@@ -1190,7 +1190,7 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-					SELECT m.music_uid, a.name AS artist, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
+					SELECT m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name
 					FROM music m
 					JOIN artist a	ON m.artist_uid = a.artist_uid
 					JOIN user u ON m.user_id = u.user_id
@@ -1224,7 +1224,7 @@ function CherryService(){
 				conn = await db_conn.GetConnection();
 				var sql = `
 					SELECT m.music_uid, 
-						a.name AS artist, a.artist_uid, a.is_various, a.member_list_json, 
+						a.name AS artist, a.artist_uid, a.is_various, 
 						m.title, m.video_id, m.music_uid, u.name user_name,
 						m.is_diff_name, m.org_music_uid
 					FROM music m 
@@ -1631,7 +1631,7 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, a.member_list_json, m.title, m.video_id, m.music_uid, u.name user_name
+				SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name
 				FROM music m 
 				JOIN artist a ON m.artist_uid = a.artist_uid 
 				JOIN user u ON m.user_id = u.user_id
@@ -1991,6 +1991,8 @@ function CherryService(){
 			}
 		});		
 	};
+
+	
 
 }
 

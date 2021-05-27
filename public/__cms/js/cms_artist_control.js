@@ -918,8 +918,9 @@ function ArtistControl(){
 			$('#id_checkbox_cms_artist_is_various').prop('checked', false);
 		}
 
-		var member_list = JSON.parse(self._artist_info.member_list_json);
-		self.DISP_MemberList(member_list);
+		//FIXME LEEJH
+		// var member_list = JSON.parse(self._artist_info.member_list_json);
+		// self.DISP_MemberList(member_list);
 		self.DISP_DiffNameList();
 	};
 

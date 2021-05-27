@@ -93,7 +93,7 @@ function CMS_Service(){
 			console.log('country_code ' + country_code);
 
 			var sql = `
-				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, a.is_various, a.member_list_json, m.video_id, u.name user_name
+				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, a.is_various, m.video_id, u.name user_name
 				FROM top_rank_list t
 				JOIN music m ON t.music_uid=m.music_uid
 				JOIN artist a ON a.artist_uid=m.artist_uid

@@ -349,22 +349,22 @@ function CherryPlayer(){
 			var num = (i*1) + 1;
 			var artist_list = [];
 			{
-				if(m.is_various == 'Y'){
-					var member_list = JSON.parse(m.member_list_json);
-					for(var j=0 ; j<member_list.length ; j++){
-						var name = member_list[j].name;
-						var artist_uid = member_list[j].artist_uid;
-						artist_list.push({
-							name: name,
-							onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
-						});
-					}
-				}else{
+				// if(m.is_various == 'Y'){
+				// 	var member_list = JSON.parse(m.member_list_json);
+				// 	for(var j=0 ; j<member_list.length ; j++){
+				// 		var name = member_list[j].name;
+				// 		var artist_uid = member_list[j].artist_uid;
+				// 		artist_list.push({
+				// 			name: name,
+				// 			onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
+				// 		});
+				// 	}
+				// }else{
 					artist_list.push({
 						name: m.artist,
 						onclick: `window._cherry_player.GoToArtist('${m.artist}', '${m.artist_uid}')`
 					});
-				}
+				// }
 			}
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
@@ -542,22 +542,22 @@ function CherryPlayer(){
 
 		var artist_list = [];
 		{
-			if(music.is_various == 'Y'){
-				var member_list = JSON.parse(music.member_list_json);
-				for(var j=0 ; j<member_list.length ; j++){
-					var name = member_list[j].name;
-					var artist_uid = member_list[j].artist_uid;
-					artist_list.push({
-						name: name,
-						onclick: `window._cherry_player.OnClickArtist('${name}', '${artist_uid}')`
-					});
-				}
-			}else{
+			// if(music.is_various == 'Y'){
+			// 	var member_list = JSON.parse(music.member_list_json);
+			// 	for(var j=0 ; j<member_list.length ; j++){
+			// 		var name = member_list[j].name;
+			// 		var artist_uid = member_list[j].artist_uid;
+			// 		artist_list.push({
+			// 			name: name,
+			// 			onclick: `window._cherry_player.OnClickArtist('${name}', '${artist_uid}')`
+			// 		});
+			// 	}
+			// }else{
 				artist_list.push({
 					name: music.artist,
 					onclick: `window._cherry_player.OnClickArtist('${music.artist}', '${music.artist_uid}')`
 				});
-			}
+			// }
 		}
 		if(music.is_various == 'Y'){
 

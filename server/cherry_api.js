@@ -355,6 +355,7 @@ router.post('/top_rank/fetch_release_data', async function(req, res){
 		var country_code = req.body.country_code;
 		var source = req.body.source;
 		var music_list = await cms_service.GetTopRankReleaseData(country_code, source);
+
 		res.send({
 			ok: 1,
 			music_list: music_list
