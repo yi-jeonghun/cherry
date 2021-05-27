@@ -480,9 +480,11 @@ function TopRankControl(){
 
 		var req_data = {
 			dj_user_id: dj_user_id,
-			artist_uid: self._music_list_draft[self._working_idx].artist_uid,
-			title:      self._music_list_draft[self._working_idx].title,
-			video_id:   self._music_list_draft[self._working_idx].video_id
+			music:{
+				artist_uid: self._music_list_draft[self._working_idx].artist_uid,
+				title:      self._music_list_draft[self._working_idx].title,
+				video_id:   self._music_list_draft[self._working_idx].video_id
+			}
 		};
 
 		$.ajax({
