@@ -1964,6 +1964,35 @@ function CherryService(){
 		});
 	};
 
+	this.GetVAMemberList = function(artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT a.name, av.member_artist_uid as artist_uid
+				FROM artist_various av 
+				JOIN artist a ON av.member_artist_uid=a.artist_uid
+				where av.artist_uid=?
+				`;
+				var val = [artist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService GetVAMemberList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService GetVAMemberList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});		
+	};
+
 }
 
 module.exports = new CherryService();

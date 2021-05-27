@@ -93,7 +93,7 @@ async function GetArtistList(){
 					}
 
 					{
-						var member_list = JSON.parse(artist.member_list_json);
+						var member_list = await cherry_service.GetVAMemberList(artist.artist_uid);
 						for(var m=0 ; m<member_list.length ; m++){
 							var encoded_name = member_list[m].name;
 							var artist_uid = member_list[m].artist_uid;
