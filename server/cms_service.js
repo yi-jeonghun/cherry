@@ -241,10 +241,10 @@ function CMS_Service(){
 				}else{
 					if(result.affectedRows == 0){
 						sql = `
-						INSERT INTO top_rank_info (country_code, release_time)
-						VALUES(?, CURRENT_TIMESTAMP())
+						INSERT INTO top_rank_info (country_code, release_time, source)
+						VALUES(?, CURRENT_TIMESTAMP(), ?)
 						`;
-						val = [country_code];
+						val = [country_code, source];
 						conn.query(sql, val, function(err1, result1){
 							if(err1){
 								console.error(err);
