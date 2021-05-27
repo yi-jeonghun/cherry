@@ -68,7 +68,14 @@
 									<div>
 										artist_uid : <span id="id_label_cms_artist_artist_uid"></span>
 									</div>
-									<div>Is Various : <span id="id_label_cms_artist_is_various"></span></div>
+									<div>
+										Is Various : 
+										<span id="id_label_cms_artist_is_various"></span>
+										<input type="checkbox" id="id_checkbox_cms_artist_is_various">
+										<span class="badge badge-sm badge-primary" style="cursor:pointer" onClick="window._artist_control.OnClick_Modal_AddMemberArtist()">
+											Add Member
+										</span>
+									</div>
 									<!-- VA Member list -->
 									<div id="id_div_cms_artist_member_list"></div>
 								</div>
@@ -204,6 +211,30 @@
   </div>
 </div>
 
+<div id="id_modal_cms_artist_add_member_artist" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Member Artist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<div>
+					<input class="form-control" id="id_input_cms_artist_member_artist" autocomplete="off">
+				</div>
+				<div id="id_div_cms_artist_member_searched_list">
+					sdf
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary" id="id_btn_cms_artist_diff_name_edit_ok">OK</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 <script type="text/javascript" src="/js/cherry_player.js"></script>

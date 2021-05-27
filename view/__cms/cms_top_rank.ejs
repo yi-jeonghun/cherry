@@ -82,7 +82,7 @@
 				<!-- ARTIST SEARCH / MUSIC SEARCH -->
 				<div class="border" style="height: 200px; overflow: auto">
 					<div class="d-flex">
-						<div class="col-6">
+						<div class="col-4">
 							<ul class="nav nav-tabs small" style="font-size: 0.5em;">
 								<li class="nav-item">
 									<a class="nav-link active" style="cursor: pointer;" id="id_nav_cms_top_rank_artist" onClick="window._top_rank_control.OnClick_NavTab('artist')">Artist</a>
@@ -92,9 +92,11 @@
 								</li>
 							</ul>	
 						</div>
-						<div class="col-6 text-right">
-							<input class="small my-auto" type="text" id="id_input_cms_top_rank_artist_search">
-							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddArtist()">Add</span>
+						<div class="col-5">
+							<input class="small my-auto" style="width: 100%;" type="text" id="id_input_cms_top_rank_artist_search">
+						</div>
+						<div class="col-3 text-right">
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddArtist()">+Artist</span>
 							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_SearchArtist()">Search</span>
 						</div>
 					</div>

@@ -648,5 +648,58 @@ router.post('/delete_music_diff_name', async function(req, res){
 	}
 });
 
+router.post('/update_artist_is_various', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var artist_uid = req.body.artist_uid;
+		var is_various = req.body.is_various;
+		await cms_service.UpdateArtistIsVarious(artist_uid, is_various);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_artist_is_various'
+		});
+	}
+});
+
+router.post('/add_various_artist', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var artist_uid = req.body.artist_uid;
+		var member_artist_uid = req.body.member_artist_uid;
+		await cherry_service.AddVariousArtist(artist_uid, member_artist_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_various_artist'
+		});
+	}
+});
 
 module.exports = router;

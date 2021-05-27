@@ -29,6 +29,7 @@ function ArtistControl(){
 	this._music_uid_to_edit = null;
 	this._artist_list_type = ARTIST_LIST_TYPE.FAVORITE;
 	this._artist_searched_list = [];
+	this._member_artist_searched_list = [];
 	this._cms_favorite_artist_list = [];
 	this._artist_info = null;
 	this._artist_diff_name_list = [];
@@ -67,6 +68,8 @@ function ArtistControl(){
 		$('#id_btn_cms_artist_diff_name_edit_ok').on('click', self.OnClick_id_btn_cms_artist_diff_name_edit_ok);
 		$('#id_btn_cms_artist_edit_artist').on('click', self.OnClick_id_btn_cms_artist_edit_artist);
 		$('#id_btn_cms_artist_delete_artist').on('click', self.OnClick_id_btn_cms_artist_delete_artist);
+		$('#id_checkbox_cms_artist_is_various').on('click', self.OnClick_id_checkbox_cms_artist_is_various);
+		$('#id_input_cms_artist_member_artist').keyup(self.SearchMemberArtist);;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -489,6 +492,37 @@ function ArtistControl(){
 		});
 	};
 
+	this.OnClick_id_checkbox_cms_artist_is_various = function(){
+		if(self._selected_artist_uid == null){
+			return;
+		}
+		var is_various = $('#id_checkbox_cms_artist_is_various').prop('checked');
+
+		var req_data = {
+			artist_uid: self._selected_artist_uid,
+			is_various: is_various
+		};
+		$.ajax({
+			url: '/__cms_api/update_artist_is_various',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetArtistInfo();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_Modal_AddMemberArtist = function(){
+		console.log('OnClick_Modal_AddMemberArtist ' );
+		$('#id_modal_cms_artist_add_member_artist').modal('show');
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 
 	this.FindOrAddArtist = function(artist_name){
@@ -639,6 +673,58 @@ function ArtistControl(){
 					}else{
 						alert(res.err_msg);
 					}
+				}
+			}
+		});
+	};
+
+	this.SearchMemberArtist = function(){
+		var keyword = $('#id_input_cms_artist_member_artist').val().trim();
+		if(keyword == ''){
+			return;
+		}
+
+		console.log('keyword ' + keyword);
+
+		var req_data = {
+			keyword: keyword
+		};
+
+		$.ajax({
+			url: '/cherry_api/search_artist_like',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					// console.log('res.artist_list ' + res.artist_list.length);
+					self._member_artist_searched_list = res.artist_list;
+					self.DISP_SearchedMemberArtistList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.AddMemberArtist = function(member_artist_uid){
+		var req_data = {
+			artist_uid: self._selected_artist_uid,
+			member_artist_uid: member_artist_uid
+		};
+		
+		$.ajax({
+			url: '/__cms_api/add_various_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+
+				}else{
+					alert(res.err);
 				}
 			}
 		});
@@ -826,8 +912,10 @@ function ArtistControl(){
 		$('#id_label_cms_artist_artist_uid').html(self._artist_info.artist_uid);
 		if(self._artist_info.is_various == 'Y'){
 			$('#id_label_cms_artist_is_various').html('Y');
+			$('#id_checkbox_cms_artist_is_various').prop('checked', true);
 		}else{
 			$('#id_label_cms_artist_is_various').html('N');
+			$('#id_checkbox_cms_artist_is_various').prop('checked', false);
 		}
 
 		var member_list = JSON.parse(self._artist_info.member_list_json);
@@ -882,5 +970,33 @@ function ArtistControl(){
 		}
 		
 		$('#id_div_cms_artist_diff_name_list').html(h);
+	};
+
+	this.DISP_SearchedMemberArtistList = function(){
+		console.log('self._member_artist_searched_list ' + self._member_artist_searched_list.length);
+		var h = `
+		<table class="table table-sm table-stripped small">
+		<tr>
+			<th>AID</th>
+			<th>Name</th>
+			<th>DN</th>
+		</tr>
+		`;
+		for(var i=0 ; i<self._member_artist_searched_list.length ; i++){
+			var m = self._member_artist_searched_list[i];
+			var artist_uid = m.artist_uid;
+			if(m.is_diff_name == 'Y'){
+				artist_uid = m.org_artist_uid;
+			}
+			var on_click = `window._artist_control.AddMemberArtist('${artist_uid}')`;
+			h += `
+			<tr onClick="${on_click}" style="cursor:pointer">
+				<td>${artist_uid}</td>
+				<td>${m.name}</td>
+				<td>${m.is_diff_name}</td>
+			</tr>
+			`;
+		}
+		$('#id_div_cms_artist_member_searched_list').html(h);
 	};
 }

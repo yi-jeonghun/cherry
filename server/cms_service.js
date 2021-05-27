@@ -590,6 +590,38 @@ function CMS_Service(){
 			}
 		});
 	};
+
+	this.UpdateArtistIsVarious = function(artist_uid, is_various){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE artist SET ? WHERE ?`;
+				var val = [
+					{
+						is_various: is_various?'Y':'N'
+					},
+					{
+						artist_uid:artist_uid
+					} 
+				];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpdateArtistIsVarious #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpdateArtistIsVarious #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 }
 
 module.exports = new CMS_Service();
