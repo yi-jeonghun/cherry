@@ -35,7 +35,7 @@ router.post('/find_or_add_artist', async function(req, res){
 		var artist_found_res = await cherry_service.SearchArtist(artist_name);
 		console.log('search result ' + artist_found_res.found);
 		if(artist_found_res.found == false){
-			artist_uid = await cherry_service.AddArtist(artist_name, false, []);
+			artist_uid = await cherry_service.AddArtist(artist_name, false);
 			console.log('add result ' + artist_uid);
 		}else{
 			artist_uid = artist_found_res.artist_uid;
@@ -59,29 +59,17 @@ router.post('/find_or_add_various_artist', async function(req, res){
 	try{
 		var artist_name_list = req.body.artist_name_list;
 		var member_artist_uid_list = [];
-		var member_list = [];
 		var artist_uid = null;
 
 		// 개별 artist를 artist table에 입력.
 		for (let i = 0; i < artist_name_list.length; i++) {
 			const artist_name = util.EscapeHTML(artist_name_list[i]);
-			console.log('artist_name ' + artist_name);
 
 			var artist_found_res = await cherry_service.SearchArtist(artist_name);
 			if(artist_found_res.found){
 				member_artist_uid_list[i] = artist_found_res.artist_uid;
-				member_list.push({
-					name:artist_name,
-					artist_uid:artist_found_res.artist_uid
-				});
-				console.log('member ' + member_artist_uid_list[i]);
 			}else{
-				member_artist_uid_list[i] = await cherry_service.AddArtist(artist_name, false, []);
-				member_list.push({
-					name:artist_name,
-					artist_uid:member_artist_uid_list[i]
-				});
-				console.log('member ' + member_artist_uid_list[i]);
+				member_artist_uid_list[i] = await cherry_service.AddArtist(artist_name, false);
 			}
 		}
 
@@ -91,7 +79,7 @@ router.post('/find_or_add_various_artist', async function(req, res){
 		if(search_result.found == false){
 			var sum_artist_name = artist_name_list.join(', ');
 
-			artist_uid = await cherry_service.AddArtist(sum_artist_name, true, member_list);
+			artist_uid = await cherry_service.AddArtist(sum_artist_name, true);
 			for(var i=0 ; i<member_artist_uid_list.length ; i++){
 				await cherry_service.AddVariousArtist(artist_uid, member_artist_uid_list[i]);
 			}

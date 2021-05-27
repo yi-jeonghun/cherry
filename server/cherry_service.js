@@ -4,19 +4,18 @@ var randomstring = require("randomstring");
 function CherryService(){
 	var self = this;
 
-	this.AddArtist = async function(artist_name, is_various, member_list){
+	this.AddArtist = async function(artist_name, is_various){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			artist_name = artist_name.trim();
 			try{
 				var artist_uid = await self.GetArtistUID();
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid, member_list_json )' +
+				var sql_register = 'INSERT INTO artist( name, is_various, artist_uid )' +
 					' VALUES (?, ?, ?, ?)';
 				
 				var val_various = is_various == true ? 'Y' : 'N';
-				var member_list_json = JSON.stringify(member_list);
-				var val = [artist_name, val_various, artist_uid, member_list_json];
+				var val = [artist_name, val_various, artist_uid];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
 						console.error(err);
