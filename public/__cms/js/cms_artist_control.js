@@ -32,6 +32,7 @@ function ArtistControl(){
 	this._member_artist_searched_list = [];
 	this._cms_favorite_artist_list = [];
 	this._artist_info = null;
+	this._member_list = [];
 	this._artist_diff_name_list = [];
 	this._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.NEW;
 	this._diff_name_artist_uid = null;
@@ -108,6 +109,7 @@ function ArtistControl(){
 		$('#id_div_music_list').empty();
 		self._selected_artist_uid = artist_uid;
 		self.GetArtistInfo();
+		self.GetVAMemberList();
 		self.GetArtistDiffNameList();
 		self.GetMusicListOfArtist();
 	};
@@ -523,6 +525,29 @@ function ArtistControl(){
 		$('#id_modal_cms_artist_add_member_artist').modal('show');
 	};
 
+	this.OnClick_DeleteMemberArtist = function(member_artist_uid){
+		var req_data = {
+			artist_uid: self._selected_artist_uid,
+			member_artist_uid: member_artist_uid
+		};
+		
+		$.ajax({
+			url: '/cherry_api/delete_va_artist_member',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetVAMemberList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 
 	this.FindOrAddArtist = function(artist_name){
@@ -582,6 +607,28 @@ function ArtistControl(){
 				if(res.ok){
 					self._artist_info = res.artist_info;
 					self.DISP_ArtistInfo();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.GetVAMemberList = function(){
+		var req_data = {
+			artist_uid: self._selected_artist_uid
+		};
+
+		$.ajax({
+			url: '/cherry_api/get_va_member_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._member_list = res.member_list;
+					self.DISP_MemberList();
 				}else{
 					alert(res.err);
 				}
@@ -722,7 +769,7 @@ function ArtistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-
+					self.GetVAMemberList();
 				}else{
 					alert(res.err);
 				}
@@ -918,28 +965,31 @@ function ArtistControl(){
 			$('#id_checkbox_cms_artist_is_various').prop('checked', false);
 		}
 
-		//FIXME LEEJH
-		// var member_list = JSON.parse(self._artist_info.member_list_json);
-		// self.DISP_MemberList(member_list);
 		self.DISP_DiffNameList();
 	};
 
-	this.DISP_MemberList = function(member_list){
-		if(member_list == null){
+	this.DISP_MemberList = function(){
+		if(self._member_list == null){
 			$('#id_div_cms_artist_member_list').html('');
 			return;
 		}
 
 		var h = '';
 
-		for(var i=0 ; i<member_list.length ; i++){
-			var m = member_list[i];
+		for(var i=0 ; i<self._member_list.length ; i++){
+			var m = self._member_list[i];
 			var on_click = `window._artist_control.OnChooseArtist('${m.artist_uid}')`;
+			var on_click_delete = `window._artist_control.OnClick_DeleteMemberArtist('${m.artist_uid}')`;
 
 			h += `
 				<div class="d-flex">
 					<div class="col-7 pl-2" style="cursor:pointer" onClick="${on_click}">${m.name}</div>
-					<div class="col-5" style="font-size:0.8em">${m.artist_uid}</div>
+					<div class="col-4" style="font-size:0.8em">${m.artist_uid}</div>
+					<div class="col-1">
+						<span class="badge badge-sm border" style="cursor:pointer" onClick="${on_click_delete}">
+							<i class="fas fa-trash-alt"></i>
+						</span>
+					</div>
 				</div>
 			`;
 		}

@@ -1788,13 +1788,37 @@ function CherryService(){
 		});
 	};
 
-	this.DeleteVariousArtistMember = async function(artist_uid){
+	this.DeleteVariousArtistMemberAll = async function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `DELETE FROM artist_various WHERE member_artist_uid=?`;
 				var val = [artist_uid];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteVariousArtistMember #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteVariousArtistMember #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteVariousArtistMemberOne = async function(artist_uid, member_artist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM artist_various WHERE artist_uid=? and member_artist_uid=?`;
+				var val = [artist_uid, member_artist_uid];
 				conn.query(sql, val, async function(err, result){
 					if(err){
 						console.error(err);
@@ -1992,7 +2016,6 @@ function CherryService(){
 		});		
 	};
 
-	
 
 }
 

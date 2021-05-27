@@ -214,7 +214,7 @@ router.post('/delete_artist', async function(req, res){
 		var artist_uid = req.body.artist_uid;
 
 		await cherry_service.DeleteLikeArtist(artist_uid);
-		await cherry_service.DeleteVariousArtistMember(artist_uid);
+		await cherry_service.DeleteVariousArtistMemberAll(artist_uid);
 		//artist 자체가 Various Artist인 경우가 있기 때문에 artist_various에서도 삭제되어야 한다.
 		await cherry_service.DeleteVariousArtist(artist_uid);
 		await cherry_service.DeleteArtistOfOrgArtistUID(artist_uid);
@@ -228,6 +228,32 @@ router.post('/delete_artist', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Failed to delete Artist'
+		});
+	}
+});
+
+router.post('/delete_va_artist_member', async function(req, res){
+	try{
+		if(permission_service.IsAdmin(req.session.user_info) == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});
+			return;
+		}
+
+		var artist_uid = req.body.artist_uid;
+		var member_artist_uid = req.body.member_artist_uid;
+
+		await cherry_service.DeleteVariousArtistMemberOne(artist_uid, member_artist_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to delete_va_artist_member'
 		});
 	}
 });
@@ -400,6 +426,23 @@ router.post('/get_artist_info_by_artist_uid', async function(req, res){
 		res.send({
 			ok:0,
 			err:'Fail get_artist_info_by_artist_uid'
+		});
+	}
+});
+
+router.post('/get_va_member_list', async function(req, res){
+	try{
+		var artist_uid = req.body.artist_uid;
+		var member_list = await cherry_service.GetVAMemberList(artist_uid);
+		res.send({
+			ok: 1,
+			member_list: member_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_va_member_list'
 		});
 	}
 });
