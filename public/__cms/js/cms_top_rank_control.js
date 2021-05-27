@@ -472,8 +472,14 @@ function TopRankControl(){
 	};
 
 	this.AddMusic = function(){
+		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
+		if(dj_user_id == null){
+			alert('Choose DJ');
+			return;
+		}
+
 		var req_data = {
-			dj_user_id: window._dj_selector.API_Get_Choosed_DJs_UserID(),
+			dj_user_id: dj_user_id,
 			artist_uid: self._music_list_draft[self._working_idx].artist_uid,
 			title:      self._music_list_draft[self._working_idx].title,
 			video_id:   self._music_list_draft[self._working_idx].video_id
