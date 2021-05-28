@@ -84,6 +84,7 @@ function ParserApple1() {
 		tmp = tmp.substr(idx + 1);
 		idx = tmp.indexOf(end);
 		tmp = tmp.substr(0, tmp.length - (tmp.length - idx));
+		tmp = util.UnEscapeHTML(tmp);
 		return tmp;
 	};
 
