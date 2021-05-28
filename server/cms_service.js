@@ -92,18 +92,32 @@ function CMS_Service(){
 
 			console.log('country_code ' + country_code);
 
+			// var sql = `
+			// 	SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
+			// 		a.is_various, m.video_id, u.name user_name,
+			// 		concat('[',v.member_list_json,']') as member_list_json
+			// 	FROM top_rank_list t
+			// 	JOIN music m ON t.music_uid=m.music_uid
+			// 	JOIN artist a ON a.artist_uid=m.artist_uid
+			// 	JOIN user as u ON m.user_id=u.user_id
+			// 	LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+			// 	WHERE t.country_code = ? and source = ?
+			// 	ORDER BY t.rank_num ASC;
+			// `;
+
 			var sql = `
-				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
-					a.is_various, m.video_id, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
-				FROM top_rank_list t
-				JOIN music m ON t.music_uid=m.music_uid
-				JOIN artist a ON a.artist_uid=m.artist_uid
-				JOIN user as u ON m.user_id=u.user_id
-				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
-				WHERE t.country_code = ? and source = ?
-				ORDER BY t.rank_num ASC;
+			SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
+				a.is_various, m.video_id, u.name user_name,
+				'[]' as member_list_json
+			FROM top_rank_list t
+			JOIN music m ON t.music_uid=m.music_uid
+			JOIN artist a ON a.artist_uid=m.artist_uid
+			JOIN user as u ON m.user_id=u.user_id
+			WHERE t.country_code = ? and source = ?
+			ORDER BY t.rank_num ASC;
 			`;
+
+
 			var val = [country_code, source];
 
 			try{
