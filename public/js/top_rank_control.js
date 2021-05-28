@@ -2,20 +2,9 @@ function TopRankControl(source){
 	var self = this;
 	this._music_list = [];
 	this._source = source;
-	this._source_list = [];
 
 	this.Init = function(){
-
-		{
-			self._source_list = window._top_100_source.list[window._country_code];
-			console.log('self._source ' + self._source);
-			if(self._source === undefined || self._source == null || self._source == ''){
-				console.log('no source ');
-				self._source = self._source_list[0];
-			}
-			$('#id_label_top_rank_source').html(self._source);
-		}
-
+		self.InitSource();
 		self.GetMusicList();
 		self.InitComponentHanele();
 		return self;
@@ -23,6 +12,22 @@ function TopRankControl(source){
 
 	this.InitComponentHanele = function(){
 		$('#id_btn_top_rank_listen_all').on('click', self.ListenAll);
+	};
+
+	this.InitSource = function(){
+		var source_list = window._top_100_source.list[window._country_code];
+		if(self._source === undefined || self._source == null || self._source == ''){
+			console.log('no source ');
+			self._source = source_list[0].source;
+		}
+
+		var source_name = '';
+		for(var s=0 ; s<source_list.length ; s++){
+			if(self._source == source_list[s].source){
+				source_name = source_list[s].name;
+			}
+		}
+		$('#id_label_top_rank_source').html(source_name);
 	};
 
 	this.ListenAll = function(){

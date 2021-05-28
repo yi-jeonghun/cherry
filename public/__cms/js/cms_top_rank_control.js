@@ -1037,12 +1037,12 @@ function TopRankControl(){
 			console.log(cc + ' count ' + source_list.length);
 
 			for(var s=0 ; s<source_list.length ; s++){
-				var source = source_list[s];
+				var source = source_list[s].source;
 				var on_click = `window._top_rank_control.ChooseCountry('${cc}', '${source}')`;
 
 				h += `
-				<div class="d-flex" style="cursor:pointer" onClick="${on_click}">
-					<div class="col-3 my-auto text-right">${source}</div>
+				<div class="d-flex border-top" style="cursor:pointer" onClick="${on_click}">
+					<div class="col-3 my-auto text-right border-right">${source}</div>
 					<div class="col-9 my-auto" style="font-size: 0.6em" id="id_label_country_release_time-${cc}-${source}"></div>
 				</div>
 				`;

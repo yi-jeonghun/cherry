@@ -99,9 +99,21 @@ function Router(){
 	this.GoTo_TopRank = function(args, arg_list){
 		{
 			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var title = country_name + ' Top 100 - Cherry Music [' + country_name + ']';
-			var keywords = country_name + ' Top 100, ' + TR(L_TOP_RANK_META_KEYWORDS);
-			var desc = country_name + TR(L_TOP_RANK_META_DESC);
+			var source_name = '';
+			{
+				var source_list = window._top_100_source.list[window._country_code];
+				var source = arg_list['s'];
+				console.error('source ' + source);
+				for(var s=0 ; s<source_list.length ; s++){
+					if(source == source_list[s].source){
+						source_name = source_list[s].name;
+					}	
+				}
+			}
+
+			var title = `${source_name} Top 100 - Cherry Music [${country_name}]`;
+			var keywords = `${country_name} ${source_name} Top 100, ` + TR(L_TOP_RANK_META_KEYWORDS);
+			var desc = `${country_name} ${source_name} Top 100, ` + TR(L_TOP_RANK_META_DESC);
 			self.UpdateMeta(title, keywords, desc);	
 		}
 
@@ -111,7 +123,6 @@ function Router(){
 	};
 
 	this.GoTo_Artist = function(args, arg_list){
-		console.log('GoTo_Artist 1'  );
 		{
 			var country_name = COUNTRY_NAME_LIST[window._country_code];
 			var artist = arg_list['a'];
@@ -121,13 +132,8 @@ function Router(){
 			this.UpdateMeta(title, keywords, desc);	
 		}
 
-		console.log('GoTo_Artist 2'  );
-
 		var target_div = 'id_router-artist';
 		var route_url = '/artist.vu?'+args;
-
-		console.log('GoTo_Artist 3'  );
-
 		self.LoadInnerView(target_div, route_url);
 	};
 

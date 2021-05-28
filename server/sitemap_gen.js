@@ -57,7 +57,7 @@ async function GetTopRank(){
 			var source_list = top_100_source.list[country_code];
 
 			for(var s=0 ; s<source_list.length ; s++){
-				var source = source_list[s];
+				var source = source_list[s].source;
 				xml += `
 					<url>
 						<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>
