@@ -1095,15 +1095,25 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				console.log('artist_uid ' + artist_uid);
+				// var sql = `
+				// 	SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
+				// 		concat('[',v.member_list_json,']') as member_list_json
+				// 	FROM music m 
+				// 	JOIN artist a ON m.artist_uid = a.artist_uid 
+				// 	JOIN user u ON m.user_id = u.user_id
+				// 	LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				// 	WHERE m.artist_uid = ?
+				// `;
 				var sql = `
 					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-						concat('[',v.member_list_json,']') as member_list_json
+						'[]' as member_list_json
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
-					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 					WHERE m.artist_uid = ?
 				`;
+
+
 				var val = [artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
@@ -1191,17 +1201,29 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
+				// var sql = `
+				// 	SELECT m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
+				// 	concat('[',v.member_list_json,']') as member_list_json
+				// 	FROM music m
+				// 	JOIN artist a	ON m.artist_uid = a.artist_uid
+				// 	JOIN user u ON m.user_id = u.user_id
+				// 	LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				// 	WHERE m.artist_uid IN (
+				// 		SELECT VA.artist_uid FROM artist_various VA WHERE VA.member_artist_uid=?
+				// 	)
+				// `;
+
 				var sql = `
 					SELECT m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
+					'[]' as member_list_json
 					FROM music m
 					JOIN artist a	ON m.artist_uid = a.artist_uid
 					JOIN user u ON m.user_id = u.user_id
-					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 					WHERE m.artist_uid IN (
 						SELECT VA.artist_uid FROM artist_various VA WHERE VA.member_artist_uid=?
 					)
 				`;
+
 
 				var val = [member_artist_uid];
 				conn.query(sql, val, function(err, result){
@@ -1226,18 +1248,30 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
+				// var sql = `
+				// 	SELECT m.music_uid, 
+				// 		a.name AS artist, a.artist_uid, a.is_various, 
+				// 		m.title, m.video_id, m.music_uid, u.name user_name,
+				// 		m.is_diff_name, m.org_music_uid,
+				// 		concat('[',v.member_list_json,']') as member_list_json
+				// 	FROM music m 
+				// 	JOIN artist a ON m.artist_uid = a.artist_uid 
+				// 	JOIN user u ON m.user_id = u.user_id
+				// 	LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				// 	WHERE m.title LIKE "%${keyword}%" 
+				// `;
+
 				var sql = `
-					SELECT m.music_uid, 
-						a.name AS artist, a.artist_uid, a.is_various, 
-						m.title, m.video_id, m.music_uid, u.name user_name,
-						m.is_diff_name, m.org_music_uid,
-						concat('[',v.member_list_json,']') as member_list_json
-					FROM music m 
-					JOIN artist a ON m.artist_uid = a.artist_uid 
-					JOIN user u ON m.user_id = u.user_id
-					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
-					WHERE m.title LIKE "%${keyword}%" 
-				`;
+				SELECT m.music_uid, 
+					a.name AS artist, a.artist_uid, a.is_various, 
+					m.title, m.video_id, m.music_uid, u.name user_name,
+					m.is_diff_name, m.org_music_uid,
+					'[]' as member_list_json
+				FROM music m 
+				JOIN artist a ON m.artist_uid = a.artist_uid 
+				JOIN user u ON m.user_id = u.user_id
+				WHERE m.title LIKE "%${keyword}%" 
+			`;
 
 				var val = [];
 				conn.query(sql, val, function(err, result){
@@ -1636,17 +1670,30 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
+				// var sql = `
+				// SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
+				// 	concat('[',v.member_list_json,']') as member_list_json
+				// FROM music m 
+				// JOIN artist a ON m.artist_uid = a.artist_uid 
+				// JOIN user u ON m.user_id = u.user_id
+				// LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				// WHERE m.music_uid IN(
+				// 	SELECT pm.music_uid FROM playlist_music pm WHERE playlist_uid=?
+				// )
+				// `;
+
 				var sql = `
 				SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
+					'[]' as member_list_json
 				FROM music m 
 				JOIN artist a ON m.artist_uid = a.artist_uid 
 				JOIN user u ON m.user_id = u.user_id
-				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 				WHERE m.music_uid IN(
 					SELECT pm.music_uid FROM playlist_music pm WHERE playlist_uid=?
 				)
 				`;
+
+
 				var val = [playlist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
