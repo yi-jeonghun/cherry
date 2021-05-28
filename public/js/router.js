@@ -20,7 +20,7 @@ function Router(){
 		var search = document.location.search;
 		if(pathname == '/'){
 			var source_list = window._top_100_source.list[window._country_code];
-			var source = source_list[0];
+			var source = source_list[0].source;
 			self.Go(`/${window._country_code}/top_rank.go?s=${source}`);
 		}else{
 			var path = pathname + search;
