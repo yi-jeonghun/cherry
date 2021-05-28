@@ -59,6 +59,7 @@ function ParserApple1() {
 								title: title,
 								artist: artist
 							});
+							console.log('artist ' + artist + ' title ' + title);
 							title = null;
 							artist = null;
 							continue;

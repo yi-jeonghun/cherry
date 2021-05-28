@@ -27,6 +27,7 @@ function ParserMelon() {
           if (title == null) {
             if (line.includes(title_key)) {
               title = self.ExtractTitle(line, title_key, '>', '<');
+              console.log('title ' + title);
               continue;
             }
           } else {

@@ -139,11 +139,11 @@ function TopRankParser(){
 			var request = https.request(url, function (response) {
 				var data = '';
 				response.on('data', function (chunk) {
-					console.log('chunk ' + chunk);
+					// console.log('chunk ' + chunk);
 					data += chunk;
 				});
 				response.on('end', async function () {
-					console.log('on end ' );
+					// console.log('on end ' );
 					resolve(data);
 				});
 			});
