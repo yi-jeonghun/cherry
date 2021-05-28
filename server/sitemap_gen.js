@@ -1,5 +1,6 @@
 var fs = require('fs');
 var CONST = require('../public/js/const/country_code');
+var top_100_source = require('../public/js/const/top_100_source');
 var cherry_service = require('./cherry_service');
 
 var xml = '';
@@ -53,14 +54,18 @@ async function GetTopRank(){
 
 		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
 			var country_code = CONST.__COUNTRY_CODE_LIST[i];
+			var source_list = top_100_source.list[country_code];
 
-			xml += `
-				<url>
-					<loc>https://cherrymusic.io/${country_code}/top_rank.go</loc>
-					<lastmod>${date_str}</lastmod>
-					<priority>0.8</priority>
-				</url>
-			`;
+			for(var s=0 ; s<source_list.length ; s++){
+				var source = source_list[s];
+				xml += `
+					<url>
+						<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>
+						<lastmod>${date_str}</lastmod>
+						<priority>0.8</priority>
+					</url>
+				`;
+			}
 		}
 		resolve();
 	});
@@ -158,11 +163,7 @@ async function GetPlaylist(){
 async function Main(){
 	console.log('Sitemap Update');
 
-	// conn = await db_conn.GetConnection();
-
 	await UpdateXML();
-
-	// conn.release();
 
 	console.log('Sitemap Update Finished');
 	process.exit();
