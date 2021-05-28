@@ -1,3 +1,5 @@
+const util = require('../util');
+
 function ParserMelon() {
   var self = this;
   this._music_list = [];
@@ -56,6 +58,7 @@ function ParserMelon() {
     tmp = tmp.substr(idx + 1);
     idx = tmp.indexOf(end);
     tmp = tmp.substr(0, tmp.length - (tmp.length - idx));
+		tmp = util.EscapeHTML(tmp);
     return tmp;
   };
 
