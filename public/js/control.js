@@ -224,12 +224,13 @@ function Control(){
 		var h = '';
 
 		for(var s=0 ; s<source_list.length ; s++){
-			var source = source_list[s];
+			var source = source_list[s].source;
+			var source_name = source_list[s].name;
 			// console.log('source ' + source);
 			var on_click = `window._main.OnClickMenuTop100('${source}')`;
 			h += `
 			<button onClick="${on_click}" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
-				Top 100 (${source})
+				Top 100 (${source_name})
 			</button>
 			`;
 		}
