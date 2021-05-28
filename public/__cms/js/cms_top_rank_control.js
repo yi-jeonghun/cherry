@@ -157,7 +157,7 @@ function TopRankControl(){
 		var m = self._searched_music_list[idx];
 		self.GetMusicDiffNameList(m.music_uid);
 		$('#id_label_cms_top_rank_music_uid').html(m.music_uid);
-		$('#id_input_cms_top_rank_music_title').val(UTIL_UnescapeHTML(m.title));
+		$('#id_input_cms_top_rank_music_title').val(m.title);
 		$('#id_div_cms_top_rank_music_diff_name_list').html('');
 		$('#id_input_cms_top_rank_music_diff_name').val('');
 		$('#id_modal_cms_top_rank_music_edit').modal('show');

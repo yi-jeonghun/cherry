@@ -29,7 +29,7 @@ router.post('/fetch_content_from_url', async function(req, res){
 
 router.post('/find_or_add_artist', async function(req, res){
 	try{
-		var artist_name = util.EscapeHTML(req.body.artist_name);
+		var artist_name = req.body.artist_name;
 		var artist_uid = null;
 
 		var artist_found_res = await cherry_service.SearchArtist(artist_name);
@@ -383,7 +383,7 @@ router.post('/get_user_list', async function(req, res){
 
 router.post('/update_music', async function(req, res){
 	try{
-		var title = util.EscapeHTML(req.body.title);
+		var title = req.body.title;
 		var music_uid = req.body.music_uid;
 		var video_id = req.body.video_id;
 		var artist_uid = req.body.artist_uid;
@@ -551,7 +551,7 @@ router.post('/add_music_diff_name', async function(req, res){
 
 		var user_id = req.session.user_info.user_id;
 		var org_music_uid = req.body.org_music_uid;
-		var diff_name = util.EscapeHTML(req.body.diff_name);
+		var diff_name = req.body.diff_name;
 		var artist_uid = req.body.artist_uid;
 		var video_id = req.body.video_id;
 		await cherry_service.AddMusicDiffName(org_music_uid, diff_name, artist_uid, user_id, video_id);
