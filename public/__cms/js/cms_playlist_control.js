@@ -107,8 +107,10 @@ function PlaylistControl(){
 		self._edit_mode = EDIT_MODE.NEW;
 		self._playlist_info = null;
 		self._playlist_music_list = [];
+		self._hash_list = [];
 		self.DISP_NewPlaylist();
 		self.DISP_PlaylistMusicList();
+		self.DISP_HashList();
 	};
 
 	this.LoadCountryCode = function(){

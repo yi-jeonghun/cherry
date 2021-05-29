@@ -64,6 +64,13 @@ function MyPlaylistControl(){
 			return;
 		}
 		self._my_playlist_edit_type = MY_PLAYLIST_EDIT_TYPE.NEW;
+
+		$('#id_input_my_playlist_title').val('');
+		$('#id_input_my_playlist_comment').val('');
+		$('#id_checkbox_my_playlist_open').prop("checked", false);
+		self._hash_list = [];
+		self.DISP_HashList();
+
 		$('#modal_my_playlist').modal('show');
 	};
 
