@@ -112,7 +112,7 @@ function DJSelector(){
 
 	this.RandomSelectDJ = function(){
 		var min = 0;
-		var max = self._dj_list.length - 1;
+		var max = self._dj_list.length;
 		var random_idx = Math.floor(Math.random() * (max - min)) + min;
 		console.log('random_idx ' + random_idx);
 		self._dj_user_id = self._dj_list[random_idx].user_id;
