@@ -4,6 +4,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 	this._playlist_uid = playlist_uid;
 	this._playlist_info = null;
 	this._music_list = [];
+	this._hash_list = [];
 	this._is_my_like_playlist = false;
 
 	this.Init = function(){
@@ -84,11 +85,13 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 				if(res.ok){
 					self._music_list = res.music_list;
 					self._playlist_info = res.playlist_info;
+					self._hash_list = res.hash_list;
 					self._is_my_like_playlist = res.is_my_like_playlist;
 					console.log('res.is_my_like_playlist ' + res.is_my_like_playlist);
 					self.DISP_UpdateLike();
 					self.DISP_playlist_info();
 					self.DISP_music_list();
+					self.DISP_HashList();
 				}else{
 					alert(res.err);
 				}
@@ -173,5 +176,14 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 		}else{
 			$('#id_icon_playlist_detail_like').css('color', '#bbbbbb');
 		}
+	};
+
+	this.DISP_HashList = function(){
+		var h = ``;
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			var hash = self._hash_list[i].hash;
+			h += `<span class="px-1 py-1">#${hash}</span>`;
+		}
+		$('#id_label_open_playlist_hash_list').html(h);
 	};
 }

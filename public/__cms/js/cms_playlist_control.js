@@ -14,6 +14,7 @@ function PlaylistControl(){
 	this._playlist_info = null;
 	this._playlist_music_list = [];
 	this._searched_music_list = [];
+	this._hash_list = [];
 
 	this.Init = function(){
 		self.InitHandle();
@@ -28,9 +29,28 @@ function PlaylistControl(){
 		$('#id_btn_playlist_search_artist').on('click', self.OnSearchArtistClick);
 		$('#id_btn_playlist_search_music').on('click', self.OnSearchMusicClick);
 		$('#id_btn_cms_playlist_refresh').on('click', self.OnClick_id_btn_cms_playlist_refresh);
+		$('#id_input_cms_playlist_hash').on('keypress', self.OnInput_Hash);
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	this.OnInput_Hash = function(e){
+		if(e.which != 13) {
+			return;
+		}
+		var hash = $('#id_input_cms_playlist_hash').val().trim();
+
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			if(self._hash_list[i].hash == hash){
+				return;
+			}
+		}
+
+		self._hash_list.push({hash:hash});
+		self.DISP_HashList();
+
+		$('#id_input_cms_playlist_hash').val('');
+	};
 
 	this.OnSearchMusicClick = function(){
 		var keyword = $('#id_input_playlist_search_keyword').val().trim();
@@ -137,6 +157,11 @@ function PlaylistControl(){
 		self.GetPlaylistList();
 	};
 
+	this.OnClick_DeleteHash = function(idx){
+		self._hash_list.splice(idx, 1);
+		self.DISP_HashList();
+	};
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.Save = function(){
@@ -177,10 +202,14 @@ function PlaylistControl(){
 				comment:       comment,
 				is_open:       is_open,
 				music_uid_list: music_uid_list	
-			}
+			},
+			hash_list: self._hash_list
 		};
 
+		console.log('self._edit_mode ' + self._edit_mode);
+
 		if(self._edit_mode == EDIT_MODE.NEW){
+			console.log('new mode ' );
 			$.ajax({
 				url: '/__cms_api/add_playlist_and_music_list',
 				type: 'POST',
@@ -188,6 +217,7 @@ function PlaylistControl(){
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
 				success: function (res) {
+					console.log('res ' + res);
 					if(res.ok){
 						self.GetPlaylistList();
 						self.OpenPlaylistForEdit(res.playlist_uid);
@@ -198,6 +228,7 @@ function PlaylistControl(){
 				}
 			});
 		}else{
+			console.log('edit mode ' );
 			$.ajax({
 				url: '/__cms_api/update_playlist_and_music_list',
 				type: 'POST',
@@ -233,8 +264,10 @@ function PlaylistControl(){
 				if(res.ok){
 					self._playlist_info = res.playlist_info;
 					self._playlist_music_list = res.music_list;
+					self._hash_list = res.hash_list;
 					self.DISP_PlaylistInfo();
 					self.DISP_PlaylistMusicList();
+					self.DISP_HashList();
 				}else{
 					alert(res.err);
 				}
@@ -453,5 +486,20 @@ function PlaylistControl(){
 		h += '</table>';
 
 		$('#id_div_playlist_music_list').html(h);
+	};
+
+	this.DISP_HashList = function(){
+		var h = ``;
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			var hash = self._hash_list[i].hash;
+			var on_click = `window._playlist_control.OnClick_DeleteHash(${i})`;
+			h += `
+			<span class="px-1 py-1">
+				${hash}
+				<span class="badge badge-sm border pointer" onClick="${on_click}">X</span>
+			</span>
+			`;
+		}
+		$('#id_div_cms_playlist_hash_list').html(h);
 	};
 }

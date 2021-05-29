@@ -1,3 +1,7 @@
 .modal-backdrop {
 	background-color: white;
 }
+
+.pointer {
+	cursor: pointer
+}

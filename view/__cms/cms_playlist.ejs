@@ -8,6 +8,8 @@
 	<script type="text/javascript" src="/js/const/country_data.js"></script>
 	<script type="text/javascript" src="/js/lang.js"></script>
 	<!-- 순서 주위 -->
+	<link rel="stylesheet" type="text/css" href="/css/cms_style.css">
+
 </head>
 <body style="width: 100%; height: 100%;">
 	<div class="container-fluid" style="height: 100%; width:100%; overflow: hidden;">
@@ -65,6 +67,13 @@
 				<div class="py-1">
 					Is Open : <input type="checkbox" id="id_checkbox_playlist_is_open">
 				</div>
+				<div class="py-1 d-flex">
+					<div class="col-3">Hash</div>
+					<div class="col-9 w-100">
+						<input class="form-control" type="text" id="id_input_cms_playlist_hash">
+					</div>
+				</div>
+				<div class="py-1" id="id_div_cms_playlist_hash_list"></div>
 				<div class="py-1">
 					Time Created : <span id="id_label_time_created"></span>
 				</div>

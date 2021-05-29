@@ -8,6 +8,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 	this._searched_artist_list = [];
 	this._searched_music_list = [];
 	this._music_uid_list_to_add = [];
+	this._hash_list = [];
 
 	this.Init = function(){
 		self.InitHandle();
@@ -161,8 +162,10 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 				if(res.ok){
 					self._music_list = res.music_list;
 					self._playlist_info = res.playlist_info;
+					self._hash_list = res.hash_list;
 					self.DISP_playlist_info();
 					self.DISP_music_list();
+					self.DISP_HashList();
 				}else{
 					alert(res.err);
 				}
@@ -377,5 +380,14 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 		}
 
 		$('#id_div_my_playlist_detail_search_result').html(h);
+	};
+	
+	this.DISP_HashList = function(){
+		var h = ``;
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			var hash = self._hash_list[i].hash;
+			h += `<span class="px-1 py-1">#${hash}</span>`;
+		}
+		$('#id_label_my_playlist_hash_list').html(h);
 	};
 }

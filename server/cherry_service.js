@@ -1667,11 +1667,98 @@ function CherryService(){
 		});
 	};
 
+	this.GetPlaylistHashList = async function(playlist_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT hash FROM playlist_hash WHERE playlist_uid = ?`;
+				var val = [playlist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetPlaylistHashList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetPlaylistHashList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdatePlaylistHashList = async function(playlist_uid, hash_list){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				await self.UpdatePlaylistHashList_DeleteAllHash(conn, playlist_uid);
+				for(var i=0 ; i<hash_list.length ; i++){
+					var hash = hash_list[i].hash;
+					await self.UpdatePlaylistHashList_InsertHash(conn, playlist_uid, hash);
+				}
+				resolve();
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdatePlaylistHashList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdatePlaylistHashList_DeleteAllHash = async function(conn, playlist_uid){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `DELETE FROM playlist_hash WHERE playlist_uid=?`;
+				var val = [playlist_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL UpdatePlaylistHashList_DeleteAllHash #1');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL UpdatePlaylistHashList_DeleteAllHash #2');
+			}
+		});
+	};
+
+	this.UpdatePlaylistHashList_InsertHash = async function(conn, playlist_uid, hash){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `INSERT INTO playlist_hash(playlist_uid, hash) VALUES(?, ?)`;
+				var val = [playlist_uid, hash];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL UpdatePlaylistHashList_InsertHash #1');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL UpdatePlaylistHashList_InsertHash #2');
+			}
+		});
+	};
+
 	this.DeletePlaylist = async function(playlist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
+
+				await self.UpdatePlaylistHashList_DeleteAllHash(conn, playlist_uid);
+
 				var sql = `
 				DELETE FROM playlist WHERE playlist_uid=?
 				`;

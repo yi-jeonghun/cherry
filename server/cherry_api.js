@@ -561,7 +561,8 @@ router.post('/add_playlist', async function(req, res){
 			});	
 			return;
 		}
-		var playlist = req.body;
+		var playlist = req.body.playlist;
+		var hash_list = req.body.hash_list;
 
 		var same_title_exists = await cherry_service.CheckSamePlaylist(playlist.title, user_id);
 		if(same_title_exists){
@@ -573,6 +574,7 @@ router.post('/add_playlist', async function(req, res){
 		}
 
 		var playlist_uid = await cherry_service.AddPlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistHashList(playlist_uid, hash_list);
 		res.send({
 			ok: 1,
 			playlist_uid: playlist_uid
@@ -597,19 +599,21 @@ router.post('/update_playlist', async function(req, res){
 			});	
 			return;
 		}
-		var playlist = req.body;
+		var playlist = req.body.playlist;
+		var hash_list = req.body.hash_list;
 
-		var same_title_exists = await cherry_service.CheckSamePlaylist(playlist.title, user_id);
-		if(same_title_exists){
-			res.send({
-				ok:0,
-				err_code:-2,
-				err:'Same title.'
-			});	
-			return;
-		}
+		// var same_title_exists = await cherry_service.CheckSamePlaylist(playlist.title, user_id);
+		// if(same_title_exists){
+		// 	res.send({
+		// 		ok:0,
+		// 		err_code:-2,
+		// 		err:'Same title.'
+		// 	});	
+		// 	return;
+		// }
 
 		await cherry_service.UpdatePlaylist(playlist, user_id);
+		await cherry_service.UpdatePlaylistHashList(playlist.playlist_uid, hash_list);
 		res.send({
 			ok: 1
 		});
@@ -661,11 +665,30 @@ router.post('/add_music_list_to_playlist', async function(req, res){
 	}
 });
 
+router.post('/get_playlist_hash_list', async function(req, res){
+	try{
+		var playlist_uid = req.body.playlist_uid;
+		var hash_list = await cherry_service.GetPlaylistHashList(playlist_uid);
+		res.send({
+			ok: 1,
+			hash_list: hash_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_playlist_hash_list'
+		});
+	}
+});
+
 router.post('/get_playlist_info', async function(req, res){
 	try{
 		var playlist_uid = req.body.playlist_uid;
 		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_uid);
 		var music_list = await cherry_service.GetPlaylistMusicList(playlist_uid);
+		var hash_list = await cherry_service.GetPlaylistHashList(playlist_uid);
+
 		var is_my_like_playlist = false;
 		var user_id = await permission_service.GetUserID(req);
 		console.log('user_id ' + user_id);
@@ -676,6 +699,7 @@ router.post('/get_playlist_info', async function(req, res){
 			ok: 1,
 			playlist_info: playlist_info,
 			music_list: music_list,
+			hash_list: hash_list,
 			is_my_like_playlist: is_my_like_playlist
 		});
 	}catch(err){

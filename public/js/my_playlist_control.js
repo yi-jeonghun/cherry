@@ -13,6 +13,7 @@ function MyPlaylistControl(){
 	this._is_edit_mode = false;
 	this._playlist_uid = null;
 	this._my_playlist_edit_type = MY_PLAYLIST_EDIT_TYPE.NEW;
+	this._hash_list = [];
 
 	this.Init = function(){
 		self.InitHandle();
@@ -24,6 +25,31 @@ function MyPlaylistControl(){
 		$('#id_btn_my_playlist_plus').on('click', self.OnClickPlus);
 		$('#id_btn_modal_my_plalist_ok').on('click', self.OnClickMyPlaylistOK);
 		$('#id_btn_my_playlist_edit_mode_toggle').on('click', self.OnClick_id_btn_my_playlist_edit_mode_toggle);
+		$('#id_btn_my_playlist_hash_plus').on('click', self.OnClick_id_btn_my_playlist_hash_plus);
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	this.OnClick_id_btn_my_playlist_hash_plus = function(){
+		var hash = $('#id_input_my_playlist_hash').val().trim();
+		if(hash == ''){
+			return;
+		}
+
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			if(self._hash_list[i].hash == hash){
+				return;
+			}
+		}
+
+		$('#id_input_my_playlist_hash').val('');
+		self._hash_list.push({hash:hash});
+		self.DISP_HashList();
+	};
+
+	this.OnClick_DeleteHash = function(idx){
+		self._hash_list.splice(idx, 1);
+		self.DISP_HashList();
 	};
 
 	this.OnClick_id_btn_my_playlist_edit_mode_toggle = function(){
@@ -51,10 +77,13 @@ function MyPlaylistControl(){
 
 		if(self._my_playlist_edit_type == MY_PLAYLIST_EDIT_TYPE.NEW){
 			var req_data = {
-				country_code:  window._country_code,
-				title:         title,
-				comment:       comment,
-				is_open:       is_open
+				playlist:{
+					country_code:  window._country_code,
+					title:         title,
+					comment:       comment,
+					is_open:       is_open
+				},
+				hash_list:self._hash_list
 			};
 		
 			$.ajax({
@@ -71,14 +100,17 @@ function MyPlaylistControl(){
 						alert(res.err);
 					}
 				}
-			});	
+			});
 		}else{
 			var req_data = {
-				playlist_uid:   self._playlist_uid,
-				country_code:  window._country_code,
-				title:         title,
-				comment:       comment,
-				is_open:       is_open
+				playlist:{
+					playlist_uid:   self._playlist_uid,
+					country_code:  window._country_code,
+					title:         title,
+					comment:       comment,
+					is_open:       is_open
+				},
+				hash_list: self._hash_list
 			};
 		
 			$.ajax({
@@ -101,7 +133,7 @@ function MyPlaylistControl(){
 						}
 					}
 				}
-			});	
+			});
 		}
 	};
 
@@ -169,6 +201,8 @@ function MyPlaylistControl(){
 		$('#modal_my_playlist').modal('show');
 
 		self._playlist_uid = self._playlist_list[idx].playlist_uid;
+		self.GetPlaylistHashList(self._playlist_uid);
+
 		$('#id_input_my_playlist_title').val(self._playlist_list[idx].title);
 		$('#id_input_my_playlist_comment').val(self._playlist_list[idx].comment);
 
@@ -177,6 +211,30 @@ function MyPlaylistControl(){
 		}else{
 			$('#id_checkbox_my_playlist_open').prop("checked", false);
 		}
+	};
+
+	this.GetPlaylistHashList = function(playlist_uid){
+		console.log('GetPlaylistHashList ');
+		var req_data = {
+			playlist_uid: playlist_uid
+		};
+	
+		$.ajax({
+			url: '/cherry_api/get_playlist_hash_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._hash_list = res.hash_list;
+					self.DISP_HashList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+
 	};
 
 	/////////////////////////////////////////////////////////////
@@ -225,5 +283,22 @@ function MyPlaylistControl(){
 		h += '</table>';
 
 		$('#id_div_playlist_list').html(h);
+	};
+
+	this.DISP_HashList = function(){
+		var h = ``;
+
+		for(var i=0 ; i<self._hash_list.length ; i++){
+			var hash = self._hash_list[i].hash;
+			var on_click = `window._my_playlist_control.OnClick_DeleteHash(${i})`;
+			h += `
+			<span class="px-1 py-1">
+				${hash}
+				<span class="badge badge-sm border pointer" onClick="${on_click}">X</span>
+			</span>
+			`;
+		}
+
+		$('#id_div_my_playlist_hash_list').html(h);
 	};
 }
