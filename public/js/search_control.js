@@ -95,6 +95,7 @@ function SearchControl(){
 					self._artist_list = res.artist_list;
 					self._music_list = res.music_list;
 					self._playlist_list = res.playlist_list;
+					self._playlist_hash_search_list = res.playlist_hash_search_list;
 					self.DISP_SearchResult();
 				}else{
 					alert(res.err);
@@ -193,13 +194,28 @@ function SearchControl(){
 		var h = `
 			<table class="table table-sm table-striped" style="margin: 0px">
 			<tr>
-			<th>Title</th>
-			<th>Like</th>
+				<th>Title</th>
+				<th>Like</th>
 			</tr>
 		`;
 
 		for(var i=0 ; i<self._playlist_list.length ; i++){
 			var p = self._playlist_list[i];
+			var title_encoded = encodeURI(p.title);
+			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_uid}')`;
+
+			h += `
+			<tr>
+				<td onClick="${on_click_title}">${p.title}</td>
+				<td onClick="${on_click_title}">${p.like_count}</td>
+			</tr>
+			`;
+		}
+
+		// h += `<tr><td colspan="2" class="text-center color-primary">Hash Search</td></tr>`;
+
+		for(var i=0 ; i<self._playlist_hash_search_list.length ; i++){
+			var p = self._playlist_hash_search_list[i];
 			var title_encoded = encodeURI(p.title);
 			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_uid}')`;
 

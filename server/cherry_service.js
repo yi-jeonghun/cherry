@@ -1861,6 +1861,42 @@ function CherryService(){
 		});
 	};
 
+	this.SearchPlaylistByHash = async function(hash_list, country_code){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+					SELECT * 
+					FROM playlist p  
+					WHERE 
+						p.is_open='Y' AND 
+						p.country_code=? AND 
+							p.playlist_uid IN (
+							SELECT DISTINCT(ph.playlist_uid) 
+									FROM playlist_hash ph
+							WHERE ph.hash IN (?)
+						)
+					ORDER BY p.like_count DESC
+				`;
+				var val = [country_code, hash_list];
+				conn.query(sql, val, async function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService SearchPlaylistByTitleLike #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService SearchPlaylistByTitleLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.DeleteLikeArtist = async function(artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

@@ -471,11 +471,17 @@ router.post('/search_artist_music_like', async function(req, res){
 		var artist_list = await cherry_service.SearchArtistLike(keyword);
 		var music_list = await cherry_service.SearchMusicListByTitle(keyword);
 		var playlist_list = await cherry_service.SearchPlaylistByTitleLike(keyword, country_code);
+		var hash_list = keyword.split(' ');
+		for(var i=0 ; i<hash_list.length ; i++){
+			hash_list[i] = hash_list[i].trim();
+		}
+		var playlist_hash_search_list = await cherry_service.SearchPlaylistByHash(hash_list, country_code);
 		res.send({
 			ok: 1,
-			artist_list:   artist_list,
-			music_list:    music_list,
-			playlist_list: playlist_list
+			artist_list:               artist_list,
+			music_list:                music_list,
+			playlist_list:             playlist_list,
+			playlist_hash_search_list: playlist_hash_search_list
 		});
 	}catch(err){
 		console.error(err);
