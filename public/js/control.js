@@ -229,7 +229,7 @@ function Control(){
 			// console.log('source ' + source);
 			var on_click = `window._main.OnClickMenuTop100('${source}')`;
 			h += `
-			<button onClick="${on_click}" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+			<button onClick="${on_click}" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left; margin-top:5px">
 				Top 100 (${source_name})
 			</button>
 			`;
