@@ -23,7 +23,7 @@ function DJSelector(){
 				self._dj_selector_type = dj_selector_type;
 				console.log('dj_selector_type ' + dj_selector_type);
 			}
-			self.HighlightRandomButton();
+			self.HighlightDJSelectorType();
 
 			var dj_user_id_from_local_storage = window.localStorage.getItem('CMS_FIXED_DJ_USER_ID');
 			if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
@@ -40,10 +40,17 @@ function DJSelector(){
 
 	this.InitHandle = function(){
 		$('#id_select_menu_dj_list').on('change', self.OnChange_id_select_menu_dj_list);
-		$('#id_btn_dj_selector_random').on('click', self.OnClick_id_btn_dj_selector_random);
+		$('#id_btn_cms_dj_selector_fixed').on('click', self.OnClick_Fixed);
+		$('#id_btn_cms_dj_selector_random').on('click', self.OnClick_Random);
+		$('#id_btn_cms_dj_selector_refresh').on('click', self.OnClick_Refresh);
 	};
 
 	////////////////////////////////////////////////////////////////////
+
+	this.OnClick_Refresh = function(){
+		self.RandomSelectDJ();
+		self.DISP_DJList();
+	};
 
 	this.OnChange_id_select_menu_dj_list = function(){
 		var val = $('#id_select_menu_dj_list').val();
@@ -56,26 +63,28 @@ function DJSelector(){
 		}
 	};
 
-	this.OnClick_id_btn_dj_selector_random = function(){
-		if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
-			self._dj_selector_type = DJ_SELECTOR_TYPE.RANDOM;
-		}else{
-			self._dj_selector_type = DJ_SELECTOR_TYPE.FIXED;
-		}
+	this.OnClick_Fixed = function(){
+		self._dj_selector_type = DJ_SELECTOR_TYPE.FIXED;
 		window.localStorage.setItem('CMS_DJ_SELECTOR_TYPE', self._dj_selector_type);
-		self.HighlightRandomButton();
+		self.HighlightDJSelectorType();
+	};
+
+	this.OnClick_Random = function(){
+		self._dj_selector_type = DJ_SELECTOR_TYPE.RANDOM;
+		window.localStorage.setItem('CMS_DJ_SELECTOR_TYPE', self._dj_selector_type);
+		self.HighlightDJSelectorType();
 	};
 
 	////////////////////////////////////////////////////////////////////
 
-	this.HighlightRandomButton = function(){
-		$('#id_btn_dj_selector_random').removeClass('border');
-		$('#id_btn_dj_selector_random').removeClass('btn-danger');
+	this.HighlightDJSelectorType = function(){
+		$('#id_btn_cms_dj_selector_fixed').removeClass('badge-primary');
+		$('#id_btn_cms_dj_selector_random').removeClass('badge-primary');
 
 		if(self._dj_selector_type == DJ_SELECTOR_TYPE.FIXED){
-			$('#id_btn_dj_selector_random').addClass('border');
+			$('#id_btn_cms_dj_selector_fixed').addClass('badge-primary');
 		}else{
-			$('#id_btn_dj_selector_random').addClass('btn-danger');
+			$('#id_btn_cms_dj_selector_random').addClass('badge-primary');
 		}
 	};
 
