@@ -74,7 +74,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 		};
 
 		$.ajax({
-			url: '/cherry_api/search_artist_music_like',
+			url: '/cherry_api/search_artist_and_music_like',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',
