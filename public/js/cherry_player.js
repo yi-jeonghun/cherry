@@ -380,7 +380,7 @@ function CherryPlayer(){
 			}
 
 			h += `
-				<div class="row my-1 py-1" id="${id_title}">
+				<div class="row my-1 py-1 border" id="${id_title}">
 					<div class="col-1">
 						<div style="font-size: 0.8em">${num}</div>
 					</div>

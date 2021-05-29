@@ -60,23 +60,17 @@ div{
 }
 
 .player_video_div{
-	/* display: inline-block; */
 	width: 100px;
 	height: 100px;
 }
 
 .player_info_div{
-	/* display: inline-block; */
-	width: calc(100% - 205px);
+	width: calc(100% - 185px);
 	padding: 5px;
-	/* width: 100%; */
 }
 
 .controller_div{
-	/* display: inline-block; */
-	/* position: fixed;
-	right: 0; */
-	width: 105px;
+	width: 85px;
 	padding-top: 5px;
 	padding-right: 5px;
 }
