@@ -85,11 +85,13 @@ function TopRankControl(source){
 			}
 
 			h += `
-				<div class="row border">
-					<div class="col-1 text-center" style="font-size:0.8em; padding-left:2px; padding-top:10px">${num}</div>
-					<div class="col-9 col-sm-10 d-flex" style="padding-left:0px">
+				<div class="row ">
+					<div class="" style="font-size:0.6em; width:50px; padding-left:5px">${num}</div>
+				</div>
+				<div class="row border" style="margin-bottom:2px; padding-right:0px">
+					<div class="d-flex " style="width:calc( 100% - 75px); padding-left:0px">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
-						<div class="pl-1">
+						<div class="pl-1" style="">
 							<div class="text-dark">${m.title}</div>
 							<div class="text-secondary" style="font-size:0.8em">
 			`;
@@ -104,14 +106,19 @@ function TopRankControl(source){
 							</div>
 						</div>
 					</div>
-					<div class="col-1" style="padding-top:10px">
-						<button class="btn" type="button" onclick="Top_Rank_ListenMusic(${i})">
-							<i class="fas fa-plus"></i>
-						</button>
+					<div class="text-right d-flex " style="padding-top:5px; padding-right:0px; margin-right:0px">
+						<div>
+							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px " onclick="Top_Rank_ListenMusic(${i})">
+								<i class="fas fa-heart"></i>
+							</span>
+							<div class="text-center" style="font-size:0.5em"></div>
+						</div>
+						<div>
+							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px" onclick="Top_Rank_ListenMusic(${i})">
+								<i class="fas fa-plus"></i>
+							</span>
+						</div>
 					</div>
-				</div>
-				<div style="font-size:0.6em; text-align:right; color:white">
-						${m.user_name}
 				</div>
 			`;
 		}
