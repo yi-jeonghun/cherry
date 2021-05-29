@@ -136,6 +136,45 @@ function TopRankControl(){
 		});
 	};
 
+	this.OnClick_AddVAArtist = function(){
+		var artist_name = $('#id_input_cms_top_rank_artist_search').val().trim();
+		if(artist_name == ''){
+			alert('artist name empty');
+			return;
+		}
+
+		var artist_name_list = artist_name.split(',');
+		for(var i=0 ; i<artist_name_list.length ; i++){
+			artist_name_list[i] = artist_name_list[i].trim();
+		}
+
+		var req_data = {
+			artist_name_list: artist_name_list
+		};
+
+		$.ajax({
+			url:  '/__cms_api/find_or_add_various_artist',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._SearchArtist(artist_name, function(res){
+						if(res.ok){
+							self._searched_artist_list = res.artist_list;
+							self.DISP_SearchedArtistList();
+						}else{
+							alert(res.err);
+						}
+					});
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
 	this.OnClick_SearchArtist = function(){
 		var artist_name = $('#id_input_cms_top_rank_artist_search').val().trim();
 		if(artist_name == ''){
