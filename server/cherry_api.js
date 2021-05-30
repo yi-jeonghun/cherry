@@ -556,22 +556,26 @@ router.post('/get_like_artist_playlist', async function(req, res){
 		var user_id = await permission_service.GetUserID(req);
 		var artist_list = [];
 		var playlist_list = [];
+		var music_list = [];
 
 		if(user_id == null){
 			res.send({
 				ok: 1,
 				artist_list:   artist_list,
-				playlist_list: playlist_list
+				playlist_list: playlist_list,
+				music_list:    music_list
 			});
 			return;
 		}
 
 		artist_list = await cherry_service.GetArtistList_I_Like(user_id);
 		playlist_list = await cherry_service.GetPlaylistList_I_Like(user_id);
+		music_list = await cherry_service.GetMusicList_I_Like(user_id);
 		res.send({
 			ok: 1,
 			artist_list:   artist_list,
-			playlist_list: playlist_list
+			playlist_list: playlist_list,
+			music_list:    music_list
 		});
 	}catch(err){
 		console.error(err);

@@ -729,6 +729,42 @@ function CherryService(){
 		});
 	};
 
+	this.GetMusicList_I_Like = async function(user_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT m.music_uid, m.title, m.artist_uid, a.name artist, m.video_id, a.is_various, u.name user_name,
+					concat('[',v.member_list_json,']') as member_list_json, 'Y' is_like
+				FROM music m
+				JOIN artist a ON m.artist_uid=a.artist_uid
+				JOIN user as u ON m.user_id=u.user_id
+				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				WHERE m.music_uid IN(
+					SELECT lm.music_uid
+					FROM like_music lm
+					WHERE lm.user_id=?
+				)
+				`;
+				var val = [user_id];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetMusicList_I_Like #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetMusicList_I_Like #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.AddVariousArtist = async function(artist_uid, member_artist_uid){
 		return new Promise(async function(resolve, reject){
 			console.log('AddVariousArtist ' + artist_uid + ' member ' + member_artist_uid);
