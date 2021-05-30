@@ -747,14 +747,14 @@ router.post('/get_playlist_hash_list', async function(req, res){
 
 router.post('/get_playlist_info', async function(req, res){
 	try{
+		var user_id = await permission_service.GetUserID(req);		
+
 		var playlist_uid = req.body.playlist_uid;
 		var playlist_info = await cherry_service.GetPlaylistInfo(playlist_uid);
-		var music_list = await cherry_service.GetPlaylistMusicList(playlist_uid);
+		var music_list = await cherry_service.GetPlaylistMusicList(playlist_uid, user_id);
 		var hash_list = await cherry_service.GetPlaylistHashList(playlist_uid);
 
 		var is_my_like_playlist = false;
-		var user_id = await permission_service.GetUserID(req);
-		console.log('user_id ' + user_id);
 		if(user_id != null){
 			is_my_like_playlist = await cherry_service.IsMyLikePlaylist(user_id, playlist_uid);
 		}

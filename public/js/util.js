@@ -66,12 +66,14 @@ function CMN_LikeMusic(music_uid, is_like){
 			if(is_like){
 				color = 'red';
 			}
-			var icon_list = $('i#id_icon_music_heart-'+music_uid);
+
+			var icon_list = $(`[id=id_icon_music_heart-${music_uid}]`);
 			if(icon_list.length == 1){
 				icon_list.css('color', color);
 			}else if(icon_list.length > 1){
 				for(var i=0 ; i<icon_list.length ; i++){
-					icon_list[i].css('color', color);
+					var ele = icon_list[i];
+					$(ele).css('color', color);
 				}
 			}
 		}else{

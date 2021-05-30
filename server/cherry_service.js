@@ -1632,24 +1632,28 @@ function CherryService(){
 		});
 	};
 
-	this.GetPlaylistMusicList = async function(playlist_uid){
+	this.GetPlaylistMusicList = async function(playlist_uid, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
 				SELECT m.music_uid, a.name AS artist, a.artist_uid, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
+					concat('[',v.member_list_json,']') as member_list_json,
+					IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 				FROM music m 
 				JOIN artist a ON m.artist_uid = a.artist_uid 
 				JOIN user u ON m.user_id = u.user_id
 				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				LEFT JOIN (
+					SELECT * FROM like_music WHERE user_id=?
+					) lm ON m.music_uid=lm.music_uid
 				WHERE m.music_uid IN(
 					SELECT pm.music_uid FROM playlist_music pm WHERE playlist_uid=?
 				)
 				`;
 
-				var val = [playlist_uid];
+				var val = [user_id, playlist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
