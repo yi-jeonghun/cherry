@@ -17,7 +17,7 @@ function AuthControl(){
 	};
 
 	this.IsLogin = function(){
-		console.log('self._user_info ' + self._user_info);
+		// console.log('self._user_info ' + self._user_info);
 		return self._user_info != null ? true : false;
 	};
 
