@@ -1089,7 +1089,7 @@ function CherryService(){
 		});
 	};
 	
-	this.GetMusicListByArtist = async function(artist_uid){
+	this.GetMusicListByArtist = async function(user_id, artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -1097,15 +1097,19 @@ function CherryService(){
 				console.log('artist_uid ' + artist_uid);
 				var sql = `
 					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-						concat('[',v.member_list_json,']') as member_list_json
+						concat('[',v.member_list_json,']') as member_list_json,
+						IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
 					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+					LEFT JOIN (
+						SELECT * FROM like_music WHERE user_id=?
+						) lm ON m.music_uid=lm.music_uid
 					WHERE m.artist_uid = ?
 				`;
 
-				var val = [artist_uid];
+				var val = [user_id, artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -1187,24 +1191,28 @@ function CherryService(){
 		});
 	};
 
-	this.GetMusicListByVariousArtist = async function(member_artist_uid){
+	this.GetMusicListByVariousArtist = async function(user_id, member_artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
 					SELECT m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
+						concat('[',v.member_list_json,']') as member_list_json,
+						IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 					FROM music m
 					JOIN artist a	ON m.artist_uid = a.artist_uid
 					JOIN user u ON m.user_id = u.user_id
 					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+					LEFT JOIN (
+						SELECT * FROM like_music WHERE user_id=?
+						) lm ON m.music_uid=lm.music_uid
 					WHERE m.artist_uid IN (
 						SELECT VA.artist_uid FROM artist_various VA WHERE VA.member_artist_uid=?
 					)
 				`;
 
-				var val = [member_artist_uid];
+				var val = [user_id, member_artist_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

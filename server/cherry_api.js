@@ -313,9 +313,9 @@ router.get('/get_music_list', async function(req, res){
 
 router.post('/fetch_music_list_by_artist_uid', async function(req, res){
 	try{
+		var user_id = await permission_service.GetUserID(req);
 		var artist_uid = req.body.artist_uid;
-		console.log('artist_uid ' + artist_uid);
-		var music_list = await cherry_service.GetMusicListByArtist(artist_uid);
+		var music_list = await cherry_service.GetMusicListByArtist(user_id, artist_uid);
 		
 		res.send({
 			ok: 1,
@@ -332,8 +332,9 @@ router.post('/fetch_music_list_by_artist_uid', async function(req, res){
 
 router.post('/fetch_VA_music_list_by_artist_uid', async function(req, res){
 	try{
+		var user_id = await permission_service.GetUserID(req);
 		var artist_uid = req.body.artist_uid;
-		var music_list = await cherry_service.GetMusicListByVariousArtist(artist_uid);
+		var music_list = await cherry_service.GetMusicListByVariousArtist(user_id, artist_uid);
 		
 		res.send({
 			ok: 1,
