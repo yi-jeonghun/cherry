@@ -24,32 +24,6 @@ router.get('/get_artist_list', async function(req, res){
 	}
 });
 
-router.post('/get_my_like_music_list', async function(req, res){
-	try{
-		var user_id = auth_service.GetLoginUserID(req);
-		if(user_id == null){
-			res.send({
-				ok: 1,
-				like_music_uid_list: []
-			});
-			return;
-		}
-
-		var music_uid_list = req.body.music_uid_list;
-		var like_music_uid_list = await cherry_service.GetMyLikeMusicList(user_id, music_uid_list);
-		res.send({
-			ok: 1,
-			like_music_uid_list: like_music_uid_list
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Failed to get_my_like_music_list'
-		});
-	}
-});
-
 router.post('/update_music_like', async function(req, res){
 	try{
 		var user_id = auth_service.GetLoginUserID(req);
@@ -442,10 +416,8 @@ router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
 		var country_code = req.body.country_code;
 		var source = req.body.source;
-		console.log('country_code ' + country_code);
-		console.log('source ' + source);
-		var music_list = await cms_service.GetTopRankReleaseData(country_code, source);
-
+		var user_id = await permission_service.GetUserID(req);
+		var music_list = await cms_service.GetTopRankReleaseData(country_code, source, user_id);
 		res.send({
 			ok: 1,
 			music_list: music_list

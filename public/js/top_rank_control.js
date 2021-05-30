@@ -1,7 +1,6 @@
 function TopRankControl(source){
 	var self = this;
 	this._music_list = [];
-	this._my_like_music_uid_list = [];
 	this._source = source;
 
 	this.Init = function(){
@@ -45,36 +44,8 @@ function TopRankControl(source){
 		POST('/cherry_api/top_rank/fetch_release_data', req, function(res){
 			if(res.ok){
 				self._music_list = res.music_list;
-				self.GetMyLikeMusicList();
+
 				self.DISP_MusicList();
-			}else{
-				alert(res.err);
-			}
-		});
-	};
-
-	this.GetMyLikeMusicList = function(){
-		var user_id = window._auth_control.GetUserID();
-		if(user_id == null || user_id == ''){
-			return;
-		}
-
-		var music_uid_list = [];
-		for(var i=0 ; i<self._music_list.length ; i++){
-			music_uid_list.push(self._music_list[i].music_uid);
-		}
-
-		var req = {
-			music_uid_list: music_uid_list
-		};
-		POST('/cherry_api/get_my_like_music_list', req, (res)=>{
-			if(res.ok){
-				self._my_like_music_uid_list = res.like_music_uid_list;
-				self._my_like_music_uid_list = [];
-				for(var i=0 ; i<res.like_music_uid_list.length ; i++){
-					self._my_like_music_uid_list.push(res.like_music_uid_list[i].music_uid);
-				}
-				self.DISP_UpdateLikeMusic();
 			}else{
 				alert(res.err);
 			}
@@ -95,27 +66,9 @@ function TopRankControl(source){
 			return;
 		}
 
-		var music_uid = self._music_list[idx].music_uid;
-		var is_like = self._my_like_music_uid_list.includes(music_uid);
-		var is_to_be_like = !is_like;
-
-		var req = {
-			music_uid: self._music_list[idx].music_uid,
-			is_like: is_to_be_like
-		};
-		POST('/cherry_api/update_music_like', req, (res)=>{
-			if(is_like){
-				for(var i=0 ; i<self._my_like_music_uid_list.length ; i++){
-					if(self._my_like_music_uid_list[i] == music_uid){
-						self._my_like_music_uid_list.splice(i, 1);
-						break;
-					}
-				}
-			}else{
-				self._my_like_music_uid_list.push(music_uid);
-			}
-			self.DISP_UpdateLikeMusic();
-		});
+		var m = self._music_list[idx];
+		var is_like = m.is_like == 'Y' ? false : true;
+		CMN_LikeMusic(m.music_uid, is_like);
 	};
 
 	/////////////////////////////////////////////////////////////////////////
@@ -151,7 +104,10 @@ function TopRankControl(source){
 			var on_click_plus = `window._top_rank_control.ListenMusic(${i})`;
 			var on_click_heart = `window._top_rank_control.LikeMusic(${i})`;
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
-			console.log('id_hear_icon ' + id_heart_icon);
+			var like_color = '#bbbbbb';
+			if(m.is_like == 'Y'){
+				like_color = 'red';
+			}
 
 			h += `
 				<div class="row ">
@@ -177,13 +133,13 @@ function TopRankControl(source){
 					</div>
 					<div class="text-right d-flex " style="padding-top:5px;">
 						<div>
-							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px " onclick="${on_click_heart}">
-								<i id="${id_heart_icon}" class="fas fa-heart" style="color: #bbbbbb"></i>
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_heart}">
+								<i id="${id_heart_icon}" class="fas fa-heart" style="color: ${like_color}"></i>
 							</span>
 							<div class="text-center" style="font-size:0.5em"></div>
 						</div>
 						<div>
-							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px" onclick="${on_click_plus}">
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_plus}">
 								<i class="fas fa-plus"></i>
 							</span>
 						</div>
@@ -193,22 +149,5 @@ function TopRankControl(source){
 		}
 
 		$('#id_div_top_rank_music_list').html(h);
-	};
-
-	this.DISP_UpdateLikeMusic = function(){
-		console.log('self._my_like_music_uid_list ' + self._my_like_music_uid_list);
-		console.log('self._my_like_music_uid_list.length ' + self._my_like_music_uid_list.length);
-
-		for(var i=0 ; i<self._music_list.length ; i++){
-			var m = self._music_list[i];
-			var id_icon = `id_icon_music_heart-${m.music_uid}`;
-			if(self._my_like_music_uid_list.includes(m.music_uid)){
-				console.log(m.title + ' like ');
-				console.log('id_icon ' + id_icon);
-				$('#'+id_icon).css('color', 'red');
-			}else{
-				$('#'+id_icon).css('color', '#bbbbbb');
-			}
-		}
 	};
 }

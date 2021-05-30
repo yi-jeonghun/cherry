@@ -54,3 +54,28 @@ function POST(url, req, cb){
 		}
 	});
 }
+
+function CMN_LikeMusic(music_uid, is_like){
+	var req = {
+		music_uid: music_uid,
+		is_like: is_like
+	};
+	POST('/cherry_api/update_music_like', req, (res)=>{
+		if(res.ok){
+			var color = '#bbbbbb';
+			if(is_like){
+				color = 'red';
+			}
+			var icon_list = $('i#id_icon_music_heart-'+music_uid);
+			if(icon_list.length == 1){
+				icon_list.css('color', color);
+			}else if(icon_list.length > 1){
+				for(var i=0 ; i<icon_list.length ; i++){
+					icon_list[i].css('color', color);
+				}
+			}
+		}else{
+			alert(res.err);
+		}
+	});
+}

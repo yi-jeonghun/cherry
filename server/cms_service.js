@@ -86,40 +86,26 @@ function CMS_Service(){
 		});
 	};
 
-	this.GetTopRankReleaseData = async function(country_code, source){
+	this.GetTopRankReleaseData = async function(country_code, source, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
-
-			console.log('country_code ' + country_code);
-
 			var sql = `
 				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
 					a.is_various, m.video_id, u.name user_name,
-					concat('[',v.member_list_json,']') as member_list_json
+					concat('[',v.member_list_json,']') as member_list_json,
+					IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 				FROM top_rank_list t
 				JOIN music m ON t.music_uid=m.music_uid
 				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
 				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				LEFT JOIN (
+					SELECT * FROM like_music WHERE user_id=?
+					) lm ON t.music_uid=lm.music_uid
 				WHERE t.country_code = ? and source = ?
 				ORDER BY t.rank_num ASC;
 			`;
-
-			// var sql = `
-			// SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
-			// 	a.is_various, m.video_id, u.name user_name,
-			// 	'[]' as member_list_json
-			// FROM top_rank_list t
-			// JOIN music m ON t.music_uid=m.music_uid
-			// JOIN artist a ON a.artist_uid=m.artist_uid
-			// JOIN user as u ON m.user_id=u.user_id
-			// WHERE t.country_code = ? and source = ?
-			// ORDER BY t.rank_num ASC;
-			// `;
-
-
-			var val = [country_code, source];
-
+			var val = [user_id, country_code, source];
 			try{
 				conn = await db_conn.GetConnection();
 				conn.query(sql, val, function(err, result){
