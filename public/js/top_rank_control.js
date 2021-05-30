@@ -1,6 +1,7 @@
 function TopRankControl(source){
 	var self = this;
 	this._music_list = [];
+	this._my_like_music_uid_list = [];
 	this._source = source;
 
 	this.Init = function(){
@@ -30,34 +31,97 @@ function TopRankControl(source){
 		$('#id_label_top_rank_source').html(source_name);
 	};
 
+	/////////////////////////////////////////////////////////////////////////
+
 	this.ListenAll = function(){
 		window._cherry_player.LoadMusicList(self._music_list);
 	};
 
 	this.GetMusicList = function(){
-		var req_data = {
+		var req = {
 			country_code: window._country_code,
 			source: self._source
 		};
-
-		$.ajax({
-			url: '/cherry_api/top_rank/fetch_release_data',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self._music_list = res.music_list;
-					self.DisplayMusicList();
-				}else{
-					alert(res.err);
-				}
+		POST('/cherry_api/top_rank/fetch_release_data', req, function(res){
+			if(res.ok){
+				self._music_list = res.music_list;
+				self.GetMyLikeMusicList();
+				self.DISP_MusicList();
+			}else{
+				alert(res.err);
 			}
-		});	
+		});
 	};
 
-	this.DisplayMusicList = function(){
+	this.GetMyLikeMusicList = function(){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			return;
+		}
+
+		var music_uid_list = [];
+		for(var i=0 ; i<self._music_list.length ; i++){
+			music_uid_list.push(self._music_list[i].music_uid);
+		}
+
+		var req = {
+			music_uid_list: music_uid_list
+		};
+		POST('/cherry_api/get_my_like_music_list', req, (res)=>{
+			if(res.ok){
+				self._my_like_music_uid_list = res.like_music_uid_list;
+				self._my_like_music_uid_list = [];
+				for(var i=0 ; i<res.like_music_uid_list.length ; i++){
+					self._my_like_music_uid_list.push(res.like_music_uid_list[i].music_uid);
+				}
+				self.DISP_UpdateLikeMusic();
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
+	this.ListenMusic = function(idx){
+		var music = self._music_list[idx];
+		if(music != null){
+			window._cherry_player.AddMusic(music);
+		}
+	}
+
+	this.LikeMusic = function(idx){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			alert('Sign in required');
+			return;
+		}
+
+		var music_uid = self._music_list[idx].music_uid;
+		var is_like = self._my_like_music_uid_list.includes(music_uid);
+		var is_to_be_like = !is_like;
+
+		var req = {
+			music_uid: self._music_list[idx].music_uid,
+			is_like: is_to_be_like
+		};
+		POST('/cherry_api/update_music_like', req, (res)=>{
+			if(is_like){
+				for(var i=0 ; i<self._my_like_music_uid_list.length ; i++){
+					if(self._my_like_music_uid_list[i] == music_uid){
+						self._my_like_music_uid_list.splice(i, 1);
+						break;
+					}
+				}
+			}else{
+				self._my_like_music_uid_list.push(music_uid);
+			}
+			self.DISP_UpdateLikeMusic();
+		});
+	};
+
+	/////////////////////////////////////////////////////////////////////////
+
+	this.DISP_MusicList = function(){
+		console.log('disp music list ' + self._music_list.length);
 		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
@@ -84,14 +148,19 @@ function TopRankControl(source){
 				}
 			}
 
+			var on_click_plus = `window._top_rank_control.ListenMusic(${i})`;
+			var on_click_heart = `window._top_rank_control.LikeMusic(${i})`;
+			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
+			console.log('id_hear_icon ' + id_heart_icon);
+
 			h += `
 				<div class="row ">
 					<div class="" style="font-size:0.6em; width:50px; padding-left:5px">${num}</div>
 				</div>
-				<div class="row border" style="margin-bottom:2px; padding-right:0px">
-					<div class="d-flex " style="width:calc( 100% - 75px); padding-left:0px">
+				<div class="row border" style="margin-bottom:2px;">
+					<div class="d-flex " style="width:calc( 100% - 75px);">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
-						<div class="pl-1" style="">
+						<div class="pl-1">
 							<div class="text-dark">${m.title}</div>
 							<div class="text-secondary" style="font-size:0.8em">
 			`;
@@ -106,15 +175,15 @@ function TopRankControl(source){
 							</div>
 						</div>
 					</div>
-					<div class="text-right d-flex " style="padding-top:5px; padding-right:0px; margin-right:0px">
+					<div class="text-right d-flex " style="padding-top:5px;">
 						<div>
-							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px " onclick="Top_Rank_ListenMusic(${i})">
-								<i class="fas fa-heart"></i>
+							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px " onclick="${on_click_heart}">
+								<i id="${id_heart_icon}" class="fas fa-heart" style="color: #bbbbbb"></i>
 							</span>
 							<div class="text-center" style="font-size:0.5em"></div>
 						</div>
 						<div>
-							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px" onclick="Top_Rank_ListenMusic(${i})">
+							<span class="badge " style="width:33px; height:33px; padding-top:10px; margin:0px" onclick="${on_click_plus}">
 								<i class="fas fa-plus"></i>
 							</span>
 						</div>
@@ -124,5 +193,22 @@ function TopRankControl(source){
 		}
 
 		$('#id_div_top_rank_music_list').html(h);
+	};
+
+	this.DISP_UpdateLikeMusic = function(){
+		console.log('self._my_like_music_uid_list ' + self._my_like_music_uid_list);
+		console.log('self._my_like_music_uid_list.length ' + self._my_like_music_uid_list.length);
+
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i];
+			var id_icon = `id_icon_music_heart-${m.music_uid}`;
+			if(self._my_like_music_uid_list.includes(m.music_uid)){
+				console.log(m.title + ' like ');
+				console.log('id_icon ' + id_icon);
+				$('#'+id_icon).css('color', 'red');
+			}else{
+				$('#'+id_icon).css('color', '#bbbbbb');
+			}
+		}
 	};
 }

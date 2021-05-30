@@ -2149,7 +2149,90 @@ function CherryService(){
 		});		
 	};
 
+	this.UpdateMusicLike = async function(music_uid, user_id, is_like){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = '';
+				if(is_like){
+					sql = `INSERT INTO like_music (user_id, music_uid) VALUES (?, ?)`;
+				}else{
+					sql = `DELETE FROM like_music WHERE user_id=? and music_uid=?`;
+				}
+				var val = [user_id, music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdateMusicLike #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdateMusicLike #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 
+	this.UpdateMusicLikeCount = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				UPDATE music SET like_count = (
+					SELECT count(*) FROM like_music WHERE music_uid=?
+				)
+				WHERE music_uid=?
+				`;
+				var val = [music_uid, music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdateMusicLikeCount #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdateMusicLikeCount #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetMyLikeMusicList = function(user_id, music_uid_list){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				console.log('user_id ' + user_id);
+
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT music_uid FROM like_music WHERE user_id=? AND music_uid IN (?)`;
+				var val = [user_id, music_uid_list];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService GetMyLikeMusicList #0');
+					}else{
+						console.log('result ' + result.length);
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService GetMyLikeMusicList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 }
 
 module.exports = new CherryService();

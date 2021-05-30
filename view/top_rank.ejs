@@ -27,12 +27,4 @@
 $('document').ready(function(){
 	window._top_rank_control = new TopRankControl('<%=source%>').Init();
 });
-
-function Top_Rank_ListenMusic(idx){
-	var music = window._top_rank_control._music_list[idx];
-	if(music != null){
-		window._cherry_player.AddMusic(music);
-	}
-}
-
 </script>

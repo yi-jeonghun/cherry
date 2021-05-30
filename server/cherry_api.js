@@ -24,6 +24,68 @@ router.get('/get_artist_list', async function(req, res){
 	}
 });
 
+router.post('/get_my_like_music_list', async function(req, res){
+	try{
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok: 1,
+				like_music_uid_list: []
+			});
+			return;
+		}
+
+		var music_uid_list = req.body.music_uid_list;
+		var like_music_uid_list = await cherry_service.GetMyLikeMusicList(user_id, music_uid_list);
+		res.send({
+			ok: 1,
+			like_music_uid_list: like_music_uid_list
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to get_my_like_music_list'
+		});
+	}
+});
+
+router.post('/update_music_like', async function(req, res){
+	try{
+		var user_id = auth_service.GetLoginUserID(req);
+		if(user_id == null){
+			res.send({
+				ok: 0,
+				err_code:-1,
+				err:'Sign in requied'
+			});
+			return;
+		}
+		
+		var music_uid = req.body.music_uid;
+		var is_like = req.body.is_like;
+
+		if(is_like){
+			//삭제하고
+			await cherry_service.UpdateMusicLike(music_uid, user_id, false);
+			//입력
+			await cherry_service.UpdateMusicLike(music_uid, user_id, true);
+		}else{
+			await cherry_service.UpdateMusicLike(music_uid, user_id, false);
+		}
+		await cherry_service.UpdateMusicLikeCount(music_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to update_music_like'
+		});
+	}
+});
+
 router.post('/search_artist', async function(req, res){
 	try{
 		var data = req.body;
@@ -380,6 +442,8 @@ router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
 		var country_code = req.body.country_code;
 		var source = req.body.source;
+		console.log('country_code ' + country_code);
+		console.log('source ' + source);
 		var music_list = await cms_service.GetTopRankReleaseData(country_code, source);
 
 		res.send({
