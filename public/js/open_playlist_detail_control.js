@@ -99,6 +99,19 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 		});
 	};
 
+	this.LikeMusic = function(idx){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			alert('Sign in required');
+			return;
+		}
+
+		var m = self._music_list[idx];
+		var is_like = m.is_like == 'Y' ? false : true;
+		m.is_like = m.is_like == 'Y' ? 'N' : 'Y';
+		CMN_LikeMusic(m.music_uid, is_like);
+	};
+
 	///////////////////////////////////////////////////////////////////
 
 	this.DISP_playlist_info = function(){
@@ -114,6 +127,12 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 			var m = self._music_list[i];
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			var on_click_listen = `window._open_playlist_detail_control.AddMusic(${i})`;
+			var on_click_heart = `window._open_playlist_detail_control.LikeMusic(${i})`;
+			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
+			var like_color = '#bbbbbb';
+			if(m.is_like == 'Y'){
+				like_color = 'red';
+			}
 
 			var artist_list = [];
 			{
@@ -137,8 +156,8 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 				}
 			}
 			h += `
-				<div class="row border">
-					<div class="col-10 col-sm-11 d-flex" style="padding-left:0px">
+				<div class="row border"  style="margin-bottom:5px;">
+					<div class="d-flex" style="width:calc( 100% - 75px);">
 						<image style="height: 50px; width: 50px;" src="${img_src}">
 						<div class="pl-1">
 							<div class="text-dark">${m.title}</div>
@@ -155,14 +174,19 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 							</div>
 						</div>
 					</div>
-					<div class="col-2 col-sm-1" style="padding-top:10px">
-						<button class="btn" type="button" onclick="${on_click_listen}">
-							<i class="fas fa-plus"></i>
-						</button>
+					<div class="text-right d-flex " style="padding-top:5px;">
+						<div>
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_heart}">
+								<i id="${id_heart_icon}" class="fas fa-heart" style="color: ${like_color}"></i>
+							</span>
+							<div class="text-center" style="font-size:0.5em"></div>
+						</div>
+						<div>
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_listen}">
+								<i class="fas fa-plus"></i>
+							</span>
+						</div>
 					</div>
-				</div>
-				<div style="font-size:0.6em; text-align:right; color:white">
-						${m.user_name}
 				</div>
 			`;
 		}
