@@ -108,6 +108,20 @@ function SearchControl(){
 		window._cherry_player.AddMusic(self._music_list[idx]);
 	};
 
+	this.LikeMusic = function(idx){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			alert('Sign in required');
+			return;
+		}
+
+		var m = self._music_list[idx];
+		var is_like = m.is_like == 'Y' ? false : true;
+		m.is_like = m.is_like == 'Y' ? 'N' : 'Y';
+		CMN_LikeMusic(m.music_uid, is_like);
+	};
+
+
 	////////////////////////////////////////////////////////////////////
 
 	this.DISP_ArtistResult = function(){
@@ -136,6 +150,13 @@ function SearchControl(){
 		for (let i = 0; i < self._music_list.length; i++) {
 			var m = self._music_list[i];
 			var add_music = `window._search_control.AddMusic(${i})`;
+			var on_click_heart = `window._search_control.LikeMusic(${i})`;
+			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
+			var like_color = '#bbbbbb';
+			if(m.is_like == 'Y'){
+				like_color = 'red';
+			}
+
 			var artist_list = [];
 			{
 				if(m.is_various == 'Y'){
@@ -159,8 +180,8 @@ function SearchControl(){
 			}
 	
 			h += `
-				<div class="row" style="padding-top:5px; border-bottom:1px solid #eeeeee">
-					<div class="col-10 col-sm-11 d-flex">
+				<div class="row border" style="margin-bottom:5px;">
+					<div class="d-flex " style="width:calc( 100% - 75px);">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 						<div class="pl-1">
 							<div class="text-dark">${m.title}</div>
@@ -177,10 +198,18 @@ function SearchControl(){
 							</div>
 						</div>
 					</div>
-					<div class="col-1">
-						<button class="btn" type="button" onclick="${add_music}">
-							<i class="fas fa-plus"></i>
-						</button>
+					<div class="text-right d-flex " style="padding-top:5px;">
+						<div>
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_heart}">
+								<i id="${id_heart_icon}" class="fas fa-heart" style="color: ${like_color}"></i>
+							</span>
+							<div class="text-center" style="font-size:0.5em"></div>
+						</div>
+						<div>
+							<span class="badge" style="width:33px; height:33px; padding-top:10px;" onclick="${add_music}">
+								<i class="fas fa-plus"></i>
+							</span>
+						</div>
 					</div>
 				</div>
 			`;

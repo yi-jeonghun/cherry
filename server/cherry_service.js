@@ -1230,7 +1230,7 @@ function CherryService(){
 		});
 	};
 
-	this.SearchMusicListByTitle = async function(keyword){
+	this.SearchMusicListByTitle = async function(keyword, user_id){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
@@ -1240,15 +1240,19 @@ function CherryService(){
 						a.name AS artist, a.artist_uid, a.is_various, 
 						m.title, m.video_id, m.music_uid, u.name user_name,
 						m.is_diff_name, m.org_music_uid,
-						concat('[',v.member_list_json,']') as member_list_json
+						concat('[',v.member_list_json,']') as member_list_json,
+						IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
 					JOIN user u ON m.user_id = u.user_id
 					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
-					WHERE m.title LIKE "%${keyword}%" 
+					LEFT JOIN (
+						SELECT * FROM like_music WHERE user_id=?
+						) lm ON m.music_uid=lm.music_uid
+						WHERE m.title LIKE ? 
 				`;
 
-				var val = [];
+				var val = [user_id, "%"+keyword+"%"];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

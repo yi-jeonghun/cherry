@@ -524,10 +524,11 @@ router.post('/search_artist_and_music_like', async function(req, res){
 
 router.post('/search_artist_music_like', async function(req, res){
 	try{
+		var user_id = await permission_service.GetUserID(req);
 		var keyword = req.body.keyword;
 		var country_code = req.body.country_code;
 		var artist_list = await cherry_service.SearchArtistLike(keyword);
-		var music_list = await cherry_service.SearchMusicListByTitle(keyword);
+		var music_list = await cherry_service.SearchMusicListByTitle(keyword, user_id);
 		var playlist_list = await cherry_service.SearchPlaylistByTitleLike(keyword, country_code);
 		var hash_list = keyword.split(' ');
 		for(var i=0 ; i<hash_list.length ; i++){
