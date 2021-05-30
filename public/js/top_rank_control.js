@@ -68,6 +68,7 @@ function TopRankControl(source){
 
 		var m = self._music_list[idx];
 		var is_like = m.is_like == 'Y' ? false : true;
+		m.is_like = m.is_like == 'Y' ? 'N' : 'Y';
 		CMN_LikeMusic(m.music_uid, is_like);
 	};
 
