@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="/js/util.js"></script>
 	<!-- 순서 주위 -->
 	<link rel="stylesheet" type="text/css" href="/css/cms_style.css">
+	<link rel="stylesheet" type="text/css" href="/css/slider.css">
 
 </head>
 <body style="width: 100%; height: 100%;">
@@ -68,12 +69,13 @@
 						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
 					</div>
 					<div class="border" style="width: 100%;">
-						<div class="slider_line_div border" style="width: 100%; height: 20px; background-color: aqua;">
-							<div class="slider_fill" id="id_slider_fill" style="height: 100%; width: 0%; background-color: red;	font-size: 2px;">&nbsp</div>
+						<div class="border" style="width: 100%; height: 40px; padding-top: 5px;">
+							<div class="slider_filler border" id=""></div>
+							<input class="border slider" type="range" min="0" max="10000" value="0" id="id_slider_range">
 						</div>
 						<div style="width: 100%;">
 							<i class="fas fa-volume-up"></i>
-							<input type="range" min="0" max="100" value="50" class="slider" id="id_slider_volume">
+							<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
 						</div>
 						<div id="id_div_duration"></div>
 					</div>
@@ -153,5 +155,6 @@
 
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 <script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/js/slider_control.js"></script>
 <script type="text/javascript" src="/js/youtube_search_control.js"></script>
 <script type="text/javascript" src="/__cms/js/cms_top_rank_control.js"></script>
