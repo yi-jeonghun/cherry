@@ -14,6 +14,7 @@ then
 		youtube_iframe_player.js \
 		router.js \
 		cherry_player.js \
+		slider_control.js \
 		control.js \
 		-o index_min.js -c -m
 	
@@ -25,6 +26,7 @@ then
 		youtube_iframe_player.js \
 		router.js \
 		cherry_player.js \
+		slider_control.js \
 		playlist_embed_control.js \
 		-o playlist_embed_min.js -c -m
 

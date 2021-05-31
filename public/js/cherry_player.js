@@ -55,7 +55,6 @@ function CherryPlayer(){
 	this._repeat_type = REPEAT_TYPE.ALL;
 	this._b_play_list_show = false;
 	this._b_volume_show = false;
-	this._id_slider_fill = null;
 	this._is_edit_mode = false;
 	this._playlist_storage = null;
 	this._cb_on_play_started = null;
@@ -69,7 +68,6 @@ function CherryPlayer(){
 		$('#id_player_music_list_div').hide();
 		self.InitHandle();
 		self.InitKeyHandle();
-		self._id_slider_fill = $('#id_slider_fill');
 		self.ReloadPlayerIcons();
 		return self;
 	};
@@ -99,7 +97,7 @@ function CherryPlayer(){
 		window.localStorage.setItem('PLAYER.LAST_PLAY_MS', ms);
 		var timestamp = new Date().getTime();
 		window.localStorage.setItem('PLAYER.LAST_PLAY_WALLTIME_MS', timestamp);
-		self._id_slider_fill.width(progress_rate + "%");
+		window._slider_control.Update(progress_rate);
 	};
 
 	this.OnPlayerStateChange = function(player_state, duration){

@@ -37,19 +37,6 @@ div{
 	display:none;
 }
 
-.slider_line_div{
-	position: fixed; 
-	bottom: 101; 
-	z-index: 100;
-	width: 100%;
-}
-
-.slider_fill{
-	width: 0%;
-	background-color: red;
-	font-size: 2px;
-}
-
 .player_div{
 	position: fixed; 
 	bottom: 0; 
@@ -73,14 +60,6 @@ div{
 	width: 85px;
 	padding-top: 5px;
 	padding-right: 5px;
-}
-
-.slider_div{
-	height: 40px;
-}
-
-.slider{
-	width: 100%;
 }
 
 .player_music_list{
