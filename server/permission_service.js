@@ -93,6 +93,34 @@ function PermissionService() {
 		});
 	};
 
+	this.IsDjUser = async function (dj_user_id) {
+		return new Promise(async function (resolve, reject) {
+			var conn = null;
+			try {
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT count(*) cnt from user user_id=? and is_dj='Y'`;
+				var val = [dj_user_id];
+				conn.query(sql, val, function (err, result) {
+					if (err) {
+						console.error(err);
+						reject('FAIL PermissionService.IsDjUser #0');
+					} else {
+						if(result.length > 0){
+							resolve(true);
+						}else{
+							resolve(false);
+						}
+					}
+				});
+			} catch (err) {
+				console.error(err);
+				reject('FAIL PermissionService IsDjUser #1');
+			} finally {
+				if (conn) conn.release();
+			}
+		});
+	};
+
 	this.GetUserList = async function () {
 		return new Promise(async function (resolve, reject) {
 			var conn = null;

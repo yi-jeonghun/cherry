@@ -7,6 +7,53 @@ var permission_service = require('./permission_service');
 var cms_service = require('./cms_service');
 var auth_service = require('./auth_service');
 
+router.post('/get_lyrics', async function(req, res){
+	try{
+		var music_uid = req.body.music_uid;
+		console.log('music_uid ' + music_uid);
+		var lyrics_info = await cherry_service.GetLyrics(music_uid);
+		console.log('lyrics_info ' + lyrics_info.registered);
+		res.send({
+			ok: 1,
+			lyrics_info: lyrics_info
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_lyrics'
+		});
+	}
+});
+
+router.post('/update_lyrics', async function(req, res){
+	try{
+		var has_lyrics = req.body.has_lyrics;
+		var music_uid = req.body.music_uid;
+		var text = req.body.text;
+		var dj_user_id = req.body.dj_user_id;
+
+		if(permission_service.IsDjUser(dj_user_id) == false){
+			res.send({
+				ok: 0,
+				err: "No Permisstion"
+			});
+			return;
+		}
+
+		await cherry_service.UpdateLyrics(has_lyrics, music_uid, text);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_lyrics'
+		});
+	}
+});
+
 router.get('/get_artist_list', async function(req, res){
 	try{
 		var artist_list = await cherry_service.GetArtistList();
@@ -881,6 +928,5 @@ router.post('/delete_music_from_playlist', async function(req, res){
 		});
 	}
 });
-
 
 module.exports = router;

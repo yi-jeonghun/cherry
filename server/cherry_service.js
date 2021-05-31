@@ -2285,6 +2285,70 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.GetLyrics = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT text FROM lyrics WHERE music_uid=?`;
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetLyrics #0');
+					}else{
+						if(result.length > 0){
+							resolve({
+								registered:true,
+								text:result[0].text
+							});
+						}else{
+							resolve({
+								registered:false
+							});
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetLyrics #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateLyrics = async function(has_lyrics, music_uid, text){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = '';
+				var val = [];
+				if(has_lyrics == 'Y'){
+					sql = `UPDATE lyrics set text=? WHERE music_uid=?`;
+					val = [text, music_uid];
+				}else{
+					sql = `INSERT INTO lyrics (music_uid, text) VALUES (?, ?)`;
+					val = [music_uid, text];
+				}
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdateLyrics #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdateLyrics #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
 }
 
 module.exports = new CherryService();

@@ -58,10 +58,12 @@ function CMS_Service(){
 			var conn = null;
 
 			var sql = `
-				SELECT t.rank_num, t.music_uid, t.artist, t.artist_uid, a.is_various, t.title, t.video_id
+				SELECT t.rank_num, t.music_uid, t.artist, t.artist_uid, a.is_various, t.title, t.video_id,
+					IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics
 				FROM top_rank_list_draft t
 				LEFT JOIN music m ON t.music_uid=m.music_uid
 				LEFT JOIN artist a ON a.artist_uid=m.artist_uid
+				LEFT JOIN lyrics l ON t.music_uid=l.music_uid
 				WHERE country_code=? and source=?
 				ORDER BY t.rank_num ASC
 			`;
@@ -93,11 +95,13 @@ function CMS_Service(){
 				SELECT t.rank_num, m.music_uid, m.title, a.name artist, a.artist_uid, 
 					a.is_various, m.video_id, u.name user_name,
 					concat('[',v.member_list_json,']') as member_list_json,
-					IF(lm.user_id IS NULL, 'N', 'Y') as is_like
+					IF(lm.user_id IS NULL, 'N', 'Y') as is_like,
+					IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics
 				FROM top_rank_list t
 				JOIN music m ON t.music_uid=m.music_uid
 				JOIN artist a ON a.artist_uid=m.artist_uid
 				JOIN user as u ON m.user_id=u.user_id
+				LEFT JOIN lyrics l ON t.music_uid=l.music_uid
 				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 				LEFT JOIN (
 					SELECT * FROM like_music WHERE user_id=?

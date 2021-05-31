@@ -44,7 +44,7 @@ function TopRankControl(){
 	};
 
 	this.InitHandle = function(){
-		$('.slider_line_div').on('mousedown', self.OnTimeBarClick);
+		$('#id_btn_cms_top_rank_lyrics_ok').on('click', self.OnClick_LyricsOK);
 	};
 	
 	this.InitKeyHandle = function(){
@@ -283,6 +283,86 @@ function TopRankControl(){
 
 	};
 
+	this.OnClick_LyricsEdit = function(idx){
+		self._working_music_idx = idx;
+		var title = '';
+		var artist = '';
+		var music_uid = null;
+		if(self._release_mode == RELEASE_MODE.DRAFT){
+			title = self._music_list_draft[idx].title;
+			artist = self._music_list_draft[idx].artist;
+			music_uid = self._music_list_draft[idx].music_uid;
+		}else{
+			title = self._music_list_release[idx].title;
+			artist = self._music_list_release[idx].artist;
+			music_uid = self._music_list_release[idx].music_uid;
+		}
+
+		console.log('music_uid ' + music_uid);
+		if(music_uid == null){
+			alert('music_uid null');
+			return;
+		}
+
+		$('#id_modal_cms_top_rank_lyrics_title').html(title);
+		$('#id_modal_cms_top_rank_lyrics_artist').html(artist);
+		$('#id_input_cms_top_rank_lyrics').val('');
+		$('#id_modal_cms_top_rank_lyrics').modal('show');
+
+		var req = {music_uid:music_uid};
+		$.ajax({
+			url:  '/cherry_api/get_lyrics',
+			type: 'POST',
+			data: JSON.stringify(req),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					if(res.lyrics_info.registered){
+						$('#id_input_cms_top_rank_lyrics').val(res.lyrics_info.text);
+					}
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_LyricsOK = function(){
+		var music_uid = null;
+		if(self._release_mode == RELEASE_MODE.DRAFT){
+			music_uid = self._music_list_draft[self._working_music_idx].music_uid;
+		}else{
+			music_uid = self._music_list_release[self._working_music_idx].music_uid;
+		}
+
+		var has_lyrics = self._music_list_draft[self._working_music_idx].has_lyrics;
+		var text = $('#id_input_cms_top_rank_lyrics').val();
+		var req = {
+			has_lyrics:has_lyrics,
+			dj_user_id: window._dj_selector.API_Get_Choosed_DJs_UserID(),
+			music_uid: music_uid,
+			text: text
+		};
+
+		POST('/cherry_api/update_lyrics', req, (res)=>{
+			if(res.ok){
+				alert('success');
+				$('#id_modal_cms_top_rank_lyrics').modal('hide');
+
+				if(self._release_mode == RELEASE_MODE.DRAFT){
+					self._music_list_draft[self._working_music_idx].has_lyrics = 'Y';
+					self.DISP_MusicList_Draft();
+				}else{
+					self._music_list_release[self._working_music_idx].has_lyrics = 'Y';
+					self.DISP_MusicList_Release();
+				}
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	this.GetMusicDiffNameList = function(music_uid){
@@ -498,7 +578,6 @@ function TopRankControl(){
 
 	this.ChooseMusicForWorking = function(idx){
 		self._working_idx = idx;
-		console.log('idx ' + idx);
 		for(var i=0 ; i<self._music_list_draft.length ; i++){
 			if((i%2) == 1){
 				$(`#id_row_music_${i}`).css('background-color', '#eeeeee');
@@ -879,6 +958,7 @@ function TopRankControl(){
 			<th>Video ID</th>
 			<th>IMG</th>
 			<th>MID</th>
+			<th>L</th>
 		</tr>
 		`;
 
@@ -897,8 +977,10 @@ function TopRankControl(){
 			}
 
 			var img_url = '';
-			if(m.video_id != null)
+			if(m.video_id != null){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
+			}
+			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
 
 			h += `
 			<tr onclick="window._top_rank_control.ChooseMusicForWorking(${i})" id="id_row_music_${i}">
@@ -912,6 +994,9 @@ function TopRankControl(){
 				</td>
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
+				<td>
+					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+				</td>
 			</tr>
 			`;
 		}
@@ -933,6 +1018,7 @@ function TopRankControl(){
 			<th>Video ID</th>
 			<th>IMG</th>
 			<th>MID</th>
+			<th>L</th>
 		</tr>
 		`;
 
@@ -942,6 +1028,7 @@ function TopRankControl(){
 			if(m.video_id != null){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			}
+			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
 
 			h += `
 			<tr>
@@ -953,6 +1040,9 @@ function TopRankControl(){
 				<td>${m.video_id}</td>
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
+				<td>
+					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+				</td>
 			</tr>
 			`;
 		}
