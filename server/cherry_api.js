@@ -269,6 +269,8 @@ router.post('/delete_music', async function(req, res){
 		await cherry_service.DeleteMusicInTopRankList(music_uid);
 		//top_rank_list_draft
 		await cherry_service.DeleteMusicInTopRankListDraft(music_uid);
+		//lyrics
+		await cherry_service.DeleteLyrics(music_uid);
 		//music
 		await cherry_service.DeleteMusic(music_uid);
 

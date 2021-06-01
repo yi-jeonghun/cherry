@@ -1066,6 +1066,30 @@ function CherryService(){
 		});
 	};
 
+	this.DeleteLyrics = async function(music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = 'DELETE FROM lyrics WHERE music_uid=?';
+				var val = [music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService DeleteLyrics #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService DeleteLyrics #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 	this.GetMusicList = async function(music){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
