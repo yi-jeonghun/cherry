@@ -98,7 +98,7 @@ function PermissionService() {
 			var conn = null;
 			try {
 				conn = await db_conn.GetConnection();
-				var sql = `SELECT count(*) cnt from user user_id=? and is_dj='Y'`;
+				var sql = `SELECT count(*) cnt FROM user WHERE user_id=? and is_dj='Y'`;
 				var val = [dj_user_id];
 				conn.query(sql, val, function (err, result) {
 					if (err) {
