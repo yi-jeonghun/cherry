@@ -330,13 +330,15 @@ function TopRankControl(){
 
 	this.OnClick_LyricsOK = function(){
 		var music_uid = null;
+		var has_lyrics = 'N';
 		if(self._release_mode == RELEASE_MODE.DRAFT){
 			music_uid = self._music_list_draft[self._working_music_idx].music_uid;
+			has_lyrics = self._music_list_draft[self._working_music_idx].has_lyrics;
 		}else{
 			music_uid = self._music_list_release[self._working_music_idx].music_uid;
+			has_lyrics = self._music_list_release[self._working_music_idx].has_lyrics;
 		}
 
-		var has_lyrics = self._music_list_draft[self._working_music_idx].has_lyrics;
 		var text = $('#id_input_cms_top_rank_lyrics').val();
 		var req = {
 			has_lyrics:has_lyrics,
