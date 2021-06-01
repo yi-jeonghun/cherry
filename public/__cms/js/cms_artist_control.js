@@ -37,6 +37,7 @@ function ArtistControl(){
 	this._diff_name_edit_mode = DIFFERENT_NAME_EDIT_MODE.NEW;
 	this._diff_name_artist_uid = null;
 	this._music_list = [];
+	this._working_music_idx = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -71,6 +72,7 @@ function ArtistControl(){
 		$('#id_btn_cms_artist_delete_artist').on('click', self.OnClick_id_btn_cms_artist_delete_artist);
 		$('#id_checkbox_cms_artist_is_various').on('click', self.OnClick_id_checkbox_cms_artist_is_various);
 		$('#id_input_cms_artist_member_artist').keyup(self.SearchMemberArtist);;
+		$('#id_btn_cms_artist_lyrics_ok').on('click', self.OnClick_LyricsOK);
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -528,6 +530,59 @@ function ArtistControl(){
 
 	};
 
+	this.OnClick_LyricsEdit = function(idx){
+		self._working_music_idx = idx;
+		var title = self._music_list[idx].title;
+		var artist = self._music_list[idx].artist;
+		var music_uid = self._music_list[idx].music_uid;
+
+		$('#id_modal_cms_artist_lyrics_title').html(title);
+		$('#id_modal_cms_artist_lyrics_artist').html(artist);
+		$('#id_input_cms_artist_lyrics').val('');
+		$('#id_modal_cms_artist_lyrics').modal('show');
+
+		var req = {music_uid:music_uid};
+		$.ajax({
+			url:  '/cherry_api/get_lyrics',
+			type: 'POST',
+			data: JSON.stringify(req),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					if(res.lyrics_info.registered){
+						$('#id_input_cms_artist_lyrics').val(res.lyrics_info.text);
+					}
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_LyricsOK = function(){
+		var music_uid = self._music_list[self._working_music_idx].music_uid;
+		var has_lyrics = self._music_list[self._working_music_idx].has_lyrics;
+		var text = $('#id_input_cms_artist_lyrics').val();
+		var req = {
+			has_lyrics:has_lyrics,
+			dj_user_id: window._dj_selector.API_Get_Choosed_DJs_UserID(),
+			music_uid: music_uid,
+			text: text
+		};
+
+		POST('/cherry_api/update_lyrics', req, (res)=>{
+			if(res.ok){
+				alert('success');
+				$('#id_modal_cms_artist_lyrics').modal('hide');
+				self._music_list[self._working_music_idx].has_lyrics = 'Y';
+				self.DISP_MusicList();
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
 	////////////////////////////////////////////////////////////////////////////////////
 
 	this.FindOrAddArtist = function(artist_name){
@@ -826,6 +881,7 @@ function ArtistControl(){
 			<th>MID</th>
 			<th>VID</th>
 			<th>User</th>
+			<th>L</th>
 			<th></th>
 		</tr>
 		`;
@@ -834,6 +890,7 @@ function ArtistControl(){
 			var m = self._music_list[i];
 			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
 			var on_trash_click = `window._artist_control.OnClick_MusicDelete(${i})`;
+			var on_click_lyrics = `window._artist_control.OnClick_LyricsEdit(${i})`;
 
 			h += `
 			<tr>
@@ -841,6 +898,9 @@ function ArtistControl(){
 				<td>${m.music_uid}</td>
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
+				<td>
+					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+				</td>
 				<td>
 					<i class="fas fa-pen border" onClick="${on_edit_click}" style="cursor:pointer"></i>
 					<i class="fas fa-trash-alt border" onClick="${on_trash_click}" style="cursor:pointer"></i>

@@ -1134,9 +1134,11 @@ function CherryService(){
 				var sql = `
 					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
 						concat('[',v.member_list_json,']') as member_list_json,
-						IF(lm.user_id IS NULL, 'N', 'Y') as is_like
+						IF(lm.user_id IS NULL, 'N', 'Y') as is_like,
+						IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics
 					FROM music m 
 					JOIN artist a ON m.artist_uid = a.artist_uid 
+					LEFT JOIN lyrics l ON m.music_uid=l.music_uid
 					JOIN user u ON m.user_id = u.user_id
 					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 					LEFT JOIN (
