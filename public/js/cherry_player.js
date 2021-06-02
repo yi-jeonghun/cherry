@@ -54,7 +54,6 @@ function CherryPlayer(){
 	this._repeat_type = REPEAT_TYPE.ALL;
 	this._b_play_list_show = false;
 	this._b_lyrics_show = false;
-	this._b_volume_show = false;
 	this._is_edit_mode = false;
 	this._playlist_storage = null;
 	this._cb_on_play_started = null;
@@ -88,7 +87,8 @@ function CherryPlayer(){
 		$('#id_btn_playlist_show').on('click', self.PlayList_Show);
 		$('#id_btn_playlist_hide').on('click', self.PlayList_Hide);
 		$('#id_slider_volume').on('input', self.VolumeControl);
-		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
+		$('#id_btn_volume').on('click', self.VolumeControl_Show);
+		$('#id_btn_player_close_volume_control').on('click', self.VolumeControl_Hide);
 		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
 		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
 		$('.player_info_div').on('click', self.Lyrics_Show);
@@ -250,15 +250,13 @@ function CherryPlayer(){
 		});
 	};
 
-	this.ToggleVolumeControl = function(){
-		if(self._b_volume_show){
-			$('.player_volume_div').hide();
-			self._b_volume_show = false;
-		}else{
-			$('.player_volume_div').show();
-			self._b_volume_show = true;
-		}
+	this.VolumeControl_Show = function(){
+		$('.player_volume_div').show();
 	};
+
+	this.VolumeControl_Hide = function(){
+		$('.player_volume_div').hide();
+	};	
 
 	this.GoToArtist = function(artist_name, artist_uid){
 		self.HidePlayList();

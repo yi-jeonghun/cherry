@@ -170,12 +170,21 @@
 		</div>
 	</div>
 
-	<!-- Volume Control -->
-	<div class="player_volume_div" style="background-color: white; height: 30px; padding-top: 5px; border: solid 1px gray;">
-		<div style="width: 100%; padding-left: 50px; padding-right: 50px;">
-			<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume" style="width: 100%;">
+  <!-- Volume Control -->
+	<div class="player_volume_div border" style="background-color: white; height: 50px;">
+		<div class="d-flex py-3">
+			<div class="col-2"></div>
+			<div class="col-8 px-0">
+				<input class="" type="range" min="0" max="100" value="50" id="id_slider_volume" style="width: 100%;">
+			</div>
+			<div class="col-2">
+				<span class="text-left pointer" id="id_btn_player_close_volume_control">
+					<i style="font-size: 1.3em;" class="fas fa-times"></i>
+				</span>
+			</div>
 		</div>
-	</div>
+  </div>
+
 
 </body>
 </html>
