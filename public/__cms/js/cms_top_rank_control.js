@@ -707,7 +707,10 @@ function TopRankControl(){
 				<div class="col-9 d-flex" onclick="${OnChooseVideo}">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
-						<div class="text-secondary" style="font-size: 0.8em">${channel}</div>
+						<div class="text-secondary" style="font-size: 0.8em">
+						${channel}
+						[${video_id}]
+						</div>
 					</div>
 				</div>
 				<div class="col-1">
