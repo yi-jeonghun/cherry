@@ -72,6 +72,16 @@ div{
 	display: none;
 }
 
+.player_lyrics_div{
+	position: fixed;
+	top: 0; 
+	width: 100%;
+	height: calc(100% - 100px);
+	z-index: 98;
+	background-color: white;
+	display: none;
+}
+
 .player_volume_div{
 	position: fixed; 
 	bottom: 150;

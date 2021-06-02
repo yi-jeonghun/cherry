@@ -1,4 +1,3 @@
-
 const SEQ_TYPE = {
 	Sequence : 0,
 	Shuffle : 1
@@ -54,10 +53,12 @@ function CherryPlayer(){
 	this._seq_type = SEQ_TYPE.Sequence;
 	this._repeat_type = REPEAT_TYPE.ALL;
 	this._b_play_list_show = false;
+	this._b_lyrics_show = false;
 	this._b_volume_show = false;
 	this._is_edit_mode = false;
 	this._playlist_storage = null;
 	this._cb_on_play_started = null;
+	this._lyrics_list = [];//{music_uid:'',text:''}, ...
 
 	this.Init = function(playlist_storage, cb_on_play_started){
 		self._playlist_storage = playlist_storage;
@@ -77,6 +78,21 @@ function CherryPlayer(){
 		self.__yt_player = new YoutubePlayer().Init(
 			self.OnYouTubeIframeAPIReady, self.OnPlayerReady, self.OnFlowEvent, self.OnPlayerStateChange
 		);
+	};
+
+	this.InitHandle = function(){
+		$('#id_btn_play_pause').on('click', self.PlayPause);
+		$('#id_btn_next').on('click', self.OnClickNext);
+		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
+		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
+		$('#id_btn_playlist_show').on('click', self.PlayList_Show);
+		$('#id_btn_playlist_hide').on('click', self.PlayList_Hide);
+		$('#id_slider_volume').on('input', self.VolumeControl);
+		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
+		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
+		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
+		$('.player_info_div').on('click', self.Lyrics_Show);
+		$('#id_btn_lyrics_hide').on('click', self.Lyrics_Hide);
 	};
 
 	//===========================================================================
@@ -121,19 +137,32 @@ function CherryPlayer(){
 		self.UpdatePlayPauseButton();
 	};
 	//===========================================================================
-
-	this.InitHandle = function(){
-		$('#id_btn_play_pause').on('click', self.PlayPause);
-		$('#id_btn_next').on('click', self.OnClickNext);
-		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
-		$('#id_btn_repeat_type').on('click', self.ToggleRepeatType);
-		$('#id_btn_playlist_show_hide').on('click', self.TogglePlayList);
-		$('#id_btn_playlist_hide').on('click', self.TogglePlayList);
-		$('#id_slider_volume').on('input', self.VolumeControl);
-		$('#id_btn_volume').on('click', self.ToggleVolumeControl);
-		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
-		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
+	//가사와 플레이리스트 화면은 상보 배타적.
+	this.Lyrics_Show = function(){
+		self._b_lyrics_show = true;
+		$('#id_player_lyrics_div').show();
+		$('#id_player_lyrics_div').css('z-index', 99);
+		$('#id_player_music_list_div').css('z-index', 98);
+		self.GetLyrics();
 	};
+
+	this.Lyrics_Hide = function(){
+		self._b_lyrics_show = false;
+		$('#id_player_lyrics_div').hide();
+	};
+
+	this.PlayList_Show = function(){
+		self._b_play_list_show = true;
+		$('#id_player_music_list_div').show();
+		$('#id_player_music_list_div').css('z-index', 99);
+		$('#id_player_lyrics_div').css('z-index', 98);
+	};
+
+	this.PlayList_Hide = function(){
+		self._b_play_list_show = false;
+		$('#id_player_music_list_div').hide();
+	};
+	//=============================================================================
 
 	this.ToggleEditMode = function(){
 		if(self._is_edit_mode){
@@ -231,21 +260,6 @@ function CherryPlayer(){
 		}
 	};
 
-	this.TogglePlayList = function(){
-		if(self._b_play_list_show){
-			$('#id_player_music_list_div').hide();
-			self._b_play_list_show = false;
-		}else{
-			$('#id_player_music_list_div').show();
-			self._b_play_list_show = true;
-		}
-	};
-
-	this.HidePlayList = function(){
-		self._b_play_list_show = false;
-		$('#id_player_music_list_div').hide();
-	};
-
 	this.GoToArtist = function(artist_name, artist_uid){
 		self.HidePlayList();
 		var encode_name = encodeURI(artist_name);
@@ -337,83 +351,6 @@ function CherryPlayer(){
 
 		self.HighlightCurrentMusic();
 		self.UpdatePlayPauseButton();
-	};
-
-	this.DisplayMusicList = function(){
-		var h = '';
-		for(var i=0 ; i<self._music_list.length ; i++){
-			var m = self._music_list[i]; 
-			var id_title = 'id_music_title_'+i;
-			var num = (i*1) + 1;
-			var artist_list = [];
-			{
-				if(m.is_various == 'Y'){
-					var member_list = JSON.parse(m.member_list_json);
-					for(var j=0 ; j<member_list.length ; j++){
-						var name = member_list[j].name;
-						var artist_uid = member_list[j].artist_uid;
-						artist_list.push({
-							name: name,
-							onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
-						});
-					}
-				}else{
-					artist_list.push({
-						name: m.artist,
-						onclick: `window._cherry_player.GoToArtist('${m.artist}', '${m.artist_uid}')`
-					});
-				}
-			}
-
-			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
-			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
-
-			var p_btn_disp = '';
-			if(self._is_edit_mode){
-				p_btn_disp = 'none';
-			}
-			var d_btn_disp = 'none';
-			if(self._is_edit_mode){
-				d_btn_disp = '';
-			}
-
-			h += `
-				<div class="row my-1 py-1 border" id="${id_title}">
-					<div class="col-1">
-						<div style="font-size: 0.8em">${num}</div>
-					</div>
-					<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
-						<div class="" style="width:50px; height:50px">
-							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
-						</div>
-						<div class="" style="padding-left:5px">
-							<div class="text-dark">${m.title}</div>
-							<div class="text-secondary" style="font-size:0.8em">
-			`;
-
-			for(var k=0 ; k<artist_list.length ; k++){
-				h += `
-								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
-				`;
-			}
-			
-			h += `
-							</div>
-						</div>
-					</div>
-					<div class="col-1">
-						<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
-							<i class="fas fa-play"></i>
-						</button>
-						<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
-							<i class="fas fa-trash-alt"></i>
-						</button>
-					</div>
-				</div>					
-			`;
-		}
-
-		$('#id_div_cherry_player_music_list').html(h);
 	};
 
 	this.OnClickPlayBtn = function(idx){
@@ -521,56 +458,16 @@ function CherryPlayer(){
 		window.localStorage.setItem('PLAYER.LAST_PLAYED_music_uid', music_uid);
 		self.DisplayTitleArtist(self._music_list[self._cur_music_uidx]);
 		self.HighlightCurrentMusic();
+		if(self._b_lyrics_show){
+			self.GetLyrics();
+		}
 	};
 
-	this.OnClickArtist = function(artist, artist_uid){
+	this.OnClickArtist = function(event, artist, artist_uid){
+		event.stopPropagation();
 		self.HidePlayList();
 		var a_encoded = encodeURI(artist);
 		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
-	};
-
-	this.DisplayTitleArtist = function(music){
-		if(music == null){
-			$('#id_label_title').html('');
-			$('#id_label_artist').html('');	
-			return;
-		}
-		//title, artist, artist_uid
-		$('#id_label_title').html(music.title);
-
-		var artist_list = [];
-		{
-			if(music.is_various == 'Y'){
-				var member_list = JSON.parse(music.member_list_json);
-				for(var j=0 ; j<member_list.length ; j++){
-					var name = member_list[j].name;
-					var artist_uid = member_list[j].artist_uid;
-					artist_list.push({
-						name: name,
-						onclick: `window._cherry_player.OnClickArtist('${name}', '${artist_uid}')`
-					});
-				}
-			}else{
-				artist_list.push({
-					name: music.artist,
-					onclick: `window._cherry_player.OnClickArtist('${music.artist}', '${music.artist_uid}')`
-				});
-			}
-		}
-		if(music.is_various == 'Y'){
-
-		}else{
-
-		}
-
-		var a_str = '';
-		for(var k=0 ; k<artist_list.length ; k++){
-			a_str += `
-			<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; " onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
-			`;
-		}
-
-		$('#id_label_artist').html(a_str);
 	};
 
 	this.GetRandomIndex = function(){
@@ -668,4 +565,161 @@ function CherryPlayer(){
 		var seek_ms = self._play_time_ms/100 * percent;
 		self.__yt_player.SeekAndPlay(seek_ms);
 	};
+
+	this.GetLyrics = function(){
+		$('#id_div_lyrics').html('');
+		$('#id_div_lyrics').scrollTop(0);
+		var music_uid = self._music_list[self._cur_music_uidx].music_uid; 
+
+		//기존에 가져온 게 있으면 
+		for(var i=0 ; i<self._lyrics_list.length ; i++){
+			if(self._lyrics_list[i].music_uid == music_uid){
+				$('#id_div_lyrics').html(self._lyrics_list[i].text);
+				return;
+			}
+		}
+
+		var req = {
+			music_uid: music_uid
+		};
+		POST('/cherry_api/get_lyrics', req, (res)=>{
+			if(res.ok){
+				var text = '';
+				if(res.lyrics_info.registered){
+					text = res.lyrics_info.text.replace(/\n/g, '<br>');
+					self._lyrics_list.push({
+						music_uid: music_uid,
+						text: text
+					});
+				}
+				$('#id_div_lyrics').html(text);
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
+	//=============================================================================================
+
+	this.DisplayTitleArtist = function(music){
+		if(music == null){
+			$('#id_label_title').html('');
+			$('#id_label_artist').html('');	
+			return;
+		}
+		//title, artist, artist_uid
+		$('#id_label_title').html(music.title);
+
+		var artist_list = [];
+		{
+			if(music.is_various == 'Y'){
+				var member_list = JSON.parse(music.member_list_json);
+				for(var j=0 ; j<member_list.length ; j++){
+					var name = member_list[j].name;
+					var artist_uid = member_list[j].artist_uid;
+					artist_list.push({
+						name: name,
+						onclick: `window._cherry_player.OnClickArtist(event, '${name}', '${artist_uid}')`
+					});
+				}
+			}else{
+				artist_list.push({
+					name: music.artist,
+					onclick: `window._cherry_player.OnClickArtist(event, '${music.artist}', '${music.artist_uid}')`
+				});
+			}
+		}
+		if(music.is_various == 'Y'){
+
+		}else{
+
+		}
+
+		var a_str = '';
+		for(var k=0 ; k<artist_list.length ; k++){
+			a_str += `
+			<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; " onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+			`;
+		}
+
+		$('#id_label_artist').html(a_str);
+	};
+
+	this.DisplayMusicList = function(){
+		var h = '';
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i]; 
+			var id_title = 'id_music_title_'+i;
+			var num = (i*1) + 1;
+			var artist_list = [];
+			{
+				if(m.is_various == 'Y'){
+					var member_list = JSON.parse(m.member_list_json);
+					for(var j=0 ; j<member_list.length ; j++){
+						var name = member_list[j].name;
+						var artist_uid = member_list[j].artist_uid;
+						artist_list.push({
+							name: name,
+							onclick: `window._cherry_player.GoToArtist('${name}', '${artist_uid}')`
+						});
+					}
+				}else{
+					artist_list.push({
+						name: m.artist,
+						onclick: `window._cherry_player.GoToArtist('${m.artist}', '${m.artist_uid}')`
+					});
+				}
+			}
+
+			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
+			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
+
+			var p_btn_disp = '';
+			if(self._is_edit_mode){
+				p_btn_disp = 'none';
+			}
+			var d_btn_disp = 'none';
+			if(self._is_edit_mode){
+				d_btn_disp = '';
+			}
+
+			h += `
+				<div class="row my-1 py-1 border" id="${id_title}">
+					<div class="col-1">
+						<div style="font-size: 0.8em">${num}</div>
+					</div>
+					<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
+						<div class="" style="width:50px; height:50px">
+							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+						</div>
+						<div class="" style="padding-left:5px">
+							<div class="text-dark">${m.title}</div>
+							<div class="text-secondary" style="font-size:0.8em">
+			`;
+
+			for(var k=0 ; k<artist_list.length ; k++){
+				h += `
+								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+				`;
+			}
+			
+			h += `
+							</div>
+						</div>
+					</div>
+					<div class="col-1">
+						<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
+							<i class="fas fa-play"></i>
+						</button>
+						<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>
+				</div>					
+			`;
+		}
+
+		$('#id_div_cherry_player_music_list').html(h);
+	};
+
 }
