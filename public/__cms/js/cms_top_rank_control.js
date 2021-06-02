@@ -52,7 +52,7 @@ function TopRankControl(){
 			console.log('key ' + e.keyCode);
 			switch(e.keyCode){
 				case 49://1
-					self.SearchYoutube(self._working_idx);
+					self.SearchYoutube(self._working_idx, false);
 					break;
 				case 50://1
 					self.SearchArtist(self._working_idx);
@@ -657,7 +657,8 @@ function TopRankControl(){
 		self.DISP_VideoImage(idx);
 	};
 
-	this.SearchYoutube = function(idx){
+	this.SearchYoutube = function(idx, is_next){
+		console.log('idx ' + idx + ' is_next ' + is_next);
 		if(idx == -1){
 			return;
 		}
@@ -666,18 +667,27 @@ function TopRankControl(){
 		var title = self._music_list_draft[idx].title.replace('&amp;', '');
 		var keyword = artist_name + "+" + title;
 
-		self._youtube.Search(keyword, self.OnYoutubeSearched, self.OnYoutubeVideoInfo);
+		if(is_next == false){
+			self._youtube_searched_video_list = [];
+		}
+		self._youtube.Search(keyword, is_next, self.OnYoutubeSearched, self.OnYoutubeVideoInfo);
+	};
+
+	this.OnClick_NextPageSearch = function(){
+		self.SearchYoutube(self._working_idx, true);
 	};
 
 	this.OnYoutubeSearched = function(video_list){
-		self._youtube_searched_video_list = video_list;
+		for(var i=0 ; i<video_list.length ; i++){
+			self._youtube_searched_video_list.push(video_list[i]);
+		}
 		$('#id_div_youtube_search_result').empty();
 
 		var h = `
 		<div class="container-fluid small">
 		`;
-		for(var i=0 ; i<video_list.length ; i++){
-			var video = video_list[i];
+		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
+			var video = self._youtube_searched_video_list[i];
 
 			var video_id = video.video_id;
 			var title = video.title;
@@ -693,7 +703,7 @@ function TopRankControl(){
 				<div class="col-1">
 					<image style="height: 50px; width: 50px;" src="${img_src}">
 				</div>
-				<div class="col-1" id="${id_video_duration_str}">00:00:00</div>
+				<div class="col-1" id="${id_video_duration_str}">${video.duration}</div>
 				<div class="col-9 d-flex" onclick="${OnChooseVideo}">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
@@ -708,6 +718,7 @@ function TopRankControl(){
 		}
 
 		h += `
+			<div class="text-center pointer" onClick="window._top_rank_control.OnClick_NextPageSearch()">Next</div>
 		</div>
 		`;
 
@@ -754,8 +765,13 @@ function TopRankControl(){
 	};
 
 	this.OnYoutubeVideoInfo = function(video_list){
-		self._youtube_searched_video_list = video_list;
 		for(var i=0 ; i<video_list.length ; i++){
+			for(var j=0 ; j<self._youtube_searched_video_list.length ; j++){
+				if(self._youtube_searched_video_list[i].video_id == video_list[i].video_id){
+					self._youtube_searched_video_list[i].duration = video_list[i].duration
+					break;
+				}
+			}
 			$('#id_video_duration-'+video_list[i].video_id).html(video_list[i].duration);
 		}
 	};
@@ -983,6 +999,10 @@ function TopRankControl(){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			}
 			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
+			var lyrics_badge_color = 'badge-danger';
+			if(m.has_lyrics == 'Y'){
+				lyrics_badge_color = 'border';
+			}
 
 			h += `
 			<tr onclick="window._top_rank_control.ChooseMusicForWorking(${i})" id="id_row_music_${i}">
@@ -997,7 +1017,7 @@ function TopRankControl(){
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
 				<td>
-					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+					<i class="badge badge-sm ${lyrics_badge_color} pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
 				</td>
 			</tr>
 			`;
@@ -1031,6 +1051,10 @@ function TopRankControl(){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			}
 			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
+			var lyrics_badge_color = 'badge-danger';
+			if(m.has_lyrics == 'Y'){
+				lyrics_badge_color = 'border';
+			}
 
 			h += `
 			<tr>
@@ -1043,7 +1067,7 @@ function TopRankControl(){
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
 				<td>
-					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+					<i class="badge badge-sm ${lyrics_badge_color} pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
 				</td>
 			</tr>
 			`;

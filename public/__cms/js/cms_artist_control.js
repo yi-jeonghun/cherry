@@ -59,7 +59,7 @@ function ArtistControl(){
 	this.InitComponentHandle = function(){
 		console.log('InitComponentHandle ');
 		$('#id_input_artist_keyword').keyup(self.OnInputArtistKeyword);
-		$('#id_btn_search_youtube').on('click', self.OnClickSearchYoutube);
+		$('#id_btn_search_youtube').on('click', self.OnClick_SearchYoutube1);
 		$('#id_btn_cms_artist_add').on('click', self.OnClick_id_btn_cms_artist_add);
 		$('#id_btn_cms_artist_edit_ok').on('click', self.OnClick_id_btn_cms_artist_edit_ok);
 		$('.slider_line_div').on('mousedown', self.OnTimeBarClick);
@@ -116,14 +116,27 @@ function ArtistControl(){
 		self.GetMusicListOfArtist();
 	};
 
-	this.OnClickSearchYoutube = function(){
+	this.OnClick_SearchYoutube1 = function(){
+		var is_next = false;
+		self.OnClickSearchYoutube(is_next);
+	};
+
+	this.OnClick_NextPageSearch = function(){
+		var is_next = true;
+		self.OnClickSearchYoutube(is_next);
+	};
+
+	this.OnClickSearchYoutube = function(is_next){
 		var title = $('#id_input_music_search_keyword').val().trim();
 		if(title == ''){
 			return;
 		}
 
 		var keyword = self._artist_name + " + " + title;
-		self._youtube.Search(keyword, self.DISP_YoutubeSearchResult, self.DISP_YoutubeVideoInfo);
+		if(is_next == false){
+			self._youtube_searched_video_list = [];
+		}
+		self._youtube.Search(keyword, is_next, self.DISP_YoutubeSearchResult, self.DISP_YoutubeVideoInfo);
 	};
 
 	this.OnClick_id_btn_cms_artist_add = function(){
@@ -891,6 +904,10 @@ function ArtistControl(){
 			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
 			var on_trash_click = `window._artist_control.OnClick_MusicDelete(${i})`;
 			var on_click_lyrics = `window._artist_control.OnClick_LyricsEdit(${i})`;
+			var lyrics_badge_color = 'badge-danger';
+			if(m.has_lyrics == 'Y'){
+				lyrics_badge_color = 'border';
+			}
 
 			h += `
 			<tr>
@@ -899,7 +916,7 @@ function ArtistControl(){
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
 				<td>
-					<i class="badge badge-sm border pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+					<i class="badge badge-sm ${lyrics_badge_color} pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
 				</td>
 				<td>
 					<i class="fas fa-pen border" onClick="${on_edit_click}" style="cursor:pointer"></i>
@@ -913,14 +930,16 @@ function ArtistControl(){
 	};
 
 	this.DISP_YoutubeSearchResult = function(video_list){
-		self._youtube_searched_video_list = video_list;
+		for(var i=0 ; i<video_list.length ; i++){
+			self._youtube_searched_video_list.push(video_list[i]);
+		}
 		$('#id_div_youtube_search_result').empty();
 
 		var h = `
 		<div class="container-fluid small">
 		`;
-		for(var i=0 ; i<video_list.length ; i++){
-			var video = video_list[i];
+		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
+			var video = self._youtube_searched_video_list[i];
 
 			var video_id = video.video_id;
 			var title = video.title;
@@ -936,7 +955,7 @@ function ArtistControl(){
 				<div class="col-1">
 					<image style="height: 50px; width: 50px;" src="${img_src}">
 				</div>
-				<div class="col-1" id="${id_video_duration_str}">00:00:00</div>
+				<div class="col-1" id="${id_video_duration_str}">${video.duration}</div>
 				<div class="col-8 d-flex">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
@@ -959,6 +978,7 @@ function ArtistControl(){
 		}
 
 		h += `
+			<div class="text-center pointer" onClick="window._artist_control.OnClick_NextPageSearch()">Next</div>
 		</div>
 		`;
 
@@ -966,8 +986,13 @@ function ArtistControl(){
 	};
 
 	this.DISP_YoutubeVideoInfo = function(video_list){
-		self._youtube_searched_video_list = video_list;
 		for(var i=0 ; i<video_list.length ; i++){
+			for(var j=0 ; j<self._youtube_searched_video_list.length ; j++){
+				if(self._youtube_searched_video_list[i].video_id == video_list[i].video_id){
+					self._youtube_searched_video_list[i].duration = video_list[i].duration
+					break;
+				}
+			}
 			$('#id_video_duration-'+video_list[i].video_id).html(video_list[i].duration);
 		}
 	};

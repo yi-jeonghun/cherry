@@ -3,19 +3,24 @@ function YoutubeSearchControl(){
 	this._api_key = 'AIzaSyAavEwSLYg0zl1fxk_5uAZdx3_4tzbmSyQ';
 	this._youtube_video_list = [];
 	this._cb_on_duration_updated = null;
+	this._keyword = null;
+	this._next_page_token = null;
 
-	this.Search = function(keyword, cb_on_searched, cb_on_duration_updated){
+	this.Search = function(keyword, is_next, cb_on_searched, cb_on_duration_updated){
 		self._youtube_video_list = [];
 		self._cb_on_duration_updated = cb_on_duration_updated;
 
 		if(keyword == ''){
 			return;
 		}
-
 		console.log('youtube search keyword : ' + keyword);
+		//nextPageToken
 
 		keyword = encodeURI(keyword);
 		var url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${keyword}&type=video&key=${self._api_key}`;
+		if(is_next){
+			url += `&pageToken=${self._next_page_token}`;
+		}
 
 		$.ajax({
 			url: url,
@@ -24,6 +29,8 @@ function YoutubeSearchControl(){
 			contentType: 'application/json; charset=utf-8',
 			dataType: 'json',
 			success: function (res) {
+				// console.log(res);
+				self._next_page_token = res.nextPageToken;
 				for(var i=0 ; i<res.items.length ; i++){
 					var item = res.items[i];
 					var video = {
