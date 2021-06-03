@@ -706,7 +706,7 @@ function TopRankControl(){
 					<image style="height: 50px; width: 50px;" src="${img_src}">
 				</div>
 				<div class="col-1" id="${id_video_duration_str}">${video.duration}</div>
-				<div class="col-9 d-flex" onclick="${OnChooseVideo}">
+				<div class="col-8 d-flex">
 					<div class="pl-1">
 						<div class="text-dark">${title}</div>
 						<div class="text-secondary" style="font-size: 0.8em">
@@ -714,6 +714,11 @@ function TopRankControl(){
 						[${video_id}]
 						</div>
 					</div>
+				</div>
+				<div class="col-1">
+					<button type="button" class="btn btn-sm border" onclick="${OnChooseVideo}">
+						<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
+					</button>
 				</div>
 				<div class="col-1">
 					<span class="badge badge-sm badge-primary border" style="cursor:pointer" onClick="${OnOkClick}">OK</span>
