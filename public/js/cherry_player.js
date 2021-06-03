@@ -463,7 +463,8 @@ function CherryPlayer(){
 
 	this.OnClickArtist = function(event, artist, artist_uid){
 		event.stopPropagation();
-		self.HidePlayList();
+		self.Lyrics_Hide();
+		self.PlayList_Hide();
 		var a_encoded = encodeURI(artist);
 		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
 	};
