@@ -666,6 +666,7 @@ function TopRankControl(){
 		var artist_name = self._music_list_draft[idx].artist.replace('&amp;', '');
 		var title = self._music_list_draft[idx].title.replace('&amp;', '');
 		var keyword = artist_name + "+" + title;
+		self._searching_title = title;
 
 		if(is_next == false){
 			self._youtube_searched_video_list = [];
@@ -691,6 +692,7 @@ function TopRankControl(){
 
 			var video_id = video.video_id;
 			var title = video.title;
+			title = title.replace(self._searching_title, '<u style="color:red">'+self._searching_title+'</u>');
 			var channel = video.channel;
 			var img_src =  `https://img.youtube.com/vi/${video_id}/0.jpg`;
 			var id_video_duration_str = `id_video_duration-${video_id}`;

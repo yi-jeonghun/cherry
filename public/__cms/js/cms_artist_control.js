@@ -930,6 +930,7 @@ function ArtistControl(){
 	};
 
 	this.DISP_YoutubeSearchResult = function(video_list){
+		var searching_title = $('#id_input_music_search_keyword').val().trim();
 		for(var i=0 ; i<video_list.length ; i++){
 			self._youtube_searched_video_list.push(video_list[i]);
 		}
@@ -943,6 +944,8 @@ function ArtistControl(){
 
 			var video_id = video.video_id;
 			var title = video.title;
+			title = title.replace(searching_title, '<u style="color:red">'+searching_title+'</u>');
+		
 			var channel = video.channel;
 			var img_src =  `https://img.youtube.com/vi/${video_id}/0.jpg`;
 			var id_video_duration_str = `id_video_duration-${video_id}`;
