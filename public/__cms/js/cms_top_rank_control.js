@@ -723,7 +723,9 @@ function TopRankControl(){
 		}
 
 		h += `
-			<div class="text-center pointer" onClick="window._top_rank_control.OnClick_NextPageSearch()">Next</div>
+			<div class="text-center pointer border bg-primary" onClick="window._top_rank_control.OnClick_NextPageSearch()" style="height:50px; color:white">
+				More
+			</div>
 		</div>
 		`;
 
