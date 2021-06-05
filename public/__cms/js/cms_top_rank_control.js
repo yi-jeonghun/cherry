@@ -315,10 +315,11 @@ function TopRankControl(){
 
 		var command_key_pressing = false;
 		$('#id_input_cms_top_rank_lyrics').on('keydown', function(e){
-			if(e.keyCode == 91){//mac command key
+			console.log('e.keyCode ' + e.keyCode);
+			if(e.keyCode == 91){//mac left command
 				command_key_pressing = true;
 			}
-			if(e.keyCode == 66){//b
+			if(e.keyCode == 93){//right command
 				if(command_key_pressing){
 					console.log('lyrics ok ');
 					self.OnClick_LyricsOK();
