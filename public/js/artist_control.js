@@ -351,6 +351,9 @@ function ArtistControl(){
 
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
+			if(m.is_diff_name == 'Y'){
+				continue;
+			}
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			var fn_listen = `window._artist_control.AddMusic(${i})`;
 			var on_click_heart = `window._artist_control.LikeMusic(${i})`;
