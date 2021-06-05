@@ -1156,7 +1156,7 @@ function CherryService(){
 				conn = await db_conn.GetConnection();
 				console.log('artist_uid ' + artist_uid);
 				var sql = `
-					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, m.music_uid, u.name user_name,
+					SELECT m.artist_uid, m.music_uid, a.name AS artist, a.is_various, m.title, m.video_id, u.name user_name, m.is_diff_name, m.org_music_uid,
 						concat('[',v.member_list_json,']') as member_list_json,
 						IF(lm.user_id IS NULL, 'N', 'Y') as is_like,
 						IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics

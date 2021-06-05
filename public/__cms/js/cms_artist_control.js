@@ -891,6 +891,7 @@ function ArtistControl(){
 		<table class="table table-sm table-striped small">
 		<tr>
 			<th>Title</th>
+			<th>DN</th>
 			<th>MID</th>
 			<th>VID</th>
 			<th>User</th>
@@ -901,6 +902,12 @@ function ArtistControl(){
 
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
+			var music_uid = m.music_uid;
+			var title_color = '';
+			if(m.is_diff_name == 'Y'){
+				music_uid = m.org_music_uid;
+				title_color = 'color:gray'
+			}
 			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
 			var on_trash_click = `window._artist_control.OnClick_MusicDelete(${i})`;
 			var on_click_lyrics = `window._artist_control.OnClick_LyricsEdit(${i})`;
@@ -911,8 +918,9 @@ function ArtistControl(){
 
 			h += `
 			<tr>
-				<td>${m.title}</td>
-				<td>${m.music_uid}</td>
+				<td style="${title_color}">${m.title}</td>
+				<td>${m.is_diff_name}</td>
+				<td>${music_uid}</td>
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
 				<td>
