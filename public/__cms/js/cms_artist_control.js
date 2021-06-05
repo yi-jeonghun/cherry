@@ -924,7 +924,13 @@ function ArtistControl(){
 				<td>${m.video_id}</td>
 				<td>${m.user_name}</td>
 				<td>
-					<i class="badge badge-sm ${lyrics_badge_color} pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>
+			`;
+			
+			if(m.is_diff_name == 'N'){
+			h += `<i class="badge badge-sm ${lyrics_badge_color} pointer" onClick="${on_click_lyrics}">${m.has_lyrics}</i>`;
+			}
+		
+			h += `
 				</td>
 				<td>
 					<i class="fas fa-pen border" onClick="${on_edit_click}" style="cursor:pointer"></i>
