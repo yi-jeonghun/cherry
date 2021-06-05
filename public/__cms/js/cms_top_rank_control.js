@@ -353,7 +353,12 @@ function TopRankControl(){
 		}
 	};
 
+	this._lyrics_ok_ing = false;
 	this.OnClick_LyricsOK = function(){
+		if(self._lyrics_ok_ing){
+			return;
+		}
+		self._lyrics_ok_ing = true;
 		var music_uid = null;
 		var has_lyrics = 'N';
 		if(self._release_mode == RELEASE_MODE.DRAFT){
@@ -373,6 +378,7 @@ function TopRankControl(){
 		};
 
 		POST('/cherry_api/update_lyrics', req, (res)=>{
+			self._lyrics_ok_ing = false;
 			if(res.ok){
 				// alert('success');
 				$('#id_modal_cms_top_rank_lyrics').modal('hide');
