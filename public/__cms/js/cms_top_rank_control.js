@@ -49,7 +49,7 @@ function TopRankControl(){
 	
 	this.InitKeyHandle = function(){
 		document.addEventListener('keydown', function(e){
-			console.log('key ' + e.keyCode);
+			// console.log('key ' + e.keyCode);
 			switch(e.keyCode){
 				case 49://1
 					self.SearchYoutube(self._working_idx, false);
@@ -288,14 +288,17 @@ function TopRankControl(){
 		var title = '';
 		var artist = '';
 		var music_uid = null;
+		var has_lyrics = false;
 		if(self._release_mode == RELEASE_MODE.DRAFT){
 			title = self._music_list_draft[idx].title;
 			artist = self._music_list_draft[idx].artist;
 			music_uid = self._music_list_draft[idx].music_uid;
+			has_lyrics = self._music_list_draft[idx].has_lyrics;
 		}else{
 			title = self._music_list_release[idx].title;
 			artist = self._music_list_release[idx].artist;
 			music_uid = self._music_list_release[idx].music_uid;
+			has_lyrics = self._music_list_release[idx].has_lyrics;
 		}
 
 		console.log('music_uid ' + music_uid);
@@ -308,24 +311,46 @@ function TopRankControl(){
 		$('#id_modal_cms_top_rank_lyrics_artist').html(artist);
 		$('#id_input_cms_top_rank_lyrics').val('');
 		$('#id_modal_cms_top_rank_lyrics').modal('show');
+		$('#id_input_cms_top_rank_lyrics').focus();
 
-		var req = {music_uid:music_uid};
-		$.ajax({
-			url:  '/cherry_api/get_lyrics',
-			type: 'POST',
-			data: JSON.stringify(req),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					if(res.lyrics_info.registered){
-						$('#id_input_cms_top_rank_lyrics').val(res.lyrics_info.text);
-					}
-				}else{
-					alert(res.err);
+		var command_key_pressing = false;
+		$('#id_input_cms_top_rank_lyrics').on('keydown', function(e){
+			if(e.keyCode == 91){//mac command key
+				command_key_pressing = true;
+			}
+			if(e.keyCode == 66){//b
+				if(command_key_pressing){
+					console.log('lyrics ok ');
+					self.OnClick_LyricsOK();
 				}
 			}
-		});
+
+		})
+		$('#id_input_cms_top_rank_lyrics').on('keyup', function(e){
+			if(e.keyCode == 91){//mac command key
+				command_key_pressing = false;
+			}
+		})
+
+		if(has_lyrics == 'Y'){
+			var req = {music_uid:music_uid};
+			$.ajax({
+				url:  '/cherry_api/get_lyrics',
+				type: 'POST',
+				data: JSON.stringify(req),
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				success: function (res) {
+					if(res.ok){
+						if(res.lyrics_info.registered){
+							$('#id_input_cms_top_rank_lyrics').val(res.lyrics_info.text);
+						}
+					}else{
+						alert(res.err);
+					}
+				}
+			});
+		}
 	};
 
 	this.OnClick_LyricsOK = function(){
@@ -349,7 +374,7 @@ function TopRankControl(){
 
 		POST('/cherry_api/update_lyrics', req, (res)=>{
 			if(res.ok){
-				alert('success');
+				// alert('success');
 				$('#id_modal_cms_top_rank_lyrics').modal('hide');
 
 				if(self._release_mode == RELEASE_MODE.DRAFT){
@@ -363,6 +388,19 @@ function TopRankControl(){
 				alert(res.err);
 			}
 		});
+	};
+
+	this.OnClick_CopyTitle = function(idx){
+		var title = '';
+		if(self._release_mode == RELEASE_MODE.DRAFT){
+			title = self._music_list_draft[idx].title;
+		}else{
+			title = self._music_list_release[idx].title;
+		}
+		console.log('title ' + title);
+		$('#id_text_for_copy_text').val(title);
+		$('#id_text_for_copy_text').select();
+		document.execCommand("copy");		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -1011,6 +1049,7 @@ function TopRankControl(){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			}
 			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
+			var on_click_copy_title = `window,_top_rank_control.OnClick_CopyTitle(${i})`;
 			var lyrics_badge_color = 'badge-danger';
 			if(m.has_lyrics == 'Y'){
 				lyrics_badge_color = 'border';
@@ -1022,7 +1061,7 @@ function TopRankControl(){
 				<td>${m.artist}</td>
 				<td id="id_label_artist_uid_${i}">${m.artist_uid}</td>
 				<td id="id_label_is_various_${i}">${m.is_various=='Y'?'O':''}</td>
-				<td>${m.title}</td>
+				<td onClick="${on_click_copy_title}" class="pointer">${m.title}</td>
 				<td>
 					<input type="text" style="width:100px; font-size:0.8em" id="id_text_video_id_${i}" onFocusOut="window._top_rank_control.CheckVideoID(this, ${i})" value="${m.video_id}"></input>
 				</td>
@@ -1063,6 +1102,7 @@ function TopRankControl(){
 				img_url = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			}
 			var on_click_lyrics = `window._top_rank_control.OnClick_LyricsEdit(${i})`;
+			var on_click_copy_title = `window,_top_rank_control.OnClick_CopyTitle(${i})`;
 			var lyrics_badge_color = 'badge-danger';
 			if(m.has_lyrics == 'Y'){
 				lyrics_badge_color = 'border';
@@ -1074,7 +1114,7 @@ function TopRankControl(){
 				<td>${m.artist}</td>
 				<td>${m.artist_uid}</td>
 				<td>${m.is_various=='Y'?'O':''}</td>
-				<td>${m.title}</td>
+				<td onClick="${on_click_copy_title}" class="pointer">${m.title}</td>
 				<td>${m.video_id}</td>
 				<td><img style="height: 30px; width: 30px;" id="id_img_${i}" src="${img_url}"/></td>
 				<td id="id_label_music_uid_${i}">${m.music_uid}</td>
