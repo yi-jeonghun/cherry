@@ -165,15 +165,6 @@ router.get('/__cms/artist.vu', async function(req, res){
 	res.render('__cms/cms_artist', null);
 });
 
-router.get('/__cms/album.vu', async function(req, res){
-	var is_admin = await permission_service.IsAdmin(req.session.user_info);
-	if(is_admin == false){
-		res.render('no_permission');
-		return;
-	}
-	res.render('__cms/album', null);
-});
-
 router.get('/__cms/top_rank.vu', async function(req, res){
 	var is_admin = await permission_service.IsAdmin(req.session.user_info);
 	if(is_admin == false){
@@ -189,7 +180,7 @@ router.get('/__cms/music.vu', async function(req, res){
 		res.render('no_permission');
 		return;
 	}
-	res.render('__cms/music', null);
+	res.render('__cms/cms_music', null);
 });
 
 router.get('/__cms/playlist.vu', async function(req, res){

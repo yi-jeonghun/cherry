@@ -661,6 +661,72 @@ function CMS_Service(){
 		});
 	};
 
+	this.GetMusicList_NoLyrics = function(page){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+					SELECT COUNT(*) cnt
+					FROM (
+						SELECT m.title, a.name, m.music_uid, l.music_uid as lyrics_music_uid
+						FROM music m
+						JOIN artist a ON m.artist_uid=a.artist_uid
+						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+						WHERE l.music_uid IS NULL
+					) nm
+				`;
+				var msg = 'GetMusicList_NoLyrics count';
+				var ret = await self.QuerySelect(sql, [], msg);
+				var count = ret[0].cnt;
+				console.log('count ' + count);
+				var count_per_page = 20;
+				var offset = (page - 1) * count_per_page;
+
+				sql = `
+					SELECT *
+					FROM (
+						SELECT m.title, a.name as artist, m.music_uid, l.music_uid as lyrics_music_uid, 'N' as has_lyrics
+						FROM music m
+						JOIN artist a ON m.artist_uid=a.artist_uid
+						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+						WHERE l.music_uid IS NULL
+					) nm
+					LIMIT ${count_per_page} OFFSET ${offset}
+				`;
+				msg = 'GetMusicList_NoLyrics list';
+				var music_list = await self.QuerySelect(sql, [], msg);
+
+				resolve({
+					count: count,
+					music_list: music_list
+				});
+			}catch{
+				reject('FAIL ' + msg);
+			}
+		});
+	};
+
+	this.QuerySelect = function(sql, val, msg){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject(`FAIL CMSService ${msg} #0`);
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject(`FAIL CMSService ${msg} #1`);
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 }
 
 module.exports = new CMS_Service();
