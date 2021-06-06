@@ -57,6 +57,7 @@ function Router(){
 			$('#id_router-open_playlist_detail').hide();
 			$('#id_router-search').hide();
 			$('#id_router-like').hide();
+			$('#id_router-music').hide();
 		}
 
 		console.log('Crossroad 3');
@@ -92,6 +93,10 @@ function Router(){
 			case 'like.go':
 				$('#id_router-like').show();
 				self.GoTo_Like();
+				break;
+			case 'music.go':
+				$('#id_router-music').show();
+				self.GoTo_Music(args, arg_list);
 				break;
 			}
 	};
@@ -222,6 +227,16 @@ function Router(){
 
 		var target_div = 'id_router-like';
 		var route_url = '/like.vu?';
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_Music = function(args, arg_list){
+		{
+			//FIXME
+			//meta update
+		}
+		var target_div = 'id_router-music';
+		var route_url = '/music.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 

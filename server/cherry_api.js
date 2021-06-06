@@ -462,6 +462,25 @@ router.post('/get_music_by_id', async function(req, res){
 	}
 });
 
+router.get('/get_music_detail_info', async function(req, res){
+	try{
+		var music_uid = req.query.mid;
+		var result = await cherry_service.GetMusicDetailInfo(music_uid);
+		if(result.length > 0){
+			res.send({
+				ok: 1,
+				info: result[0]
+			});	
+		}
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Failed to get_music_detail_info'
+		});
+	}
+});
+
 router.post('/top_rank/fetch_release_data', async function(req, res){
 	try{
 		var country_code = req.body.country_code;

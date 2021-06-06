@@ -104,6 +104,7 @@ function TopRankControl(source){
 
 			var on_click_plus = `window._top_rank_control.ListenMusic(${i})`;
 			var on_click_heart = `window._top_rank_control.LikeMusic(${i})`;
+			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}')`
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
 			var like_color = '#bbbbbb';
 			if(m.is_like == 'Y'){
@@ -118,13 +119,15 @@ function TopRankControl(source){
 					<div class="d-flex " style="width:calc( 100% - 75px);">
 						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 						<div class="pl-1">
-							<div class="text-dark">${m.title}</div>
+							<div class="text-dark">
+								<span class="pointer border-bottom" onClick="${on_click_title}">${m.title}</span>
+							</div>
 							<div class="text-secondary" style="font-size:0.8em">
 			`;
 
 			for(var k=0 ; k<artist_list.length ; k++){
 				h += `
-								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+								<span class="border-bottom" style="cursor:pointer; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
 				`;
 			}
 

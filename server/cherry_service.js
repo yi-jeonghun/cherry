@@ -949,7 +949,7 @@ function CherryService(){
 				FROM music m
 				JOIN artist a
 				ON m.artist_uid=a.artist_uid
-				WHERE music_uid=?				
+				WHERE music_uid=?
 				`;
 				var val = [music_uid];
 
@@ -2375,6 +2375,50 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.GetMusicDetailInfo = function(music_uid){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+				SELECT m.title, m.video_id, m.artist_uid, a.name as artist, m.like_count, 
+					l.text as lyrics
+				FROM music m
+				JOIN artist a ON m.artist_uid=a.artist_uid
+				LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+				WHERE m.music_uid=?
+				`;
+				var val = [music_uid];
+				var msg = 'GetMusicDetailInfo';
+				var ret = self.QuerySelect(sql, val, msg);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
+	this.QuerySelect = function(sql, val, msg){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject(`FAIL CMSService ${msg} #0`);
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject(`FAIL CMSService ${msg} #1`);
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
 }
 
 module.exports = new CherryService();

@@ -62,6 +62,12 @@ router.get('/**/like.go', async function(req, res){
 	});
 });
 
+router.get('/**/music.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 
 router.get('/playlist_embed.go', async function(req, res){
@@ -142,6 +148,16 @@ router.get('/like.vu', async function(req, res){
 		dev_mode       : _dev_mode
 	};
 	res.render('like', data);
+});
+
+router.get('/music.vu', async function(req, res){
+	var music_uid = req.query.mid;
+
+	var data = {
+		dev_mode  : _dev_mode,
+		music_uid : music_uid
+	};
+	res.render('music', data);
 });
 
 //####################################################################################//
