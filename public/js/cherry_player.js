@@ -259,7 +259,8 @@ function CherryPlayer(){
 	};	
 
 	this.GoToArtist = function(artist_name, artist_uid){
-		self.HidePlayList();
+		console.log('goto artist ');
+		self.PlayList_Hide();
 		var encode_name = encodeURI(artist_name);
 		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}`);
 	};
