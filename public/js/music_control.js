@@ -18,7 +18,7 @@ function MusicControl(music_uid){
 				console.log('res.info.video_id ' + res.info.video_id);
 
 				$('#id_img_music').attr('src', `https://img.youtube.com/vi/${res.info.video_id}/0.jpg`);
-				$('#id_div_music_lyrics').html(res.info.lyrics);
+				$('#id_div_music_lyrics').html(res.info.lyrics.replace(/\n/g, '<br>'));
 			}else{
 				alert(res.err);
 			}
