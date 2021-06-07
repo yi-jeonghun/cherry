@@ -464,8 +464,9 @@ router.post('/get_music_by_id', async function(req, res){
 
 router.get('/get_music_detail_info', async function(req, res){
 	try{
+		var user_id = await permission_service.GetUserID(req);
 		var music_uid = req.query.mid;
-		var result = await cherry_service.GetMusicDetailInfo(music_uid);
+		var result = await cherry_service.GetMusicDetailInfo(music_uid, user_id);
 		if(result.length > 0){
 			res.send({
 				ok: 1,

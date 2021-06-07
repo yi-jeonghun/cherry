@@ -2376,18 +2376,20 @@ function CherryService(){
 		});
 	};
 
-	this.GetMusicDetailInfo = function(music_uid){
+	this.GetMusicDetailInfo = function(music_uid, user_id){
 		return new Promise(async function(resolve, reject){
 			try{
 				var sql = `
 				SELECT m.title, m.video_id, m.artist_uid, a.name as artist, m.like_count, 
-					l.text as lyrics
+					l.text as lyrics,
+					IF(llm.music_uid IS NULL, 'N', 'Y') as is_like
 				FROM music m
 				JOIN artist a ON m.artist_uid=a.artist_uid
 				LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+				LEFT JOIN (SELECT lm.music_uid FROM like_music lm WHERE lm.user_id=?) llm ON m.music_uid=llm.music_uid
 				WHERE m.music_uid=?
 				`;
-				var val = [music_uid];
+				var val = [user_id, music_uid];
 				var msg = 'GetMusicDetailInfo';
 				var ret = self.QuerySelect(sql, val, msg);
 				resolve(ret);

@@ -1,6 +1,7 @@
 function MusicControl(music_uid){
 	var self = this;
 	this._music_uid = music_uid;
+	this._is_like = false;
 
 	this.Init = function(){
 		self.GetMusicInfo();
@@ -12,10 +13,12 @@ function MusicControl(music_uid){
 	this.GetMusicInfo = function(){
 		$.get(`/cherry_api/get_music_detail_info?mid=${self._music_uid}`, res=>{
 			if(res.ok){
-				console.log('res.info.title ' + res.info.title);
 				$('#id_label_music_title').html(res.info.title);
 				$('#id_label_music_artist').html(res.info.artist);
-				console.log('res.info.video_id ' + res.info.video_id);
+				self._is_like = res.info.is_like;
+				if(self._is_like == 'Y'){
+					$('#id_icon_music_heart-'+self._music_uid).css('color', 'red');
+				}
 
 				$('#id_img_music').attr('src', `https://img.youtube.com/vi/${res.info.video_id}/0.jpg`);
 				$('#id_div_music_lyrics').html(res.info.lyrics.replace(/\n/g, '<br>'));
@@ -23,6 +26,18 @@ function MusicControl(music_uid){
 				alert(res.err);
 			}
 		})
+	};
+
+	this.Like = function(){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			alert('Sign in required');
+			return;
+		}
+
+		var is_like = self._is_like == 'Y' ? false : true;
+		self._is_like = self._is_like == 'Y' ? 'N' : 'Y';
+		CMN_LikeMusic(self._music_uid, is_like);
 	};
 
 	//------------------------------------------------------------
