@@ -705,6 +705,24 @@ function CMS_Service(){
 		});
 	};
 
+	this.GetMusicList_Correction = function(page){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+					SELECT mc.*, m.title, m.artist_uid, a.name as artist, m.video_id
+					FROM music_correct_request mc
+					JOIN music m ON mc.music_uid=m.music_uid
+					JOIN artist a ON m.artist_uid=a.artist_uid
+				`;
+				var msg = 'GetMusicList_Correction';
+				var list = await self.QuerySelect(sql, [], msg);
+				resolve(list);
+			}catch{
+				reject('FAIL ' + msg);
+			}
+		});
+	};
+
 	this.QuerySelect = function(sql, val, msg){
 		return new Promise(async function(resolve, reject){
 			var conn = null;

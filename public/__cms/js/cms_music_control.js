@@ -6,6 +6,7 @@ function MusicControl(){
 	var self = this;
 	this._total_count = 0;
 	this._music_list = [];
+	this._correction_music_list = [];
 	this._page = 1;
 	this._working_music_idx = -1;
 
@@ -38,6 +39,17 @@ function MusicControl(){
 				alert(ret.err);
 			}
 		});
+	};
+
+	this.GetMusicList_Correction = function(){
+		$.get('/__cms_api/get_music_list_correction', (res)=>{
+			if(res.ok){
+				self._correction_music_list = res.correction_music_list;
+				self.DISP_CorrectionMusicList();
+			}else{
+				alert(ret.err);
+			}
+		});		
 	};
 
 	var command_key_pressing = false;
@@ -137,6 +149,38 @@ function MusicControl(){
 		<tr><td class="bg-primary text-white text-center pointer" colspan="2" onClick="${on_click_more}">More</td></tr>
 		</table>`;
 		
+		$('#id_div_cms_music_list').html(h);
+	};
+
+	this.DISP_CorrectionMusicList = function(){
+		$('#id_label_cms_music_total').html('');
+
+		var h = `
+		<table class="table table-sm table-stripped">
+		<tr>
+			<th>Artist</th>
+			<th>Title</th>
+			<th>Lyrics</th>
+			<th>Video</th>
+			<th>Ads</th>
+		</tr>
+		`;
+
+		for(var i=0 ; i<self._correction_music_list.length; i++){
+			var m = self._correction_music_list[i];
+			h += `
+			<tr>
+				<td>${m.artist}</td>
+				<td>${m.title}</td>
+				<td>${m.lyrics}</td>
+				<td>${m.video}</td>
+				<td>${m.ads}</td>
+			</tr>
+			`;
+		}
+
+		h += '</table>';
+
 		$('#id_div_cms_music_list').html(h);
 	};
 }

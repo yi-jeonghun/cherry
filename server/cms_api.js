@@ -721,10 +721,8 @@ router.get('/get_music_list_no_lyrics', async function(req, res){
 		}
 
 		var page = req.query.p;
-		console.log('page ' + page);
 
 		var ret = await cms_service.GetMusicList_NoLyrics(page);
-		console.log('ret.count ' + ret.count);
 		res.send({
 			ok: 1,
 			count: ret.count,
@@ -738,5 +736,32 @@ router.get('/get_music_list_no_lyrics', async function(req, res){
 		});
 	}
 });
+
+router.get('/get_music_list_correction', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var ret = await cms_service.GetMusicList_Correction();
+		res.send({
+			ok: 1,
+			correction_music_list: ret
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_music_list_no_lyrics'
+		});
+	}
+});
+
 
 module.exports = router;
