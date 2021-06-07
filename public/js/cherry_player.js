@@ -91,7 +91,7 @@ function CherryPlayer(){
 		$('#id_btn_player_close_volume_control').on('click', self.VolumeControl_Hide);
 		$('#id_btn_music_list_trash').on('click', self.OnTrashClick);
 		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
-		$('.player_info_div').on('click', self.Lyrics_Show);
+		$('#id_btn_player_lyrics').on('click', self.Lyrics_Show);
 		$('#id_btn_lyrics_hide').on('click', self.Lyrics_Hide);
 	};
 
@@ -263,6 +263,11 @@ function CherryPlayer(){
 		self.PlayList_Hide();
 		var encode_name = encodeURI(artist_name);
 		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}`);
+	};
+
+	this.GoToMusic = function(music_uid){
+		self.PlayList_Hide();
+		window._router.Go(`/${window._country_code}/music.go?mid=${music_uid}`);
 	};
 
 	this.TryMusic = function(music){
@@ -470,6 +475,13 @@ function CherryPlayer(){
 		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
 	};
 
+	this.OnClickTitle = function(event, music_uid){
+		event.stopPropagation();
+		self.Lyrics_Hide();
+		self.PlayList_Hide();
+		self.GoToMusic(music_uid);
+	};
+
 	this.GetRandomIndex = function(){
 		var min = 0;
 		var max = self._music_list.length - 1;
@@ -608,7 +620,9 @@ function CherryPlayer(){
 			return;
 		}
 		//title, artist, artist_uid
-		$('#id_label_title').html(music.title);
+		$('#id_label_title').html(`
+		<span class="border-bottom pointer" onClick="window._cherry_player.OnClickTitle(event, '${music.music_uid}')">${music.title}</span>
+		`);
 
 		var artist_list = [];
 		{
@@ -673,6 +687,7 @@ function CherryPlayer(){
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
+			var on_click_title = `window._cherry_player.GoToMusic('${m.music_uid}')`
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){
@@ -693,13 +708,15 @@ function CherryPlayer(){
 							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
 						</div>
 						<div class="" style="padding-left:5px">
-							<div class="text-dark">${m.title}</div>
+							<div class="text-dark">
+								<span class="pointer border-bottom" onClick="${on_click_title}">${m.title}</span>
+							</div>
 							<div class="text-secondary" style="font-size:0.8em">
 			`;
 
 			for(var k=0 ; k<artist_list.length ; k++){
 				h += `
-								<span style="cursor:pointer; border-bottom:1px solid #aaaaaa; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+								<span class="pointer border-bottom" style="margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
 				`;
 			}
 			
