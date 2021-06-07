@@ -55,7 +55,21 @@ function MusicControl(music_uid){
 
 	this.ListenMusic = function(){
 		window._cherry_player.AddMusic(self._music);
-	}
+	};
+
+	this.Correct = function(correction_type){
+		var req = {
+			music_uid: self._music_uid,
+			correction_type: correction_type
+		};
+		POST('/cherry_api/correct_request_music', req, (res)=>{
+			if(res.ok){
+				UTIL_ShowCherryToast('Requested! Thanks a lot.');
+			}else{
+				alert(res.err);
+			}
+		});
+	};
 
 	//------------------------------------------------------------
 }

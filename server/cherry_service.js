@@ -210,7 +210,7 @@ function CherryService(){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'INSERT INFO artist_various(artist_uid, member_artist_uid) VALUES(?, ?)';
+				var sql_register = 'INSERT INTO artist_various(artist_uid, member_artist_uid) VALUES(?, ?)';
 				var val = [artist_uid, member_artist_uid];
 				conn.query(sql_register, val, function(err, result){
 					if(err){
@@ -2396,6 +2396,43 @@ function CherryService(){
 				var msg = 'GetMusicDetailInfo';
 				var ret = self.QuerySelect(sql, val, msg);
 				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
+	this.CorrectRequestMusic = function(music_uid, correction_type){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `SELECT * FROM music_correct_request WHERE music_uid=?`;
+				var val = [music_uid];
+				var msg = 'CorrectRequestMusic get';
+				var ret = await self.QuerySelect(sql, val, msg);
+
+				if(ret.length > 0){
+					sql = 'UPDATE music_correct_request SET ?, timestamp=CURRENT_TIMESTAMP() WHERE ?';
+					if(correction_type == 'lyrics'){
+						val = [{lyrics:1},{music_uid:music_uid}];
+					}else if(correction_type == 'video'){
+						val = [{video:1},{music_uid:music_uid}];
+					}else if(correction_type == 'ads'){
+						val = [{ads:1},{music_uid:music_uid}];
+					}
+					msg = 'CorrectRequestMusic update';
+					await self.QuerySelect(sql, val, msg);
+				}else if(ret.length == 0){
+					sql = 'INSERT INTO music_correct_request (music_uid, lyrics, video, ads, timestamp) VALUES(?, ?, ?, ?, CURRENT_TIMESTAMP())';
+					val = [
+						music_uid,
+						(correction_type=='lyrics'?1:0),
+						(correction_type=='video'?1:0),
+						(correction_type=='ads'?1:0)
+					];
+					msg = 'CorrectRequestMusic insert';
+					await self.QuerySelect(sql, val, msg);
+				}
+				resolve();
 			}catch(err){
 				reject('FAIL ' + msg)
 			}

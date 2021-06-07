@@ -951,4 +951,21 @@ router.post('/delete_music_from_playlist', async function(req, res){
 	}
 });
 
+router.post('/correct_request_music', async function(req, res){
+	try{
+		var correction_type = req.body.correction_type;
+		var music_uid = req.body.music_uid;
+		await cherry_service.CorrectRequestMusic(music_uid, correction_type);
+		res.send({
+			ok: 1
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail correct_request_music'
+		});
+	}
+});
+
 module.exports = router;
