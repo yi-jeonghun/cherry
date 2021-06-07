@@ -2380,12 +2380,15 @@ function CherryService(){
 		return new Promise(async function(resolve, reject){
 			try{
 				var sql = `
-				SELECT m.title, m.video_id, m.artist_uid, a.name as artist, m.like_count, 
+				SELECT m.title, m.video_id, m.artist_uid, a.name as artist, m.like_count, a.is_various,
+				concat('[',v.member_list_json,']') as member_list_json,
 					l.text as lyrics,
+					IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics,
 					IF(llm.music_uid IS NULL, 'N', 'Y') as is_like
 				FROM music m
 				JOIN artist a ON m.artist_uid=a.artist_uid
 				LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
 				LEFT JOIN (SELECT lm.music_uid FROM like_music lm WHERE lm.user_id=?) llm ON m.music_uid=llm.music_uid
 				WHERE m.music_uid=?
 				`;

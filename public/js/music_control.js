@@ -2,6 +2,7 @@ function MusicControl(music_uid){
 	var self = this;
 	this._music_uid = music_uid;
 	this._is_like = false;
+	this._music = null;
 
 	this.Init = function(){
 		self.GetMusicInfo();
@@ -13,6 +14,18 @@ function MusicControl(music_uid){
 	this.GetMusicInfo = function(){
 		$.get(`/cherry_api/get_music_detail_info?mid=${self._music_uid}`, res=>{
 			if(res.ok){
+				self._music = {
+					music_uid: self._music_uid,
+					title: res.info.title,
+					artist: res.info.artist,
+					artist_uid: res.info.artist_uid,
+					is_various: res.info.is_various,
+					video_id: res.info.video_id,
+					member_list_json: res.info.member_list_json,
+					is_like: res.info.is_like,
+					has_lyrics: res.info.has_lyrics
+				};
+
 				$('#id_label_music_title').html(res.info.title);
 				$('#id_label_music_artist').html(res.info.artist);
 				self._is_like = res.info.is_like;
@@ -39,6 +52,10 @@ function MusicControl(music_uid){
 		self._is_like = self._is_like == 'Y' ? 'N' : 'Y';
 		CMN_LikeMusic(self._music_uid, is_like);
 	};
+
+	this.ListenMusic = function(){
+		window._cherry_player.AddMusic(self._music);
+	}
 
 	//------------------------------------------------------------
 }
