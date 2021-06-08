@@ -266,6 +266,7 @@ function CherryPlayer(){
 	};
 
 	this.GoToMusic = function(music_uid, title, artist){
+		self.Lyrics_Hide();
 		self.PlayList_Hide();
 		window._router.Go(`/${window._country_code}/music.go?mid=${music_uid}&t=${encodeURI(title)}&a=${encodeURI(artist)}`);
 	};
