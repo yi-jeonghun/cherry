@@ -17,8 +17,30 @@
 	<script data-ad-client="ca-pub-3508611654022607" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
 	<%- include('common_resources.ejs') %>
+	<script type="text/javascript" src="/js/util.js"></script>
+
+	<% if(dev_mode){ %>
+		<script type="text/javascript" src="/js/const/country_code.js"></script>
+		<script type="text/javascript" src="/js/const/country_data.js"></script>
+		<script type="text/javascript" src="/js/const/country_control.js"></script>
+		<script type="text/javascript" src="/js/const/top_100_source.js"></script>
+		<script type="text/javascript" src="/js/lang.js"></script>
+
+		<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+		<script type="text/javascript" src="/js/router.js"></script>
+		<script type="text/javascript" src="/js/cherry_player.js"></script>
+		<script type="text/javascript" src="/js/slider_control.js"></script>
+	
+		<!-- control.js 항상 마지막에 위치해야 함. -->
+		<script type="text/javascript" src="/js/control.js"></script>
+	<% } else { %>
+		<script type="text/javascript" src="/js/index_min.js"></script>
+	<% } %>
+
+	<%- include('include/google_auth_js.ejs') %>
 </head>
 <body>
+	<script>new CountryControl().LoadCountryCode()</script>
 
 	<!-- Main -->
 	<div class="main_div">
@@ -220,24 +242,4 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript" src="/js/util.js"></script>
-<%- include('include/google_auth_js.ejs') %>
-
-<% if(dev_mode){ %>
-	<script type="text/javascript" src="/js/const/country_code.js"></script>
-	<script type="text/javascript" src="/js/const/country_data.js"></script>
-	<script type="text/javascript" src="/js/const/top_100_source.js"></script>
-	<script type="text/javascript" src="/js/lang.js"></script>
-
-	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
-	<script type="text/javascript" src="/js/router.js"></script>
-	<script type="text/javascript" src="/js/cherry_player.js"></script>
-	<script type="text/javascript" src="/js/slider_control.js"></script>
-
-	<!-- control.js 항상 마지막에 위치해야 함. -->
-	<script type="text/javascript" src="/js/control.js"></script>
-<% } else { %>
-	<script type="text/javascript" src="/js/index_min.js"></script>
-<% } %>
 

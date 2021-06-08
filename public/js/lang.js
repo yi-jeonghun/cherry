@@ -64,7 +64,13 @@ const L_SIGN_IN_REQUIRED = [];
 	L_SIGN_IN_REQUIRED[C_US] = "Sign in requred.";
 }
 
+const L_SIGN_OUT = [];
+{
+	L_SIGN_OUT[C_US] = 'Sign Out';
+	L_SIGN_OUT[C_KR] = '로그 아웃';
+}
 
+//================================================
 
 function TR(L){
 	var val = L[window._country_code];
@@ -72,4 +78,8 @@ function TR(L){
 		return L[C_US];
 	}
 	return val;
+}
+
+function TRP(L){
+	document.write(TR(L));
 }

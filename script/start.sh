@@ -9,6 +9,7 @@ then
 	terser \
 		const/country_code.js \
 		const/country_data.js \
+		const/country_control.js \
 		const/top_100_source.js \
 		lang.js \
 		youtube_iframe_player.js \
@@ -21,6 +22,7 @@ then
 	terser \
 		const/country_code.js \
 		const/country_data.js \
+		const/country_control.js \
 		const/top_100_source.js \
 		lang.js \
 		youtube_iframe_player.js \

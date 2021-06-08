@@ -15,9 +15,25 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 
 	<%- include('common_resources.ejs') %>
+	<script type="text/javascript" src="/js/util.js"></script>
+	<% if(dev_mode){ %>
+		<script type="text/javascript" src="/js/const/country_code.js"></script>
+		<script type="text/javascript" src="/js/const/country_data.js"></script>
+		<script type="text/javascript" src="/js/const/country_control.js"></script>
+		<script type="text/javascript" src="/js/lang.js"></script>
+	
+		<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+		<script type="text/javascript" src="/js/router.js"></script>
+		<script type="text/javascript" src="/js/cherry_player.js"></script>
+	
+		<!-- control.js 항상 마지막에 위치해야 함. -->
+		<script type="text/javascript" src="/js/playlist_embed_control.js"></script>
+	<% } else { %>
+		<script type="text/javascript" src="/js/playlist_embed_min.js"></script>
+	<% } %>
 </head>
 <body class="border">
-	
+	<script>new CountryControl().LoadCountryCode()</script>
 
 	<!-- PLAYER MUSIC LIST -->
 	<div style="height: calc(100% - 100px)">
@@ -89,28 +105,8 @@
 		<div style="width: 100%; padding-left: 50px; padding-right: 50px;">
 			<input type="range" min="0" max="100" value="50" class="slider" id="id_slider_volume">
 		</div>
-	</div>	
-
-
-
-
+	</div>
 </body>
-
-<script type="text/javascript" src="/js/util.js"></script>
-<% if(dev_mode){ %>
-	<script type="text/javascript" src="/js/const/country_code.js"></script>
-	<script type="text/javascript" src="/js/const/country_data.js"></script>
-	<script type="text/javascript" src="/js/lang.js"></script>
-
-	<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
-	<script type="text/javascript" src="/js/router.js"></script>
-	<script type="text/javascript" src="/js/cherry_player.js"></script>
-
-	<!-- control.js 항상 마지막에 위치해야 함. -->
-	<script type="text/javascript" src="/js/playlist_embed_control.js"></script>
-<% } else { %>
-	<script type="text/javascript" src="/js/playlist_embed_min.js"></script>
-<% } %>
 
 <script>
 	$('document').ready(function(){
