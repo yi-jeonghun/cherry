@@ -151,7 +151,7 @@ function SearchControl(){
 			var m = self._music_list[i];
 			var add_music = `window._search_control.AddMusic(${i})`;
 			var on_click_heart = `window._search_control.LikeMusic(${i})`;
-			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}')`
+			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}&t=${encodeURI(m.title)}&a=${encodeURI(m.artist)}')`
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
 			var like_color = '#bbbbbb';
 			if(m.is_like == 'Y'){

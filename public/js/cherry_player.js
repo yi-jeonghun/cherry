@@ -265,9 +265,9 @@ function CherryPlayer(){
 		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}`);
 	};
 
-	this.GoToMusic = function(music_uid){
+	this.GoToMusic = function(music_uid, title, artist){
 		self.PlayList_Hide();
-		window._router.Go(`/${window._country_code}/music.go?mid=${music_uid}`);
+		window._router.Go(`/${window._country_code}/music.go?mid=${music_uid}&t=${encodeURI(title)}&a=${encodeURI(artist)}`);
 	};
 
 	this.TryMusic = function(music){
@@ -475,11 +475,11 @@ function CherryPlayer(){
 		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
 	};
 
-	this.OnClickTitle = function(event, music_uid){
+	this.OnClickTitle = function(event, music_uid, title, artist){
 		event.stopPropagation();
 		self.Lyrics_Hide();
 		self.PlayList_Hide();
-		self.GoToMusic(music_uid);
+		self.GoToMusic(music_uid, title, artist);
 	};
 
 	this.GetRandomIndex = function(){
@@ -621,7 +621,7 @@ function CherryPlayer(){
 		}
 		//title, artist, artist_uid
 		$('#id_label_title').html(`
-		<span class="border-bottom pointer" onClick="window._cherry_player.OnClickTitle(event, '${music.music_uid}')">${music.title}</span>
+		<span class="border-bottom pointer" onClick="window._cherry_player.OnClickTitle(event, '${music.music_uid}', '${music.title}', '${music.artist}')">${music.title}</span>
 		`);
 
 		var artist_list = [];
@@ -687,7 +687,7 @@ function CherryPlayer(){
 
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
-			var on_click_title = `window._cherry_player.GoToMusic('${m.music_uid}')`
+			var on_click_title = `window._cherry_player.GoToMusic('${m.music_uid}', '${m.title}', '${m.artist}')`
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){

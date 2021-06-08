@@ -232,8 +232,14 @@ function Router(){
 
 	this.GoTo_Music = function(args, arg_list){
 		{
-			//FIXME
-			//meta update
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = arg_list['t'];
+			var artist = arg_list['a'];
+
+			var title = `${title} - ${artist} | Cherry Music[${country_name}]`;
+			var keywords = `${title}, ${artist}, Lyrics`;
+			var desc = `${title}, ${artist}, Lyrics`;
+			this.UpdateMeta(title, keywords, desc);	
 		}
 		var target_div = 'id_router-music';
 		var route_url = '/music.vu?'+args;
