@@ -47,6 +47,7 @@ const L_INPUT_TITLE_PLZ = [];
 const L_SUCCESS = [];
 {
 	L_SUCCESS[C_US] = 'Success';
+	L_SUCCESS[C_KR] = '성공';
 }
 
 const L_SAME_TITLE_EXISTS = [];
@@ -68,6 +69,11 @@ const L_SIGN_OUT = [];
 {
 	L_SIGN_OUT[C_US] = 'Sign Out';
 	L_SIGN_OUT[C_KR] = '로그 아웃';
+}
+
+const L_LYRICS = [];{
+	L_LYRICS[C_US] = 'Lyrics';
+	L_LYRICS[C_KR] = '가사';
 }
 
 //================================================
