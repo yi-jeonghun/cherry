@@ -278,11 +278,23 @@ function Router(){
 	};
 
 	this.LoadInnerView = function(target_div, route_url){
-		$('#'+target_div).load(route_url, function(responseTxt, statusTxt, xhr){
-			if(statusTxt == "success"){
+		$.get(route_url, (body)=>{
+			var new_body = '';
+			var arr = body.split(/{%|%}/);
+			for(var i=0 ; i<arr.length ; i++){
+				if(arr[i].indexOf('L_') == 0){
+					var L_ = window[arr[i]];
+					var tr = TR(L_);
+					new_body += tr;
+				}else{
+					new_body += arr[i];
+				}
+			}
+
+			$('#'+target_div).html(new_body);
+			{
 				var key = 'SCORLL_TOP-' + self._cur_path;
 				var scroll_top = window.localStorage.getItem(key);
-				// console.log('key ' + key + ' ; ' + scroll_top);
 
 				$('.main_div').animate({
 					scrollTop: scroll_top
