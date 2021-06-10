@@ -1,5 +1,5 @@
 $('document').ready(function(){
-	window._music_control = new MusicControl();
+	window._music_control = new MusicControl().Init();
 });
 
 function MusicControl(){
@@ -11,6 +11,7 @@ function MusicControl(){
 	this._working_music_idx = -1;
 
 	this.Init = function(){
+		self.InitHandle();
 		return this;
 	};
 
@@ -59,6 +60,7 @@ function MusicControl(){
 		var m = self._music_list[idx];
 		$('#id_modal_cms_music_lyrics_artist').html(m.artist);
 		$('#id_modal_cms_music_lyrics_title').html(m.title);
+		$('#id_input_cms_music_lyrics').val('');
 		$('#id_input_cms_music_lyrics').focus();
 		$('#id_modal_cms_music_lyrics').modal('show');
 
