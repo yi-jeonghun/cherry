@@ -237,8 +237,8 @@ function Router(){
 			var artist = arg_list['a'];
 
 			var title = `${title} - ${artist} | Cherry Music[${country_name}]`;
-			var keywords = `${title}, ${artist}, Lyrics`;
-			var desc = `${title}, ${artist}, Lyrics`;
+			var keywords = `${title}, ${artist}, ${TR(L_LYRICS)}`;
+			var desc = `${title}, ${artist}, ${TR(L_LYRICS)}`;
 			this.UpdateMeta(title, keywords, desc);	
 		}
 		var target_div = 'id_router-music';
