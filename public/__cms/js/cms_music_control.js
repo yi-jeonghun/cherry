@@ -114,6 +114,13 @@ function MusicControl(){
 		});
 	};
 
+	this.OnClick_CopyTitle = function(idx){
+		var title = self._music_list[idx].title;
+		$('#id_text_for_copy_text').val(title);
+		$('#id_text_for_copy_text').select();
+		document.execCommand("copy");		
+	};
+
 	//---------------------------------------------------------
 
 	this.DISP_MusicList = function(){
@@ -131,10 +138,11 @@ function MusicControl(){
 		var i = 0;
 		self._music_list.forEach(m => {
 			var on_click_lyrics = `window._music_control.OpenLyricsEdit(${i})`;
+			var on_click_copy_title = `window,_music_control.OnClick_CopyTitle(${i})`;
 			h += `
 			<tr>
 				<td>${m.artist}</td>
-				<td>${m.title}</td>
+				<td class="pointer" onClick="${on_click_copy_title}">${m.title}</td>
 				<td>
 					<i class="badge badge-sm badge-danger pointer" onClick="${on_click_lyrics}" id="id_lebel_music_has_lyrics-${i}">
 						N
