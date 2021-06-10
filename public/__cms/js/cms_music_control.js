@@ -131,6 +131,7 @@ function MusicControl(){
 		<tr>
 			<th>Artist</th>
 			<th>Title</th>
+			<th>D</th>
 			<th>L</th>
 		</tr>
 		`;
@@ -143,6 +144,7 @@ function MusicControl(){
 			<tr>
 				<td>${m.artist}</td>
 				<td class="pointer" onClick="${on_click_copy_title}">${m.title}</td>
+				<td>${m.is_diff_name}</td>
 				<td>
 					<i class="badge badge-sm badge-danger pointer" onClick="${on_click_lyrics}" id="id_lebel_music_has_lyrics-${i}">
 						N

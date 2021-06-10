@@ -684,7 +684,7 @@ function CMS_Service(){
 				sql = `
 					SELECT *
 					FROM (
-						SELECT m.title, a.name as artist, m.music_uid, l.music_uid as lyrics_music_uid, 'N' as has_lyrics
+						SELECT m.title, a.name as artist, m.music_uid, l.music_uid as lyrics_music_uid, 'N' as has_lyrics, m.is_diff_name
 						FROM music m
 						JOIN artist a ON m.artist_uid=a.artist_uid
 						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
