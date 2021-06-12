@@ -61,8 +61,8 @@ function MusicControl(){
 		$('#id_modal_cms_music_lyrics_artist').html(m.artist);
 		$('#id_modal_cms_music_lyrics_title').html(m.title);
 		$('#id_input_cms_music_lyrics').val('');
-		$('#id_input_cms_music_lyrics').focus();
 		$('#id_modal_cms_music_lyrics').modal('show');
+		$('#id_input_cms_music_lyrics').focus();
 
 		$('#id_input_cms_music_lyrics').on('keydown', function(e){
 			console.log('e.keyCode ' + e.keyCode);
@@ -115,6 +115,7 @@ function MusicControl(){
 	};
 
 	this.OnClick_CopyTitle = function(idx){
+		self.HightlightMusic(idx);
 		var title = self._music_list[idx].title;
 		$('#id_text_for_copy_text').val(title);
 		$('#id_text_for_copy_text').select();
@@ -122,12 +123,28 @@ function MusicControl(){
 	};
 
 	this.OnClick_SearchGoogle = function(idx){
+		self.HightlightMusic(idx);
 		var title = self._music_list[idx].title;
 		var artist = self._music_list[idx].artist;
 		var query = `search?q=lyrics+${title}+${artist}`;
 		query += '&igu=1';
 		var url = 'https://google.com/' + query;
 		$('#id_iframe_music_google_search').attr('src', url);
+	};
+
+	this.HightlightMusic = function(idx){
+		console.log('idx ' + idx);
+		for(var i=0 ; i<self._music_list.length ; i++){
+			var m = self._music_list[i];
+			if(idx == i){
+				console.log('i ' + i + ' yellow');
+				$('#id_music-'+m.music_uid).css('background-color', 'yellow');
+			}else{
+				console.log('i ' + i + ' white');
+				$('#id_music-'+m.music_uid).css('background-color', 'white');
+			}
+		}
+
 	};
 
 	//---------------------------------------------------------
@@ -152,7 +169,7 @@ function MusicControl(){
 			var on_click_copy_title = `window,_music_control.OnClick_CopyTitle(${i})`;
 			var on_click_google = `window,_music_control.OnClick_SearchGoogle(${i})`;
 			h += `
-			<tr>
+			<tr id='id_music-${m.music_uid}'>
 				<td>${m.artist}</td>
 				<td class="pointer" onClick="${on_click_copy_title}">${m.title}</td>
 				<td>${m.is_diff_name}</td>
