@@ -121,6 +121,15 @@ function MusicControl(){
 		document.execCommand("copy");		
 	};
 
+	this.OnClick_SearchGoogle = function(idx){
+		var title = self._music_list[idx].title;
+		var artist = self._music_list[idx].artist;
+		var query = `search?q=lyrics+${title}+${artist}`;
+		query += '&igu=1';
+		var url = 'https://google.com/' + query;
+		$('#id_iframe_music_google_search').attr('src', url);
+	};
+
 	//---------------------------------------------------------
 
 	this.DISP_MusicList = function(){
@@ -133,6 +142,7 @@ function MusicControl(){
 			<th>Title</th>
 			<th>D</th>
 			<th>L</th>
+			<th>G</th>
 		</tr>
 		`;
 
@@ -140,6 +150,7 @@ function MusicControl(){
 		self._music_list.forEach(m => {
 			var on_click_lyrics = `window._music_control.OpenLyricsEdit(${i})`;
 			var on_click_copy_title = `window,_music_control.OnClick_CopyTitle(${i})`;
+			var on_click_google = `window,_music_control.OnClick_SearchGoogle(${i})`;
 			h += `
 			<tr>
 				<td>${m.artist}</td>
@@ -149,6 +160,9 @@ function MusicControl(){
 					<i class="badge badge-sm badge-danger pointer" onClick="${on_click_lyrics}" id="id_lebel_music_has_lyrics-${i}">
 						N
 					</i>
+				</td>
+				<td>
+					<span class="badge badge-sm border pointer" onClick="${on_click_google}">G</span>
 				</td>
 			</tr>
 			`;
