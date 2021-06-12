@@ -3,6 +3,7 @@ const cherry_service = require('./cherry_service');
 var router = express.Router();
 var cms_service = require('./cms_service');
 var top_rank_parser = require('./top_rank_parser/top_rank_parser');
+var lyrics_parser = require('./lyrics_parser/lyrics_parser');
 var permission_service = require('./permission_service');
 var auth_service = require('./auth_service');
 var randomstring = require("randomstring");
@@ -23,6 +24,24 @@ router.post('/fetch_content_from_url', async function(req, res){
 		res.send({
 			ok:0,
 			err:'fail fetch_content #2'
+		});
+	}
+});
+
+router.post('/extract_lyrics_from_url', async function(req, res){
+	try{
+		var url = req.body.url;
+		console.log('url ' + url);
+		var lyrics = await lyrics_parser.GetLyrics(url);
+		res.send({
+			ok: 1,
+			lyrics: lyrics
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'fail extract_lyrics_from_url #1'
 		});
 	}
 });

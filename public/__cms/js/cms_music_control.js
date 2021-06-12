@@ -53,14 +53,25 @@ function MusicControl(){
 		});		
 	};
 
+	this.OnClick_OpenLyricsEdit = function(idx){
+		self.OpenLyricsEdit(idx, '');
+	};
+
 	var command_key_pressing = false;
-	this.OpenLyricsEdit = function(idx){
+	this.OpenLyricsEdit = function(idx, lyrics){
 		self._working_music_idx = idx;
 		console.log('idx ' + idx);
 		var m = self._music_list[idx];
 		$('#id_modal_cms_music_lyrics_artist').html(m.artist);
 		$('#id_modal_cms_music_lyrics_title').html(m.title);
-		$('#id_input_cms_music_lyrics').val('');
+		$('#id_input_cms_music_lyrics').val(lyrics);
+		
+		$('#id_div_lyrics_conv').html(lyrics);
+		var l = $('#id_div_lyrics_conv').html();
+		$('#id_div_lyrics_conv').html('');
+		$('#id_input_cms_music_lyrics').val(l);
+		
+
 		$('#id_modal_cms_music_lyrics').modal('show');
 		$('#id_input_cms_music_lyrics').focus();
 
@@ -124,27 +135,54 @@ function MusicControl(){
 
 	this.OnClick_SearchGoogle = function(idx){
 		self.HightlightMusic(idx);
-		var title = self._music_list[idx].title;
-		var artist = self._music_list[idx].artist;
-		var query = `search?q=lyrics+${title}+${artist}`;
-		query += '&igu=1';
-		var url = 'https://google.com/' + query;
+		var url = self.GetGoogleSearchURL(idx);
 		$('#id_iframe_music_google_search').attr('src', url);
 	};
 
+	this.OnClick_ExtraceLyrics = function(idx){
+		var url = self.GetGoogleSearchURL(idx);
+		var req = {
+			url:url
+		};
+		POST('/__cms_api/extract_lyrics_from_url', req, (res)=>{
+			if(res.ok){
+				// console.log('res.lyrics ' + res.lyrics);
+				var lyricst = self.decode_utf8(res.lyrics);
+				self.OpenLyricsEdit(idx, res.lyrics);
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
+	this.decode_utf8 = function (s) {
+		return decodeURIComponent(escape(s));
+	}
+
 	this.HightlightMusic = function(idx){
-		console.log('idx ' + idx);
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
 			if(idx == i){
-				console.log('i ' + i + ' yellow');
 				$('#id_music-'+m.music_uid).css('background-color', 'yellow');
 			}else{
-				console.log('i ' + i + ' white');
 				$('#id_music-'+m.music_uid).css('background-color', 'white');
 			}
 		}
+	};
 
+	//---------------------------------------------------------
+
+	this.GetGoogleSearchURL = function(idx){
+		var title = self._music_list[idx].title;
+		var artist = self._music_list[idx].artist;
+		var query = `search?q=lyrics+${encodeURI(title)}+${encodeURI(artist)}`;
+		query += '&igu=1';
+		var url = 'https://www.google.com/' + query;
+
+		console.log('url ' + url);
+		console.log('new url ' + 'https://www.google.com/search?q=lyrics+%EB%B8%94%EB%A3%A8%EB%B0%8D+%EC%95%84%EC%9D%B4%EC%9C%A0&amp;igu=1');
+
+		return url;
 	};
 
 	//---------------------------------------------------------
@@ -165,9 +203,10 @@ function MusicControl(){
 
 		var i = 0;
 		self._music_list.forEach(m => {
-			var on_click_lyrics = `window._music_control.OpenLyricsEdit(${i})`;
+			var on_click_lyrics = `window._music_control.OnClick_OpenLyricsEdit(${i})`;
 			var on_click_copy_title = `window,_music_control.OnClick_CopyTitle(${i})`;
 			var on_click_google = `window,_music_control.OnClick_SearchGoogle(${i})`;
+			var on_click_extract = `window._music_control.OnClick_ExtraceLyrics(${i})`;
 			h += `
 			<tr id='id_music-${m.music_uid}'>
 				<td>${m.artist}</td>
@@ -180,6 +219,7 @@ function MusicControl(){
 				</td>
 				<td>
 					<span class="badge badge-sm border pointer" onClick="${on_click_google}">G</span>
+					<span class="badge badge-sm border pointer" onClick="${on_click_extract}">E</span>
 				</td>
 			</tr>
 			`;
