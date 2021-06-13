@@ -147,7 +147,7 @@ function MusicControl(){
 		POST('/__cms_api/extract_lyrics_from_url', req, (res)=>{
 			if(res.ok){
 				// console.log('res.lyrics ' + res.lyrics);
-				var lyricst = self.decode_utf8(res.lyrics);
+				// var lyricst = self.decode_utf8(res.lyrics);
 				self.OpenLyricsEdit(idx, res.lyrics);
 			}else{
 				alert(res.err);
