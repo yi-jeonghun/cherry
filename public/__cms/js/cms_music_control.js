@@ -175,6 +175,9 @@ function MusicControl(){
 	this.GetGoogleSearchURL = function(idx){
 		var title = self._music_list[idx].title;
 		var artist = self._music_list[idx].artist;
+		title = title.replace('&' , ' ');
+		artist = artist.replace('&' , ' ');
+		var query = `search?q=lyrics+${encodeURI(title)}+${encodeURI(artist)}`;
 		var query = `search?q=lyrics+${encodeURI(title)}+${encodeURI(artist)}`;
 		query += '&igu=1';
 		var url = 'https://www.google.com/' + query;
