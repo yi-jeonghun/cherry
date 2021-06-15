@@ -671,7 +671,7 @@ function CMS_Service(){
 						FROM music m
 						JOIN artist a ON m.artist_uid=a.artist_uid
 						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
-						WHERE l.music_uid IS NULL
+						WHERE l.music_uid IS NULL AND m.is_diff_name='N'
 					) nm
 				`;
 				var msg = 'GetMusicList_NoLyrics count';
@@ -688,7 +688,7 @@ function CMS_Service(){
 						FROM music m
 						JOIN artist a ON m.artist_uid=a.artist_uid
 						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
-						WHERE l.music_uid IS NULL
+						WHERE l.music_uid IS NULL AND m.is_diff_name='N'
 					) nm
 					LIMIT ${count_per_page} OFFSET ${offset}
 				`;
