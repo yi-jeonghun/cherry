@@ -62,7 +62,7 @@ window.L_SAME_VIDEO_EXISTS = [];
 
 window.L_SIGN_IN_REQUIRED = [];
 {
-	L_SIGN_IN_REQUIRED[C_US] = "Sign in requred.";
+	L_SIGN_IN_REQUIRED[C_US] = "Sign in required";
 }
 
 window.L_SIGN_OUT = [];
@@ -74,6 +74,26 @@ window.L_SIGN_OUT = [];
 window.L_LYRICS = [];{
 	L_LYRICS[C_US] = 'Lyrics';
 	L_LYRICS[C_KR] = '가사';
+}
+
+window.L_CORRECT_REQUEST = [];{
+	L_CORRECT_REQUEST[C_US] = 'Correction Request';
+	L_CORRECT_REQUEST[C_US] = '수정 요청';	
+}
+
+window.L_LYRICS_TYPEO = [];{
+	L_LYRICS_TYPEO[C_US] = 'Lyrics Type-o';
+	L_LYRICS_TYPEO[C_KR] = '가사 오류';
+}
+
+window.L_REMOVE_ADVERTISEMENT = [];{
+	L_REMOVE_ADVERTISEMENT[C_US] = 'Remove Advertisement';
+	L_REMOVE_ADVERTISEMENT[C_KR] = '광고 제거';
+}
+
+window.L_YOUTUBE_LINK_BROKEN = [];{
+	L_YOUTUBE_LINK_BROKEN[C_US] = 'Youtube Link Broken';
+	L_YOUTUBE_LINK_BROKEN[C_KR] = 'Youtube 비디오 없음';
 }
 
 //================================================
