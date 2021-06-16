@@ -410,11 +410,12 @@ function MusicControl(){
 		$('#id_label_cms_music_total').html('');
 
 		var h = `
-		<table class="table table-sm table-stripped">
+		<table class="table table-sm table-stripped small">
 		<tr>
 			<th>Artist</th>
 			<th>Title</th>
 			<th>Video ID</th>
+			<th>Y</th>
 			<th>Lyrics</th>
 			<th>Video</th>
 			<th>Ads</th>
@@ -438,9 +439,9 @@ function MusicControl(){
 				<td>${m.title}</td>
 				<td>
 					<span id="id_label_video_id-${m.music_uid}">${m.video_id}</span>
-					<button type="button" class="btn btn-sm border" onclick="${on_click_play}">
-						<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
-					</button>
+				</td>
+				<td>
+					<span class="badge badge-sm border" onclick="${on_click_play}"><i class="fas fa-play"></i></span>
 					<span class="badge badge-sm border pointer" onClick="${on_click_youtube}">Y</span>
 				</td>
 				<td>${m.lyrics}</td>
