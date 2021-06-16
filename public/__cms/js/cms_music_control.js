@@ -184,11 +184,22 @@ function MusicControl(){
 		});
 	};
 
-	this.OnChooseVideo = function(video_id){
+	this.OnClick_PlayVideoFromMusicList = function(idx){
+		self._working_idx = idx;
+		self.HightlightMusic(idx);
+
 		var music = {
-			video_id: video_id
+			video_id: self._music_list[idx].video_id
 		};
 		window._cherry_player.TryMusic(music);
+	};
+
+	this.OnClick_PlayVideoFromYoutubeList = function(idx){
+		var music = {
+			video_id: self._youtube_searched_video_list[idx].video_id
+		};
+		window._cherry_player.TryMusic(music);
+		self.HighlightYoutube(idx);
 	};
 
 	this.OnClick_SearchYoutube = function(idx){
@@ -236,6 +247,20 @@ function MusicControl(){
 				$('#id_music-'+m.music_uid).css('background-color', 'yellow');
 			}else{
 				$('#id_music-'+m.music_uid).css('background-color', 'white');
+			}
+		}
+	};
+
+	this.HighlightYoutube = function(idx){
+		console.log('idx ' + idx);
+		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
+			var y = self._youtube_searched_video_list[i];
+			if(i == idx){
+				console.log('i ' + i + ' yellow ' + y.video_id);
+				$(`#id_youtube_video_row-${y.video_id}`).css('background-color', 'yellow');
+			}else{
+				console.log('i ' + i + ' white ' + y.video_id);
+				$(`#id_youtube_video_row-${y.video_id}`).css('background-color', 'white');
 			}
 		}
 	};
@@ -303,7 +328,7 @@ function MusicControl(){
 			var img_src =  `https://img.youtube.com/vi/${video_id}/0.jpg`;
 			var id_video_duration_str = `id_video_duration-${video_id}`;
 			var id_youtube_video_row_str = `id_youtube_video_row-${video_id}`;
-			var OnChooseVideo = `window._music_control.OnChooseVideo('${video_id}')`;
+			var OnChooseVideo = `window._music_control.OnClick_PlayVideoFromYoutubeList('${i}')`;
 			var OnOkClick = `window._music_control.ChangeVideoID('${video_id}')`;
 
 			h += `
@@ -429,7 +454,7 @@ function MusicControl(){
 			var on_click_lyrics = `window._music_control.OnClick_OpenLyricsEdit(${i})`;
 			var on_click_google = `window,_music_control.OnClick_SearchGoogle(${i})`;
 			var on_click_extract = `window._music_control.OnClick_ExtraceLyrics(${i})`;
-			var on_click_play = `window._music_control.OnChooseVideo('${m.video_id}')`;
+			var on_click_play = `window._music_control.OnClick_PlayVideoFromMusicList('${i}')`;
 			var on_click_youtube = `window._music_control.OnClick_SearchYoutube(${i})`;
 			var on_click_trash = `window._music_control.OnClick_Finish(${i})`;
 
