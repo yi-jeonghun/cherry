@@ -567,6 +567,38 @@ function CMS_Service(){
 		});
 	};
 
+	this.ChangeVideoID = async function(music_uid, video_id){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE music SET ? WHERE ?`;
+				var val = [
+					{
+						video_id:   video_id
+					},
+					{
+						music_uid:music_uid
+					} 
+				];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService ChangeVideoID #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService ChangeVideoID #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+
 	this.UpdateMusicOfDiffNames = async function(music_uid, video_id, artist_uid){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
@@ -709,13 +741,29 @@ function CMS_Service(){
 		return new Promise(async function(resolve, reject){
 			try{
 				var sql = `
-					SELECT mc.*, m.title, m.artist_uid, a.name as artist, m.video_id
+					SELECT mc.*, m.title, m.artist_uid, a.name as artist, m.video_id,
+						IF(l.music_uid IS NULL, 'N', 'Y') as has_lyrics
 					FROM music_correct_request mc
 					JOIN music m ON mc.music_uid=m.music_uid
 					JOIN artist a ON m.artist_uid=a.artist_uid
-				`;
+					LEFT JOIN lyrics l ON m.music_uid=l.music_uid
+					`;
 				var msg = 'GetMusicList_Correction';
 				var list = await self.QuerySelect(sql, [], msg);
+				resolve(list);
+			}catch{
+				reject('FAIL ' + msg);
+			}
+		});
+	};
+
+	this.DeleteMusicCorrectionRequest = function(music_uid){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `DELETE FROM music_correct_request WHERE music_uid=?`;
+				var val = [music_uid];
+				var msg = 'DeleteMusicCorrectionRequest';
+				var list = await self.QuerySelect(sql, val, msg);
 				resolve(list);
 			}catch{
 				reject('FAIL ' + msg);

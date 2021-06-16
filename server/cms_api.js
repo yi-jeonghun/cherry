@@ -782,5 +782,58 @@ router.get('/get_music_list_correction', async function(req, res){
 	}
 });
 
+router.post('/change_video_id', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var music_uid = req.body.music_uid;
+		var video_id = req.body.video_id;
+		var ret = await cms_service.ChangeVideoID(music_uid, video_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail change_video_id'
+		});
+	}
+});
+
+router.post('/delete_music_correct_request', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		console.log('is_admin' + is_admin);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var music_uid = req.body.music_uid;
+		var video_id = req.body.video_id;
+		var ret = await cms_service.DeleteMusicCorrectionRequest(music_uid, video_id);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail change_video_id'
+		});
+	}
+});
 
 module.exports = router;

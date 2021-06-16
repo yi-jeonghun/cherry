@@ -25,23 +25,21 @@
 				<h1>Music</h1>
 			</div>
 			<div class="col-9 my-auto">
-				<i class="border p-1 pointer" onClick="window._music_control.GetMusicList_NoLyrics(false)">No Lyrics</i>
-				<i class="border p-1 pointer" onClick="window._music_control.GetMusicList_Correction()">Correction</i>
+				<i class="border p-1 pointer" id="id_btn_music_no_lyrics" onClick="window._music_control.GetMusicList_NoLyrics(false)">No Lyrics</i>
+				<i class="border p-1 pointer" id="id_btn_music_correction" onClick="window._music_control.GetMusicList_Correction()">Correction</i>
 				<input type="text" id="id_text_for_copy_text" size="1">
 			</div>
 		</div>
 
-		<div class="border d-flex" style="height: calc(100% - 100px); overflow: hidden;">
+		<div class="border d-flex" style="height: calc(100% - 100px); overflow: hidden; padding:0px; margin: 0px;">
 			<!-- MUSIC LIST -->
-			<div class="col-6" style="height: 100%; overflow: auto;">
-				<div class="border">Total : <span id="id_label_cms_music_total"></span></div>
-				<div class="border" id="id_div_cms_music_list"></div>
-			</div>
-
-			<!-- RIGHT -->
-			<div class="col-6">
+			<div class="border col-6" style="height: 100%; overflow: auto; padding: 0px;">
+				<div style="width: 100%; height: calc(100% - 100px);">
+					<div class="border">Total : <span id="id_label_cms_music_total"></span></div>
+					<div class="border" id="id_div_cms_music_list"></div>	
+				</div>
 				<!-- PLAYER TEST -->
-				<!-- <div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
+				<div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
 					<div id="player" class="border" style="width: 90; height: 90;"></div>
 					<div>
 						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
@@ -57,11 +55,15 @@
 						</div>
 						<div id="id_div_duration"></div>
 					</div>
-				</div>-->
+				</div>
+			</div>
 
+			<!-- RIGHT -->
+			<div class="col-6">
 				<!-- GOOGLE SEARCH -->
-				<iframe class="border" style="width: 100%; height: 100%; overflow: auto" id="id_iframe_music_google_search">
-				</iframe>
+				<iframe class="border" style="display:none; width: 100%; height: 100%; overflow: auto" id="id_iframe_music_google_search"></iframe>
+				<!-- YOUTUBE SEARCH -->
+				<div class="border" style="display:none; width: 100%; height: 100%; overflow: auto;" id="id_div_youtube_search_result"></div>
 			</div>
 		</div>
 	</div>
