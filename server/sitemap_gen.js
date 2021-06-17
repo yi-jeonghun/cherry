@@ -223,17 +223,17 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 
 		console.log('is_first ' + is_first + ' is_last ' + is_last);
 
-		var xml = '';
-		if(is_first){
-			xml += `
-			<?xml version="1.0" encoding="UTF-8"?>
-			<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-			`;
-		}
-
 		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
 			var country_code = CONST.__COUNTRY_CODE_LIST[i];
 			
+			var xml = '';
+			if(is_first){
+				xml += `
+				<?xml version="1.0" encoding="UTF-8"?>
+				<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+				`;
+			}
+
 			for(var m=0 ; m<music_list.length ; m++){
 				var music_uid = music_list[m].music_uid;
 				var title = encodeURI(music_list[m].title);
