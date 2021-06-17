@@ -122,7 +122,7 @@ async function MakePlaylistXML(){
 			var user_id = '';
 
 			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, user_id);
-			if(playlist_uid.length > 0){
+			if(playlist_list.length > 0){
 				await MakePlaylistXMLByCountry(country_code, playlist_list);
 			}
 		}
