@@ -26,6 +26,8 @@ function MusicControl(music_uid){
 					has_lyrics: res.info.has_lyrics
 				};
 
+				window._router.UpdateMeta_Music(res.info.title, res.info.artist);
+
 				$('#id_label_music_title').html(res.info.title);
 				$('#id_label_music_artist').html(res.info.artist);
 				self._is_like = res.info.is_like;

@@ -128,7 +128,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			var on_click_listen = `window._open_playlist_detail_control.AddMusic(${i})`;
 			var on_click_heart = `window._open_playlist_detail_control.LikeMusic(${i})`;
-			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}&t=${encodeURI(m.title)}&a=${encodeURI(m.artist)}')`
+			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}')`
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
 			var like_color = '#bbbbbb';
 			if(m.is_like == 'Y'){

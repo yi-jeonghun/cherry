@@ -249,7 +249,7 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 			var on_click_listen = `window._my_playlist_detail_control.AddMusic(${i})`;
 			var on_click_delete = `window._my_playlist_detail_control.DeleteMusic(${i})`;
 			var on_click_heart = `window._my_playlist_detail_control.LikeMusic(${i})`;
-			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}&t=${encodeURI(m.title)}&a=${encodeURI(m.artist)}')`
+			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}')`
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
 			var like_color = '#bbbbbb';
 			if(m.is_like == 'Y'){

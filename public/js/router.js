@@ -230,20 +230,18 @@ function Router(){
 	};
 
 	this.GoTo_Music = function(args, arg_list){
-		{
-			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var title = arg_list['t'];
-			var artist = arg_list['a'];
-
-			var title = `${title} - ${artist} | Cherry Music[${country_name}]`;
-			var keywords = `${title}, ${artist}, ${TR(L_LYRICS)}`;
-			var desc = `${title}, ${artist}, ${TR(L_LYRICS)}`;
-			this.UpdateMeta(title, keywords, desc);	
-		}
 		var target_div = 'id_router-music';
 		var route_url = '/music.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
+
+	this.UpdateMeta_Music = function(title, artist){
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
+		var title = `${title} - ${artist} | Cherry Music[${country_name}]`;
+		var keywords = `${title}, ${artist}, ${TR(L_LYRICS)}`;
+		var desc = `${title}, ${artist}, ${TR(L_LYRICS)}`;
+		this.UpdateMeta(title, keywords, desc);	
+	}
 
 	////////////////////////////////////////////////////////////////////
 
