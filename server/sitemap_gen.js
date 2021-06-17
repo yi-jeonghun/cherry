@@ -20,16 +20,13 @@ async function UpdateXML(){
 async function MakeSitemapIndex(){
 	return new Promise(async function(resolve, reject){
 		var path = __dirname + '/../public/sitemap.xml';
-		var xml = `<?xml version="1.0" encoding="UTF-8"?>
-			<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-		`;
+		var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+		xml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
 		for(var i=0 ; i<_xml_path_list.length ; i++){
-			xml += `
-			  <sitemap>
-			    <loc>https://cherrymusic.io/${_xml_path_list[i]}</loc>
-			  </sitemap>
-			`;
+			xml += '	<sitemap>\n';
+			xml += `		<loc>https://cherrymusic.io/${_xml_path_list[i]}</loc>\n`;
+			xml += '	</sitemap>\n';
 		}
 
 		xml += '</sitemapindex>';
@@ -42,14 +39,13 @@ async function MakeTopRankXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeTopRankXML');
 		var date_str = new Date().toISOString();
-		var xml = `<?xml version="1.0" encoding="UTF-8"?>
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-			<url>
-				<loc>https://cherrymusic.io/</loc>
-				<lastmod> ${date_str} </lastmod>
-				<priority>0.5</priority>
-			</url>
-		`;
+		var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+		xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+		xml += '	<url>\n';
+		xml += '		<loc>https://cherrymusic.io/</loc>\n';
+		xml += '		<lastmod> ${date_str} </lastmod>\n';
+		xml += '		<priority>0.5</priority>\n';
+		xml += '	</url>\n';
 
 		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
 			var country_code = CONST.__COUNTRY_CODE_LIST[i];
@@ -57,17 +53,15 @@ async function MakeTopRankXML(){
 
 			for(var s=0 ; s<source_list.length ; s++){
 				var source = source_list[s].source;
-				xml += `
-					<url>
-						<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>
-						<lastmod>${date_str}</lastmod>
-						<priority>0.8</priority>
-					</url>
-				`;
+				xml += '	<url>\n';
+				xml += `		<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>\n`;
+				xml += '		<lastmod>${date_str}</lastmod>\n';
+				xml += '		<priority>0.8</priority>\n';
+				xml += '	</url>\n';
 			}
 		}
 
-		xml += '</urlset>';
+		xml += '</urlset>\n';
 		var path = __dirname + '/../public/sitemap_top_rank.xml';
 		await WriteXML(path, xml);
 		_xml_path_list.push('sitemap_top_rank.xml');
@@ -92,9 +86,8 @@ async function MakeArtistXML(){
 async function MakeArtistXMLByCountry(country_code, artist_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
-		var xml = `<?xml version="1.0" encoding="UTF-8"?>
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-		`;
+		var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+		xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
 		for(var a=0 ; a<artist_list.length ; a++){
 			var artist = artist_list[a];
@@ -103,16 +96,14 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 				artist_uid = artist.org_artist_uid;	
 			}
 
-			xml += `
-			<url>
-				<loc>https://cherrymusic.io/${country_code}/artist.go?aid=${artist_uid}</loc>
-				<lastmod>${date_str}</lastmod>
-				<priority>0.8</priority>
-			</url>
-			`;	
+			xml += '	<url>\n';
+			xml += `		<loc>https://cherrymusic.io/${country_code}/artist.go?aid=${artist_uid}</loc>\n`;
+			xml += '		<lastmod>${date_str}</lastmod>\n';
+			xml += '		<priority>0.8</priority>\n';
+			xml += '	</url>\n';
 		}
 
-		xml += '</urlset>';
+		xml += '</urlset>\n';
 		var path = __dirname + '/../public/sitemap_artist_' + country_code + '.xml';
 		await WriteXML(path, xml);
 		_xml_path_list.push('sitemap_artist_' + country_code + '.xml');
@@ -131,7 +122,9 @@ async function MakePlaylistXML(){
 			var user_id = '';
 
 			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, user_id);
-			await MakePlaylistXMLByCountry(country_code, playlist_list);
+			if(playlist_uid.length > 0){
+				await MakePlaylistXMLByCountry(country_code, playlist_list);
+			}
 		}
 		resolve();
 	});
@@ -140,24 +133,21 @@ async function MakePlaylistXML(){
 async function MakePlaylistXMLByCountry(country_code, playlist_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
-		var xml = `<?xml version="1.0" encoding="UTF-8"?>
-		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-		`;
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+		xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
 		for(var k=0 ; k<playlist_list.length ; k++){
 			var p = playlist_list[k];
 			var encode_title = encodeURI(p.title);
 
-			xml += `
-			<url>
-				<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&amp;pid=${p.playlist_uid}</loc>
-				<lastmod>${date_str}</lastmod>
-				<priority>0.8</priority>
-			</url>
-			`;
+			xml += `	<url>\n`;
+			xml += `		<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&amp;pid=${p.playlist_uid}</loc>\n`;
+			xml += `		<lastmod>${date_str}</lastmod>\n`;
+			xml += `		<priority>0.8</priority>\n`;
+			xml += `	</url>\n`;
 		}
 
-		xml += '</urlset>';
+		xml += '</urlset>\n';
 		var path = __dirname + '/../public/sitemap_playlist_' + country_code + '.xml';
 		await WriteXML(path, xml);
 		_xml_path_list.push('sitemap_playlist_' + country_code + '.xml');
@@ -226,26 +216,21 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 			
 			var xml = '';
 			if(is_first){
-				xml += `<?xml version="1.0" encoding="UTF-8"?>
-				<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-				`;
+				xml += `<?xml version="1.0" encoding="UTF-8"?>\n`;
+				xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 			}
 
 			for(var m=0 ; m<music_list.length ; m++){
 				var music_uid = music_list[m].music_uid;
-				var title = encodeURI(music_list[m].title);
-				var artist = encodeURI(music_list[m].artist);
-				xml += `
-				<url>
-					<loc>https://cherrymusic.io/${country_code}/music.go?mid=${music_uid}</loc>
-					<lastmod>${date_str}</lastmod>
-					<priority>0.8</priority>
-				</url>
-				`;	
+				xml += `	<url>\n`;
+				xml += `		<loc>https://cherrymusic.io/${country_code}/music.go?mid=${music_uid}</loc>\n`;
+				xml += `		<lastmod>${date_str}</lastmod>\n`;
+				xml += `		<priority>0.8</priority>\n`;
+				xml += `	</url>\n`;
 			}
 
 			if(is_last){
-				xml += '</urlset>';
+				xml += '</urlset>\n';
 			}
 
 			var path = __dirname + '/../public/sitemap_music_' + country_code + '_' + file_count +'.xml';
