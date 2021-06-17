@@ -106,7 +106,7 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 
 			xml += `
 			<url>
-				<loc><![CDATA[https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&aid=${artist_uid}]]</loc>
+				<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&amp;aid=${artist_uid}</loc>
 				<lastmod>${date_str}</lastmod>
 				<priority>0.8</priority>
 			</url>
@@ -151,7 +151,7 @@ async function MakePlaylistXMLByCountry(country_code, playlist_list){
 
 			xml += `
 			<url>
-				<loc><![CDATA[https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&pid=${p.playlist_uid}]]</loc>
+				<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&amp;pid=${p.playlist_uid}</loc>
 				<lastmod>${date_str}</lastmod>
 				<priority>0.8</priority>
 			</url>
@@ -238,7 +238,7 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 				var artist = encodeURI(music_list[m].artist);
 				xml += `
 				<url>
-					<loc><![CDATA[https://cherrymusic.io/${country_code}/music.go?mid=${music_uid}&t=${title}&a=${artist}]]</loc>
+					<loc>https://cherrymusic.io/${country_code}/music.go?mid=${music_uid}&amp;t=${title}&amp;a=${artist}</loc>
 					<lastmod>${date_str}</lastmod>
 					<priority>0.8</priority>
 				</url>
