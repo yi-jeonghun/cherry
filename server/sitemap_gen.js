@@ -20,8 +20,7 @@ async function UpdateXML(){
 async function MakeSitemapIndex(){
 	return new Promise(async function(resolve, reject){
 		var path = __dirname + '/../public/sitemap.xml';
-		var xml = `
-			<?xml version="1.0" encoding="UTF-8"?>
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>
 			<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 		`;
 
@@ -43,8 +42,7 @@ async function MakeTopRankXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeTopRankXML');
 		var date_str = new Date().toISOString();
-		var xml = `
-		<?xml version="1.0" encoding="UTF-8"?>
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 			<url>
 				<loc>https://cherrymusic.io/</loc>
@@ -94,8 +92,7 @@ async function MakeArtistXML(){
 async function MakeArtistXMLByCountry(country_code, artist_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
-		var xml = `
-		<?xml version="1.0" encoding="UTF-8"?>
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 		`;
 
@@ -144,8 +141,7 @@ async function MakePlaylistXML(){
 async function MakePlaylistXMLByCountry(country_code, playlist_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
-		var xml = `
-		<?xml version="1.0" encoding="UTF-8"?>
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>
 		<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 		`;
 
@@ -231,8 +227,7 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 			
 			var xml = '';
 			if(is_first){
-				xml += `
-				<?xml version="1.0" encoding="UTF-8"?>
+				xml += `<?xml version="1.0" encoding="UTF-8"?>
 				<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 				`;
 			}
