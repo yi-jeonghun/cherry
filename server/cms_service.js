@@ -751,7 +751,8 @@ function CMS_Service(){
 				var msg = 'GetMusicList_Correction';
 				var list = await self.QuerySelect(sql, [], msg);
 				resolve(list);
-			}catch{
+			}catch(err){
+				console.log('Fail ' + err);
 				reject('FAIL ' + msg);
 			}
 		});
@@ -765,7 +766,29 @@ function CMS_Service(){
 				var msg = 'DeleteMusicCorrectionRequest';
 				var list = await self.QuerySelect(sql, val, msg);
 				resolve(list);
-			}catch{
+			}catch(err){
+				console.log('Fail ' + err);
+				reject('FAIL ' + msg);
+			}
+		});
+	};
+
+	this.GetMusicListForSitemap = function(page, cpp){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+				SELECT m.music_uid, m.title, a.name as artist, m.is_diff_name, m.org_music_uid
+				FROM music m
+				JOIN artist a ON m.artist_uid=a.artist_uid
+				LIMIT ? OFFSET ?
+				`;
+				var offset = (page - 1) * cpp;
+				var val = [cpp, offset];
+				var msg = 'GetMusicListForSitemap';
+				var list = await self.QuerySelect(sql, val, msg);
+				resolve(list);
+			}catch(err){
+				console.log('Fail ' + err);
 				reject('FAIL ' + msg);
 			}
 		});
