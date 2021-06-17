@@ -43,7 +43,7 @@ async function MakeTopRankXML(){
 		xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		xml += '	<url>\n';
 		xml += '		<loc>https://cherrymusic.io/</loc>\n';
-		xml += '		<lastmod> ${date_str} </lastmod>\n';
+		xml += `		<lastmod> ${date_str} </lastmod>\n`;
 		xml += '		<priority>0.5</priority>\n';
 		xml += '	</url>\n';
 
@@ -55,7 +55,7 @@ async function MakeTopRankXML(){
 				var source = source_list[s].source;
 				xml += '	<url>\n';
 				xml += `		<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>\n`;
-				xml += '		<lastmod>${date_str}</lastmod>\n';
+				xml += `		<lastmod>${date_str}</lastmod>\n`;
 				xml += '		<priority>0.8</priority>\n';
 				xml += '	</url>\n';
 			}
@@ -98,7 +98,7 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 
 			xml += '	<url>\n';
 			xml += `		<loc>https://cherrymusic.io/${country_code}/artist.go?aid=${artist_uid}</loc>\n`;
-			xml += '		<lastmod>${date_str}</lastmod>\n';
+			xml += `		<lastmod>${date_str}</lastmod>\n`;
 			xml += '		<priority>0.8</priority>\n';
 			xml += '	</url>\n';
 		}
