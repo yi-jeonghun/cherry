@@ -190,6 +190,7 @@ async function MakeMusicXML(){
 				is_first = true;
 			}
 			
+			console.log('temp_page_count ' + temp_page_count + ' pages_per_file ' + pages_per_file);
 			if(temp_page_count == pages_per_file){
 				is_last = true;
 			}
