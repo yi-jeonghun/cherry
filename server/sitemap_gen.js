@@ -191,7 +191,7 @@ async function MakeMusicXML(){
 			}
 			
 			console.log('temp_page_count ' + temp_page_count + ' pages_per_file ' + pages_per_file);
-			if(temp_page_count == pages_per_file){
+			if(temp_page_count == (pages_per_file-1)){
 				is_last = true;
 			}
 
@@ -209,7 +209,7 @@ async function MakeMusicXML(){
 			temp_page_count++;
 			page++;
 
-			if(temp_page_count == pages_per_file){
+			if(temp_page_count == (pages_per_file-1)){
 				temp_page_count = 0;
 				file_count++;
 			}
