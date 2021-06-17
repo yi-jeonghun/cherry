@@ -209,7 +209,7 @@ async function MakeMusicXML(){
 			temp_page_count++;
 			page++;
 
-			if(temp_page_count == (pages_per_file-1)){
+			if(temp_page_count == pages_per_file){
 				temp_page_count = 0;
 				file_count++;
 			}
