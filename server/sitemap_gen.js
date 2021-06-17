@@ -98,7 +98,6 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 
 		for(var a=0 ; a<artist_list.length ; a++){
 			var artist = artist_list[a];
-			var encoded_name = encodeURI(artist.name);
 			var artist_uid = artist.artist_uid;
 			if(artist.is_diff_name == 'Y'){
 				artist_uid = artist.org_artist_uid;	
@@ -106,7 +105,7 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 
 			xml += `
 			<url>
-				<loc>https://cherrymusic.io/${country_code}/artist.go?a=${encoded_name}&amp;aid=${artist_uid}</loc>
+				<loc>https://cherrymusic.io/${country_code}/artist.go?aid=${artist_uid}</loc>
 				<lastmod>${date_str}</lastmod>
 				<priority>0.8</priority>
 			</url>

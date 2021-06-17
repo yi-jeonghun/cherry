@@ -128,19 +128,18 @@ function Router(){
 	};
 
 	this.GoTo_Artist = function(args, arg_list){
-		{
-			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var artist = arg_list['a'];
-			var title = artist + ' - Cherry Music [' + country_name + ']';
-			var keywords = artist + TR(L_ARTIST_META_KEYWORDS);
-			var desc = artist + TR(L_ARTIST_META_DESC);
-			this.UpdateMeta(title, keywords, desc);	
-		}
-
 		var target_div = 'id_router-artist';
 		var route_url = '/artist.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
+
+	this.UpdateMeta_Artist = function(artist){
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
+		var title = artist + ' - Cherry Music [' + country_name + ']';
+		var keywords = artist + TR(L_ARTIST_META_KEYWORDS);
+		var desc = artist + TR(L_ARTIST_META_DESC);
+		this.UpdateMeta(title, keywords, desc);	
+	}
 
 	this.GoTo_Search = function(){
 		{

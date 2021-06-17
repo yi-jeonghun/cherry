@@ -261,8 +261,7 @@ function CherryPlayer(){
 	this.GoToArtist = function(artist_name, artist_uid){
 		console.log('goto artist ');
 		self.PlayList_Hide();
-		var encode_name = encodeURI(artist_name);
-		window._router.Go(`/${window._country_code}/artist.go?a=${encode_name}&aid=${artist_uid}`);
+		window._router.Go(`/${window._country_code}/artist.go?aid=${artist_uid}`);
 	};
 
 	this.GoToMusic = function(music_uid, title, artist){
@@ -472,8 +471,7 @@ function CherryPlayer(){
 		event.stopPropagation();
 		self.Lyrics_Hide();
 		self.PlayList_Hide();
-		var a_encoded = encodeURI(artist);
-		window._router.Go(`/${window._country_code}/artist.go?a=${a_encoded}&aid=${artist_uid}`);
+		window._router.Go(`/${window._country_code}/artist.go?aid=${artist_uid}`);
 	};
 
 	this.OnClickTitle = function(event, music_uid, title, artist){

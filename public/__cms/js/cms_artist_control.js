@@ -625,7 +625,7 @@ function ArtistControl(){
 		};
 
 		$.ajax({
-			url: '/cherry_api/get_artist_info_by_artist_uid',
+			url: '/__cms_api/get_artist_info_by_artist_uid',
 			type: 'POST',
 			data: JSON.stringify(req_data),
 			contentType: 'application/json; charset=utf-8',

@@ -262,18 +262,17 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 					var member_list = JSON.parse(m.member_list_json);
 					for(var j=0 ; j<member_list.length ; j++){
 						var name = member_list[j].name;
-						var name_encoded = encodeURI(name);
 						var artist_uid = member_list[j].artist_uid;
 						artist_list.push({
 							name: name,
-							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+							onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${artist_uid}')`
 						});
 					}
 				}else{
 					var name_encoded = encodeURI(m.artist);
 					artist_list.push({
 						name: m.artist,
-						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
+						onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${m.artist_uid}')`
 					});
 				}
 			}
@@ -365,18 +364,17 @@ function MyPlaylistDetailControl(playlist_name, playlist_uid){
 						var member_list = JSON.parse(m.member_list_json);
 						for(var j=0 ; j<member_list.length ; j++){
 							var name = member_list[j].name;
-							var name_encoded = encodeURI(name);
 							var artist_uid = member_list[j].artist_uid;
 							artist_list.push({
 								name: name,
-								onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+								onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${artist_uid}')`
 							});
 						}
 					}else{
 						var name_encoded = encodeURI(m.artist);
 						artist_list.push({
 							name: m.artist,
-							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
+							onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${m.artist_uid}')`
 						});
 					}
 				}

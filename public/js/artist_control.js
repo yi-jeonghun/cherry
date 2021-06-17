@@ -13,6 +13,7 @@ function ArtistControl(){
 		self._artist_uid = artist_uid;
 		$('#id_label_artist-ARTIST_EJS').html(artist_name);
 		self.InitHandle();
+		self.GetArtistInfo();
 		self.GetArtistLike();
 		self.GetMusicList();
 		
@@ -161,6 +162,20 @@ function ArtistControl(){
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////
+
+	this.GetArtistInfo = function(){
+		var req = {
+			artist_uid: self._artist_uid
+		};
+		POST('/cherry_api/get_artist_info', req, res=>{
+			if(res.ok){
+				$('#id_label_artist-ARTIST_EJS').html(res.artist_info.name);
+				window._router.UpdateMeta_Artist(res.artist_info.name);
+			}else{
+				alert(res.err);
+			}
+		});
+	};
 
 	this.GetArtistLike = function(){
 		if(window._auth_control.IsLogin() == false){
@@ -371,18 +386,16 @@ function ArtistControl(){
 					var member_list = JSON.parse(m.member_list_json);
 					for(var j=0 ; j<member_list.length ; j++){
 						var name = member_list[j].name;
-						var name_encoded = encodeURI(name);
 						var artist_uid = member_list[j].artist_uid;
 						artist_list.push({
 							name: name,
-							onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${artist_uid}')`
+							onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${artist_uid}')`
 						});
 					}
 				}else{
-					var name_encoded = encodeURI(m.artist);
 					artist_list.push({
 						name: m.artist,
-						onclick: `window._router.Go('/${window._country_code}/artist.go?a=${name_encoded}&aid=${m.artist_uid}')`
+						onclick: `window._router.Go('/${window._country_code}/artist.go?aid=${m.artist_uid}')`
 					});
 				}
 			}
