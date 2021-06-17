@@ -188,7 +188,9 @@ async function MakeMusicXML(){
 			var is_last = false;
 			if(temp_page_count == 0){
 				is_first = true;
-			}else if(temp_page_count == pages_per_file){
+			}
+			
+			if(temp_page_count == pages_per_file){
 				is_last = true;
 			}
 
