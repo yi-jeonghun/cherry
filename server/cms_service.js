@@ -1,4 +1,5 @@
 const db_conn = require('./db_conn');
+var randomstring = require("randomstring");
 // const { triggerAsyncId } = require('async_hooks');
 
 function CMS_Service(){
@@ -810,6 +811,269 @@ function CMS_Service(){
 			}catch(err){
 				console.error(err);
 				reject(`FAIL CMSService ${msg} #1`);
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddRadioNetwork = function(country_code, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				var network_uid = await self.GetNetworkUID();
+				conn = await db_conn.GetConnection();
+				var sql = `INSERT INTO radio_network (country_code, name, network_uid) VALUES(?, ?, ?)`;
+				var val = [country_code, name, network_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService AddRadioNetwork #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService AddRadioNetwork #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateRadioNetwork = function(network_uid, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE radio_network SET name=? WHERE network_uid=?`;
+				var val = [name, network_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpdateRadioNetwork #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpdateRadioNetwork #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetNetworkUID = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				var network_uid = await self.__GetNetworkUID__();
+				if(network_uid != null){
+					resolve(network_uid);
+					return;
+				}
+
+				network_uid = await self.__GetNetworkUID__();
+				if(network_uid != null){
+					resolve(network_uid);
+					return;
+				}
+
+				network_uid = await self.__GetNetworkUID__();
+				if(network_uid != null){
+					resolve(network_uid);
+					return;
+				}
+
+				reject('FAIL GetNetworkUID #1');
+			}catch(err){
+				reject('FAIL GetNetworkUID #2');
+			}
+		});
+	}
+
+	this.__GetNetworkUID__ = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				conn = await db_conn.GetConnection();
+				var network_uid = randomstring.generate(10);
+
+				var sql = 'SELECT count(*) cnt FROM radio_network WHERE network_uid=?';
+				var val = [network_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService __GetNetworkUID__ #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(null);
+						}else{
+							resolve(network_uid);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService __GetNetworkUID__ #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddRadioProgram = function(network_uid, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				var program_uid = await self.GetProgramUID();
+				conn = await db_conn.GetConnection();
+				var sql = `INSERT INTO radio_program (network_uid, program_uid, name) VALUES(?, ?, ?)`;
+				var val = [network_uid, program_uid, name];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService AddRadioProgram #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService AddRadioProgram #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.UpdateRadioProgram = function(program_uid, name){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE radio_program SET name=? WHERE program_uid=?`;
+				var val = [name, program_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService UpdateRadioProgram #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService UpdateRadioProgram #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetProgramUID = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				var program_uid = await self.__GetProgramUID__();
+				if(program_uid != null){
+					resolve(program_uid);
+					return;
+				}
+
+				program_uid = await self.__GetProgramUID__();
+				if(program_uid != null){
+					resolve(program_uid);
+					return;
+				}
+
+				program_uid = await self.__GetProgramUID__();
+				if(program_uid != null){
+					resolve(program_uid);
+					return;
+				}
+
+				reject('FAIL GetProgramUID #1');
+			}catch(err){
+				reject('FAIL GetProgramUID #2');
+			}
+		});
+	}
+
+	this.__GetProgramUID__ = async function(){
+		return new Promise(async function(resolve, reject){
+			try{
+				conn = await db_conn.GetConnection();
+				var program_uid = randomstring.generate(10);
+
+				var sql = 'SELECT count(*) cnt FROM radio_program WHERE program_uid=?';
+				var val = [program_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService __GetProgramUID__ #0');
+					}else{
+						if(result[0].cnt > 0){
+							resolve(null);
+						}else{
+							resolve(program_uid);
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService __GetProgramUID__ #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.AddRadioProgramMusic = function(program_uid, date, number, music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `INSERT INTO radio_music (program_uid, date, number, music_uid) VALUES(?, STR_TO_DATE(?, '%Y-%m-%d'), ?, ?)`;
+				var val = [program_uid, date, number, music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService AddRadioProgramMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService AddRadioProgramMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteRadioProgramMusic = function(program_uid, date, music_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `DELETE FROM radio_music 
+				WHERE program_uid=? and 
+				date=STR_TO_DATE(?, '%Y-%m-%d') and
+				music_uid=?`;
+				var val = [program_uid, date, music_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService DeleteRadioProgramMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService DeleteRadioProgramMusic #1');
 			}finally{
 				if(conn) conn.release();
 			}

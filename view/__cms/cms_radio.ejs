@@ -1,0 +1,194 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+	<script src="/js/util.js"></script>
+
+	<!-- 순서 주위 -->
+	<script type="text/javascript" src="/js/const/country_code.js"></script>
+	<script type="text/javascript" src="/js/const/country_data.js"></script>
+	<script type="text/javascript" src="/js/const/top_100_source.js"></script>
+	<script type="text/javascript" src="/js/lang.js"></script>
+	<script type="text/javascript" src="/js/util.js"></script>
+	<!-- 순서 주위 -->
+	<link rel="stylesheet" type="text/css" href="/css/cms_style.css">
+	<link rel="stylesheet" type="text/css" href="/css/slider.css">
+
+	<!-- calendar -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js" ></script>
+	<link rel="stylesheet" href="/lib/tavo/tavo-calendar.css" />
+	<script src="/lib/tavo/tavo-calendar.js"></script>
+
+</head>
+<body style="width: 100%; height: 100%;">
+	<div id="id_div_main" style="height: 100%; width:100%; overflow: hidden;">
+		<div class="border" style="height: 30px;">
+			<div>
+				<%- include('menu.ejs') %>
+			</div>
+		</div>
+
+		<div class="border d-flex" style="height: 70px;">
+			<div class="col-2 my-auto">
+				<h5>Radio</h5>
+			</div>
+			<div class="col-2 my-auto">
+			</div>
+			<div class="col-2 my-auto">
+			</div>
+			<div class="col-6 my-auto text-right">
+			</div>
+		</div>
+
+		<div class="d-flex" style="height: calc(100% - 100px); overflow: hidden;">
+			<!-- LEFT -->
+			<div class="border d-flex" style="width:60%; height: 100%;">
+				<!-- RADIO NETWORK 리스트 -->
+				<div class="col-2 border px-0">
+					<img id="id_img_playlist_country" data-toggle="modal" data-target="#modal_choose_country" style="width: 30px; border: solid 0.5px #bbbbbb; cursor: pointer;">
+
+					<div class="d-flex">
+						<div class="w-50">Networks</div>
+						<div class="w-50 text-right">
+							<span class="badge badge-sm border pointer" onClick="window._radio_control.OnClick_RadioNetworkAdd()">Add</span>
+						</div>
+					</div>
+					<div class="px-0" id="id_div_network_list"></div>
+				</div>
+
+				<!-- PROGRAM LIST -->
+				<div class="col-3 border px-0">
+					<div class="d-flex">
+						<div class="col-8">
+							Programs
+						</div>
+						<div class="col-4 text-right">
+							<span class="badge badge-sm border pointer" onClick="window._radio_control.OnClick_ProgramAdd()">Add</span>
+						</div>
+					</div>
+					<div class="px-0" id="id_div_cms_radio_program_list"></div>
+				</div>
+
+				<!-- MUSIC LIST -->
+				<div class="col-7 px-0" style="height: 100%;">
+					<div class="border">
+						<!-- CALENDAR -->
+						<div id="my-calendar"></div>
+					</div>
+					<!-- MUSIC ADD -->
+					<div class="small">
+						<div class="d-flex">
+							<div style="width: 100px; text-align: center;">Artist</div>
+							<input type="text" class="" style="width: 300px;" id="id_input_cms_radio_artist">	
+							<span class="badge badge-sm border pointer" onClick="window._radio_control.OnClick_SearchArtist()">Search</span>
+							<span id="id_label_artist_uid"></span>
+						</div>
+						<div class="d-flex">
+							<div style="width: 100px; text-align: center;">Title</div>
+							<input type="text" class="" style="width: 300px;" id="id_input_cms_radio_title">	
+							<span class="badge badge-sm border pointer" onClick="window._radio_control.OnClick_SearchMusic()">Search</span>
+							<span class="badge badge-sm border pointer" onClick="window._radio_control.OnClick_SearchYoutube()">Youtube</span>
+						</div>
+					</div>
+					<div class="border-top" id="id_div_music_list"></div>
+				</div>
+			</div>
+
+			<!-- RIGHT -->
+			<div class="border" style="width:40%; height: 100%;">
+				<!-- PLAYER TEST -->
+				<div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
+					<div id="player" class="border" style="width: 90; height: 90;"></div>
+					<div>
+						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
+					</div>
+					<div class="border" style="width: 100%;">
+						<div class="border" style="width: 100%; height: 40px; padding-top: 5px;">
+							<div class="slider_filler border" id=""></div>
+							<input class="border slider" type="range" min="0" max="10000" value="0" id="id_slider_range">
+						</div>
+						<div style="width: 100%;">
+							<i class="fas fa-volume-up"></i>
+							<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
+						</div>
+						<div id="id_div_duration"></div>
+					</div>
+				</div>					
+
+				<!-- ARTIST SEARCH / MUSIC SEARCH -->
+				<div class="border" style="height: 200px; overflow: auto">
+					<div class="d-flex">
+						<div class="col-4">
+							<ul class="nav nav-tabs small" style="font-size: 0.5em;">
+								<li class="nav-item">
+									<a class="nav-link active" style="cursor: pointer;" id="id_nav_cms_radio_artist" onClick="window._radio_control.OnClick_NavTab('artist')">Artist</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" style="cursor: pointer;" id="id_nav_cms_radio_music" onClick="window._radio_control.OnClick_NavTab('music')">Music</a>
+								</li>
+							</ul>	
+						</div>
+						<div class="col-5">
+							<input class="small my-auto" style="width: 100%;" type="text" id="id_input_cms_radio_artist_search">
+						</div>
+						<div class="col-3 text-right">
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._radio_control.OnClick_AddArtist()">+Artist</span>
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._radio_control.OnClick_AddVAArtist()">+VA</span>
+						</div>
+					</div>
+					<div id="id_div_cms_radio_artist_search_result"></div>
+					<div id="id_div_cms_radio_music_search_result" style="display: none;"></div>
+				</div>
+
+				<!-- YOUTUBE SEARCH -->
+				<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_youtube_search_result"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- RADIO NETWORK EDIT -->
+<div id="id_modal_cms_radio_network_edit" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Radio Network</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="id_input_cms_radio_network_name"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onClick="window._radio_control.OnClick_RadioNetworkEditOK()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAM EDIT -->
+<div id="id_modal_cms_radio_program_edit" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Radio Program</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<div>Network : <span id="id_label_cms_radio_program-network_name"></span></div>
+        <input type="text" class="form-control" id="id_input_cms_radio_program_name"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onClick="window._radio_control.OnClick_ProgramEditOK()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+<script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/js/slider_control.js"></script>
+<script type="text/javascript" src="/js/youtube_search_control.js"></script>
+<script type="text/javascript" src="/__cms/js/cms_radio_control.js"></script>

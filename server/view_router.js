@@ -208,6 +208,15 @@ router.get('/__cms/playlist.vu', async function(req, res){
 	res.render('__cms/cms_playlist', null);
 });
 
+router.get('/__cms/radio.vu', async function(req, res){
+	var is_admin = await permission_service.IsAdmin(req.session.user_info);
+	if(is_admin == false){
+		res.render('no_permission');
+		return;
+	}
+	res.render('__cms/cms_radio', null);
+});
+
 router.get('/__cms/user.vu', async function(req, res){
 	var is_admin = await permission_service.IsAdmin(req.session.user_info);
 	if(is_admin == false){

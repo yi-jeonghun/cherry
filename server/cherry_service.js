@@ -2461,6 +2461,54 @@ function CherryService(){
 		});
 	};
 
+	this.GetRadioNetworksByCountry = function(country_code){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `SELECT * FROM radio_network WHERE country_code=?`;
+				var val = [country_code];
+				var msg = 'GetRadioNetworksByCountry';
+				var ret = self.QuerySelect(sql, val, msg);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
+	this.GetRadioPrograms = function(network_uid){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `SELECT * FROM radio_program WHERE network_uid=?`;
+				var val = [network_uid];
+				var msg = 'GetRadioPrograms';
+				var ret = self.QuerySelect(sql, val, msg);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
+	this.GetRadioProgramMusicsByDay = function(program_uid, date){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+				SELECT rm.number, rm.music_uid, rm.program_uid, m.title, a.name as artist
+				FROM radio_music rm
+				JOIN music m ON rm.music_uid=m.music_uid
+				JOIN artist a ON m.artist_uid=a.artist_uid
+				WHERE rm.program_uid=? and rm.date=STR_TO_DATE(?, '%Y-%m-%d')
+				`;
+				var val = [program_uid, date];
+				var msg = 'GetRadioProgramMusicsByDay';
+				var ret = self.QuerySelect(sql, val, msg);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
 }
 
 module.exports = new CherryService();

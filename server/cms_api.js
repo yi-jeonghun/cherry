@@ -855,4 +855,162 @@ router.post('/get_artist_info_by_artist_uid', async function(req, res){
 	}
 });
 
+router.post('/add_radio_network', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var name = req.body.name;
+		var country_code = req.body.country_code;
+		await cms_service.AddRadioNetwork(country_code, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_radio_network'
+		});
+	}
+});
+
+router.post('/update_radio_network', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var name = req.body.name;
+		var network_uid = req.body.network_uid;
+		await cms_service.UpdateRadioNetwork(network_uid, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_radio_network'
+		});
+	}
+});
+
+router.post('/add_radio_program', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var network_uid = req.body.network_uid;
+		var name = req.body.name;
+		await cms_service.AddRadioProgram(network_uid, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_radio_program'
+		});
+	}
+});
+
+router.post('/update_radio_program', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var name = req.body.name;
+		var program_uid = req.body.program_uid;
+		await cms_service.UpdateRadioProgram(program_uid, name);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail update_radio_program'
+		});
+	}
+});
+
+router.post('/add_radio_program_music', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var program_uid = req.body.program_uid;
+		var date = req.body.date;
+		var number = req.body.number;
+		var music_uid = req.body.music_uid;
+		await cms_service.AddRadioProgramMusic(program_uid, date, number, music_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail add_radio_program_music'
+		});
+	}
+});
+
+router.post('/delete_radio_program_music', async function(req, res){
+	try{
+		var is_admin = await permission_service.IsAdmin(req.session.user_info);
+		if(is_admin == false){
+			res.send({
+				ok:0,
+				err:'Fail No Permission'
+			});	
+			return;
+		}
+
+		var program_uid = req.body.program_uid;
+		var date = req.body.date;
+		var music_uid = req.body.music_uid;
+		await cms_service.DeleteRadioProgramMusic(program_uid, date, music_uid);
+		res.send({
+			ok: 1
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail delete_radio_program_music'
+		});
+	}
+});
 module.exports = router;
