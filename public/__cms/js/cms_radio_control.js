@@ -37,12 +37,42 @@ function RadioControl(){
 		self._youtube = new YoutubeSearchControl();
 		self.LoadCountryCode();
 		self.GetRadioNetworks();
+		self.InitKeyHandle();
 
 		$('#my-calendar').on('calendar-select', ev=>{
 			self.OnClick_Cdlendar(window._calendar.getSelected());
 		});
 	
 		return this;
+	};
+
+	this._cmd_key_holding = false;
+	this.InitKeyHandle = function(){
+		$('#id_input_cms_radio_artist').keydown(function(e){
+			if(e.which == 13){
+				self.OnClick_SearchArtist();
+			}
+		});
+
+		$('#id_input_cms_radio_title').keydown(function(e){
+			if(e.which == 13){
+				if(self._cmd_key_holding){
+					self.OnClick_SearchYoutube();
+				}else{
+					self.OnClick_SearchMusic();
+				}
+			}
+			if(e.which == 91){
+				self._cmd_key_holding = true;
+			}
+		});
+
+		$('#id_input_cms_radio_title').keyup(function(e){
+			if(e.which == 91){
+				self._cmd_key_holding = false;
+			}
+		});
+
 	};
 
 	this.LoadCountryCode = function(){
@@ -121,8 +151,7 @@ function RadioControl(){
 			alert('Choose Radio Network First.');
 			return;
 		}
-		var network_name = self._radio_network_list[self._working_radio_network_idx].name;
-		$('#id_label_cms_radio_program-network_name').html(network_name);
+		$('#id_label_cms_radio_program-network_name').html('');
 		$('#id_modal_cms_radio_program_edit').modal('show');
 	};
 
@@ -261,6 +290,9 @@ function RadioControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					self._artist_uid = res.artist_uid;
+					$('#id_label_artist_uid').html(res.artist_uid);
+
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
 							self._searched_artist_list = res.artist_list;
@@ -300,6 +332,9 @@ function RadioControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					self._artist_uid = res.artist_uid;
+					$('#id_label_artist_uid').html(res.artist_uid);
+
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
 							self._searched_artist_list = res.artist_list;

@@ -2498,6 +2498,7 @@ function CherryService(){
 				JOIN music m ON rm.music_uid=m.music_uid
 				JOIN artist a ON m.artist_uid=a.artist_uid
 				WHERE rm.program_uid=? and rm.date=STR_TO_DATE(?, '%Y-%m-%d')
+				ORDER BY rm.number ASC
 				`;
 				var val = [program_uid, date];
 				var msg = 'GetRadioProgramMusicsByDay';
