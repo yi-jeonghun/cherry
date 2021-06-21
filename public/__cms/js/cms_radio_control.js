@@ -241,17 +241,17 @@ function RadioControl(){
 				self._draft_music_list = [];
 				var tmp_list = res.playlist;
 
-				for(var i=0 ; i<self.tmp_list.length ; i++){
-					var m = self.tmp_list[i];
+				for(var i=0 ; i<tmp_list.length ; i++){
+					var m = tmp_list[i];
 					m.title = self.FirstCharUp(m.title);
 					m.artist = self.FirstCharUp(m.artist);
 				}
 
-				for(var i=0 ; i<self.tmp_list.length ; i++){
-					var m1 = self.tmp_list[i];
+				for(var i=0 ; i<tmp_list.length ; i++){
+					var m1 = tmp_list[i];
 					var same_found = false;
-					for(var k=0 ; k<self.tmp_list.length ; k++){
-						var m2 = self.tmp_list[i];
+					for(var k=0 ; k<tmp_list.length ; k++){
+						var m2 = tmp_list[i];
 						if(i == k){
 							continue;
 						}
@@ -260,7 +260,7 @@ function RadioControl(){
 							break;
 						}
 					}
-					
+
 					if(same_found == false){
 						self._draft_music_list.push(m1);
 					}
