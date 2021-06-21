@@ -1040,6 +1040,7 @@ function CMS_Service(){
 					var m = music_list[i];
 					await self.AddRadioProgramMusic(conn, program_uid, date, (i+1), m.music_uid);
 				}
+				resolve();
 			}catch(err){
 				console.error(err);
 				reject('FAIL CMSService DeleteRadioProgramMusic #1');
