@@ -32,6 +32,8 @@ function RadioControl(){
 	this._searching_title = '';
 	this._youtube_searched_video_list = [];
 	this._artist_uid = null;
+	this._draft_music_list = [];
+	this._working_draft_idx = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -48,31 +50,22 @@ function RadioControl(){
 
 	this._cmd_key_holding = false;
 	this.InitKeyHandle = function(){
-		$('#id_input_cms_radio_artist').keydown(function(e){
-			if(e.which == 13){
-				self.OnClick_SearchArtist();
-			}
-		});
-
-		$('#id_input_cms_radio_title').keydown(function(e){
-			if(e.which == 13){
-				if(self._cmd_key_holding){
-					self.OnClick_SearchYoutube();
-				}else{
+		document.addEventListener('keydown', function(e){
+			// console.log('key ' + e.keyCode);
+			switch(e.keyCode){
+				case 49://1
+					self.OnClick_SearchYoutube(false);
+					break;
+				case 50://1
+					self.OnClick_SearchArtist();
+					self.OnClick_NavTab('artist');
+					break;
+				case 51://3
 					self.OnClick_SearchMusic();
-				}
-			}
-			if(e.which == 91){
-				self._cmd_key_holding = true;
+					self.OnClick_NavTab('music');
+					break;
 			}
 		});
-
-		$('#id_input_cms_radio_title').keyup(function(e){
-			if(e.which == 91){
-				self._cmd_key_holding = false;
-			}
-		});
-
 	};
 
 	this.LoadCountryCode = function(){
@@ -163,7 +156,11 @@ function RadioControl(){
 		$('#id_label_cms_radio_program-network_name').html(network_name);
 
 		var program_name = self._radio_program_list[idx].name;
+		var parser_type = self._radio_program_list[idx].parser_type;
+		var parser_info = self._radio_program_list[idx].parser_info;
 		$('#id_input_cms_radio_program_name').val(program_name);
+		$('#id_input_cms_radio_program_parser_type').val(parser_type);
+		$('#id_input_cms_radio_program_parser_info').val(parser_info);
 		$('#id_modal_cms_radio_program_edit').modal('show');
 	};
 
@@ -174,11 +171,16 @@ function RadioControl(){
 			return;
 		}
 
+		var parser_type = $('#id_input_cms_radio_program_parser_type').val();
+		var parser_info = $('#id_input_cms_radio_program_parser_info').val();
+
 		var network_uid = self._radio_network_list[self._working_radio_network_idx].network_uid;
 		if(self._radio_program_edit_mode == EDIT_MODE.ADD){
 			var req = {
-				network_uid:network_uid,
-				name:name
+				network_uid: network_uid,
+				name:        name,
+				parser_type: parser_type,
+				parser_info: parser_info
 			};
 			POST('/__cms_api/add_radio_program', req, res=>{
 				if(res.ok){
@@ -191,7 +193,9 @@ function RadioControl(){
 		}else{
 			var req = {
 				program_uid: self._radio_program_list[self._working_radio_program_idx].program_uid,
-				name: name
+				name: name,
+				parser_type: parser_type,
+				parser_info: parser_info
 			};
 			POST('/__cms_api/update_radio_program', req, res=>{
 				if(res.ok){
@@ -218,9 +222,144 @@ function RadioControl(){
 		}
 		var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
 		self.GetRadioProgramMusicsByDay(program_uid, date);
+		self._draft_music_list = [];
+		self.DISP_DraftMusicList();
+	};
+
+	this.OnClick_Auto = function(){
+		var parser_type = self._radio_program_list[self._working_radio_program_idx].parser_type;
+		var parser_info = self._radio_program_list[self._working_radio_program_idx].parser_info;
+
+		var date = window._calendar.getSelected();
+		var req = {
+			date:        date,
+			parser_type: parser_type,
+			parser_info: parser_info
+		};
+		POST('/__cms_api/auto_radio_playlist', req, res=>{
+			if(res.ok){
+				self._draft_music_list = res.playlist;
+
+				for(var i=0 ; i<self._draft_music_list.length ; i++){
+					var m = self._draft_music_list[i];
+					m.title = self.FirstCharUp(m.title);
+					m.artist = self.FirstCharUp(m.artist);
+				}
+
+				self.OnClick_NavDraft('draft');
+				self.DISP_DraftMusicList();
+				self.AutoSearchArtistAndMusic();
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
+	this.FirstCharUp = function(str){
+		var str2 = [];
+		var begin = true;
+		for(var i=0 ; i<str.length ; i++){
+			var c = str.charAt(i);
+			if(begin){
+				c = c.toUpperCase();
+			}else{
+				c = c.toLowerCase();
+			}
+
+			if(c == ' ' || c == '('){
+				begin = true;
+			}else{
+				begin = false;
+			}
+
+			str2.push(c);
+		}
+		return str2.join('');
+	};
+
+	this.AutoSearchArtistAndMusic = function(){
+		console.log('start auto search ' );
+		var req_data = {
+			music_list: self._draft_music_list
+		};
+
+		$.ajax({
+			url: '/__cms_api/top_rank/auto_search_artist_and_music_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					var ret_music_list = res.ret_music_list;
+
+					for(var i=0 ; i<ret_music_list.length ; i++){
+						var m = ret_music_list[i];
+						self._draft_music_list[i].artist_uid = m.artist_uid;
+						self._draft_music_list[i].video_id = m.video_id;
+						self._draft_music_list[i].music_uid = m.music_uid;
+						$('#id_draft_artist_uid-'+i).html(m.artist_uid);
+						$('#id_draft_music_uid-'+i).html(m.music_uid);
+					}
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	this.OnClick_Release = function(){
+		console.log('release ');
+		if(self._working_radio_program_idx == null){
+			alert('choose radio program');
+			return;
+		}
+
+		if(self._draft_music_list.length == 0){
+			alert('no draft');
+			return;
+		}
+
+		var music_list = [];
+		for(var i=0 ; i<self._draft_music_list.length ; i++){
+			var m = self._draft_music_list[i];
+			if(m.music_uid === undefined || m.music_uid == null){
+				continue;
+			}
+			music_list.push({music_uid: m.music_uid});
+		}
+		console.log('music_list.len ' + music_list.length);
+
+		var req = {
+			program_uid: self._radio_program_list[self._working_radio_program_idx].program_uid,
+			date: window._calendar.getSelected(),
+			music_list: music_list
+		};
+
+		POST('/__cms_api/release_radio_program_music', req, res=>{
+			if(res.ok){
+				self.OnClick_RadioProgram(self._working_radio_program_idx);
+			}else{
+				alert(res.err);
+			}
+		});
 	};
 
 	//---=---=--=---=---=---=---=---=---=---=---=---=---=---=---=---=
+
+	this.OnClick_NavDraft = function(type){
+		$('#id_nav_cms_radio_draft').removeClass('active');
+		$('#id_nav_cms_radio_release').removeClass('active');
+		$('#id_div_cms_radio_draft').hide();
+		$('#id_div_cms_radio_release').hide();
+		if(type == 'draft'){
+			$('#id_nav_cms_radio_draft').addClass('active');
+			$('#id_div_cms_radio_draft').show();
+		}else if(type == 'release'){
+			$('#id_nav_cms_radio_release').addClass('active');
+			$('#id_div_cms_radio_release').show();
+		}
+	};
 
 	this.OnClick_NavTab = function(type){
 		$('#id_nav_cms_radio_artist').removeClass('active');
@@ -237,7 +376,10 @@ function RadioControl(){
 	};
 
 	this.OnClick_SearchArtist = function(){
-		var keyword = $('#id_input_cms_radio_artist').val().trim();
+		if(self._working_draft_idx == null){
+			return;
+		}
+		var keyword = self._draft_music_list[self._working_draft_idx].artist;
 		if(keyword == ''){
 			return;
 		}
@@ -261,8 +403,8 @@ function RadioControl(){
 				}
 				
 				if(artist_uid_found != null){
-					self._artist_uid = artist_uid_found;
-					$('#id_label_artist_uid').html(artist_uid_found);
+					self._draft_music_list[self._working_draft_idx].artist_uid = artist_uid_found;
+					$('#id_draft_artist_uid-'+self._working_draft_idx).html(artist_uid_found);
 				}
 				self.DISP_SearchedArtistList();		
 			}else{
@@ -272,7 +414,7 @@ function RadioControl(){
 	};
 
 	this.OnClick_AddArtist = function(){
-		var artist_name = $('#id_input_cms_radio_artist').val().trim();
+		var artist_name = $('#id_input_cms_radio_artist_search').val().trim();
 		if(artist_name == ''){
 			alert('artist name empty');
 			return;
@@ -290,8 +432,8 @@ function RadioControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self._artist_uid = res.artist_uid;
-					$('#id_label_artist_uid').html(res.artist_uid);
+					self._draft_music_list[self._working_draft_idx].artist_uid = res.artist_uid;
+					$('#id_draft_artist_uid-'+self._working_draft_idx).html(res.artist_uid);
 
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
@@ -309,7 +451,7 @@ function RadioControl(){
 	};
 
 	this.OnClick_AddVAArtist = function(){
-		var artist_name = $('#id_input_cms_radio_artist').val().trim();
+		var artist_name = $('#id_input_cms_radio_artist_search').val().trim();
 		if(artist_name == ''){
 			alert('artist name empty');
 			return;
@@ -332,8 +474,8 @@ function RadioControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self._artist_uid = res.artist_uid;
-					$('#id_label_artist_uid').html(res.artist_uid);
+					self._draft_music_list[self._working_draft_idx].artist_uid = res.artist_uid;
+					$('#id_draft_artist_uid-'+self._working_draft_idx).html(res.artist_uid);
 
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
@@ -351,18 +493,21 @@ function RadioControl(){
 	};
 
 	this.OnClick_SearchedArtistOK = function(artist_uid){
-		self._artist_uid = artist_uid;
-		$('#id_label_artist_uid').html(artist_uid);
+		self._draft_music_list[self._working_draft_idx].artist_uid = artist_uid;
+		$('#id_draft_artist_uid-'+self._working_draft_idx).html(artist_uid);
 	};
 
 	this.OnClick_SearchMusic = function(){
-		console.log('OnClick_SearchMusic ');
+		if(self._working_draft_idx == null){
+			return;
+		}
+
 		self.OnClick_NavTab('music');
 		self._searched_music_list = [];
 
 		var req_data = {
-			artist_name: $('#id_input_cms_radio_artist').val().trim(),
-			title:       $('#id_input_cms_radio_title').val().trim()
+			artist_name: self._draft_music_list[self._working_draft_idx].artist,
+			title:       self._draft_music_list[self._working_draft_idx].title
 		};
 
 		console.log('req ' + req_data);
@@ -406,6 +551,17 @@ function RadioControl(){
 		self.SearchYoutube(true);
 	};
 
+	this.OnClick_DraftMusic = function(idx){
+		self._working_draft_idx = idx;
+		for(var i=0 ; i<self._draft_music_list.length ; i++){
+			if(i == idx){
+				$('#id_draft_music-'+i).css('color', 'red');
+			}else{
+				$('#id_draft_music-'+i).css('color', 'black');
+			}
+		}
+	};
+
 	//============================================================
 
 	this.GetRadioNetworks = function(){
@@ -437,6 +593,7 @@ function RadioControl(){
 		$.get(`/cherry_api/get_radio_program_musics_by_day?pid=${program_uid}&d=${date}`, res=>{
 			if(res.ok){
 				self._radio_program_music_list = res.music_list;
+				self.OnClick_NavDraft('release');
 				self.DISP_RadioProgramMusicList();
 			}else{
 				alert(res.err);
@@ -478,42 +635,46 @@ function RadioControl(){
 
 	this.UseThisMusicID = function(idx){
 		var m = self._searched_music_list[idx];
-		self.AddMusic(m.music_uid);
+		self._draft_music_list[self._working_draft_idx].music_uid = m.music_uid;
+		$('#id_draft_music_uid-'+self._working_draft_idx).html(m.music_uid);
 	};
 
-	this.AddMusic = function(music_uid){
-		if(self._working_radio_program_idx == null){
-			alert('Choose radio program first');
-			return;
-		}
+	//FIXME
+	// delete api -> /__cms_api/add_radio_program_music
+	//
+	// this.AddMusic = function(music_uid){
+	// 	if(self._working_radio_program_idx == null){
+	// 		alert('Choose radio program first');
+	// 		return;
+	// 	}
 
-		self._artist_uid = null;
-		$('#id_label_artist_uid').html('');
-		$('#id_input_cms_radio_artist').val('');
-		$('#id_input_cms_radio_title').val('');
+	// 	self._artist_uid = null;
+	// 	$('#id_label_artist_uid').html('');
+	// 	$('#id_input_cms_radio_artist').val('');
+	// 	$('#id_input_cms_radio_title').val('');
 
-		var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
-		var date = window._calendar.getSelected();
-		var number = 1;
-		if(self._radio_program_music_list.length > 0){
-			number = self._radio_program_music_list[self._radio_program_music_list.length-1].number + 1;
-		}
+	// 	var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
+	// 	var date = window._calendar.getSelected();
+	// 	var number = 1;
+	// 	if(self._radio_program_music_list.length > 0){
+	// 		number = self._radio_program_music_list[self._radio_program_music_list.length-1].number + 1;
+	// 	}
 
-		var req = {
-			program_uid: program_uid,
-			date:        date,
-			number:      number,
-			music_uid:   music_uid
-		};
+	// 	var req = {
+	// 		program_uid: program_uid,
+	// 		date:        date,
+	// 		number:      number,
+	// 		music_uid:   music_uid
+	// 	};
 
-		POST('/__cms_api/add_radio_program_music', req, res=>{
-			if(res.ok){
-				self.GetRadioProgramMusicsByDay(program_uid, date);
-			}else{
-				alert(res.err);
-			}
-		});
-	};
+	// 	POST('/__cms_api/add_radio_program_music', req, res=>{
+	// 		if(res.ok){
+	// 			self.GetRadioProgramMusicsByDay(program_uid, date);
+	// 		}else{
+	// 			alert(res.err);
+	// 		}
+	// 	});
+	// };
 
 	this.DeleteMusic = function(idx){
 		if(confirm('sure to delete?') == false){
@@ -537,15 +698,19 @@ function RadioControl(){
 	}
 
 	this.SearchYoutube = function(is_next){
-		var artist_name = $('#id_input_cms_radio_artist').val().trim().replace('&amp;', '');
-		var title = $('#id_input_cms_radio_title').val().trim().replace('&amp;', '');
+		if(self._working_draft_idx == null){
+			return;
+		}
+
+		var artist_name = self._draft_music_list[self._working_draft_idx].artist.replace('&amp;', '');
+		var title = self._draft_music_list[self._working_draft_idx].title.replace('&amp;', '');
 		var keyword = artist_name + "+" + title;
 		self._searching_title = title;
 
 		if(is_next == false){
 			self._youtube_searched_video_list = [];
 		}
-		self._youtube.Search(keyword, is_next, self.OnYoutubeSearched, self.OnYoutubeVideoInfo);
+		self._youtube.Search(keyword, is_next, self.DISP_OnYoutubeSearched, self.DISP_OnYoutubeVideoInfo);
 	};
 
 	this.OnChooseVideo = function(video_id){
@@ -566,7 +731,13 @@ function RadioControl(){
 	};
 
 	this.AutoMusicRegisterProcess = function(video_id){
-		if(self._artist_uid == null){
+		if(self._working_draft_idx == null){
+			return;
+		}
+
+		var artist_uid = self._draft_music_list[self._working_draft_idx].artist_uid;
+		var title = self._draft_music_list[self._working_draft_idx].title;
+		if(artist_uid === undefined){
 			alert('choose artist first');
 			return;
 		}
@@ -577,16 +748,10 @@ function RadioControl(){
 			return;
 		}
 
-		var title = $('#id_input_cms_radio_title').val().trim();
-		if(title == ''){
-			alert('Enter title');
-			return;
-		}
-
 		var req = {
 			dj_user_id: dj_user_id,
 			music:{
-				artist_uid: self._artist_uid,
+				artist_uid: artist_uid,
 				title:      title,
 				video_id:   video_id
 			}
@@ -594,13 +759,12 @@ function RadioControl(){
 
 		POST('/__cms_api/add_music', req, res=>{
 			if(res.ok){
-				self.AddMusic(res.music_info.music_uid);
+				self._draft_music_list[self._working_draft_idx].music_uid = res.music_info.music_uid;
+				$('#id_draft_music_uid-'+self._working_draft_idx).html(res.music_info.music_uid);
 			}else{
 				alert(res.err);
 			}
 		});
-
-		// self.AddMusic();
 	};
 	//=============================================================
 
@@ -767,7 +931,7 @@ function RadioControl(){
 		$('#id_div_music_list').html(h);
 	};
 
-	this.OnYoutubeSearched = function(video_list){
+	this.DISP_OnYoutubeSearched = function(video_list){
 		for(var i=0 ; i<video_list.length ; i++){
 			self._youtube_searched_video_list.push(video_list[i]);
 		}
@@ -826,7 +990,7 @@ function RadioControl(){
 		$('#id_div_youtube_search_result').html(h);
 	};
 
-	this.OnYoutubeVideoInfo = function(video_list){
+	this.DISP_OnYoutubeVideoInfo = function(video_list){
 		for(var i=0 ; i<video_list.length ; i++){
 			for(var j=0 ; j<self._youtube_searched_video_list.length ; j++){
 				if(self._youtube_searched_video_list[i].video_id == video_list[i].video_id){
@@ -836,5 +1000,33 @@ function RadioControl(){
 			}
 			$('#id_video_duration-'+video_list[i].video_id).html(video_list[i].duration);
 		}
+	};
+
+	this.DISP_DraftMusicList = function(){
+		var h = `<table class="table table-sm table-striped small">
+		<tr>
+		<th>No</th>
+		<th>Artist</th>
+		<th>AID</th>
+		<th>Title</th>
+		<th>MID</th>
+		</tr>
+		`;
+		for(var i=0 ; i<self._draft_music_list.length ; i++){
+			var m = self._draft_music_list[i];
+			var on_click_music = `window._radio_control.OnClick_DraftMusic(${i})`;
+
+			h += `
+			<tr class="pointer" id="id_draft_music-${i}">
+			<td>${i+1}</td>
+			<td onClick="${on_click_music}">${m.artist}</td>
+			<td id="id_draft_artist_uid-${i}">${m.artist_uid}</td>
+			<td onClick="${on_click_music}">${m.title}</td>
+			<td id="id_draft_music_uid-${i}">${m.music_uid}</td>
+			</tr>
+			`;
+		}
+		h += '</table>';
+		$('#id_div_draft_music_list').html(h);
 	};
 }

@@ -4,6 +4,7 @@ var router = express.Router();
 var cms_service = require('./cms_service');
 var top_rank_parser = require('./top_rank_parser/top_rank_parser');
 var lyrics_parser = require('./lyrics_parser/lyrics_parser');
+var radio_parser = require('./radio_parser/radio_parser');
 var permission_service = require('./permission_service');
 var auth_service = require('./auth_service');
 var randomstring = require("randomstring");
@@ -42,6 +43,26 @@ router.post('/extract_lyrics_from_url', async function(req, res){
 		res.send({
 			ok:0,
 			err:'fail extract_lyrics_from_url #1'
+		});
+	}
+});
+
+router.post('/auto_radio_playlist', async function(req, res){
+	try{
+		var date = req.body.date;
+		var parser_type = req.body.parser_type;
+		var parser_info = req.body.parser_info;
+		// console.log('url ' + url);
+		var playlist = await radio_parser.GetPlaylist(parser_type, parser_info, date);
+		res.send({
+			ok: 1,
+			playlist: playlist
+		});
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'fail auto_playlist #1'
 		});
 	}
 });
@@ -920,7 +941,9 @@ router.post('/add_radio_program', async function(req, res){
 
 		var network_uid = req.body.network_uid;
 		var name = req.body.name;
-		await cms_service.AddRadioProgram(network_uid, name);
+		var parser_type = req.body.parser_type;
+		var parser_info = req.body.parser_info;
+		await cms_service.AddRadioProgram(network_uid, name, parser_type, parser_info);
 		res.send({
 			ok: 1
 		});
@@ -946,7 +969,9 @@ router.post('/update_radio_program', async function(req, res){
 
 		var name = req.body.name;
 		var program_uid = req.body.program_uid;
-		await cms_service.UpdateRadioProgram(program_uid, name);
+		var parser_type = req.body.parser_type;
+		var parser_info = req.body.parser_info;
+		await cms_service.UpdateRadioProgram(program_uid, name, parser_type, parser_info);
 		res.send({
 			ok: 1
 		});
@@ -959,7 +984,7 @@ router.post('/update_radio_program', async function(req, res){
 	}
 });
 
-router.post('/add_radio_program_music', async function(req, res){
+router.post('/release_radio_program_music', async function(req, res){
 	try{
 		var is_admin = await permission_service.IsAdmin(req.session.user_info);
 		if(is_admin == false){
@@ -972,36 +997,8 @@ router.post('/add_radio_program_music', async function(req, res){
 
 		var program_uid = req.body.program_uid;
 		var date = req.body.date;
-		var number = req.body.number;
-		var music_uid = req.body.music_uid;
-		await cms_service.AddRadioProgramMusic(program_uid, date, number, music_uid);
-		res.send({
-			ok: 1
-		});
-	}catch(err){
-		console.error(err);
-		res.send({
-			ok:0,
-			err:'Fail add_radio_program_music'
-		});
-	}
-});
-
-router.post('/delete_radio_program_music', async function(req, res){
-	try{
-		var is_admin = await permission_service.IsAdmin(req.session.user_info);
-		if(is_admin == false){
-			res.send({
-				ok:0,
-				err:'Fail No Permission'
-			});	
-			return;
-		}
-
-		var program_uid = req.body.program_uid;
-		var date = req.body.date;
-		var music_uid = req.body.music_uid;
-		await cms_service.DeleteRadioProgramMusic(program_uid, date, music_uid);
+		var music_list = req.body.music_list;
+		await cms_service.ReleaseRadioProgramMusic(program_uid, date, music_list);
 		res.send({
 			ok: 1
 		});
@@ -1013,4 +1010,5 @@ router.post('/delete_radio_program_music', async function(req, res){
 		});
 	}
 });
+
 module.exports = router;

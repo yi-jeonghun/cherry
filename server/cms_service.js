@@ -923,14 +923,14 @@ function CMS_Service(){
 		});
 	};
 
-	this.AddRadioProgram = function(network_uid, name){
+	this.AddRadioProgram = function(network_uid, name, parser_type, parser_info){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				var program_uid = await self.GetProgramUID();
 				conn = await db_conn.GetConnection();
-				var sql = `INSERT INTO radio_program (network_uid, program_uid, name) VALUES(?, ?, ?)`;
-				var val = [network_uid, program_uid, name];
+				var sql = `INSERT INTO radio_program (network_uid, program_uid, name, parser_type, parser_info) VALUES(?, ?, ?, ?, ?)`;
+				var val = [network_uid, program_uid, name, parser_type, parser_info];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -948,13 +948,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateRadioProgram = function(program_uid, name){
+	this.UpdateRadioProgram = function(program_uid, name, parser_type, parser_info){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = `UPDATE radio_program SET name=? WHERE program_uid=?`;
-				var val = [name, program_uid];
+				var sql = `UPDATE radio_program SET name=?, parser_type=?, parser_info=? WHERE program_uid=?`;
+				var val = [name, parser_type, parser_info, program_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -1029,11 +1029,51 @@ function CMS_Service(){
 		});
 	};
 
-	this.AddRadioProgramMusic = function(program_uid, date, number, music_uid){
+	this.ReleaseRadioProgramMusic = function(program_uid, date, music_list){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
+				await self.DeleteAllProgramMusic(conn, program_uid, date);
+
+				for(var i=0 ; i<music_list.length ; i++){
+					var m = music_list[i];
+					await self.AddRadioProgramMusic(conn, program_uid, date, (i+1), m.music_uid);
+				}
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService DeleteRadioProgramMusic #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.DeleteAllProgramMusic = function(conn, program_uid, date){
+		return new Promise(function(resolve, reject){
+			try{
+				var sql = `DELETE FROM radio_music 
+				WHERE program_uid=? and 
+				date=STR_TO_DATE(?, '%Y-%m-%d')`;
+				var val = [program_uid, date];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CMSService DeleteAllProgramMusic #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CMSService DeleteAllProgramMusic #2');
+			}
+		});
+	};
+
+	this.AddRadioProgramMusic = function(conn, program_uid, date, number, music_uid){
+		return new Promise(async function(resolve, reject){
+			try{
 				var sql = `INSERT INTO radio_music (program_uid, date, number, music_uid) VALUES(?, STR_TO_DATE(?, '%Y-%m-%d'), ?, ?)`;
 				var val = [program_uid, date, number, music_uid];
 				conn.query(sql, val, function(err, result){
@@ -1047,39 +1087,9 @@ function CMS_Service(){
 			}catch(err){
 				console.error(err);
 				reject('FAIL CMSService AddRadioProgramMusic #1');
-			}finally{
-				if(conn) conn.release();
 			}
 		});
 	};
-
-	this.DeleteRadioProgramMusic = function(program_uid, date, music_uid){
-		return new Promise(async function(resolve, reject){
-			var conn = null;
-			try{
-				conn = await db_conn.GetConnection();
-				var sql = `DELETE FROM radio_music 
-				WHERE program_uid=? and 
-				date=STR_TO_DATE(?, '%Y-%m-%d') and
-				music_uid=?`;
-				var val = [program_uid, date, music_uid];
-				conn.query(sql, val, function(err, result){
-					if(err){
-						console.error(err);
-						reject('FAIL CMSService DeleteRadioProgramMusic #0');
-					}else{
-						resolve();
-					}
-				});
-			}catch(err){
-				console.error(err);
-				reject('FAIL CMSService DeleteRadioProgramMusic #1');
-			}finally{
-				if(conn) conn.release();
-			}
-		});
-	};
-
 }
 
 module.exports = new CMS_Service();
