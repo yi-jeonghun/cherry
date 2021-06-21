@@ -21,9 +21,9 @@ function RadioParser(){
 				if(response.result == 'OK'){
 					playlist = response.items;
 					for(var i=0 ; i<playlist.length ; i++){
-						playlist[i].title = playlist[i].song_title.replace(/\u03a8/g, ' & ');
+						playlist[i].title = playlist[i].song_title.replace(/\u03a8/g, ', ');
 						// console.log('artist ' + playlist[i].artist);
-						playlist[i].artist = playlist[i].artist.replace(/\u03a8/g, ' & ');
+						playlist[i].artist = playlist[i].artist.replace(/\u03a8/g, ', ');
 						// console.log('artist ' + playlist[i].artist);
 					}
 				}
