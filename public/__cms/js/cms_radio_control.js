@@ -573,6 +573,14 @@ function RadioControl(){
 
 	this.OnClick_DraftMusic = function(idx){
 		self._working_draft_idx = idx;
+		self.HighlightDraftMusic(idx);
+		var title = self._draft_music_list[self._working_draft_idx].title;
+		var artist = self._draft_music_list[self._working_draft_idx].artist;
+		$('#id_input_cms_radio_artist').val(artist);
+		$('#id_input_cms_radio_title').val(title);
+	};
+
+	this.HighlightDraftMusic = function(idx){
 		for(var i=0 ; i<self._draft_music_list.length ; i++){
 			if(i == idx){
 				$('#id_draft_music-'+i).css('color', 'red');
@@ -580,6 +588,25 @@ function RadioControl(){
 				$('#id_draft_music-'+i).css('color', 'black');
 			}
 		}
+	};
+
+	this.OnClick_DeleteDraftMusic = function(idx){
+		self._draft_music_list.splice(idx, 1);
+		self.DISP_DraftMusicList();
+	};
+
+	this.OnClick_UpdateDraftMusic = function(){
+		if(self._working_draft_idx == null){
+			return;
+		}
+
+		var artist = $('#id_input_cms_radio_artist').val();
+		var title = $('#id_input_cms_radio_title').val();
+		self._draft_music_list[self._working_draft_idx].title = title;
+		self._draft_music_list[self._working_draft_idx].artist = artist;
+
+		self.DISP_DraftMusicList();
+		self.HighlightDraftMusic(self._working_draft_idx);
 	};
 
 	//============================================================
@@ -658,64 +685,6 @@ function RadioControl(){
 		self._draft_music_list[self._working_draft_idx].music_uid = m.music_uid;
 		$('#id_draft_music_uid-'+self._working_draft_idx).html(m.music_uid);
 	};
-
-	//FIXME
-	// delete api -> /__cms_api/add_radio_program_music
-	//
-	// this.AddMusic = function(music_uid){
-	// 	if(self._working_radio_program_idx == null){
-	// 		alert('Choose radio program first');
-	// 		return;
-	// 	}
-
-	// 	self._artist_uid = null;
-	// 	$('#id_label_artist_uid').html('');
-	// 	$('#id_input_cms_radio_artist').val('');
-	// 	$('#id_input_cms_radio_title').val('');
-
-	// 	var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
-	// 	var date = window._calendar.getSelected();
-	// 	var number = 1;
-	// 	if(self._radio_program_music_list.length > 0){
-	// 		number = self._radio_program_music_list[self._radio_program_music_list.length-1].number + 1;
-	// 	}
-
-	// 	var req = {
-	// 		program_uid: program_uid,
-	// 		date:        date,
-	// 		number:      number,
-	// 		music_uid:   music_uid
-	// 	};
-
-	// 	POST('/__cms_api/add_radio_program_music', req, res=>{
-	// 		if(res.ok){
-	// 			self.GetRadioProgramMusicsByDay(program_uid, date);
-	// 		}else{
-	// 			alert(res.err);
-	// 		}
-	// 	});
-	// };
-
-	this.DeleteMusic = function(idx){
-		if(confirm('sure to delete?') == false){
-			return;
-		}
-		var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
-		var music_uid = self._radio_program_music_list[idx].music_uid;
-		var date = window._calendar.getSelected();
-		var req = {
-			program_uid: program_uid,
-			music_uid: music_uid,
-			date: date
-		};
-		POST('/__cms_api/delete_radio_program_music', req, res=>{
-			if(res.ok){
-				self.GetRadioProgramMusicsByDay(program_uid, date);
-			}else{
-				alert(res.err);
-			}
-		});
-	}
 
 	this.SearchYoutube = function(is_next){
 		if(self._working_draft_idx == null){
@@ -935,15 +904,11 @@ function RadioControl(){
 
 		for(var i=0 ; i<self._radio_program_music_list.length ; i++){
 			var m = self._radio_program_music_list[i];
-			var on_click_trash = `window._radio_control.DeleteMusic(${i})`;
 			h += `
 			<tr>
 			<td>${m.number}</td>
 			<td>${m.artist}</td>
 			<td>${m.title}</td>
-			<td>
-				<span class="badge badge-sm border pointer" onClick="${on_click_trash}"><i class="fas fa-trash-alt"></i></span>
-			</td>
 			</tr>
 			`;
 		}
@@ -1025,24 +990,29 @@ function RadioControl(){
 	this.DISP_DraftMusicList = function(){
 		var h = `<table class="table table-sm table-striped small">
 		<tr>
-		<th>No</th>
-		<th>Artist</th>
-		<th>AID</th>
-		<th>Title</th>
-		<th>MID</th>
+			<th>No</th>
+			<th>Artist</th>
+			<th>AID</th>
+			<th>Title</th>
+			<th>MID</th>
+			<th></th>
 		</tr>
 		`;
 		for(var i=0 ; i<self._draft_music_list.length ; i++){
 			var m = self._draft_music_list[i];
 			var on_click_music = `window._radio_control.OnClick_DraftMusic(${i})`;
+			var on_click_trash = `window._radio_control.OnClick_DeleteDraftMusic(${i})`;
 
 			h += `
 			<tr class="pointer" id="id_draft_music-${i}">
-			<td>${i+1}</td>
-			<td onClick="${on_click_music}">${m.artist}</td>
-			<td id="id_draft_artist_uid-${i}">${m.artist_uid}</td>
-			<td onClick="${on_click_music}">${m.title}</td>
-			<td id="id_draft_music_uid-${i}">${m.music_uid}</td>
+				<td>${i+1}</td>
+				<td onClick="${on_click_music}">${m.artist}</td>
+				<td id="id_draft_artist_uid-${i}">${m.artist_uid}</td>
+				<td onClick="${on_click_music}">${m.title}</td>
+				<td id="id_draft_music_uid-${i}">${m.music_uid}</td>
+				<td>
+					<span class="badge badge-sm border pointer" onClick="${on_click_trash}"><i class="fas fa-trash-alt"></i></span>
+				</td>
 			</tr>
 			`;
 		}

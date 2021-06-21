@@ -1006,7 +1006,7 @@ router.post('/release_radio_program_music', async function(req, res){
 		console.error(err);
 		res.send({
 			ok:0,
-			err:'Fail delete_radio_program_music'
+			err:'Fail release_radio_program_music'
 		});
 	}
 });
