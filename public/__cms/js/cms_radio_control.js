@@ -251,7 +251,7 @@ function RadioControl(){
 					var m1 = tmp_list[i];
 					var same_found = false;
 					for(var k=0 ; k<tmp_list.length ; k++){
-						var m2 = tmp_list[i];
+						var m2 = tmp_list[k];
 						if(i == k){
 							continue;
 						}
