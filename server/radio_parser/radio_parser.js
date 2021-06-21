@@ -21,7 +21,7 @@ function RadioParser(){
 				if(response.result == 'OK'){
 					playlist = response.items;
 					for(var i=0 ; i<playlist.length ; i++){
-						playlist[i].title = playlist[i].song_title;
+						playlist[i].title = playlist[i].song_title.replace(/ψ/g, ' & ');
 					}
 				}
 				resolve(playlist);		

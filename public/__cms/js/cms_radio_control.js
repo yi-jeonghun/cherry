@@ -238,12 +238,32 @@ function RadioControl(){
 		};
 		POST('/__cms_api/auto_radio_playlist', req, res=>{
 			if(res.ok){
-				self._draft_music_list = res.playlist;
+				self._draft_music_list = [];
+				var tmp_list = res.playlist;
 
-				for(var i=0 ; i<self._draft_music_list.length ; i++){
-					var m = self._draft_music_list[i];
+				for(var i=0 ; i<self.tmp_list.length ; i++){
+					var m = self.tmp_list[i];
 					m.title = self.FirstCharUp(m.title);
 					m.artist = self.FirstCharUp(m.artist);
+				}
+
+				for(var i=0 ; i<self.tmp_list.length ; i++){
+					var m1 = self.tmp_list[i];
+					var same_found = false;
+					for(var k=0 ; k<self.tmp_list.length ; k++){
+						var m2 = self.tmp_list[i];
+						if(i == k){
+							continue;
+						}
+						if(m1.title == m2.title && m1.artist == m2.artist){
+							same_found = true;
+							break;
+						}
+					}
+					
+					if(same_found == false){
+						self._draft_music_list.push(m1);
+					}
 				}
 
 				self.OnClick_NavDraft('draft');
