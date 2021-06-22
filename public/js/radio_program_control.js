@@ -65,14 +65,19 @@ function RadioProgramControl(program_uid){
 	};
 
 	this.ListenDay = function(date){
+		console.log('date ' + date);
 		var music_list = [];
-		for(var i=0 ; i<self._music_list ; i++){
+		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i];
+			console.log('m.date ' + m.date);
 			if(date == m.date){
 				music_list.push(m);
 			}
 		}
-		window._cherry_player.LoadMusicList(music_list);
+		console.log('music_list ' + music_list.length);
+		if(music_list.length > 0){
+			window._cherry_player.LoadMusicList(music_list);
+		}
 	};
 
 	//=============================================================
@@ -89,7 +94,7 @@ function RadioProgramControl(program_uid){
 				<div class="row border py-2">
 					<div class="col-6">${m.date.split('T')[0]}</div>
 					<div class="col-6 text-right">
-						<button type="button" class="btn btn-sm btn-primary" onClick="window._radio_program_control.ListenDay(${m.date})">
+						<button type="button" class="btn btn-sm btn-primary" onClick="window._radio_program_control.ListenDay('${m.date}')">
 							<i style="font-size: 1.2em;margin-left:3px" class="fas fa-play"></i>
 						</button>
 					</div>
