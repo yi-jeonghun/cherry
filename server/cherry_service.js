@@ -2394,7 +2394,7 @@ function CherryService(){
 				`;
 				var val = [user_id, music_uid];
 				var msg = 'GetMusicDetailInfo';
-				var ret = self.QuerySelect(sql, val, msg);
+				var ret = await self.QuerySelect(sql, val, msg);
 				resolve(ret);
 			}catch(err){
 				reject('FAIL ' + msg)
@@ -2467,7 +2467,7 @@ function CherryService(){
 				var sql = `SELECT * FROM radio_network WHERE country_code=?`;
 				var val = [country_code];
 				var msg = 'GetRadioNetworksByCountry';
-				var ret = self.QuerySelect(sql, val, msg);
+				var ret = await self.QuerySelect(sql, val, msg);
 				resolve(ret);
 			}catch(err){
 				reject('FAIL ' + msg)
@@ -2481,7 +2481,7 @@ function CherryService(){
 				var sql = `SELECT * FROM radio_program WHERE network_uid=?`;
 				var val = [network_uid];
 				var msg = 'GetRadioPrograms';
-				var ret = self.QuerySelect(sql, val, msg);
+				var ret = await self.QuerySelect(sql, val, msg);
 				resolve(ret);
 			}catch(err){
 				reject('FAIL ' + msg)
@@ -2494,13 +2494,13 @@ function CherryService(){
 			try{
 				var sql = `SELECT * FROM radio_program WHERE network_uid IN (?)`;
 				var val = [network_uid_list];
-				console.log('str_in ' + str_in);
 				var msg = 'GetRadioPrograms';
-				var ret = self.QuerySelect(sql, val, msg);
+				var ret = await self.QuerySelect(sql, val, msg);
 				console.log('ret len ' + ret.length);
 				resolve(ret);
 			}catch(err){
-				reject('FAIL ' + msg)
+				console.log('FAIL ' + err);
+				reject('FAIL' + err);
 			}
 		});
 	};
@@ -2518,7 +2518,7 @@ function CherryService(){
 				`;
 				var val = [program_uid, date];
 				var msg = 'GetRadioProgramMusicsByDay';
-				var ret = self.QuerySelect(sql, val, msg);
+				var ret = await self.QuerySelect(sql, val, msg);
 				resolve(ret);
 			}catch(err){
 				reject('FAIL ' + msg)
