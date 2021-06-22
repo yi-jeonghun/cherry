@@ -1017,5 +1017,63 @@ router.get('/get_radio_program_musics_by_day', async function(req, res){
 	}
 });
 
+router.post('/get_radio_networks_and_programs', async function(req, res){
+	try{
+		var country_code = req.body.country_code;
+		var radio_network_list = await cherry_service.GetRadioNetworksByCountry(country_code);
+		var network_uid_list = [];
+		for(var i=0 ; i<radio_network_list.length ; i++){
+			network_uid_list.push(radio_network_list[i].network_uid);
+		}
+		var radio_program_list = await cherry_service.GetRadioProgramList(network_uid_list);
+		res.send({
+			ok: 1,
+			radio_network_list: radio_network_list,
+			radio_program_list: radio_program_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_radio_networks_and_programs'
+		});
+	}
+});
+
+router.post('/get_radio_program_info', async function(req, res){
+	try{
+		var program_uid = req.body.program_uid;
+		var program_info = await cherry_service.GetRadioProgramInfo(program_uid);
+		console.log('program_info ' + program_info.name);
+		res.send({
+			ok: 1,
+			program_info: program_info
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_radio_program_info'
+		});
+	}
+});
+
+router.post('/get_radio_program_music_list', async function(req, res){
+	try{
+		var user_id = auth_service.GetLoginUserID(req);
+		var program_uid = req.body.program_uid;
+		var music_list = await cherry_service.GetRadioProgramMusicList(user_id, program_uid);
+		res.send({
+			ok: 1,
+			music_list: music_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_radio_program_music_list'
+		});
+	}
+});
 
 module.exports = router;

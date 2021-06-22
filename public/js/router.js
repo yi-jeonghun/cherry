@@ -58,6 +58,8 @@ function Router(){
 			$('#id_router-search').hide();
 			$('#id_router-like').hide();
 			$('#id_router-music').hide();
+			$('#id_router-radio_list').hide();
+			$('#id_router-radio_detail').hide();
 		}
 
 		console.log('Crossroad 3');
@@ -97,6 +99,14 @@ function Router(){
 			case 'music.go':
 				$('#id_router-music').show();
 				self.GoTo_Music(args, arg_list);
+				break;
+			case 'radio_list.go':
+				$('#id_router-radio_list').show();
+				self.GoTo_RadioList(args, arg_list);
+				break;
+			case 'radio_detail.go':
+				$('#id_router-radio_detail').show();
+				self.GoTo_RadioDetail(args, arg_list);
 				break;
 			}
 	};
@@ -232,6 +242,18 @@ function Router(){
 	this.GoTo_Music = function(args, arg_list){
 		var target_div = 'id_router-music';
 		var route_url = '/music.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_RadioList = function(args, arg_list){
+		var target_div = 'id_router-radio_list';
+		var route_url = '/radio_list.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.GoTo_RadioDetail = function(args, arg_list){
+		var target_div = 'id_router-radio_detail';
+		var route_url = '/radio_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
 	};
 

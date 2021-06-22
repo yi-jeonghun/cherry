@@ -68,6 +68,18 @@ router.get('/**/music.go', async function(req, res){
 	});
 });
 
+router.get('/**/radio_list.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
+router.get('/**/radio_detail.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 
 router.get('/playlist_embed.go', async function(req, res){
@@ -158,6 +170,22 @@ router.get('/music.vu', async function(req, res){
 		music_uid : music_uid
 	};
 	res.render('music', data);
+});
+
+router.get('/radio_list.vu', async function(req, res){
+	var data = {
+		dev_mode  : _dev_mode
+	};
+	res.render('radio_list', data);
+});
+
+router.get('/radio_detail.vu', async function(req, res){
+	var program_uid = req.query.pid;
+	var data = {
+		dev_mode  : _dev_mode,
+		program_uid: program_uid
+	};
+	res.render('radio_detail', data);
 });
 
 //####################################################################################//

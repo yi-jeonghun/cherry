@@ -35,6 +35,7 @@ function Control(){
 		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
 		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
 		$('#id_btn_menu_like').on('click', self.OnClickMenuLike);
+		$('#id_btn_menu_radio').on('click', self.OnClickMenuRadio);
 	};
 
 	this.ProcessCountryCode = function(){
@@ -67,6 +68,11 @@ function Control(){
 
 	this.OnClickMenuLike = function(){
 		window._router.Go(`/${window._country_code}/like.go`);
+		self.CloseMenu();
+	};
+
+	this.OnClickMenuRadio = function(){
+		window._router.Go(`/${window._country_code}/radio_list.go`);
 		self.CloseMenu();
 	};
 

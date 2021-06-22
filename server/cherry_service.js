@@ -2489,6 +2489,22 @@ function CherryService(){
 		});
 	};
 
+	this.GetRadioProgramList = function(network_uid_list){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `SELECT * FROM radio_program WHERE network_uid IN (?)`;
+				var val = [network_uid_list];
+				console.log('str_in ' + str_in);
+				var msg = 'GetRadioPrograms';
+				var ret = self.QuerySelect(sql, val, msg);
+				console.log('ret len ' + ret.length);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});
+	};
+
 	this.GetRadioProgramMusicsByDay = function(program_uid, date){
 		return new Promise(async function(resolve, reject){
 			try{
@@ -2506,6 +2522,72 @@ function CherryService(){
 				resolve(ret);
 			}catch(err){
 				reject('FAIL ' + msg)
+			}
+		});
+	};
+
+	this.GetRadioProgramInfo = function(program_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `SELECT * FROM radio_program WHERE program_uid=?`;
+				var val = [program_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetRadioProgramInfo #0');
+					}else{
+						if(result.length > 0){
+							resolve(result[0]);
+						}else{
+							reject('not found program info');
+						}
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetRadioProgramInfo #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+	};
+
+	this.GetRadioProgramMusicList = function(user_id, program_uid){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `
+				SELECT rm.date, rm.music_uid, rm.number, m.title, m.video_id, m.artist_uid, a.name as artist, a.is_various,
+					concat('[',v.member_list_json,']') as member_list_json,
+					IF(lm.user_id IS NULL, 'N', 'Y') as is_like
+				FROM radio_music rm
+				JOIN music m ON rm.music_uid = m.music_uid
+				JOIN artist a ON m.artist_uid = a.artist_uid
+				LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+				LEFT JOIN (
+					SELECT * FROM like_music WHERE user_id=?
+					) lm ON m.music_uid=lm.music_uid
+				WHERE rm.program_uid = ?
+				AND (rm.date BETWEEN DATE(NOW())-7 AND DATE(NOW()) )
+				ORDER BY rm.date DESC, rm.number ASC
+				`;
+				var val = [user_id, program_uid];
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService GetRadioProgramMusicList #0');
+					}else{
+						resolve(result);
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService GetRadioProgramMusicList #1');
+			}finally{
+				if(conn) conn.release();
 			}
 		});
 	};

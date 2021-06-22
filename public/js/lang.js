@@ -96,6 +96,11 @@ window.L_YOUTUBE_LINK_BROKEN = [];{
 	L_YOUTUBE_LINK_BROKEN[C_KR] = 'Youtube 비디오 없음';
 }
 
+window.L_RADIO = [];{
+	L_RADIO[C_US] = 'Radio';
+	L_RADIO[C_KR] = '라디오';
+}
+
 //================================================
 
 function TR(L){
