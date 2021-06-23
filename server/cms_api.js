@@ -943,7 +943,8 @@ router.post('/add_radio_program', async function(req, res){
 		var name = req.body.name;
 		var parser_type = req.body.parser_type;
 		var parser_info = req.body.parser_info;
-		await cms_service.AddRadioProgram(network_uid, name, parser_type, parser_info);
+		var is_open = req.body.is_open;
+		await cms_service.AddRadioProgram(network_uid, name, parser_type, parser_info, is_open);
 		res.send({
 			ok: 1
 		});
@@ -971,7 +972,8 @@ router.post('/update_radio_program', async function(req, res){
 		var program_uid = req.body.program_uid;
 		var parser_type = req.body.parser_type;
 		var parser_info = req.body.parser_info;
-		await cms_service.UpdateRadioProgram(program_uid, name, parser_type, parser_info);
+		var is_open = req.body.is_open;
+		await cms_service.UpdateRadioProgram(program_uid, name, parser_type, parser_info, is_open);
 		res.send({
 			ok: 1
 		});

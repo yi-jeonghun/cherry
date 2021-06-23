@@ -923,14 +923,14 @@ function CMS_Service(){
 		});
 	};
 
-	this.AddRadioProgram = function(network_uid, name, parser_type, parser_info){
+	this.AddRadioProgram = function(network_uid, name, parser_type, parser_info, is_open){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				var program_uid = await self.GetProgramUID();
 				conn = await db_conn.GetConnection();
-				var sql = `INSERT INTO radio_program (network_uid, program_uid, name, parser_type, parser_info) VALUES(?, ?, ?, ?, ?)`;
-				var val = [network_uid, program_uid, name, parser_type, parser_info];
+				var sql = `INSERT INTO radio_program (network_uid, program_uid, name, parser_type, parser_info, is_open) VALUES(?, ?, ?, ?, ?, ?)`;
+				var val = [network_uid, program_uid, name, parser_type, parser_info, is_open];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
@@ -948,13 +948,13 @@ function CMS_Service(){
 		});
 	};
 
-	this.UpdateRadioProgram = function(program_uid, name, parser_type, parser_info){
+	this.UpdateRadioProgram = function(program_uid, name, parser_type, parser_info, is_open){
 		return new Promise(async function(resolve, reject){
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql = `UPDATE radio_program SET name=?, parser_type=?, parser_info=? WHERE program_uid=?`;
-				var val = [name, parser_type, parser_info, program_uid];
+				var sql = `UPDATE radio_program SET name=?, parser_type=?, parser_info=?, is_open=? WHERE program_uid=?`;
+				var val = [name, parser_type, parser_info, is_open, program_uid];
 				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);

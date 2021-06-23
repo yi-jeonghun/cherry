@@ -161,6 +161,13 @@ function RadioControl(){
 		$('#id_input_cms_radio_program_name').val(program_name);
 		$('#id_input_cms_radio_program_parser_type').val(parser_type);
 		$('#id_input_cms_radio_program_parser_info').val(parser_info);
+
+		if(self._radio_program_list[idx].is_open == 'Y'){
+			$('#id_check_cms_radio_program_is_open').prop('checked', true);
+		}else{
+			$('#id_check_cms_radio_program_is_open').prop('checked', false);
+		}
+
 		$('#id_modal_cms_radio_program_edit').modal('show');
 	};
 
@@ -171,6 +178,8 @@ function RadioControl(){
 			return;
 		}
 
+		var is_open = $('#id_check_cms_radio_program_is_open').prop('checked') == true ? 'Y' : 'N';
+		console.log('is_open ' + is_open);
 		var parser_type = $('#id_input_cms_radio_program_parser_type').val();
 		var parser_info = $('#id_input_cms_radio_program_parser_info').val();
 
@@ -180,7 +189,8 @@ function RadioControl(){
 				network_uid: network_uid,
 				name:        name,
 				parser_type: parser_type,
-				parser_info: parser_info
+				parser_info: parser_info,
+				is_open:     is_open
 			};
 			POST('/__cms_api/add_radio_program', req, res=>{
 				if(res.ok){
@@ -195,7 +205,8 @@ function RadioControl(){
 				program_uid: self._radio_program_list[self._working_radio_program_idx].program_uid,
 				name: name,
 				parser_type: parser_type,
-				parser_info: parser_info
+				parser_info: parser_info,
+				is_open:     is_open
 			};
 			POST('/__cms_api/update_radio_program', req, res=>{
 				if(res.ok){
@@ -789,7 +800,7 @@ function RadioControl(){
 
 			h += `
 			<div class="border d-flex" id="id_radio_program-${p.program_uid}">
-				<div class="col-9 pointer" onClick="${on_click_program}">${p.name}</div>
+				<div class="col-9 pointer" onClick="${on_click_program}">[${p.is_open}]${p.name}</div>
 				<div class="col-3 text-right">
 					<span class="badge badge-sm border" style="cursor:pointer" onClick="${on_click_edit}">
 						<i class="fas fa-pen"></i>
