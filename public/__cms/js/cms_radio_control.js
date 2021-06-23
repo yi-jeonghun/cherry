@@ -224,6 +224,14 @@ function RadioControl(){
 		var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
 		self.Highlight_Program();
 		var date = window._calendar.getSelected();
+
+		// if(idx == 0){
+		// 	window._calendar.setContains('2021-06-06');
+		// 	window._calendar.setContains('2021-06-23');
+		// }else{
+		// 	window._calendar.clear();
+		// }
+
 		self.GetRadioProgramMusicsByDay(program_uid, date);
 	};
 

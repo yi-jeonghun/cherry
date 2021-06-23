@@ -53,6 +53,7 @@
     var CLASS_CALENDAR_DAY_LOCK = "tavo-calendar__day_lock";
     var CLASS_CALENDAR_DAY_DIFFERENT_MONTH = "tavo-calendar__day_different-month";
     var CLASS_CALENDAR_DAY_HIGHTLIGHT = "tavo-calendar__day_highlight";
+    var CLASS_CALENDAR_DAY_CONTAINS = "tavo-calendar__day_contains";
     
 
     function showError(type, text){
@@ -335,6 +336,12 @@
                 day_wrapper_el.className = day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_SELECT + " " + CLASS_CALENDAR_DAY_RANGE_SELECT
             }
 
+            console.log('contains check ' );
+            if (this.state.contains !== undefined && this.state.contains.indexOf(moment_copy.format(this.config.format)) > -1) {
+                console.log('contains ' + true);
+                day_wrapper_el.className =  day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_CONTAINS;
+            }
+
             //Lock days
             if ((moment_copy.isBefore(moment(this.state.date, this.config.format), "day") && !this.config.past_select) || (moment_copy.isAfter(moment(this.state.date, this.config.format), "day") && !this.config.future_select)) {
                 day_wrapper_el.className =  day_wrapper_el.className + " " +  CLASS_CALENDAR_DAY_LOCK
@@ -467,6 +474,19 @@
 
     TavoCalendar.prototype.setStartDate = function(date) {
         this.state.date_start = date;
+
+        this.destroy()
+        this.mount()
+        this.bindEvents();
+    }
+
+    TavoCalendar.prototype.setContains = function(date) {
+        if(this.state.contains === undefined){
+            this.state.contains = [];
+        }
+
+        this.state.contains.push(date);
+        console.log('this.state.contains ' + this.state.contains.length);
 
         this.destroy()
         this.mount()
@@ -645,7 +665,8 @@
     }
 
     TavoCalendar.prototype.clear = function() {
-        this.state.selected = []
+        this.state.selected = [];
+        this.state.contains = [];
 
         this.state.date_start = null;
         this.state.date_end = null;

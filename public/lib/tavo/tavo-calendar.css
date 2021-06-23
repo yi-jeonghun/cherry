@@ -109,3 +109,8 @@
   .tavo-calendar__day_select-lock {
     pointer-events: none;
     color: grey; }
+  .tavo-calendar__day_contains {
+    /* font-style: bold; */
+    text-decoration: underline;
+    font-size: 1.5em
+  }
