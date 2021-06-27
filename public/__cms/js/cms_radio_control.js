@@ -223,15 +223,11 @@ function RadioControl(){
 		self._working_radio_program_idx = idx;
 		var program_uid = self._radio_program_list[self._working_radio_program_idx].program_uid;
 		self.Highlight_Program();
+		var year = window._calendar.getFocusYear();
+		var month = window._calendar.getFocusMonth();
 		var date = window._calendar.getSelected();
-
-		// if(idx == 0){
-		// 	window._calendar.setContains('2021-06-06');
-		// 	window._calendar.setContains('2021-06-23');
-		// }else{
-		// 	window._calendar.clear();
-		// }
-
+		
+		self.GetRadioProgramContainsDay(program_uid, year, month);
 		self.GetRadioProgramMusicsByDay(program_uid, date);
 	};
 
@@ -649,6 +645,29 @@ function RadioControl(){
 			if(res.ok){
 				self._radio_program_list = res.radio_program_list;
 				self.DISP_RadioProgramList();
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
+	this.GetRadioProgramContainsDay = function(program_uid, year, month){
+		var start_date = year + '-' + month + '-01';
+		var end_date = year + '-' + month + '-31';
+		var req = {
+			program_uid: program_uid,
+			start_date:  start_date,
+			end_date:    end_date
+		};
+		window._calendar.clear();
+
+		POST('/cherry_api/get_radio_program_contains_day', req, res=>{
+			if(res.ok){
+				var day_list = res.day_list;
+				for(var i=0 ; i<day_list.length ; i++){
+					var date = day_list[i].date.split('T')[0];
+				 	window._calendar.setContains(date);
+				}
 			}else{
 				alert(res.err);
 			}

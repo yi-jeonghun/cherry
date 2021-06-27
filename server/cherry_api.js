@@ -999,6 +999,25 @@ router.get('/get_radio_programs', async function(req, res){
 	}
 });
 
+router.post('/get_radio_program_contains_day', async function(req, res){
+	try{
+		var program_uid = req.body.program_uid;
+		var start_date = req.body.start_date;
+		var end_date = req.body.end_date;
+		var day_list = await cherry_service.GetRadioProgramContainsDay(program_uid, start_date, end_date);
+		res.send({
+			ok: 1,
+			day_list:day_list
+		});	
+	}catch(err){
+		console.error(err);
+		res.send({
+			ok:0,
+			err:'Fail get_radio_program_contains_day'
+		});
+	}
+});
+
 router.get('/get_radio_program_musics_by_day', async function(req, res){
 	try{
 		var program_uid = req.query.pid;

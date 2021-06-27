@@ -336,9 +336,7 @@
                 day_wrapper_el.className = day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_SELECT + " " + CLASS_CALENDAR_DAY_RANGE_SELECT
             }
 
-            console.log('contains check ' );
             if (this.state.contains !== undefined && this.state.contains.indexOf(moment_copy.format(this.config.format)) > -1) {
-                console.log('contains ' + true);
                 day_wrapper_el.className =  day_wrapper_el.className + " " + CLASS_CALENDAR_DAY_CONTAINS;
             }
 
@@ -486,7 +484,6 @@
         }
 
         this.state.contains.push(date);
-        console.log('this.state.contains ' + this.state.contains.length);
 
         this.destroy()
         this.mount()

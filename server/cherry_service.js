@@ -2505,6 +2505,24 @@ function CherryService(){
 		});
 	};
 
+	this.GetRadioProgramContainsDay = function(program_uid, start_date, end_date){
+		return new Promise(async function(resolve, reject){
+			try{
+				var sql = `
+				SELECT date FROM radio_music
+				WHERE program_uid=?
+				AND (date BETWEEN STR_TO_DATE(?, '%Y-%m-%d') AND STR_TO_DATE(?, '%Y-%m-%d') )
+				GROUP BY date
+				`;
+				var val = [program_uid, start_date, end_date];
+				var msg = 'GetRadioProgramContainsDay';
+				var ret = await self.QuerySelect(sql, val, msg);
+				resolve(ret);
+			}catch(err){
+				reject('FAIL ' + msg)
+			}
+		});	};
+
 	this.GetRadioProgramMusicsByDay = function(program_uid, date){
 		return new Promise(async function(resolve, reject){
 			try{
