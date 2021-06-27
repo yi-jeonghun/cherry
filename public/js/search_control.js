@@ -231,8 +231,7 @@ function SearchControl(){
 
 		for(var i=0 ; i<self._playlist_list.length ; i++){
 			var p = self._playlist_list[i];
-			var title_encoded = encodeURI(p.title);
-			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_uid}')`;
+			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pid=${p.playlist_uid}')`;
 
 			h += `
 			<tr>
@@ -246,8 +245,7 @@ function SearchControl(){
 
 		for(var i=0 ; i<self._playlist_hash_search_list.length ; i++){
 			var p = self._playlist_hash_search_list[i];
-			var title_encoded = encodeURI(p.title);
-			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_uid}')`;
+			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pid=${p.playlist_uid}')`;
 
 			h += `
 			<tr>

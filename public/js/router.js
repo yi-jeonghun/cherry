@@ -180,19 +180,17 @@ function Router(){
 	};
 
 	this.GoTo_MyPlaylistDetail = function(args, arg_list){
-		{
-			var playlist_name = arg_list['pn'];
-
-			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
-			var keywords = playlist_name;
-			var desc = playlist_name;
-			this.UpdateMeta(title, keywords, desc);	
-		}
-
 		var target_div = 'id_router-my_playlist_detail';
 		var route_url = '/my_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.UpdateMeta_MyPlaylistDetail = function(playlist_name, desc){
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
+			var keywords = 'Playlist ' + desc;
+			var desc = 'Playlist ' + desc;
+			this.UpdateMeta(title, keywords, desc);	
 	};
 
 	this.GoTo_OpenPlaylist = function(){
@@ -210,19 +208,17 @@ function Router(){
 	};
 
 	this.GoTo_OpenPlaylistDetail = function(args, arg_list){
-		{
-			var playlist_name = arg_list['pn'];
-
-			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var title = playlist_name + ' - Cherry Music [' + country_name + ']';
-			var keywords = playlist_name + ', Playlist';
-			var desc = playlist_name + ' Playlist';
-			this.UpdateMeta(title, keywords, desc);	
-		}
-
 		var target_div = 'id_router-open_playlist_detail';
 		var route_url = '/open_playlist_detail.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.UpdateMeta_OpenPlaylistDetail = function(playlist_name, desc){
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
+		var title = playlist_name + ' - Cherry Music [' + country_name + ']';
+		var keywords = 'Playlist ' + desc;
+		var desc = 'Playlist ' + desc;
+		this.UpdateMeta(title, keywords, desc);	
 	};
 
 	this.GoTo_Like = function(){

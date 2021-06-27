@@ -138,10 +138,9 @@ async function MakePlaylistXMLByCountry(country_code, playlist_list){
 
 		for(var k=0 ; k<playlist_list.length ; k++){
 			var p = playlist_list[k];
-			var encode_title = encodeURI(p.title);
 
 			xml += `	<url>\n`;
-			xml += `		<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pn=${encode_title}&amp;pid=${p.playlist_uid}</loc>\n`;
+			xml += `		<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pid=${p.playlist_uid}</loc>\n`;
 			xml += `		<lastmod>${date_str}</lastmod>\n`;
 			xml += `		<priority>0.8</priority>\n`;
 			xml += `	</url>\n`;

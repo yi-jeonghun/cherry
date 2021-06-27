@@ -266,7 +266,7 @@ function MyPlaylistControl(){
 		for(var i=0 ; i<self._playlist_list.length ; i++){
 			var p = self._playlist_list[i];
 			var title_encoded = encodeURI(p.title);
-			var on_click_title = `window._router.Go('/${window._country_code}/my_playlist_detail.go?pn=${title_encoded}&pid=${p.playlist_uid}')`;
+			var on_click_title = `window._router.Go('/${window._country_code}/my_playlist_detail.go?pid=${p.playlist_uid}')`;
 			var on_click_trash = `window._my_playlist_control.DeletePlaylist('${i}')`;
 			var on_click_edit = `window._my_playlist_control.OpenEditPlaylist('${i}')`;
 

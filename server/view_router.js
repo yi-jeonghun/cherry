@@ -127,10 +127,8 @@ router.get('/my_playlist.vu', async function(req, res){
 });
 
 router.get('/my_playlist_detail.vu', async function(req, res){
-	var playlist_name = req.query.pn;
 	var playlist_uid = req.query.pid;
 	var data = {
-		playlist_name  : playlist_name,
 		playlist_uid    : playlist_uid,
 		dev_mode       : _dev_mode
 	};
@@ -145,10 +143,8 @@ router.get('/open_playlist.vu', async function(req, res){
 });
 
 router.get('/open_playlist_detail.vu', async function(req, res){
-	var playlist_name = req.query.pn;
 	var playlist_uid = req.query.pid;
 	var data = {
-		playlist_name  : playlist_name,
 		playlist_uid    : playlist_uid,
 		dev_mode       : _dev_mode
 	};

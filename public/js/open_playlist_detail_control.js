@@ -1,6 +1,5 @@
-function OpenPlaylistDetailControl(playlist_name, playlist_uid){
+function OpenPlaylistDetailControl(playlist_uid){
 	var self = this;
-	this._playlist_name = decodeURI(playlist_name);
 	this._playlist_uid = playlist_uid;
 	this._playlist_info = null;
 	this._music_list = [];
@@ -92,6 +91,12 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 					self.DISP_playlist_info();
 					self.DISP_music_list();
 					self.DISP_HashList();
+
+					var desc = '';
+					for(var i=0 ; i<self._hash_list.length ; i++){
+						desc += self._hash_list[i].hash + ', ';
+					}
+					window._router.UpdateMeta_MyPlaylistDetail(self._playlist_info.title, desc);
 				}else{
 					alert(res.err);
 				}
@@ -115,7 +120,7 @@ function OpenPlaylistDetailControl(playlist_name, playlist_uid){
 	///////////////////////////////////////////////////////////////////
 
 	this.DISP_playlist_info = function(){
-		$('#id_label_open_playlist_title').html(self._playlist_name);
+		$('#id_label_open_playlist_title').html(self._playlist_info.title);
 		$('#id_label_open_playlist_user_name').html(self._playlist_info.user_name);
 		$('#id_label_open_playlist_comment').html(self._playlist_info.comment);
 	};
