@@ -18,7 +18,6 @@ const EDIT_MODE = {
 
 function RadioControl(){
 	var self = this;
-	this._country_code_for_edit = C_US;
 	this._radio_network_list = [];
 	this._radio_program_list = [];
 	this._radio_program_music_list = [];
@@ -37,7 +36,6 @@ function RadioControl(){
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
-		self.LoadCountryCode();
 		self.GetRadioNetworks();
 		self.InitKeyHandle();
 
@@ -68,17 +66,6 @@ function RadioControl(){
 		});
 	};
 
-	this.LoadCountryCode = function(){
-		var country_code_for_edit = window.localStorage.getItem('COUNTRY_CODE_FOR_EDIT');
-		console.log('country_code_for_edit ' + country_code_for_edit);
-		self._country_code_for_edit = country_code_for_edit;
-		if(self._country_code_for_edit == null){
-			self._country_code_for_edit = C_US;
-		}
-		console.log('self._country_code_for_edit ' + self._country_code_for_edit);
-		$('#id_img_playlist_country').attr("src",`/img/flags/${self._country_code_for_edit}.png`);
-	};
-
 	//============================================================
 
 	this.OnClick_RadioNetworkAdd = function(){
@@ -103,7 +90,7 @@ function RadioControl(){
 
 		if(self._radio_network_edit_mode == EDIT_MODE.ADD){
 			var req = {
-				country_code: self._country_code_for_edit,
+				country_code: window._country_selector.GetCountryCode(),
 				name:name
 			};
 			POST('/__cms_api/add_radio_network', req, res=>{
@@ -627,7 +614,8 @@ function RadioControl(){
 	//============================================================
 
 	this.GetRadioNetworks = function(){
-		var url = `/cherry_api/get_radio_networks_by_country?cc=${self._country_code_for_edit}`;
+		var cc = window._country_selector.GetCountryCode();
+		var url = `/cherry_api/get_radio_networks_by_country?cc=${cc}`;
 		$.get(url, res=>{
 			if(res.ok){
 				self._radio_network_list = res.radio_network_list;

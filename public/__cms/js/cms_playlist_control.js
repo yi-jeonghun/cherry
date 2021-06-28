@@ -10,7 +10,6 @@ const EDIT_MODE = {
 function PlaylistControl(){
 	var self = this;
 	this._edit_mode = EDIT_MODE.NEW;
-	this._country_code_for_edit = null;
 	this._playlist_info = null;
 	this._playlist_music_list = [];
 	this._searched_music_list = [];
@@ -18,13 +17,11 @@ function PlaylistControl(){
 
 	this.Init = function(){
 		self.InitHandle();
-		self.LoadCountryCode();
 		return self;
 	};
 
 	this.InitHandle = function(){
 		$('#id_btn_playlist_new').on('click', self.OnPlaylistNewClick);
-		$('#id_img_playlist_country').on('click', self.OnFlagClick);
 		$('#id_btn_playlist_save').on('click', self.Save);
 		$('#id_btn_playlist_search_artist').on('click', self.OnSearchArtistClick);
 		$('#id_btn_playlist_search_music').on('click', self.OnSearchMusicClick);
@@ -113,48 +110,6 @@ function PlaylistControl(){
 		self.DISP_HashList();
 	};
 
-	this.LoadCountryCode = function(){
-		var country_code_for_edit = window.localStorage.getItem('COUNTRY_CODE_FOR_EDIT');
-		console.log('country_code_for_edit ' + country_code_for_edit);
-		self._country_code_for_edit = country_code_for_edit;
-		if(self._country_code_for_edit == null){
-			self._country_code_for_edit = C_US;
-		}
-		console.log('self._country_code_for_edit ' + self._country_code_for_edit);
-		$('#id_img_playlist_country').attr("src",`/img/flags/${self._country_code_for_edit}.png`);
-	};
-
-	this.OnFlagClick = function(){
-		var h = '<div class="container">';
-		h += '<div class="row">';
-
-		for(var i=0 ; i<COUNTRY_CODE_LIST.length ; i++){
-			var cc = COUNTRY_CODE_LIST[i];
-			var cn = COUNTRY_NAME_LIST[cc];
-
-			h += `
-			<div class="col-3 pb-1">
-				<img src='/img/flags/${cc}.png' style="width:50px">
-			</div>
-			<div class="col-8" style="cursor:pointer" onClick="window._playlist_control.OnChooseCountry('${cc}')">
-				${cn}
-			</div>
-			`;
-		}
-		h += '</div>';
-		h += '</div>';
-		
-		$('#id_div_country_list').html(h);
-	};
-
-	this.OnChooseCountry = function(country_code){
-		$('#modal_choose_country').modal('hide');
-		console.log('country_code ' + country_code);
-
-		window.localStorage.setItem('COUNTRY_CODE_FOR_EDIT', country_code);
-		self.LoadCountryCode();
-	};
-
 	this.OnClick_id_btn_cms_playlist_refresh = function(){
 		self.GetPlaylistList();
 	};
@@ -199,7 +154,7 @@ function PlaylistControl(){
 			dj_user_id: dj_user_id,
 			playlist: {
 				playlist_uid:   playlist_uid,
-				country_code:  self._country_code_for_edit,
+				country_code:  window._country_selector.GetCountryCode(),
 				title:         title,
 				comment:       comment,
 				is_open:       is_open,
@@ -285,7 +240,7 @@ function PlaylistControl(){
 		}
 
 		var req_data = {
-			country_code: self._country_code_for_edit,
+			country_code: window._country_selector.GetCountryCode(),
 			dj_user_id: dj_user_id
 		};
 		$.ajax({
@@ -359,7 +314,7 @@ function PlaylistControl(){
 	this.DISP_NewPlaylist = function(){
 		$('#id_leable_playlist_edit_mode').html('New Mode');
 		$('#id_label_playlist_uid').html('');
-		$('#id_label_playlist_country_code').html(self._country_code_for_edit);
+		$('#id_label_playlist_country_code').html(window._country_selector.GetCountryCode());
 		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
 		$('#id_label_playlist_user_id').html(dj_user_id);
 		$('#id_input_playlist_title').val('');
