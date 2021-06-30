@@ -1,0 +1,130 @@
+<html>
+<head>
+	<%- include('../common_resources.ejs') %>
+	<script src="/js/util.js"></script>
+
+	<!-- 순서 주위 -->
+	<script type="text/javascript" src="/js/const/country_code.js"></script>
+	<script type="text/javascript" src="/js/const/country_data.js"></script>
+	<script type="text/javascript" src="/js/const/top_100_source.js"></script>
+	<script type="text/javascript" src="/js/lang.js"></script>
+	<script type="text/javascript" src="/js/util.js"></script>
+	<!-- 순서 주위 -->
+	<link rel="stylesheet" type="text/css" href="/css/cms_style.css">
+	<link rel="stylesheet" type="text/css" href="/css/slider.css">
+
+</head>
+<body style="width: 100%; height: 100%;">
+	<div id="id_div_main" style="height: 100%; width:100%; overflow: hidden;">
+		<div class="border" style="height: 30px;">
+			<div>
+				<%- include('menu.ejs') %>
+			</div>
+		</div>
+
+		<div class="border d-flex" style="height: 70px;">
+			<div class="col-2 my-auto">
+				<h5>Era</h5>
+			</div>
+			<div class="col-3 my-auto">
+				<button id="id_btn_cms_era_melon" type="button" class="btn btn-sm border" onClick="window._era_control.OnClick_EditType(EDIT_TYPE.MELON_DRAFT)">
+					Draft Melon
+				</button>
+				<button id="id_btn_cms_era_ginie" type="button" class="btn btn-sm border" onClick="window._era_control.OnClick_EditType(EDIT_TYPE.GINIE_DRAFT)">
+					Ginie Melon
+				</button>
+				<button id="id_btn_cms_era_release" type="button" class="btn btn-sm border" onClick="window._era_control.OnClick_EditType(EDIT_TYPE.RELEASE)">
+					Release
+				</button>
+			</div>
+			<div class="col-3 my-auto">
+				<button type="button" class="btn btn-sm btn-primary" onClick="window._era_control.OnClick_Auto()">
+					Auto
+				</button>
+			</div>
+		</div>
+
+		<div class="d-flex" style="height: calc(100% - 100px); overflow: hidden;">
+			<!-- LEFT -->
+			<div class="border d-flex" style="width:60%; height: 100%;">
+				<div class="col-2 border">
+					<div class="d-flex">
+						<div>
+							<input type="text" id="id_input_cms_era_year" class="small" style="width: 80px;">
+						</div>
+						<div>
+							<button type="button" class="btn btn-sm btn-primary" onClick="window._era_control.OnClick_AddYear()">
+								Add
+							</button>
+						</div>
+					</div>
+					<!-- YEAR LIST -->
+					<div id="id_cms_era_year_list">
+					</div>
+				</div>
+				<div class="col-10">
+					<div>
+						<span id="id_label_cms_era_selected_year"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- RIGHT -->
+			<div class="border" style="width:40%; height: 100%;">
+				<!-- PLAYER TEST -->
+				<div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
+					<div id="player" class="border" style="width: 90; height: 90;"></div>
+					<div>
+						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
+					</div>
+					<div class="border" style="width: 100%;">
+						<div class="border" style="width: 100%; height: 40px; padding-top: 5px;">
+							<div class="slider_filler border" id=""></div>
+							<input class="border slider" type="range" min="0" max="10000" value="0" id="id_slider_range">
+						</div>
+						<div style="width: 100%;">
+							<i class="fas fa-volume-up"></i>
+							<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
+						</div>
+						<div id="id_div_duration"></div>
+					</div>
+				</div>					
+
+				<!-- ARTIST SEARCH / MUSIC SEARCH -->
+				<div class="border" style="height: 200px; overflow: auto">
+					<div class="d-flex">
+						<div class="col-4">
+							<ul class="nav nav-tabs small" style="font-size: 0.5em;">
+								<li class="nav-item">
+									<a class="nav-link active" style="cursor: pointer;" id="id_nav_cms_top_rank_artist" onClick="window._top_rank_control.OnClick_NavTab('artist')">Artist</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" style="cursor: pointer;" id="id_nav_cms_top_rank_music" onClick="window._top_rank_control.OnClick_NavTab('music')">Music</a>
+								</li>
+							</ul>	
+						</div>
+						<div class="col-5">
+							<input class="small my-auto" style="width: 100%;" type="text" id="id_input_cms_top_rank_artist_search">
+						</div>
+						<div class="col-3 text-right">
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddArtist()">+Artist</span>
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddVAArtist()">+VA</span>
+							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_SearchArtist()">Search</span>
+						</div>
+					</div>
+					<div id="id_div_cms_top_rank_artist_search_result"></div>
+					<div id="id_div_cms_top_rank_music_search_result" style="display: none;"></div>
+				</div>
+
+				<!-- YOUTUBE SEARCH -->
+				<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_youtube_search_result"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
+<script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/js/slider_control.js"></script>
+<script type="text/javascript" src="/js/youtube_search_control.js"></script>
+<script type="text/javascript" src="/__cms/js/cms_era_control.js"></script>
