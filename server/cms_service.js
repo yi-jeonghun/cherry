@@ -1091,6 +1091,70 @@ function CMS_Service(){
 			}
 		});
 	};
+
+	//==========================================================
+	// ERA
+	//----------------------------------------------------------
+	{
+		this.ERA_UpdateDraft = function(era_uid, source, music_list){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					await self.ERA_DeleteDraft(era_uid, source);
+					for(var i=0 ; i<music_list.length ; i++){
+						var m = music_list[i];
+						await self.ERA_InsertDraftMusic(conn, era_uid, source, (i+1), m);
+					}
+					resolve();
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService UpdateRadioNetwork #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.ERA_DeleteDraft = function(conn, era_uid, source){
+			return new Promise(async function(resolve, reject){
+				try{
+					var sql = `DELETE FROM era_music_draft WHERE era_uid=? and source=?`;
+					var val = [era_uid, source];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_DeleteDraft #0');
+						}else{
+							resolve();
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_DeleteDraft #1');
+				}
+			});
+		};
+		this.ERA_InsertDraftMusic = function(conn, era_uid, source, number, music){
+			return new Promise(async function(resolve, reject){
+				try{
+					var sql = `INSERT INTO era_music_draft(era_uid, source, number, title, artist, artist_uid, music_uid)
+					                                VALUES(?,       ?,      ?,      ?,     ?,      ?,          ?        )`;
+					var val = [era_uid, source, number, music.title, music.artist, music.artist_uid, music.music_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_InsertDraftMusic #0');
+						}else{
+							resolve();
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_InsertDraftMusic #1');
+				}
+			});
+		};		
+	}
 }
 
 module.exports = new CMS_Service();

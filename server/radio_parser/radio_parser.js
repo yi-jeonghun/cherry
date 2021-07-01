@@ -57,7 +57,6 @@ function RadioParser(){
 			request.end();
 		});
 	};
-
 }
 
 module.exports = new RadioParser();

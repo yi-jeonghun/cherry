@@ -5,6 +5,7 @@ var cms_service = require('./cms_service');
 var top_rank_parser = require('./top_rank_parser/top_rank_parser');
 var lyrics_parser = require('./lyrics_parser/lyrics_parser');
 var radio_parser = require('./radio_parser/radio_parser');
+var era_parser = require('./era_parser/era_parser');
 var permission_service = require('./permission_service');
 var auth_service = require('./auth_service');
 var randomstring = require("randomstring");
@@ -1009,5 +1010,43 @@ const util = require('./util');
 		}
 	});
 }
-
+//===================================================
+// ERA
+//---------------------------------------------------
+{
+	router.post('/era/get_auto_era_chart', async function(req, res){
+		try{
+			var year = req.body.year;
+			var site = req.body.site;
+			var auto_music_list = await era_parser.get_auto_chart(site, year);
+			res.send({
+				ok: 1,
+				auto_music_list: auto_music_list
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'fail /era/get_auto_era_chart #1'
+			});
+		}
+	});
+	router.post('/era/update_draft', async function(req, res){
+		try{
+			var era_uid = req.body.era_uid;
+			var source = req.body.source;
+			var music_list = req.body.music_list;
+			await cms_service.ERA_UpdateDraft(era_uid, source, music_list);
+			res.send({
+				ok: 1
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'fail /era/update_draft #1'
+			});
+		}
+	});
+}
 module.exports = router;

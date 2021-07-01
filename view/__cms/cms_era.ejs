@@ -41,13 +41,16 @@
 				<button type="button" class="btn btn-sm btn-primary" onClick="window._era_control.OnClick_Auto()">
 					Auto
 				</button>
+				<button type="button" class="btn btn-sm btn-primary" onClick="window._era_control.OnClick_Save()">
+					Save
+				</button>
 			</div>
 		</div>
 
 		<div class="d-flex" style="height: calc(100% - 100px); overflow: hidden;">
 			<!-- LEFT -->
-			<div class="border d-flex" style="width:60%; height: 100%;">
-				<div class="col-2 border">
+			<div class="border d-flex" style="width:60%; height: 100%; overflow: hidden;">
+				<div class="col-2 border" style="height: 100%; overflow: hidden">
 					<div class="d-flex">
 						<div>
 							<input type="text" id="id_input_cms_era_year" class="small" style="width: 80px;">
@@ -62,10 +65,11 @@
 					<div id="id_cms_era_year_list">
 					</div>
 				</div>
-				<div class="col-10">
+				<div class="col-10" style="height: 100%; overflow: auto;">
 					<div>
 						<span id="id_label_cms_era_selected_year"></span>
 					</div>
+					<div id="id_div_cms_era_music_list"></div>
 				</div>
 			</div>
 
