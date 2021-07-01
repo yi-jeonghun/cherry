@@ -1239,7 +1239,10 @@ function TopRankControl(){
 	this.DISP_CountryList = function(){
 		var h = '';
 	
+		console.log('COUNTRY_CODE_LIST ' + COUNTRY_CODE_LIST.length);
+
 		for (var i = 0; i < COUNTRY_CODE_LIST.length; i++) {
+			console.log('cc ' + cc);
 			var cc = COUNTRY_CODE_LIST[i];
 			var source_list = window._top_100_source.list[cc];
 
@@ -1267,7 +1270,7 @@ function TopRankControl(){
 			`;
 		}
 	
-		$('#id_div_country_list').html(h);
+		$('#id_div_top_rank_country_list').html(h);
 	};
 
 	this.DISP_DraftStatus = function(){

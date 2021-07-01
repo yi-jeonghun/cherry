@@ -42,7 +42,7 @@ function CountrySelector(){
 		h += '</div>';
 		h += '</div>';
 		
-		$('#id_div_country_list').html(h);
+		$('#id_div_country_selector_list').html(h);
 	};
 
 	this.OnChooseCountry = function(country_code){
