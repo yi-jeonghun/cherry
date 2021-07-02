@@ -1,6 +1,7 @@
 $('document').ready(function(){
-	console.log('ready ' );
 	window._era_control = new EraControl().Init();
+	var playlist_storage = new PlaylistStorage_Memory([]);
+	window._cherry_player = new CherryPlayer().Init(playlist_storage);
 });
 
 const EDIT_TYPE = {
