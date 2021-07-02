@@ -2625,7 +2625,7 @@ function CherryService(){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
-					var sql = `SELECT * FROM era_chart WHERE country_code=?`;
+					var sql = `SELECT * FROM era_chart WHERE country_code=? ORDER BY year DESC`;
 					var val = [country_code];
 					conn.query(sql, val, function(err, result){
 						if(err){
