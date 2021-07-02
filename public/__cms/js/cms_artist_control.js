@@ -116,6 +116,12 @@ function ArtistControl(){
 		self.GetMusicListOfArtist();
 	};
 
+	this.OnClick_SearchYoutubeFromList = function(idx){
+		var title = self._music_list[idx].title;
+		$('#id_input_music_search_keyword').val(title);
+		self.OnClick_SearchYoutube1();
+	};
+
 	this.OnClick_SearchYoutube1 = function(){
 		var is_next = false;
 		self.OnClickSearchYoutube(is_next);
@@ -804,6 +810,15 @@ function ArtistControl(){
 		});
 	};
 
+	this.PlayVideo = function(idx){
+		var video_id = self._music_list[idx].video_id;
+		console.log('video_id ' + video_id);
+		var music = {
+			video_id: video_id
+		};
+		window._cherry_player.TryMusic(music);
+	};
+
 	//////////////////////////////////////////////////////////////////////////
 	
 	this.DISP_FavoriteArtistList = function(){
@@ -894,6 +909,7 @@ function ArtistControl(){
 			<th>DN</th>
 			<th>MID</th>
 			<th>VID</th>
+			<th></th>
 			<th>User</th>
 			<th>L</th>
 			<th></th>
@@ -911,6 +927,8 @@ function ArtistControl(){
 			var on_edit_click = `window._artist_control.OnClick_MusicEdit(${i})`;
 			var on_trash_click = `window._artist_control.OnClick_MusicDelete(${i})`;
 			var on_click_lyrics = `window._artist_control.OnClick_LyricsEdit(${i})`;
+			var on_click_play = `window._artist_control.PlayVideo(${i})`;
+			var on_click_youtube = `window._artist_control.OnClick_SearchYoutubeFromList(${i})`;
 			var lyrics_badge_color = 'badge-danger';
 			if(m.has_lyrics == 'Y'){
 				lyrics_badge_color = 'border';
@@ -922,6 +940,10 @@ function ArtistControl(){
 				<td>${m.is_diff_name}</td>
 				<td>${music_uid}</td>
 				<td>${m.video_id}</td>
+				<td>
+					<i class="fas fa-play border" onClick="${on_click_play}" style="cursor:pointer"></i>
+					<i class="fas fa-search border" onClick="${on_click_youtube}" style="cursor:pointer"></i>
+				</td>
 				<td>${m.user_name}</td>
 				<td>
 			`;
