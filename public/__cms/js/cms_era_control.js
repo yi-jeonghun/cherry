@@ -45,7 +45,7 @@ function EraControl(){
 				case 49://1
 					self.SearchYoutube(self._working_idx, false);
 					break;
-				case 50://1
+				case 50://2
 					self.SearchArtist(self._working_idx);
 					self.OnClick_NavTab('artist');
 					break;
@@ -264,8 +264,8 @@ function EraControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self._draft_music_list[self._working_draft_idx].artist_uid = res.artist_uid;
-					$('#id_draft_artist_uid-'+self._working_draft_idx).html(res.artist_uid);
+					self._music_list_draft[self._working_idx].artist_uid = res.artist_uid;
+					$('#id_label_artist_uid_'+self._working_idx).html(res.artist_uid);
 
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
@@ -306,8 +306,8 @@ function EraControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self._draft_music_list[self._working_draft_idx].artist_uid = res.artist_uid;
-					$('#id_draft_artist_uid-'+self._working_draft_idx).html(res.artist_uid);
+					self._music_list_draft[self._working_idx].artist_uid = res.artist_uid;
+					$('#id_label_artist_uid_'+self._working_idx).html(res.artist_uid);
 
 					self._SearchArtist(artist_name, function(res){
 						if(res.ok){
@@ -347,8 +347,8 @@ function EraControl(){
 				}
 				
 				if(artist_uid_found != null){
-					self._draft_music_list[self._working_draft_idx].artist_uid = artist_uid_found;
-					$('#id_draft_artist_uid-'+self._working_draft_idx).html(artist_uid_found);
+					self._music_list_draft[self._working_idx].artist_uid = artist_uid_found;
+					$('#id_label_artist_uid_'+self._working_idx).html(artist_uid_found);
 				}
 				self.DISP_SearchedArtistList();
 			}else{
