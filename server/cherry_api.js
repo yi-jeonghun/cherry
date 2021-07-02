@@ -1126,6 +1126,22 @@ var auth_service = require('./auth_service');
 			});
 		}
 	});
+	router.get('/era/get_music_list', async function(req, res){
+		try{
+			var era_uid = req.query.eid;
+			var music_list = await cherry_service.ERA_GetMusicList(era_uid);
+			res.send({
+				ok: 1,
+				music_list
+			});	
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'Fail /era/get_music_list'
+			});
+		}
+	});
 }
 
 module.exports = router;

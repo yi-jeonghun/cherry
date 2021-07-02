@@ -2619,112 +2619,138 @@ function CherryService(){
 	//===================================================
 	// ERA
 	//---------------------------------------------------
-
-	this.GetEraYearList = function(country_code){
-		return new Promise(async function(resolve, reject){
-			var conn = null;
-			try{
-				conn = await db_conn.GetConnection();
-				var sql = `SELECT * FROM era_chart WHERE country_code=?`;
-				var val = [country_code];
-				conn.query(sql, val, function(err, result){
-					if(err){
-						console.error(err);
-						reject('FAIL CherryService GetEraYearList #0');
-					}else{
-						resolve(result);
-					}
-				});
-			}catch(err){
-				console.error(err);
-				reject('FAIL CherryService GetEraYearList #1');
-			}finally{
-				if(conn) conn.release();
-			}
-		});
-	};
-
-	this.AddYear = function(country_code, year){
-		return new Promise(async function(resolve, reject){
-			var conn = null;
-			try{
-				conn = await db_conn.GetConnection();
-				var era_uid = await self.GetEraUID();
-				var sql = `INSERT INTO era_chart(era_uid, country_code, year) VALUES(?, ?, ?)`;
-				var val = [era_uid, country_code, year];
-				conn.query(sql, val, function(err, result){
-					if(err){
-						console.error(err);
-						reject('FAIL CherryService AddYear #0');
-					}else{
-						resolve(result);
-					}
-				});
-			}catch(err){
-				console.error(err);
-				reject('FAIL CherryService AddYear #1');
-			}finally{
-				if(conn) conn.release();
-			}
-		});
-	};
-
-	this.GetEraUID = async function(){
-		return new Promise(async function(resolve, reject){
-			try{
-				var era_uid = await self.__GetEraUID__();
-				if(era_uid != null){
-					resolve(era_uid);
-					return;
-				}
-
-				era_uid = await self.__GetEraUID__();
-				if(era_uid != null){
-					resolve(era_uid);
-					return;
-				}
-
-				era_uid = await self.__GetEraUID__();
-				if(era_uid != null){
-					resolve(era_uid);
-					return;
-				}
-
-				reject('FAIL GetPlaylistUID #1');
-			}catch(err){
-				reject('FAIL GetPlaylistUID #2');
-			}
-		});
-	}
-
-	this.__GetEraUID__ = async function(){
-		return new Promise(async function(resolve, reject){
-			try{
-				conn = await db_conn.GetConnection();
-				var era_uid = randomstring.generate(10);
-
-				var sql = 'SELECT count(*) cnt FROM era_chart WHERE era_uid=?';
-				var val = [era_uid];
-				conn.query(sql, val, function(err, result){
-					if(err){
-						console.error(err);
-						reject('FAIL CherryService __GetEraUID__ #0');
-					}else{
-						if(result[0].cnt > 0){
-							resolve(null);
+	{
+		this.GetEraYearList = function(country_code){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `SELECT * FROM era_chart WHERE country_code=?`;
+					var val = [country_code];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService GetEraYearList #0');
 						}else{
-							resolve(era_uid);
+							resolve(result);
 						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService GetEraYearList #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.AddYear = function(country_code, year){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var era_uid = await self.GetEraUID();
+					var sql = `INSERT INTO era_chart(era_uid, country_code, year) VALUES(?, ?, ?)`;
+					var val = [era_uid, country_code, year];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService AddYear #0');
+						}else{
+							resolve(result);
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService AddYear #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.GetEraUID = async function(){
+			return new Promise(async function(resolve, reject){
+				try{
+					var era_uid = await self.__GetEraUID__();
+					if(era_uid != null){
+						resolve(era_uid);
+						return;
 					}
-				});
-			}catch(err){
-				console.error(err);
-				reject('FAIL CherryService __GetEraUID__ #1');
-			}finally{
-				if(conn) conn.release();
-			}
-		});
-	};
+	
+					era_uid = await self.__GetEraUID__();
+					if(era_uid != null){
+						resolve(era_uid);
+						return;
+					}
+	
+					era_uid = await self.__GetEraUID__();
+					if(era_uid != null){
+						resolve(era_uid);
+						return;
+					}
+	
+					reject('FAIL GetPlaylistUID #1');
+				}catch(err){
+					reject('FAIL GetPlaylistUID #2');
+				}
+			});
+		}
+		this.__GetEraUID__ = async function(){
+			return new Promise(async function(resolve, reject){
+				try{
+					conn = await db_conn.GetConnection();
+					var era_uid = randomstring.generate(10);
+	
+					var sql = 'SELECT count(*) cnt FROM era_chart WHERE era_uid=?';
+					var val = [era_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService __GetEraUID__ #0');
+						}else{
+							if(result[0].cnt > 0){
+								resolve(null);
+							}else{
+								resolve(era_uid);
+							}
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService __GetEraUID__ #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.ERA_GetMusicList = function(era_uid){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `
+					SELECT em.number, em.music_uid, m.artist_uid, m.title, a.name as artist, m.video_id
+					FROM era_music em
+					JOIN music m ON em.music_uid=m.music_uid
+					JOIN artist a ON m.artist_uid=a.artist_uid
+					WHERE em.era_uid=?`;
+					var val = [era_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService ERA_GetMusicList #0');
+						}else{
+							resolve(result);
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService ERA_GetMusicList #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+	}
 }
 
 module.exports = new CherryService();

@@ -1101,7 +1101,7 @@ function CMS_Service(){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
-					await self.ERA_DeleteDraft(era_uid, source);
+					await self.ERA_DeleteDraft(conn, era_uid, source);
 					for(var i=0 ; i<music_list.length ; i++){
 						var m = music_list[i];
 						await self.ERA_InsertDraftMusic(conn, era_uid, source, (i+1), m);
@@ -1116,7 +1116,7 @@ function CMS_Service(){
 			});
 		};
 		this.ERA_DeleteDraft = function(conn, era_uid, source){
-			return new Promise(async function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				try{
 					var sql = `DELETE FROM era_music_draft WHERE era_uid=? and source=?`;
 					var val = [era_uid, source];
@@ -1135,7 +1135,7 @@ function CMS_Service(){
 			});
 		};
 		this.ERA_InsertDraftMusic = function(conn, era_uid, source, number, music){
-			return new Promise(async function(resolve, reject){
+			return new Promise(function(resolve, reject){
 				try{
 					var sql = `INSERT INTO era_music_draft(era_uid, source, number, title, artist, artist_uid, music_uid)
 					                                VALUES(?,       ?,      ?,      ?,     ?,      ?,          ?        )`;
@@ -1153,7 +1153,96 @@ function CMS_Service(){
 					reject('FAIL CMSService ERA_InsertDraftMusic #1');
 				}
 			});
-		};		
+		};
+		this.ERA_GetDraft = function(era_uid, source){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `
+					SELECT ed.*, m.video_id
+					FROM era_music_draft ed
+					LEFT JOIN music m ON ed.music_uid=m.music_uid
+					WHERE ed.era_uid=? and ed.source=?
+					`;
+					var val = [era_uid, source];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_GetDraft #0');
+						}else{
+							resolve(result);
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_GetDraft #2');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.ERA_Release = function(era_uid, music_list){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					await self.ERA_DeleteRelease(conn, era_uid);
+					for(var i=0 ; i<music_list.length ; i++){
+						var music_uid = music_list[i].music_uid;
+						if(music_uid == null){
+							continue;
+						}
+						await self.ERA_InsertMusic(conn, era_uid, (i+1), music_uid);
+					}
+					resolve();
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_Release #2');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.ERA_DeleteRelease = function(conn, era_uid){
+			return new Promise(function(resolve, reject){
+				try{
+					var sql = `DELETE FROM era_music WHERE era_uid=?`;
+					var val = [era_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_DeleteRelease #0');
+						}else{
+							resolve();
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_DeleteRelease #1');
+				}
+			});
+		};
+		this.ERA_InsertMusic = function(conn, era_uid, number, music_uid){
+			return new Promise(function(resolve, reject){
+				try{
+					var sql = `INSERT INTO era_music(era_uid, number, music_uid)
+					                          VALUES(?,       ?,      ?        )`;
+					var val = [era_uid, number, music_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_InsertMusic #0');
+						}else{
+							resolve();
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_InsertMusic #1');
+				}
+			});
+		};
 	}
 }
 

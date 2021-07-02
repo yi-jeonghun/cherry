@@ -1048,5 +1048,39 @@ const util = require('./util');
 			});
 		}
 	});
+	router.post('/era/get_draft', async function(req, res){
+		try{
+			var era_uid = req.body.era_uid;
+			var source = req.body.source;
+			var music_list = await cms_service.ERA_GetDraft(era_uid, source);
+			res.send({
+				ok: 1,
+				music_list:music_list
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'fail /era/get_draft #1'
+			});
+		}
+	});
+	router.post('/era/release', async function(req, res){
+		try{
+			var era_uid = req.body.era_uid;
+			console.log('era_uid ' + era_uid);
+			var music_list = req.body.music_list;
+			await cms_service.ERA_Release(era_uid, music_list);
+			res.send({
+				ok: 1
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'fail /era/release #1'
+			});
+		}
+	});
 }
 module.exports = router;

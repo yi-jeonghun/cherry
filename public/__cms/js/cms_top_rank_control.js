@@ -184,6 +184,23 @@ function TopRankControl(){
 		self._SearchArtist(artist_name, function(res){
 			if(res.ok){
 				self._searched_artist_list = res.artist_list;
+				var artist_uid_found = null;
+				for(var i=0 ; i<self._searched_artist_list.length ; i++){
+					var a = self._searched_artist_list[i];
+					if(a.name == keyword){
+						if(a.is_diff_name == 'Y'){
+							artist_uid_found = a.org_artist_uid;
+						}else{
+							artist_uid_found = a.artist_uid;
+						}
+						break;
+					}
+				}
+				
+				if(artist_uid_found != null){
+					self._draft_music_list[self._working_draft_idx].artist_uid = artist_uid_found;
+					$('#id_draft_artist_uid-'+self._working_draft_idx).html(artist_uid_found);
+				}
 				self.DISP_SearchedArtistList();
 			}else{
 				alert(res.err);
