@@ -29,13 +29,6 @@ function Control(){
 		$('#id_btn_menu_open').on('click', self.OpenMenu);
 		$('#id_btn_close_menu').on('click', self.CloseMenu);
 		$('#id_btn_flag').on('click', self.OnClickFlag);
-
-		//MENU Buttons
-		$('#id_btn_menu_my_playlist').on('click', self.OnClickMenuMyPlaylist);
-		$('#id_btn_menu_open_playlist').on('click', self.OnClick_id_btn_menu_open_playlist);
-		$('#id_btn_menu_search').on('click', self.OnClickMenuSearch);
-		$('#id_btn_menu_like').on('click', self.OnClickMenuLike);
-		$('#id_btn_menu_radio').on('click', self.OnClickMenuRadio);
 	};
 
 	this.ProcessCountryCode = function(){
@@ -46,33 +39,32 @@ function Control(){
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
-	this.OnClick_id_btn_menu_open_playlist = function(){
-		window._router.Go(`/${window._country_code}/open_playlist.go`);
+	this.OnClick_Menu = function(type){
+		switch(type){
+			case 'like':
+				window._router.Go(`/${window._country_code}/like.go`);
+				break;
+			case 'my_playlist':
+				window._router.Go(`/${window._country_code}/my_playlist.go`);
+				break
+			case 'open_playlist':
+				window._router.Go(`/${window._country_code}/open_playlist.go`);
+				break;
+			case 'search':
+				window._router.Go(`/${window._country_code}/search.go`);
+				break;
+			case 'radio':
+				window._router.Go(`/${window._country_code}/radio_list.go`);
+				break;
+			case 'era':
+				window._router.Go(`/${window._country_code}/era.go`);
+				break;
+		}
 		self.CloseMenu();
-	};
+	}
 
 	this.OnClickMenuTop100 = function(source){
 		window._router.Go(`/${window._country_code}/top_rank.go?s=${source}`);
-		self.CloseMenu();
-	};
-
-	this.OnClickMenuMyPlaylist = function(){
-		window._router.Go(`/${window._country_code}/my_playlist.go`);
-		self.CloseMenu();
-	};
-
-	this.OnClickMenuSearch = function(){
-		window._router.Go(`/${window._country_code}/search.go`);
-		self.CloseMenu();
-	};
-
-	this.OnClickMenuLike = function(){
-		window._router.Go(`/${window._country_code}/like.go`);
-		self.CloseMenu();
-	};
-
-	this.OnClickMenuRadio = function(){
-		window._router.Go(`/${window._country_code}/radio_list.go`);
 		self.CloseMenu();
 	};
 
@@ -129,7 +121,6 @@ function Control(){
 		for(var s=0 ; s<source_list.length ; s++){
 			var source = source_list[s].source;
 			var source_name = source_list[s].name;
-			// console.log('source ' + source);
 			var on_click = `window._main.OnClickMenuTop100('${source}')`;
 			h += `
 			<button onClick="${on_click}" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left; margin-top:5px">

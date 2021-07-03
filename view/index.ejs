@@ -80,34 +80,39 @@
 				<%- include('include/google_auth_html.ejs') %>
 				<hr></hr>
 				<div id="id_div_index_menu_top_rank_list">
-					<button id="id_btn_menu_top_100" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+					<button type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Top 100
 					</button>
 				</div>
 				<div style="margin-top: 5px;">
-					<button id="id_btn_menu_like" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+					<button onClick="window._main.OnClick_Menu('like')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Like
 					</button>
 				</div>
 				<div style="margin-top: 5px;">
-					<button id="id_btn_menu_my_playlist" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+					<button onClick="window._main.OnClick_Menu('my_playlist')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						My Playlist
 					</button>
 				</div>
 				<div style="margin-top: 5px;">
-					<button id="id_btn_menu_open_playlist" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+					<button onClick="window._main.OnClick_Menu('open_playlist')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Open Playlist
 					</button>
 				</div>
-
-				<!-- <div style="margin-top: 5px;">
-					<button id="id_btn_menu_radio" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+				<!-- 
+				<div style="margin-top: 5px;">
+					<button onClick="window._main.OnClick_Menu('radio')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Radio
 					</button>
-				</div> -->
-
+				</div> 
+				-->
 				<div style="margin-top: 5px;">
-					<button id="id_btn_menu_search" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+					<button onClick="window._main.OnClick_Menu('era')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
+						Era
+					</button>
+				</div>
+				<div style="margin-top: 5px;">
+					<button onClick="window._main.OnClick_Menu('search')" type="button" class="btn btn-sm btn-light" style="width: 100%; text-align: left;">
 						Search
 					</button>
 				</div>
