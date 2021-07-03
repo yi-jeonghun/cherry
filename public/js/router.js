@@ -60,6 +60,7 @@ function Router(){
 			$('#id_router-music').hide();
 			$('#id_router-radio_list').hide();
 			$('#id_router-radio_detail').hide();
+			$('#id_router-era').hide();
 		}
 
 		console.log('Crossroad 3');
@@ -108,7 +109,11 @@ function Router(){
 				$('#id_router-radio_detail').show();
 				self.GoTo_RadioDetail(args, arg_list);
 				break;
-			}
+			case 'era.go':
+				$('#id_router-era').show();
+				self.GoTo_Era(args, arg_list);
+				break;
+				}
 	};
 
 	this.GoTo_TopRank = function(args, arg_list){
@@ -260,6 +265,20 @@ function Router(){
 		var desc = `${title}, ${artist}, ${TR(L_LYRICS)}`;
 		this.UpdateMeta(title, keywords, desc);	
 	}
+
+	this.GoTo_Era = function(args, arg_list){
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = 'Chart By Era - Cherry Music [' + country_name + ']';
+			var keywords = 'Music Chart By Era, Era';
+			var desc = 'Music Chart By Era';
+			this.UpdateMeta(title, keywords, desc);	
+		}
+
+		var target_div = 'id_router-era';
+		var route_url = '/era.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
 
 	////////////////////////////////////////////////////////////////////
 

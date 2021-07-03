@@ -2722,18 +2722,26 @@ function CherryService(){
 				}
 			});
 		};
-		this.ERA_GetMusicList = function(era_uid){
+		this.ERA_GetMusicList = function(era_uid, user_id){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
 					var sql = `
-					SELECT em.number, em.music_uid, m.artist_uid, m.title, a.name as artist, m.video_id
+					SELECT em.number, em.music_uid, m.artist_uid, m.title, a.name as artist, m.video_id, a.is_various,
+						concat('[',v.member_list_json,']') as member_list_json,
+						IF(lm.user_id IS NULL, 'N', 'Y') as is_like
 					FROM era_music em
 					JOIN music m ON em.music_uid=m.music_uid
 					JOIN artist a ON m.artist_uid=a.artist_uid
-					WHERE em.era_uid=?`;
-					var val = [era_uid];
+					LEFT JOIN va_member_view as v ON a.artist_uid=v.artist_uid
+					LEFT JOIN (
+						SELECT * FROM like_music WHERE user_id=?
+					) lm ON m.music_uid=lm.music_uid
+					WHERE em.era_uid=?
+					ORDER BY em.number ASC
+					`;
+					var val = [user_id, era_uid];
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);

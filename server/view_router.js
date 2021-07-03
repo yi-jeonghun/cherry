@@ -80,6 +80,12 @@ router.get('/**/radio_detail.go', async function(req, res){
 	});
 });
 
+router.get('/**/era.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 
 router.get('/playlist_embed.go', async function(req, res){
@@ -182,6 +188,15 @@ router.get('/radio_detail.vu', async function(req, res){
 		program_uid: program_uid
 	};
 	res.render('radio_detail', data);
+});
+
+router.get('/era.vu', async function(req, res){
+	var era_uid = req.query.eid;
+	var data = {
+		dev_mode  : _dev_mode,
+		era_uid: era_uid
+	};
+	res.render('era', data);
 });
 
 //####################################################################################//

@@ -1129,7 +1129,8 @@ var auth_service = require('./auth_service');
 	router.get('/era/get_music_list', async function(req, res){
 		try{
 			var era_uid = req.query.eid;
-			var music_list = await cherry_service.ERA_GetMusicList(era_uid);
+			var user_id = await permission_service.GetUserID(req);
+			var music_list = await cherry_service.ERA_GetMusicList(era_uid, user_id);
 			res.send({
 				ok: 1,
 				music_list
