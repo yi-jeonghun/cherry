@@ -6,6 +6,7 @@ function EraControl(era_uid){
 	this._music_list = [];
 
 	this.Init = function(){
+		console.log('self._era_uid_param ' + self._era_uid_param);
 		self.InitHandle();
 		self.GetYearList();
 		return self;
@@ -35,13 +36,14 @@ function EraControl(era_uid){
 				self._year_list = res.year_list;
 				self.DISP_YearList();
 
-				if(self._era_uid_param != null){
-					self._era_uid = self._era_uid_param;
-				}else{
+				if(self._era_uid_param == null || self._era_uid_param == ''){
 					if(self._year_list.length > 0){
 						self._era_uid = self._year_list[0].era_uid;
 					}
+				}else{
+					self._era_uid = self._era_uid_param;
 				}
+
 				console.log('self._era_uid ' + self._era_uid);
 				if(self._era_uid != null){
 					self.GetMusicList();
