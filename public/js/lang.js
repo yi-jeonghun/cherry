@@ -101,6 +101,21 @@ window.L_RADIO = [];{
 	L_RADIO[C_KR] = '라디오';
 }
 
+window.L_CHART_BY_ERA = [];{
+	L_CHART_BY_ERA[C_US] = 'Chart By Era';
+	L_CHART_BY_ERA[C_KR] = '시대별 차트';
+}
+
+window.L_YEARS = [];{
+	L_YEARS[C_US] = 'Years';
+	L_YEARS[C_KR] = '년도';
+}
+
+window.L_SEARCH = [];{
+	L_SEARCH[C_US] = 'Search';
+	L_SEARCH[C_KR] = '검색';
+}
+
 //================================================
 
 function TR(L){

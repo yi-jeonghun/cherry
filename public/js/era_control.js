@@ -4,6 +4,7 @@ function EraControl(era_uid){
 	this._era_uid = null;
 	this._era_uid_param = era_uid;
 	this._music_list = [];
+	this._year = 0;
 
 	this.Init = function(){
 		console.log('self._era_uid_param ' + self._era_uid_param);
@@ -21,7 +22,13 @@ function EraControl(era_uid){
 	
 	this.OnChange_Year = function(){
 		self._era_uid = $('#id_sel_era_years').val();
-		console.log('self._era_uid ' + self._era_uid);
+		for(var i=0 ; i<self._year_list.length ; i++){
+			if(self._era_uid == self._year_list[i].era_uid){
+				self._year = self._year_list[i].year;
+				break;
+			}
+		}
+		window._router.UpdateMeta_Era(self._year);
 		self.GetMusicList();
 	};
 
@@ -39,11 +46,19 @@ function EraControl(era_uid){
 				if(self._era_uid_param == null || self._era_uid_param == ''){
 					if(self._year_list.length > 0){
 						self._era_uid = self._year_list[0].era_uid;
+						self._year = self._year_list[0].year;
 					}
 				}else{
 					self._era_uid = self._era_uid_param;
+					for(var i=0 ; i<self._year_list.length ; i++){
+						if(self._era_uid == self._year_list[i].era_uid){
+							self._year = self._year_list[i].year;
+							break;
+						}
+					}
 				}
 
+				window._router.UpdateMeta_Era(self._year);
 				console.log('self._era_uid ' + self._era_uid);
 				if(self._era_uid != null){
 					self.GetMusicList();

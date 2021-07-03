@@ -21,6 +21,7 @@ function Control(){
 		self.InitComponentHandle();
 		self.ProcessCountryCode();
 		self.DISP_Top100List();
+		self.DISP_UpdateLang();
 		window._router.LoadInitRoute();
 		return self;
 	};
@@ -130,5 +131,10 @@ function Control(){
 		}
 
 		$('#id_div_index_menu_top_rank_list').html(h);
+	};
+
+	this.DISP_UpdateLang = function(){
+		$('#id_label_menu_era').html(TR(L_CHART_BY_ERA));
+		$('#id_label_menu_search').html(TR(L_SEARCH));
 	};
 }

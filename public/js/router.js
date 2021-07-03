@@ -267,17 +267,17 @@ function Router(){
 	}
 
 	this.GoTo_Era = function(args, arg_list){
-		{
-			var country_name = COUNTRY_NAME_LIST[window._country_code];
-			var title = 'Chart By Era - Cherry Music [' + country_name + ']';
-			var keywords = 'Music Chart By Era, Era';
-			var desc = 'Music Chart By Era';
-			this.UpdateMeta(title, keywords, desc);	
-		}
-
 		var target_div = 'id_router-era';
 		var route_url = '/era.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.UpdateMeta_Era = function(year){
+		var country_name = COUNTRY_NAME_LIST[window._country_code];
+		var title = `${TR(L_CHART_BY_ERA)} : ${year} - Cherry Music [${country_name}]`;
+		var keywords = `${TR(L_CHART_BY_ERA)}, ${year}`;
+		var desc = `${TR(L_CHART_BY_ERA)}, ${year}`;
+		this.UpdateMeta(title, keywords, desc);	
 	};
 
 	////////////////////////////////////////////////////////////////////
