@@ -12,6 +12,7 @@ async function UpdateXML(){
 		await MakeArtistXML();
 		await MakePlaylistXML();
 		await MakeMusicXML();
+		await MakeEraChartXML();
 		await MakeSitemapIndex();
 		resolve();
 	});
@@ -242,6 +243,46 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 			}
 		}
 
+		resolve();
+	});
+}
+
+async function MakeEraChartXML(){
+	return new Promise(async function(resolve, reject){
+		console.log('MakeEraChartXML');
+
+		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
+			var country_code = CONST.__COUNTRY_CODE_LIST[i];
+
+			var year_list = await cherry_service.GetEraYearList(country_code);
+			if(year_list.length > 0){
+				await MakeEraChartXMLByCountry(country_code, year_list);
+			}
+		}
+		resolve();
+	});
+}
+
+async function MakeEraChartXMLByCountry(country_code, year_list){
+	return new Promise(async function(resolve, reject){
+		var date_str = new Date().toISOString();
+		var xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+		xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+		for(var k=0 ; k<year_list.length ; k++){
+			var era_uid = year_list[k].era_uid;
+
+			xml += `	<url>\n`;
+			xml += `		<loc>https://cherrymusic.io/${country_code}/era.go?eid=${era_uid}</loc>\n`;
+			xml += `		<lastmod>${date_str}</lastmod>\n`;
+			xml += `		<priority>0.8</priority>\n`;
+			xml += `	</url>\n`;
+		}
+
+		xml += '</urlset>\n';
+		var path = __dirname + '/../public/sitemap_erachart_' + country_code + '.xml';
+		await WriteXML(path, xml);
+		_xml_path_list.push('sitemap_erachart_' + country_code + '.xml');
 		resolve();
 	});
 }
