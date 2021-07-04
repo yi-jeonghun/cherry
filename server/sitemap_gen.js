@@ -273,7 +273,7 @@ async function MakeEraChartXMLByCountry(country_code, year_list){
 			var era_uid = year_list[k].era_uid;
 
 			xml += `	<url>\n`;
-			xml += `		<loc>https://cherrymusic.io/${country_code}/era.go?eid=${era_uid}</loc>\n`;
+			xml += `		<loc>https://cherrymusic.io/${country_code}/era.go?eid=${era_uid}&region=domestic</loc>\n`;
 			xml += `		<lastmod>${date_str}</lastmod>\n`;
 			xml += `		<priority>0.8</priority>\n`;
 			xml += `	</url>\n`;
