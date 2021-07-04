@@ -221,8 +221,7 @@ function MusicControl(){
 			music_uid: music_uid
 		};
 		POST('/__cms_api/delete_music_correct_request', req, (res)=>{
-			self._music_list.splice(idx, 1);
-			$(`#id_music-${music_uid}`).remove();
+			self.GetMusicList_Correction();
 		});
 	};
 
