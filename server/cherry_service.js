@@ -600,15 +600,23 @@ function CherryService(){
 		});
 	};
 
-	this.SearchArtistLike = async function(artist_name){
+	this.SearchArtistLike = async function(keyword_list){
 		return new Promise(async function(resolve, reject){
-			console.log('SearchArtist ' + artist_name);
 			var conn = null;
 			try{
 				conn = await db_conn.GetConnection();
-				var sql_register = 'SELECT * FROM artist WHERE LOWER(name) LIKE ?';
-				var val = [artist_name + '%'];
-				conn.query(sql_register, val, function(err, result){
+				var sql = '';
+				var val = [];
+
+				if(keyword_list.length == 1){
+					sql = 'SELECT * FROM artist WHERE LOWER(name) LIKE ?';
+					val = ['%' + keyword_list[0] + '%'];
+				}else if(keyword_list.length >= 2){
+					sql = 'SELECT * FROM artist WHERE LOWER(name) LIKE ? OR LOWER(name) LIKE ?';
+					val = ['%' + keyword_list[0] + '%', '%' + keyword_list[1] + '%'];
+				}
+
+				conn.query(sql, val, function(err, result){
 					if(err){
 						console.error(err);
 						reject('FAIL CherryService SearchArtist #0');

@@ -650,7 +650,16 @@ var auth_service = require('./auth_service');
 	router.post('/search_artist_like', async function(req, res){
 		try{
 			var keyword = req.body.keyword;
-			var artist_list = await cherry_service.SearchArtistLike(keyword);
+
+			var keyword_list_temp = keyword.split(' ').join('≈').split('(').join('≈').split(')').join('≈').split('≈');
+			var keyword_list = [];
+			for(var i=0 ; i<keyword_list_temp.length ; i++){
+				if(keyword_list_temp[i] != ''){
+					keyword_list.push(keyword_list_temp[i]);
+				}
+			}
+
+			var artist_list = await cherry_service.SearchArtistLike(keyword_list);
 			res.send({
 				ok: 1,
 				artist_list: artist_list
