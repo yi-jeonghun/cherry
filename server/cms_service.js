@@ -1164,6 +1164,7 @@ function CMS_Service(){
 					FROM era_music_draft ed
 					LEFT JOIN music m ON ed.music_uid=m.music_uid
 					WHERE ed.era_uid=? and ed.source=?
+					ORDER BY ed.number ASC
 					`;
 					var val = [era_uid, source];
 					conn.query(sql, val, function(err, result){
