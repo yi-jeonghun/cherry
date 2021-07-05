@@ -851,6 +851,49 @@ function EraControl(){
 		});
 	};
 
+	this.GetMusicDiffNameList = function(music_uid){
+		self._music_diff_name_list = [];
+		var req_data = {
+			music_uid: music_uid
+		};
+		$.ajax({
+			url:  '/__cms_api/get_music_diff_name_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._music_diff_name_list = res.music_diff_name_list;
+					self.DISP_MusicDiffNameList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+	};
+
+	this.OnClick_DeleteMusicDiffName = function(music_uid){
+		var req_data = {
+			music_uid: music_uid
+		};
+		$.ajax({
+			url:  '/__cms_api/delete_music_diff_name',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self.GetMusicDiffNameList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});
+
+	};
+
 	//-------------------------------------------------------
 
 	this.DISP_YearList = function(){
@@ -1042,5 +1085,28 @@ function EraControl(){
 		h += '</table>';
 
 		$('#id_div_cms_top_rank_music_search_result').html(h);
+	};
+
+	this.DISP_MusicDiffNameList = function(){
+		var h = `
+		<table class="table table-sm table-stripped">
+		`;
+
+		for(var i=0 ; i<self._music_diff_name_list.length ; i++){
+			var m = self._music_diff_name_list[i];
+			var on_click_trash = `window._era_control.OnClick_DeleteMusicDiffName('${m.music_uid}')`;
+			h += `
+			<tr>
+				<td>
+					${m.title}
+					<span class="badge badge-sm badge-primary" style="cursor:poinger" onClick="${on_click_trash}"><i class="fas fa-trash-alt"></i></span>
+				</td>
+			</tr>
+			`;
+		}
+
+		h += '</table>';
+
+		$('#id_div_cms_top_rank_music_diff_name_list').html(h);
 	};
 }

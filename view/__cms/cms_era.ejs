@@ -130,6 +130,45 @@
 	</div>
 </body>
 
+<div id="id_modal_cms_top_rank_music_edit" class="modal small" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Music Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<div>
+					Music UID : <span id="id_label_cms_top_rank_music_uid"></span>
+				</div>
+				<div class="d-flex">
+					<div class="col-3">Title</div>
+					<div class="col-9">
+						<input class="w-100" id="id_input_cms_top_rank_music_title" autocomplete="off">
+					</div>
+				</div>
+				<div class="d-flex border-top border-bottom">
+					<div class="col-3">Diff Name</div>
+					<div class="col-8 text-right">
+						<input class="w-100" id="id_input_cms_top_rank_music_diff_name" autocomplete="off">
+					</div>
+					<div class="col-1">
+						<span class="badge badge-sm badge-primary py-auto" style="cursor: pointer;" onClick="window._era_control.OnClick_MusicDiffNameAdd()">Add</span>
+					</div>
+				</div>
+				<div id="id_div_cms_top_rank_music_diff_name_list"></div>
+		</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="id_btn_cms_top_rank_music_edit_ok" onClick="window._era_control.OnClick_MusicUpdate()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 <script type="text/javascript" src="/js/cherry_player.js"></script>
 <script type="text/javascript" src="/js/slider_control.js"></script>
