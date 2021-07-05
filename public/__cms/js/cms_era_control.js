@@ -25,6 +25,7 @@ function EraControl(){
 	this._searched_artist_list = [];
 	this._searched_music_list = [];
 	this._working_music_idx = null;
+	this._choosed_video_id = null;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -576,6 +577,7 @@ function EraControl(){
 		`;
 
 		$('#id_div_youtube_search_result').html(h);
+		self.HighlightChoosedYoutubeVideo();
 	};
 
 	this.OnTimeBarClick = function(e){
@@ -601,20 +603,23 @@ function EraControl(){
 	};
 
 	this.OnChooseVideo = function(video_id){
+		self._choosed_video_id = video_id;
+		self.HighlightChoosedYoutubeVideo();
+		var music = {
+			video_id: video_id
+		};
+		window._cherry_player.TryMusic(music);
+	};
+
+	this.HighlightChoosedYoutubeVideo = function(){
 		for(var i=0 ; i<self._youtube_searched_video_list.length ; i++){
 			var tmp_video_id = self._youtube_searched_video_list[i].video_id;
-			if(tmp_video_id == video_id){
+			if(tmp_video_id == self._choosed_video_id){
 				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'orange');
 			}else{
 				$('#id_youtube_video_row-'+tmp_video_id).css('background', 'white');
 			}
 		}
-
-		console.log('video_id ' + video_id);
-		var music = {
-			video_id: video_id
-		};
-		window._cherry_player.TryMusic(music);
 	};
 
 	this.OnYoutubeVideoInfo = function(video_list){
