@@ -225,6 +225,36 @@ function MusicControl(){
 		});
 	};
 
+	this.OnClick_VideoIDEdit = function(idx){
+		self._working_idx = idx;
+		$('#id_text_cms_music_video_id').val(self._music_list[idx].video_id);
+		$('#id_modal_cms_music_artist').html(self._music_list[idx].artist);
+		$('#id_modal_cms_music_title').html(self._music_list[idx].title);
+		$('#id_modal_cms_music_video_id').modal('show');
+	};
+
+	this.OnClick_VideoIDEdit_OK = function(){
+		var video_id = $('#id_text_cms_music_video_id').val().trim();
+		if(video_id == ''){
+			return;
+		}
+
+		var req = {
+			music_uid:  self._music_list[self._working_idx].music_uid,
+			title:      self._music_list[self._working_idx].title,
+			artist_uid: self._music_list[self._working_idx].artist_uid,
+			video_id:   video_id
+		};
+		POST('/__cms_api/update_music', req, res=>{
+			if(res.ok){
+				$('#id_modal_cms_music_video_id').modal('hide');
+				self.GetMusicList_Correction();
+			}else{
+				alert(res.err);
+			}
+		});
+	};
+
 	//---------------------------------------------------------
 
 	this.GetGoogleSearchURL = function(idx){
@@ -439,6 +469,7 @@ function MusicControl(){
 			<th>Artist</th>
 			<th>Title</th>
 			<th>Video ID</th>
+			<th></th>
 			<th>Y</th>
 			<th>Lyrics</th>
 			<th>Video</th>
@@ -456,6 +487,7 @@ function MusicControl(){
 			var on_click_play = `window._music_control.OnClick_PlayVideoFromMusicList('${i}')`;
 			var on_click_youtube = `window._music_control.OnClick_SearchYoutube(${i})`;
 			var on_click_trash = `window._music_control.OnClick_Finish(${i})`;
+			var on_click_video_id = `window._music_control.OnClick_VideoIDEdit(${i})`;
 
 			h += `
 			<tr id='id_music-${m.music_uid}'>
@@ -463,6 +495,9 @@ function MusicControl(){
 				<td>${m.title}</td>
 				<td>
 					<span id="id_label_video_id-${m.music_uid}">${m.video_id}</span>
+				</td>
+				<td>
+					<span class="badge badge-sm border" onclick="${on_click_video_id}"><i class="fas fa-pen"></i></span>
 				</td>
 				<td>
 					<span class="badge badge-sm border" onclick="${on_click_play}"><i class="fas fa-play"></i></span>
