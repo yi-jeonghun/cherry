@@ -419,6 +419,7 @@ function MusicControl(){
 		<tr>
 			<th>Artist</th>
 			<th>Title</th>
+			<th></th>
 			<th>D</th>
 			<th>L</th>
 			<th>G</th>
@@ -431,11 +432,15 @@ function MusicControl(){
 			var on_click_copy_title = `window,_music_control.OnClick_CopyTitle(${i})`;
 			var on_click_google = `window,_music_control.OnClick_SearchGoogle(${i})`;
 			var on_click_extract = `window._music_control.OnClick_ExtraceLyrics(${i})`;
+			var on_click_play = `window._music_control.OnClick_PlayVideoFromMusicList('${i}')`;
 
 			h += `
 			<tr id='id_music-${m.music_uid}'>
 				<td>${m.artist}</td>
 				<td class="pointer" onClick="${on_click_copy_title}">${m.title}</td>
+				<td>
+					<span class="badge badge-sm border" onclick="${on_click_play}"><i class="fas fa-play"></i></span>
+				</td>
 				<td>${m.is_diff_name}</td>
 				<td>
 					<i class="badge badge-sm badge-danger pointer" onClick="${on_click_lyrics}" id="id_lebel_music_has_lyrics-${i}">
