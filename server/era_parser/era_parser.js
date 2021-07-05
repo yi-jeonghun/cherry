@@ -39,7 +39,7 @@ function EraParser(){
 		
 			request.end();
 		});
-	};
+	};								
 
 	this.MelonParse = function(html){
 		return new Promise(function(resolve, reject){
@@ -63,7 +63,8 @@ function EraParser(){
 						}
 					}else{
 						if(line.includes(artist_key)){
-							artist = self.ExtractTitle(line, artist_key, '>', '<');
+							var artist = self.ExtractArtistList(line, artist_key);
+							// artist = self.ExtractTitle(line, artist_key, '>', '<');
 							music_list.push({
 								title: title,
 								artist: artist
@@ -93,6 +94,41 @@ function EraParser(){
 		return tmp;
 	};
 
+	/*
+	아래 내용이 한 줄에 있다.
+	<div class="ellipsis rank02" >
+		<a href="javascript:melon.link.goArtistDetail('688432');" title="로꼬 - 페이지 이동" class="fc_mgray">로꼬</a>, 
+		<a href="javascript:melon.link.goArtistDetail('756531');" title="화사 (Hwa Sa) - 페이지 이동" class="fc_mgray">화사 (Hwa Sa)</a>
+		<span class="checkEllipsis" style="display:none">
+			<a href="javascript:melon.link.goArtistDetail('688432');" title="로꼬 - 페이지 이동" class="fc_mgray">로꼬</a>, 
+			<a href="javascript:melon.link.goArtistDetail('756531');" title="화사 (Hwa Sa) - 페이지 이동" class="fc_mgray">화사 (Hwa Sa)</a>
+		</span>
+	</div>
+	*/
+	this.ExtractArtistList = function(line){
+		var arr = line.split("<a");
+		// console.log('arr len ' + arr.length);
+		var artist_list = [];
+		var key = 'goArtistDetail';
+		for(var i=0 ; i<arr.length ; i++){
+			// console.log('arr ' + i + ' ' + arr[i]);
+			if(arr[i].includes(key)){
+				var artist = self.ExtractTitle(arr[i], key, '>', '<');
+				// console.log('artist ' + artist);
+				var found = false;
+				for(var j=0 ; j<artist_list.length ; j++){
+					if(artist_list[j] == artist){
+						found = true;
+						break;
+					}
+				}
+				if(found == false){
+					artist_list.push(artist);
+				}
+			}
+		}
+		return artist_list.join(', ');
+	};
 }
 
 module.exports = new EraParser();
