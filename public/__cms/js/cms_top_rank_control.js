@@ -726,7 +726,7 @@ function TopRankControl(){
 		}
 
 		var artist_name = self._music_list_draft[idx].artist.replace('&amp;', '');
-		var title = self._music_list_draft[idx].title.replace('&amp;', '');
+		var title = self._music_list_draft[idx].title.replace('&amp;', '').replace('?', '');
 		var keyword = artist_name + "+" + title;
 		self._searching_title = title;
 
