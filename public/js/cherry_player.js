@@ -114,6 +114,7 @@ function CherryPlayer(){
 		var timestamp = new Date().getTime();
 		window.localStorage.setItem('PLAYER.LAST_PLAY_WALLTIME_MS', timestamp);
 		window._slider_control.Update(progress_rate);
+		self.UpdateDuration(ms);
 	};
 
 	this.OnPlayerStateChange = function(player_state, duration){
@@ -564,11 +565,34 @@ function CherryPlayer(){
 		var minutes = parseInt(duration / 60);
 		var seconds = parseInt(duration % 60);
 
-		var htm = '';
-		// htm += duration;
-		// htm += ' - ';
-		htm += minutes + ':' + seconds;
+		if(minutes == NaN || seconds == NaN){
+			return;
+		}
 
+		var htm = minutes + ':';		
+		if(seconds < 10){
+			htm += '0' + seconds;
+		}else{
+			htm += seconds;
+		}
+		$('#id_div_duration').html(htm);
+	};
+
+	this.UpdateDuration = function(ms){
+		var remain_ms = parseInt((self._play_time_ms - ms) / 1000);
+		var minutes = parseInt(remain_ms / 60);
+		var seconds = parseInt(remain_ms % 60);
+
+		if(minutes == NaN || seconds == NaN){
+			return;
+		}
+
+		var htm = minutes + ':';		
+		if(seconds < 10){
+			htm += '0' + seconds;
+		}else{
+			htm += seconds;
+		}
 		$('#id_div_duration').html(htm);
 	};
 
