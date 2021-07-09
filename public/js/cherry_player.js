@@ -610,6 +610,11 @@ function CherryPlayer(){
 		});
 	};
 
+	this.SeekToEnd = function(sec){
+		var seek_ms = self._play_time_ms - (sec * 1000);
+		self.__yt_player.SeekAndPlay(seek_ms);
+	};
+
 	//=============================================================================================
 
 	this.DisplayTitleArtist = function(music){

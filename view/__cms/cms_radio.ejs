@@ -120,9 +120,16 @@
 							<div class="slider_filler border" id=""></div>
 							<input class="border slider" type="range" min="0" max="10000" value="0" id="id_slider_range">
 						</div>
-						<div style="width: 100%;">
-							<i class="fas fa-volume-up"></i>
-							<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
+						<div class="d-flex" style="width: 100%;">
+							<div class="col-6">
+								<i class="fas fa-volume-up"></i>
+								<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
+							</div>
+							<div class="col-6 text-right">
+								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(5)">-5</button>
+								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(10)">-10</button>
+								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(15)">-15</button>
+							</div>
 						</div>
 						<div id="id_div_duration"></div>
 					</div>
