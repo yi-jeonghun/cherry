@@ -55,9 +55,11 @@ function CherryPlayer(){
 	this._b_play_list_show = false;
 	this._b_lyrics_show = false;
 	this._is_edit_mode = false;
+	this._is_sort_mode = false;
 	this._playlist_storage = null;
 	this._cb_on_play_started = null;
 	this._lyrics_list = [];//{music_uid:'',text:''}, ...
+	this._sortable = null;
 
 	this.Init = function(playlist_storage, cb_on_play_started){
 		self._playlist_storage = playlist_storage;
@@ -93,9 +95,11 @@ function CherryPlayer(){
 		$('#id_btn_playlist_edit_mode_toggle').on('click', self.ToggleEditMode);
 		$('#id_btn_player_lyrics').on('click', self.Lyrics_Show);
 		$('#id_btn_lyrics_hide').on('click', self.Lyrics_Hide);
+		$('#id_btn_music_list_sort').on('click', self.OnClick_Sort);
 	};
 
 	//===========================================================================
+
 	//youtube iframe api가 준비된 상태이므로 이 단계에서는 Load를 할 수 있음.
 	this.OnYouTubeIframeAPIReady = function(){
 		self.ReloadPlayList();
@@ -137,7 +141,9 @@ function CherryPlayer(){
 		}
 		self.UpdatePlayPauseButton();
 	};
+
 	//===========================================================================
+
 	//가사와 플레이리스트 화면은 상보 배타적.
 	this.Lyrics_Show = function(){
 		self._b_lyrics_show = true;
@@ -151,21 +157,35 @@ function CherryPlayer(){
 		self._b_lyrics_show = false;
 		$('#id_player_lyrics_div').hide();
 	};
-
+	
 	this.PlayList_Show = function(){
 		self._b_play_list_show = true;
 		$('#id_player_music_list_div').show();
 		$('#id_player_music_list_div').css('z-index', 99);
 		$('#id_player_lyrics_div').css('z-index', 98);
 	};
-
+	
 	this.PlayList_Hide = function(){
 		self._b_play_list_show = false;
 		$('#id_player_music_list_div').hide();
 	};
+	
+	//=============================================================================
+
+	this.OnClick_Sort = function(){
+		self._is_sort_mode = !self._is_sort_mode;
+		self.DISP_MusicList();
+
+		$('#id_btn_music_list_sort').removeClass('badge-danger');
+		if(self._is_sort_mode){
+			$('#id_btn_music_list_sort').addClass('badge-danger');
+		}
+	}
+
 	//=============================================================================
 
 	this.ToggleEditMode = function(){
+		$('#id_btn_playlist_edit_mode_toggle').removeClass('badge-danger');
 		if(self._is_edit_mode){
 			for(var i=0 ; i<self._music_list.length ; i++){
 				$('#id_btn_playlist_play_music-'+i).show();
@@ -179,6 +199,10 @@ function CherryPlayer(){
 			}
 			self._is_edit_mode = true;
 		}
+
+		if(self._is_edit_mode){
+			$('#id_btn_playlist_edit_mode_toggle').addClass('badge-danger');
+		}
 	};
 
 	this.OnTrashClick = function(){
@@ -191,7 +215,7 @@ function CherryPlayer(){
 		$('#modal_confirm').modal('hide');
 		self._music_list = [];
 		self.SavePlayList();
-		self.DisplayMusicList();
+		self.DISP_MusicList();
 		self.__yt_player.ClearPlayer();
 		self.DisplayTitleArtist(null);
 	};
@@ -280,7 +304,7 @@ function CherryPlayer(){
 	this.AddMusic = function(music){
 		self._music_list.push(music);
 		var last_idx = self._music_list.length-1;
-		self.DisplayMusicList();
+		self.DISP_MusicList();
 		self.SelectMusic(last_idx);
 		self.__yt_player.LoadAndPlay(self._cur_video_id);
 		self.UpdatePlayPauseButton();
@@ -290,7 +314,7 @@ function CherryPlayer(){
 	this.LoadMusicList = function(music_list){
 		self._music_list = music_list;
 		console.log('LoadMusicList len ' + self._music_list.length);
-		self.DisplayMusicList();
+		self.DISP_MusicList();
 		self.SelectMusic(0);
 		self.__yt_player.LoadAndPlay(self._cur_video_id);
 		self.UpdatePlayPauseButton();
@@ -306,7 +330,7 @@ function CherryPlayer(){
 		if(self._music_list.length == 0){
 			return;
 		}
-		self.DisplayMusicList();
+		self.DISP_MusicList();
 
 		var select_music_uidx = 0;
 		{
@@ -366,7 +390,7 @@ function CherryPlayer(){
 	this.OnClickDelBtn = function(idx){
 		self._music_list.splice(idx, 1);
 		self.SavePlayList();
-		self.DisplayMusicList();
+		self.DISP_MusicList();
 	};
 
 	this.HighlightCurrentMusic = function(){
@@ -639,6 +663,20 @@ function CherryPlayer(){
 		self.__yt_player.SeekAndPlay(seek_ms);
 	};
 
+	this.LikeMusic = function(idx){
+		var user_id = window._auth_control.GetUserID();
+		if(user_id == null || user_id == ''){
+			alert('Sign in required');
+			return;
+		}
+
+		var m = self._music_list[idx];
+		var is_like = m.is_like == 'Y' ? false : true;
+		m.is_like = m.is_like == 'Y' ? 'N' : 'Y';
+		CMN_LikeMusic(m.music_uid, is_like);
+		self.SavePlayList();
+	};
+
 	//=============================================================================================
 
 	this.DisplayTitleArtist = function(music){
@@ -687,7 +725,9 @@ function CherryPlayer(){
 		$('#id_label_artist').html(a_str);
 	};
 
-	this.DisplayMusicList = function(){
+	this.DISP_MusicList = function(){
+		$('#id_div_cherry_player_music_list').empty();
+		$('#id_div_cherry_player_music_list_sort').empty();
 		var h = '';
 		for(var i=0 ; i<self._music_list.length ; i++){
 			var m = self._music_list[i]; 
@@ -716,6 +756,12 @@ function CherryPlayer(){
 			var onclick_play = `window._cherry_player.OnClickPlayBtn(${i})`;
 			var onclick_del = `window._cherry_player.OnClickDelBtn(${i})`;
 			var on_click_title = `window._cherry_player.GoToMusic('${m.music_uid}', '${m.title}', '${m.artist}')`
+			var on_click_heart = `window._cherry_player.LikeMusic(${i})`;
+			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
+			var like_color = '#bbbbbb';
+			if(m.is_like == 'Y'){
+				like_color = 'red';
+			}
 
 			var p_btn_disp = '';
 			if(self._is_edit_mode){
@@ -726,45 +772,78 @@ function CherryPlayer(){
 				d_btn_disp = '';
 			}
 
+			var box_style = '';
+			var sortable_class = '';
+			if(self._is_sort_mode){
+				box_style = '1px dashed green';
+				sortable_class = 'list-group-item';
+			}else{
+				box_style = '1px solid #dddddd';
+			}
+
 			h += `
-				<div class="row my-1 py-1 border" id="${id_title}">
-					<div class="col-1">
-						<div style="font-size: 0.8em">${num}</div>
-					</div>
-					<div class="col-9 col-sm-10" style="display:flex ; cursor:pointer;" >
-						<div class="" style="width:50px; height:50px">
-							<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
-						</div>
-						<div class="" style="padding-left:5px">
+			<div class="${sortable_class}" style="padding:0px; margin:0px; border:1px" id="id_sort_idx-${i}">
+				<div class="my-0 py-0" style="font-size:0.6em; width:50px; padding-left:5px">${num}</div>
+				<div class=" d-flex" style="margin-bottom:2px; border:${box_style}" id="${id_title}">
+					<div class="d-flex " style="width:calc( 100% - 75px);">
+						<image style="height: 50px; width: 50px;" src="https://img.youtube.com/vi/${m.video_id}/0.jpg">
+						<div class="pl-1">
 							<div class="text-dark">
 								<span class="pointer border-bottom" onClick="${on_click_title}">${m.title}</span>
 							</div>
 							<div class="text-secondary" style="font-size:0.8em">
-			`;
-
-			for(var k=0 ; k<artist_list.length ; k++){
-				h += `
-								<span class="pointer border-bottom" style="margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
 				`;
-			}
-			
+
+				for(var k=0 ; k<artist_list.length ; k++){
+					h += `
+								<span class="border-bottom" style="cursor:pointer; margin-right: 5px" onClick="${artist_list[k].onclick}">${artist_list[k].name}</span>
+					`;
+				}
+
 			h += `
 							</div>
 						</div>
 					</div>
-					<div class="col-1">
-						<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="display:${p_btn_disp}">
-							<i class="fas fa-play"></i>
-						</button>
-						<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="display:${d_btn_disp}">
-							<i class="fas fa-trash-alt"></i>
-						</button>
+					<div class="text-right d-flex " style="padding-top:5px;">
+						<div>
+							<span class="badge pointer" style="width:33px; height:33px; padding-top:10px;" onclick="${on_click_heart}">
+								<i id="${id_heart_icon}" class="fas fa-heart" style="color: ${like_color}"></i>
+							</span>
+							<div class="text-center" style="font-size:0.5em"></div>
+						</div>
+						<div>
+							<button type="button" class="btn btn-sm" onclick="${onclick_play}" id="id_btn_playlist_play_music-${i}" style="width:33px; height:33px; display:${p_btn_disp}">
+								<i class="fas fa-play"></i>
+							</button>
+							<button type="button" class="btn btn-sm" onclick="${onclick_del}" id="id_btn_playlist_del_music-${i}" style="width:33px; height:33px; display:${d_btn_disp}">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
 					</div>
-				</div>					
+				</div>
+			</div>
 			`;
 		}
 
-		$('#id_div_cherry_player_music_list').html(h);
+		if(self._is_sort_mode){
+			$('#id_div_cherry_player_music_list_sort').html(h);
+
+			self._sortable = Sortable.create(id_div_cherry_player_music_list_sort, {
+				group: "sorting",
+				sort: self._is_sort_mode,
+				onUpdate: self.OnSortUpdated
+			});	
+		}else{
+			$('#id_div_cherry_player_music_list').html(h);
+		}
 	};
 
+	this.OnSortUpdated = function(evt){
+		console.log('evt old ' + evt.oldIndex);
+		console.log('evt new ' + evt.newIndex);
+
+		self._music_list.splice(evt.newIndex, 0, self._music_list.splice(evt.oldIndex, 1)[0]);
+		self.DISP_MusicList();
+		self.SavePlayList();
+	};
 }
