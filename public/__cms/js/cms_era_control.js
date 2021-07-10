@@ -10,6 +10,11 @@ const EDIT_TYPE = {
 	RELEASE : 2
 };
 
+const REGION = {
+	DOMESTIC: 'domestic',
+	FOREIGN: 'foreign'
+};
+
 function EraControl(){
 	var self = this;
 	this._era_uid = null;
@@ -26,6 +31,7 @@ function EraControl(){
 	this._searched_music_list = [];
 	this._working_music_idx = null;
 	this._choosed_video_id = null;
+	this._region = REGION.DOMESTIC;
 
 	this.Init = function(){
 		self._youtube = new YoutubeSearchControl();
@@ -33,6 +39,7 @@ function EraControl(){
 		self.InitKeyHandle();
 		self.LoadYearList();
 		self.HighlightEditType();
+		self.HighlightRegion();
 		return this;
 	};
 
@@ -60,7 +67,8 @@ function EraControl(){
 
 	this.LoadYearList = function(){
 		var req = {
-			country_code: window._country_selector.GetCountryCode()
+			country_code: window._country_selector.GetCountryCode(),
+			region: self._region
 		};
 		POST('/cherry_api/era/get_year_list', req, res=>{
 			if(res.ok){
@@ -89,7 +97,8 @@ function EraControl(){
 
 		var req = {
 			country_code: window._country_selector.GetCountryCode(),
-			year: year
+			year: year,
+			region: self._region
 		};
 		POST('/cherry_api/era/add_year', req, res=>{
 			if(res.ok){
@@ -136,6 +145,16 @@ function EraControl(){
 		self.HighlightEditType();
 	};
 
+	this.OnClick_Region = function(region){
+		self._region = region;
+		self.HighlightRegion();
+		self._music_list_draft = [];
+		self._music_list_release = [];
+		self.DISP_MusicList_Draft();
+		self.DISP_MusicList_Release();
+		self.LoadYearList();
+	};
+
 	this.OnClick_Auto = function(){
 		if(self._year == null){
 			alert('choose year');
@@ -152,8 +171,9 @@ function EraControl(){
 			site = 'ginie';
 		}
 		var req = {
-			site:site,
-			year:self._year
+			site:   site,
+			year:   self._year,
+			region: self._region
 		};
 		POST('/__cms_api/era/get_auto_era_chart', req, res=>{
 			if(res.ok){
@@ -462,6 +482,16 @@ function EraControl(){
 			$('#id_btn_cms_era_ginie').addClass('btn-primary');
 		}else if(self._edit_type == EDIT_TYPE.RELEASE){
 			$('#id_btn_cms_era_release').addClass('btn-primary');
+		}
+	};
+
+	this.HighlightRegion = function(){
+		$('#id_btn_cms_era_domestic').removeClass('btn-primary');
+		$('#id_btn_cms_era_foreign').removeClass('btn-primary');
+		if(self._region == REGION.DOMESTIC){
+			$('#id_btn_cms_era_domestic').addClass('btn-primary');
+		}else{
+			$('#id_btn_cms_era_foreign').addClass('btn-primary');
 		}
 	};
 

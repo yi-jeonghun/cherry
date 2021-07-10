@@ -1018,7 +1018,8 @@ const util = require('./util');
 		try{
 			var year = req.body.year;
 			var site = req.body.site;
-			var auto_music_list = await era_parser.get_auto_chart(site, year);
+			var region = req.body.region;
+			var auto_music_list = await era_parser.get_auto_chart(site, year, region);
 			res.send({
 				ok: 1,
 				auto_music_list: auto_music_list

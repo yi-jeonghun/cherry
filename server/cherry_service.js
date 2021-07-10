@@ -2628,13 +2628,13 @@ function CherryService(){
 	// ERA
 	//---------------------------------------------------
 	{
-		this.GetEraYearList = function(country_code){
+		this.GetEraYearList = function(country_code, region){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
-					var sql = `SELECT * FROM era_chart WHERE country_code=? ORDER BY year DESC`;
-					var val = [country_code];
+					var sql = `SELECT * FROM era_chart WHERE country_code=? and region=? ORDER BY year DESC`;
+					var val = [country_code, region];
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);
@@ -2651,14 +2651,14 @@ function CherryService(){
 				}
 			});
 		};
-		this.AddYear = function(country_code, year){
+		this.AddYear = function(country_code, year, region){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
 					var era_uid = await self.GetEraUID();
-					var sql = `INSERT INTO era_chart(era_uid, country_code, year) VALUES(?, ?, ?)`;
-					var val = [era_uid, country_code, year];
+					var sql = `INSERT INTO era_chart(era_uid, country_code, year, region) VALUES(?, ?, ?, ?)`;
+					var val = [era_uid, country_code, year, region];
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);

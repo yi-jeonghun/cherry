@@ -1106,7 +1106,8 @@ var auth_service = require('./auth_service');
 	router.post('/era/get_year_list', async function(req, res){
 		try{
 			var country_code = req.body.country_code;
-			var year_list = await cherry_service.GetEraYearList(country_code);
+			var region = req.body.region;
+			var year_list = await cherry_service.GetEraYearList(country_code, region);
 			res.send({
 				ok: 1,
 				year_list: year_list
@@ -1123,7 +1124,8 @@ var auth_service = require('./auth_service');
 		try{
 			var country_code = req.body.country_code;
 			var year = req.body.year;
-			await cherry_service.AddYear(country_code, year);
+			var region = req.body.region;
+			await cherry_service.AddYear(country_code, year, region);
 			res.send({
 				ok: 1
 			});	

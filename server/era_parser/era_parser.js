@@ -4,12 +4,16 @@ const util = require('../util');
 function EraParser(){
 	var self = this;
 
-	this.get_auto_chart = function(site, year){
+	this.get_auto_chart = function(site, year, region){
 		return new Promise(async function(resolve, reject){
 			var url = '';
 			var music_list = [];
 			if(site == 'melon'){
-				url = `https://www.melon.com/chart/age/list.htm?idx=2&chartType=YE&chartGenre=KPOP&chartDate=${year}&moved=Y`;
+				if(region == 'domestic'){
+					url = `https://www.melon.com/chart/age/list.htm?idx=2&chartType=YE&chartGenre=KPOP&chartDate=${year}&moved=Y`;
+				}else if(region == 'foreign'){
+       	  url = `https://www.melon.com/chart/age/list.htm?idx=1&chartType=YE&chartGenre=POP&chartDate=${year}&moved=Y`;
+				}
 				console.log('url ' + url);
 				var html = await self.FetchContentFromURL(url);	
 				music_list = await self.MelonParse(html);
