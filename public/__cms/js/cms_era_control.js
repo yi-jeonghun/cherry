@@ -37,7 +37,7 @@ function EraControl(){
 		self._youtube = new YoutubeSearchControl();
 		self.InitHandle();
 		self.InitKeyHandle();
-		self.LoadYearList();
+		self.GetYearList();
 		self.HighlightEditType();
 		self.HighlightRegion();
 		return this;
@@ -65,7 +65,7 @@ function EraControl(){
 		});
 	};
 
-	this.LoadYearList = function(){
+	this.GetYearList = function(){
 		var req = {
 			country_code: window._country_selector.GetCountryCode(),
 			region: self._region
@@ -89,7 +89,7 @@ function EraControl(){
 			return;
 		}
 		for(var i=0 ; i<self._year_list.length ; i++){
-			if(year == self._year_list[i].year){
+			if(year == self._year_list[i].year && self._region == self._year_list[i].region){
 				alert('same year is already registered.');
 				return;
 			}
@@ -102,7 +102,7 @@ function EraControl(){
 		};
 		POST('/cherry_api/era/add_year', req, res=>{
 			if(res.ok){
-				self.LoadYearList();
+				self.GetYearList();
 			}else{
 				alert(res.err);
 			}
@@ -152,7 +152,7 @@ function EraControl(){
 		self._music_list_release = [];
 		self.DISP_MusicList_Draft();
 		self.DISP_MusicList_Release();
-		self.LoadYearList();
+		self.GetYearList();
 	};
 
 	this.OnClick_Auto = function(){
@@ -934,12 +934,14 @@ function EraControl(){
 	this.DISP_YearList = function(){
 		var h = '';
 		for(var i=0 ; i<self._year_list.length ; i++){
-			var onclick = `window._era_control.OnClick_SelectYear(${i})`;
-			h += `
-			<div class="pointer" onClick="${onclick}">
-				${self._year_list[i].year}
-			</div>
-			`;
+			if(self._year_list[i].region == self._region){
+				var onclick = `window._era_control.OnClick_SelectYear(${i})`;
+				h += `
+				<div class="pointer" onClick="${onclick}">
+					${self._year_list[i].year}
+				</div>
+				`;	
+			}
 		}
 		$('#id_cms_era_year_list').html(h);
 	};
