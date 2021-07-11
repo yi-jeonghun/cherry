@@ -116,6 +116,16 @@ window.L_SEARCH = [];{
 	L_SEARCH[C_KR] = '검색';
 }
 
+window.L_DOMESTIC = [];{
+	L_DOMESTIC[C_US] = 'Domestic';
+	L_DOMESTIC[C_KR] = '국내';
+}
+
+window.L_FOREIGN = [];{
+	L_FOREIGN[C_US] = 'Foreign';
+	L_FOREIGN[C_KR] = '해외';
+}
+
 //================================================
 
 function TR(L){

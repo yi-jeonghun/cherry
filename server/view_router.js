@@ -86,6 +86,12 @@ router.get('/**/era.go', async function(req, res){
 	});
 });
 
+router.get('/**/era_chart.go', async function(req, res){
+	res.render('index', {
+		dev_mode: _dev_mode
+	});
+});
+
 //###################################################################################
 
 router.get('/playlist_embed.go', async function(req, res){
@@ -191,12 +197,23 @@ router.get('/radio_detail.vu', async function(req, res){
 });
 
 router.get('/era.vu', async function(req, res){
-	var era_uid = req.query.eid;
 	var data = {
-		dev_mode  : _dev_mode,
-		era_uid: era_uid
+		dev_mode  : _dev_mode
 	};
 	res.render('era', data);
+});
+
+router.get('/era_chart.vu', async function(req, res){
+	var era_uid = req.query.eid;
+	var year = req.query.year;
+	var region = req.query.region;
+	var data = {
+		dev_mode: _dev_mode,
+		era_uid:  era_uid,
+		year:     year,
+		region:   region
+	};
+	res.render('era_chart', data);
 });
 
 //####################################################################################//

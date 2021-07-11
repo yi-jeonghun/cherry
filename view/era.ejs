@@ -12,14 +12,14 @@
 		</div>
 	</div>
 
-	<div>
-		{%L_YEARS%} <select class="" id="id_sel_era_years"></select>
-	</div>
-
-	<div class="row" style="margin-top:10px">
-		<div class="col-12">
-			<div class="container-fluid" id="id_div_era_music_list">
-			</div>			
+	<div class="row">
+		<div class="col-6">
+			<div class="text-center bg-light py-2">{%L_DOMESTIC%}</div>
+			<div id="id_div_era_domestic_years"></div>
+		</div>
+		<div class="col-6">
+			<div class="text-center bg-light py-2">{%L_FOREIGN%}</div>
+			<div id="id_div_era_foreign_years"></div>
 		</div>
 	</div>
 </div>
@@ -27,6 +27,6 @@
 <script type="text/javascript" src="/js/era_control.js"></script>
 <script>
 $('document').ready(function(){
-	window._era_control = new EraControl('<%=era_uid%>').Init();
+	window._era_control = new EraControl().Init();
 });
 </script>

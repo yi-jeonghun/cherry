@@ -2628,13 +2628,13 @@ function CherryService(){
 	// ERA
 	//---------------------------------------------------
 	{
-		this.GetEraYearList = function(country_code, region){
+		this.GetEraYearList = function(country_code){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
-					var sql = `SELECT * FROM era_chart WHERE country_code=? and region=? ORDER BY year DESC`;
-					var val = [country_code, region];
+					var sql = `SELECT * FROM era_chart WHERE country_code=? ORDER BY year DESC`;
+					var val = [country_code];
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);

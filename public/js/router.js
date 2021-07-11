@@ -61,6 +61,7 @@ function Router(){
 			$('#id_router-radio_list').hide();
 			$('#id_router-radio_detail').hide();
 			$('#id_router-era').hide();
+			$('#id_router-era_chart').hide();
 		}
 
 		console.log('Crossroad 3');
@@ -113,7 +114,11 @@ function Router(){
 				$('#id_router-era').show();
 				self.GoTo_Era(args, arg_list);
 				break;
-				}
+			case 'era_chart.go':
+				$('#id_router-era_chart').show();
+				self.GoTo_EraChart(args, arg_list);
+				break;	
+			}
 	};
 
 	this.GoTo_TopRank = function(args, arg_list){
@@ -270,13 +275,27 @@ function Router(){
 		var target_div = 'id_router-era';
 		var route_url = '/era.vu?'+args;
 		self.LoadInnerView(target_div, route_url);
+
+		{
+			var country_name = COUNTRY_NAME_LIST[window._country_code];
+			var title = `${TR(L_CHART_BY_ERA)} - Cherry Music [${country_name}]`;
+			var keywords = `${TR(L_CHART_BY_ERA)}`;
+			var desc = `${TR(L_CHART_BY_ERA)}`;
+			this.UpdateMeta(title, keywords, desc);		
+		}
 	};
 
-	this.UpdateMeta_Era = function(year){
+	this.GoTo_EraChart = function(args, arg_list){
+		var target_div = 'id_router-era_chart';
+		var route_url = '/era_chart.vu?'+args;
+		self.LoadInnerView(target_div, route_url);
+	};
+
+	this.UpdateMeta_EraChart = function(meta){
 		var country_name = COUNTRY_NAME_LIST[window._country_code];
-		var title = `${TR(L_CHART_BY_ERA)} : ${year} - Cherry Music [${country_name}]`;
-		var keywords = `${TR(L_CHART_BY_ERA)}, ${year}`;
-		var desc = `${TR(L_CHART_BY_ERA)}, ${year}`;
+		var title = `${TR(L_CHART_BY_ERA)} : ${meta} - Cherry Music [${country_name}]`;
+		var keywords = `${TR(L_CHART_BY_ERA)}, ${meta}`;
+		var desc = `${TR(L_CHART_BY_ERA)}, ${meta}`;
 		this.UpdateMeta(title, keywords, desc);	
 	};
 
