@@ -109,7 +109,7 @@ function EraChartControl(){
 			for(var i=0 ; i<self._year_list.length ; i++){
 				var y = self._year_list[i];
 				if(y.region == 'domestic'){
-					var onClick = `window._era_control.GoToYear('${y.era_uid}')`;
+					var onClick = `window._era_chart_control.GoToYear('${y.era_uid}')`;
 					h += `
 						<div class="text-center pointer border py-2" onClick="${onClick}">
 							<i class="fas fa-music"></i>
@@ -126,7 +126,7 @@ function EraChartControl(){
 			for(var i=0 ; i<self._year_list.length ; i++){
 				var y = self._year_list[i];
 				if(y.region == 'foreign'){
-					var onClick = `window._era_control.GoToYear('${y.era_uid}')`;
+					var onClick = `window._era_chart_control.GoToYear('${y.era_uid}')`;
 					h += `
 						<div class="text-center pointer border py-2" onClick="${onClick}">
 							<i class="fas fa-music"></i>
@@ -165,8 +165,8 @@ function EraChartControl(){
 				}
 			}
 
-			var on_click_plus = `window._era_control.ListenMusic(${i})`;
-			var on_click_heart = `window._era_control.LikeMusic(${i})`;
+			var on_click_plus = `window._era_chart_control.ListenMusic(${i})`;
+			var on_click_heart = `window._era_chart_control.LikeMusic(${i})`;
 			var on_click_title = `window._router.Go('/${window._country_code}/music.go?mid=${m.music_uid}')`
 			var id_heart_icon = `id_icon_music_heart-${m.music_uid}`;
 			var like_color = '#bbbbbb';
