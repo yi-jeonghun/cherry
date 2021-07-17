@@ -51,7 +51,7 @@ async function TestApple(){
 	return new Promise(async function(resolve, reject){
 		top_rank_parser.Init(CC.COUNTRY_CODE.KR, 'apple');
 		{
-			// await top_rank_parser.SaveContent();
+			await top_rank_parser.SaveContent();
 		}
 		{
 			var music_list = await top_rank_parser.Test();
@@ -76,7 +76,8 @@ async function TestMelon(){
 }
 
 async function Main(){
-	await TestMelon();
+	// await TestMelon();
+	await TestApple();
 	process.exit();
 }
 

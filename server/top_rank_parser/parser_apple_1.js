@@ -45,16 +45,18 @@ function ParserApple1() {
 
 					if (title == null) {
 						if (line.includes(self._title_key)) {
+							line = line.replace('<!--%+b:27%-->', '').replace('<!--%-b:27%-->', '');
 							title = self.ExtractTitle(line, self._title_key, '>', '<');
 							// console.log('title ' + title);
 							continue;
 						}
 					} else {
 						if (line.includes(self._artist_key1)) {
-							// console.log('artist found');
+							console.log('artist found');
 							artist = self.ExtractArtist(line);
 							artist = artist.replace(/&amp;/g, ',');
 							artist = artist.replace(/ ,/g, ',');
+							
 							self._music_list.push({
 								title: title,
 								artist: artist
@@ -98,6 +100,10 @@ function ParserApple1() {
 			if(end_a_idx != -1){
 				var value = a.substr(a.indexOf('>')+1);
 				value = value.split('</a')[0];
+
+				value = value.replace('<!--%+b:36%-->', '');
+				value = value.replace('<!--%-b:36%-->', '');
+
 				artist_list.push(value);
 			}
 		}
