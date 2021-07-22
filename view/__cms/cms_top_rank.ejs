@@ -64,103 +64,11 @@
 			</div>
 
 			<!-- RIGHT -->
-			<div class="border" style="width:40%; height: 100%;">
-				<!-- PLAYER TEST -->
-				<div id="id_div_play_test" class="d-flex" style="width: 100%; height: 100px;">
-					<div id="player" class="border" style="width: 90; height: 90;"></div>
-					<div>
-						<i id="id_btn_play_pause" class="fas fa-play play_button_disabled" style="margin-left: 1px; margin-right: 1px; font-size: 2em;"></i>
-					</div>
-					<div class="border" style="width: 100%;">
-						<div class="border" style="width: 100%; height: 40px; padding-top: 5px;">
-							<div class="slider_filler border" id=""></div>
-							<input class="border slider" style="height: 20px;" type="range" min="0" max="10000" value="0" id="id_slider_range">
-						</div>
-						<div class="d-flex" style="width: 100%;">
-							<div class="col-6">
-								<i class="fas fa-volume-up"></i>
-								<input type="range" min="0" max="100" value="50" class="" id="id_slider_volume">
-							</div>
-							<div class="col-6 text-right">
-								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(5)">-5</button>
-								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(10)">-10</button>
-								<button type="button" class="btn btn-sm btn-primary" onClick="window._cherry_player.SeekToEnd(15)">-15</button>
-							</div>
-						</div>
-						<div id="id_div_duration"></div>
-					</div>
-				</div>					
-
-				<!-- ARTIST SEARCH / MUSIC SEARCH -->
-				<div class="border" style="height: 200px; overflow: auto">
-					<div class="d-flex">
-						<div class="col-4">
-							<ul class="nav nav-tabs small" style="font-size: 0.5em;">
-								<li class="nav-item">
-									<a class="nav-link active" style="cursor: pointer;" id="id_nav_cms_top_rank_artist" onClick="window._top_rank_control.OnClick_NavTab('artist')">Artist</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" style="cursor: pointer;" id="id_nav_cms_top_rank_music" onClick="window._top_rank_control.OnClick_NavTab('music')">Music</a>
-								</li>
-							</ul>	
-						</div>
-						<div class="col-5">
-							<input class="small my-auto" style="width: 100%;" type="text" id="id_input_cms_top_rank_artist_search">
-						</div>
-						<div class="col-3 text-right">
-							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddArtist()">+Artist</span>
-							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_AddVAArtist()">+VA</span>
-							<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_SearchArtist()">Search</span>
-						</div>
-					</div>
-					<div id="id_div_cms_top_rank_artist_search_result"></div>
-					<div id="id_div_cms_top_rank_music_search_result" style="display: none;"></div>
-				</div>
-
-				<!-- YOUTUBE SEARCH -->
-				<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_youtube_search_result"></div>
+			<div class="border" style="width:40%; height: 100%;" id="id_div_elvis">
 			</div>
 		</div>
 	</div>
 </body>
-
-<div id="id_modal_cms_top_rank_music_edit" class="modal small" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Music Edit</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-				<div>
-					Music UID : <span id="id_label_cms_top_rank_music_uid"></span>
-				</div>
-				<div class="d-flex">
-					<div class="col-3">Title</div>
-					<div class="col-9">
-						<input class="w-100" id="id_input_cms_top_rank_music_title" autocomplete="off">
-					</div>
-				</div>
-				<div class="d-flex border-top border-bottom">
-					<div class="col-3">Diff Name</div>
-					<div class="col-8 text-right">
-						<input class="w-100" id="id_input_cms_top_rank_music_diff_name" autocomplete="off">
-					</div>
-					<div class="col-1">
-						<span class="badge badge-sm badge-primary py-auto" style="cursor: pointer;" onClick="window._top_rank_control.OnClick_MusicDiffNameAdd()">Add</span>
-					</div>
-				</div>
-				<div id="id_div_cms_top_rank_music_diff_name_list"></div>
-		</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="id_btn_cms_top_rank_music_edit_ok" onClick="window._top_rank_control.OnClick_MusicUpdate()">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div id="id_modal_cms_top_rank_lyrics" class="modal small" tabindex="-1">
   <div class="modal-dialog modal-lg">
@@ -189,4 +97,5 @@
 <script type="text/javascript" src="/js/cherry_player.js"></script>
 <script type="text/javascript" src="/js/slider_control.js"></script>
 <script type="text/javascript" src="/js/youtube_search_control.js"></script>
+<script type="text/javascript" src="/__cms/js/elvis.js"></script>
 <script type="text/javascript" src="/__cms/js/cms_top_rank_control.js"></script>

@@ -82,6 +82,7 @@ function CherryPlayer(){
 	};
 
 	this.InitHandle = function(){
+		console.log('InitHandle ');
 		$('#id_btn_play_pause').on('click', self.PlayPause);
 		$('#id_btn_next').on('click', self.OnClickNext);
 		$('#id_btn_seq_type').on('click', self.ToggleSeqType);
