@@ -150,7 +150,7 @@ const util = require('./util');
 	router.post('/get_playlist_list', async function(req, res){
 		try{
 			var country_code = req.body.country_code;
-			var mine_only = true;
+			var mine_only = false;
 			var open_only = false;
 			var du_user_id = req.body.dj_user_id;
 	
@@ -176,13 +176,13 @@ const util = require('./util');
 			});
 		}
 	});
-	router.post('/add_playlist_and_music_list', async function(req, res){
+	router.post('/add_playlist', async function(req, res){
 		try{
 			var dj_user_id = req.body.dj_user_id;
 			var playlist = req.body.playlist;
 			var hash_list = req.body.hash_list;
 			var playlist_uid = await cherry_service.AddPlaylist(playlist, dj_user_id);
-			await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_uid_list);
+			// await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_uid_list);
 			await cherry_service.UpdatePlaylistHashList(playlist_uid, hash_list);
 			res.send({
 				ok: 1,
@@ -196,14 +196,14 @@ const util = require('./util');
 			});
 		}
 	});
-	router.post('/update_playlist_and_music_list', async function(req, res){
+	router.post('/update_playlist', async function(req, res){
 		try{
 			var user_id = req.body.dj_user_id;
 			var playlist = req.body.playlist;
 			var hash_list = req.body.hash_list;
 			console.log('playlist id ' + playlist.playlist_uid);
 			await cherry_service.UpdatePlaylist(playlist, user_id);
-			await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_uid_list);
+			// await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_uid_list);
 			await cherry_service.UpdatePlaylistHashList(playlist.playlist_uid, hash_list);
 			res.send({
 				ok: 1
@@ -216,6 +216,23 @@ const util = require('./util');
 			});
 		}
 	});
+	router.post('/update_playlist_music_list', async function(req, res){
+		try{
+			var playlist_uid = req.body.playlist_uid;
+			var music_uid_list = req.body.music_uid_list;
+			await cherry_service.UpdatePlaylistMusic(playlist_uid, music_uid_list);
+			res.send({
+				ok: 1
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'Fail update_playlist_music_list'
+			});
+		}
+	});
+
 }
 //===================================================
 // ARTIST

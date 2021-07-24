@@ -959,7 +959,7 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT m.music_uid, m.artist_uid, a.is_various, m.title, m.video_id
+				SELECT m.music_uid, m.artist_uid, a.name as artist, a.is_various, m.title, m.video_id
 				FROM music m
 				JOIN artist a
 				ON m.artist_uid=a.artist_uid

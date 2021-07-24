@@ -20,31 +20,77 @@
 		</div>
 
 		<div class="row border" style="height: 70px;">
-			<div class="col-3">
+			<div class="col-3 my-auto">
 				<h5>Playlist</h5>
+			</div>
+			<div class="col-9 text-right my-auto">
+				<button type="button" class="btn btn-sm btn-primary" onClick="window._playlist_control.OnClick_NewPlaylist()">New Playlist</button>
+				<button type="button" class="btn btn-sm border" onClick="window._playlist_control.GetPlaylistList()">
+					<i class="fas fa-sync-alt"></i>
+				</button>
 			</div>
 		</div>
 
 		<div class="row border" style="height: calc(100% - 100px); overflow: hidden;">
 			<!-- LIST OF PLAYLIST -->
-			<div class="col-3 border" style="height: 100%; overflow: auto;">
+			<div class="col-3 border" style="height: 100%; overflow: auto; padding: 0px;">
 				<div class="d-flex">
 					<div class="w-50">
-						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_new">New Playlist</button>
-						<button type="button" class="btn btn-sm border" id="id_btn_cms_playlist_refresh">
-							<i class="fas fa-sync-alt"></i>
-						</button>
 					</div>
 					<div class="w-50 text-right">
 					</div>	
 				</div>
-				<div id="id_div_playlist_list">
-
-				</div>
+				<div id="id_div_playlist_list"></div>
 			</div>
 
-			<!-- NEW OR EDIT PLAYLIST INFORMATION -->
-			<div class="col-3 border" style="height: 100%; overflow: auto;">
+			<!-- MUSIC LIST OF PLAYLIST -->
+			<div class="col-4 border" style="height: 100%; overflow: auto; padding: 0px">
+				<div class="small d-flex py-2 border">
+					<div class="col-8">
+						Playlist : <span id="id_label_cms_playlist_title"></span>
+					</div>
+					<div class="col-2" id="id_label_cms_playlist_uid"></div>
+					<div class="col-2 text-right">
+						<button type="button" class="btn btn-sm btn-primary small" onClick="window._playlist_control.OnClick_SaveMusicList()">Save</button>
+					</div>
+				</div>
+				<div class="small d-flex border">
+					<div class="col-5">
+						Artist<br>
+						<input class="w-100" type="text" id="id_input_cms_playlist_artist"><br>
+						Artist UID : <span id="id_label_cms_playlist_aid"></span>
+					</div>
+					<div class="col-5">
+						Title<br>
+						<input class="w-100" type="text" id="id_input_cms_playlist_title"><br>
+						Music UID : <span id="id_label_cms_playlist_aid"></span>
+					</div>
+					<div class="col-2">
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchArtist()">Artist</span>
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchMusic()">Music</span>
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchYoutube()">Youtube</span>
+					</div>
+				</div>
+				<div id="id_div_playlist_music_list"></div>
+			</div>
+
+			<!-- SEARCH AREA -->
+			<div class="col-5 border" style="height: 100%; overflow: auto; padding: 0px" id="id_div_elvis">
+			</div>
+		</div>
+	</div>
+</body>
+
+<div id="id_modal_playlist_edit" class="modal small" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Playlist</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 				<div class="py-1">
 					Edit Mode : <span id="id_leable_playlist_edit_mode"></span>
 				</div>
@@ -79,32 +125,17 @@
 				<div class="py-1">
 					Time Updated : <span id="id_label_time_updated"></span>
 				</div>
-				<div class="py-1 text-right">
-					<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_save">Save</button>
-				</div>
-			</div>
-
-			<!-- MUSIC LIST OF PLAYLIST -->
-			<div class="col-3 border" style="height: 100%; overflow: auto;" id="id_div_playlist_music_list">
-			</div>
-
-			<!-- SEARCH AREA -->
-			<div class="col-3 border" style="height: 100%; overflow: auto;">
-				<div class="d-flex">
-					<div class="w-50">
-						<input type="text" class="form-control" id="id_input_playlist_search_keyword">
-					</div>
-					<div class="w-50 py-1 text-right">
-						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_search_artist">Artist</button>
-						<button type="button" class="btn btn-sm btn-primary" id="id_btn_playlist_search_music">Music</button>
-					</div>
-				</div>
-				<div id="id_div_playlist_search_music_list"></div>
-			</div>
-		</div>
-	</div>
-</body>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onClick="window._playlist_control.OnClick_SavePlaylist()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript" src="/js/youtube_iframe_player.js"></script>
 <script type="text/javascript" src="/js/cherry_player.js"></script>
+<script type="text/javascript" src="/js/slider_control.js"></script>
+<script type="text/javascript" src="/js/youtube_search_control.js"></script>
+<script type="text/javascript" src="/__cms/js/elvis.js"></script>
 <script type="text/javascript" src="/__cms/js/cms_playlist_control.js"></script>
