@@ -223,14 +223,17 @@ function PlaylistControl(){
 		}
 
 		var music_uid_list = [];
+		var video_id_list = [];
 
 		for(var i=0 ; i<self._playlist_music_list.length ; i++){
 			music_uid_list.push(self._playlist_music_list[i].music_uid);
+			video_id_list.push(self._playlist_music_list[i].video_id);
 		}
 
 		var req_data = {
 			playlist_uid:   self._playlist_info.playlist_uid,
-			music_uid_list: music_uid_list	
+			music_uid_list: music_uid_list,
+			video_id_list:  video_id_list
 		};
 
 		$.ajax({

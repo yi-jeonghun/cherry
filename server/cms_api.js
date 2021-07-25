@@ -220,7 +220,16 @@ const util = require('./util');
 		try{
 			var playlist_uid = req.body.playlist_uid;
 			var music_uid_list = req.body.music_uid_list;
+			var video_id_list = req.body.video_id_list;
 			await cherry_service.UpdatePlaylistMusic(playlist_uid, music_uid_list);
+			
+			var video_id_list_str = '';
+			for(var i=0 ; i<video_id_list.length ; i++){
+				video_id_list_str += video_id_list[i] + ',';
+				if(i >= 3) break;
+			}
+			console.log('video_id_list_str ' + video_id_list_str);
+			await cherry_service.UpdatePlaylistViddoIdList(playlist_uid, video_id_list_str);
 			res.send({
 				ok: 1
 			});

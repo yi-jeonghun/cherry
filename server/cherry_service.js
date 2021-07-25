@@ -1603,7 +1603,7 @@ function CherryService(){
 			try{
 				conn = await db_conn.GetConnection();
 				var sql = `
-				SELECT p.playlist_uid, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated
+				SELECT p.playlist_uid, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated, p.video_id_list
 				FROM playlist p
 				JOIN user u ON u.user_id = p.user_id
 				WHERE p.country_code=?
@@ -1637,6 +1637,32 @@ function CherryService(){
 			}
 		});
 	};
+
+	this.UpdatePlaylistViddoIdList = async function(playlist_uid, video_id_list_str){
+		return new Promise(async function(resolve, reject){
+			var conn = null;
+			try{
+				conn = await db_conn.GetConnection();
+				var sql = `UPDATE playlist SET video_id_list=? WHERE playlist_uid=?`;
+				var val = [video_id_list_str, playlist_uid];
+
+				conn.query(sql, val, function(err, result){
+					if(err){
+						console.error(err);
+						reject('FAIL CherryService UpdatePlaylistViddoIdList #0');
+					}else{
+						resolve();
+					}
+				});
+			}catch(err){
+				console.error(err);
+				reject('FAIL CherryService UpdatePlaylistViddoIdList #1');
+			}finally{
+				if(conn) conn.release();
+			}
+		});
+
+	}
 
 	this.UpdatePlaylistMusic = async function(playlist_uid, music_uid_list){
 		return new Promise(async function(resolve, reject){
