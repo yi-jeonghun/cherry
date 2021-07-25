@@ -20,6 +20,7 @@ function Elvis(){
 	};
 
 	this.SearchYoutube = function(keyword){
+		self._youtube_searched_video_list = [];
 		self._keyword = keyword;
 		var is_next = false;
 		self._youtube.Search(keyword, is_next, self.DISP_YoutubeSearchList, self.DISP_YoutubeVideoInfo);
@@ -47,6 +48,7 @@ function Elvis(){
 						cb(res.artist_list);
 					}	
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -86,6 +88,7 @@ function Elvis(){
 					self._searched_music_list = list1.concat(list2);
 					self.DISP_SearchedMusicList();
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -159,15 +162,12 @@ function Elvis(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.SearchArtist(artist_name, function(res){
-						if(res.ok){
-							self._searched_artist_list = res.artist_list;
-							self.DISP_SearchedArtistList();
-						}else{
-							alert(res.err);
-						}
+					self.SearchArtist(artist_name, function(artist_list){
+						self._searched_artist_list = artist_list;
+						self.DISP_SearchedArtistList();
 					});
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -198,15 +198,12 @@ function Elvis(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
-					self.SearchArtist(artist_name, function(res){
-						if(res.ok){
-							self._searched_artist_list = res.artist_list;
-							self.DISP_SearchedArtistList();
-						}else{
-							alert(res.err);
-						}
+					self.SearchArtist(artist_name, function(artist_list){
+						self._searched_artist_list = artist_list;
+						self.DISP_SearchedArtistList();
 					});
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -260,6 +257,7 @@ function Elvis(){
 				if(res.ok){
 					self.GetMusicDiffNameList(m.music_uid);
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -290,6 +288,7 @@ function Elvis(){
 				if(res.ok){
 					$('#id_modal_cms_elvis_music_edit').modal('hide');
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -310,6 +309,7 @@ function Elvis(){
 				if(res.ok){
 					self.GetMusicDiffNameList();
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
@@ -351,6 +351,7 @@ function Elvis(){
 					self._music_diff_name_list = res.music_diff_name_list;
 					self.DISP_MusicDiffNameList();
 				}else{
+					console.log(res.err);
 					alert(res.err);
 				}
 			}
