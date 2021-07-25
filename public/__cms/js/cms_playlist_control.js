@@ -7,6 +7,11 @@ const EDIT_MODE = {
 	UPDATE:1
 };
 
+const SAVE_BTN = {
+	NEED_SAVE:0,
+	SAVED:1
+};
+
 function PlaylistControl(){
 	var self = this;
 	this._edit_mode = EDIT_MODE.NEW;
@@ -124,6 +129,7 @@ function PlaylistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					self.ColorSaveButton(SAVE_BTN.SAVED);
 					self._playlist_info = res.playlist_info;
 					self._playlist_music_list = res.music_list;
 					self._hash_list = res.hash_list;
@@ -235,6 +241,7 @@ function PlaylistControl(){
 			dataType: 'json',
 			success: function (res) {
 				if(res.ok){
+					self.ColorSaveButton(SAVE_BTN.SAVED);
 					self.GetPlaylistList();
 				}else{
 					alert(res.err);
@@ -326,6 +333,7 @@ function PlaylistControl(){
 			video_id: m.video_id
 		};
 		self._playlist_music_list.push(copy);
+		self.ColorSaveButton(SAVE_BTN.NEED_SAVE);
 		self.DISP_PlaylistMusicList();
 	};
 
@@ -388,6 +396,7 @@ function PlaylistControl(){
 
 	this.DeleteMusic = function(idx){
 		self._playlist_music_list.splice(idx, 1);
+		self.ColorSaveButton(SAVE_BTN.NEED_SAVE);
 		self.DISP_PlaylistMusicList();
 	};
 
@@ -414,6 +423,16 @@ function PlaylistControl(){
 				}
 			}
 		});	
+	};
+
+	this.ColorSaveButton = function(save){
+		$('#id_btn_cms_playlist_save').removeClass("btn-primary");
+		$('#id_btn_cms_playlist_save').removeClass("btn-danger");
+
+		if(save == SAVE_BTN.NEED_SAVE)
+			$('#id_btn_cms_playlist_save').addClass('btn-danger');
+		else if(save == SAVE_BTN.SAVED)
+			$('#id_btn_cms_playlist_save').addClass('btn-primary');
 	};
 
 /////////////////////////////////////////////////////////////////////////
