@@ -92,13 +92,24 @@ function OpenPlaylistControl(){
 				</div>
 				<div class="row border" style="margin-bottom:2px;">
 					<div class="d-flex " style="width:calc( 100% - 75px);">
-						<div>
-							<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_0}/0.jpg">
-							<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_1}/0.jpg">
-							<br>
-							<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_2}/0.jpg">
-							<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_3}/0.jpg">
-					</div>
+						<div style="width:100px: height:100px">
+							<div class="d-flex">
+								<div>
+									<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_0}/0.jpg">
+								</div>
+								<div>
+									<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_1}/0.jpg">
+								</div>
+							</div>
+							<div class="d-flex">
+								<div>
+									<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_2}/0.jpg">
+								</div>
+								<div>
+									<image style="height: 25px; width: 25px; padding: 0px; margin: 0px" src="https://img.youtube.com/vi/${video_id_3}/0.jpg">
+								</div>
+							</div>
+						</div>
 						<div class="pl-1">
 							<div class="text-dark">
 								<span class="pointer border-bottom" onClick="${on_click_title}">${p.title}</span>
