@@ -2007,7 +2007,7 @@ function CherryService(){
 						SELECT p.playlist_uid, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated, p.video_id_list
 						FROM playlist p
 						JOIN user u ON p.user_id=u.user_id
-						WHERE p.country_code=?
+						WHERE p.country_code=? AND p.is_open='Y'
 						ORDER BY p.timestamp_updated DESC
 						LIMIT 10
 					`;
