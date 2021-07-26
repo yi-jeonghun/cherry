@@ -336,6 +336,7 @@ function PlaylistControl(){
 			video_id: m.video_id
 		};
 		self._playlist_music_list.push(copy);
+		self.ClearMusicInput();
 		self.ColorSaveButton(SAVE_BTN.NEED_SAVE);
 		self.DISP_PlaylistMusicList();
 	};
@@ -436,6 +437,13 @@ function PlaylistControl(){
 			$('#id_btn_cms_playlist_save').addClass('btn-danger');
 		else if(save == SAVE_BTN.SAVED)
 			$('#id_btn_cms_playlist_save').addClass('btn-primary');
+	};
+
+	this.ClearMusicInput = function(){
+		$('#id_input_cms_playlist_artist').val('');
+		$('#id_input_cms_playlist_title').val('');
+		$('#id_label_cms_playlist_aid').html('');
+		self._artist_uid = null;
 	};
 
 /////////////////////////////////////////////////////////////////////////
