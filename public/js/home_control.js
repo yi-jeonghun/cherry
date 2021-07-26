@@ -1,47 +1,28 @@
 $('document').ready(function(){
-	window._open_playlist_control = new OpenPlaylistControl().Init();
+	window._home_control = new HomeControl().Init();
 });
 
-function OpenPlaylistControl(){
+function HomeControl(){
 	var self = this;
 	this._playlist_list = [];
 
 	this.Init = function(){
-		self.InitHandle();
-		self.LoadPlaylist();
-		return self;
+		self.GetHomeContents();
+		return this;
 	};
 
-	this.InitHandle = function(){
-	};
-
-	this.LoadPlaylist = function(){
-		var req_data = {
-			country_code: window._country_code,
-			mine_only: false,
-			open_only: true
+	this.GetHomeContents = function(){
+		var req = {
+			country_code: window._country_code
 		};
-
-		$.ajax({
-			url: '/cherry_api/get_playlist_list',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self._playlist_list = res.playlist_list;
-					self.DISP_playlist_list();
-				}else{
-					console.log('res.err_code ' + res.err_code);
-					if(res.err_code == -1){
-						//login required
-					}else{
-						alert(res.err);
-					}
-				}
+		POST(`/cherry_api/home/get_home_contents`, req, res=>{
+			if(res.ok){
+				self._playlist_list = res.playlist_list;
+				self.DISP_PlaylistList();
+			}else{
+				alert('Fail to get home contents');
 			}
-		});
+		})
 	};
 
 	this.ListenPlaylist = function(playlist_uid){
@@ -57,21 +38,20 @@ function OpenPlaylistControl(){
 		});
 	};
 
-	/////////////////////////////////////////////////////////////
+	//------------------------------------------------------
 
-	this.DISP_playlist_list = function(){
+	this.DISP_PlaylistList = function(){
 		var h = '';
 
 		for(var i=0 ; i<self._playlist_list.length ; i++){
-			var num = (i*1) + 1;
 			var p = self._playlist_list[i];
 			var on_click_title = `window._router.Go('/${window._country_code}/open_playlist_detail.go?pid=${p.playlist_uid}')`;
-			var on_click_play = `window._open_playlist_control.ListenPlaylist('${p.playlist_uid}')`;
+			var on_click_play = `window._home_control.ListenPlaylist('${p.playlist_uid}')`;
 
 			var video_id_0 = '';
 			var video_id_1 = '';
 			var video_id_2 = '';
-			var video_id_3 = '';			
+			var video_id_3 = '';
 			{
 				if(p.video_id_list != null){
 					var tmp_list = p.video_id_list.split(',');
@@ -87,9 +67,6 @@ function OpenPlaylistControl(){
 			}
 
 			h += `
-				<div class="row">
-					<div class="" style="font-size:0.6em; width:50px; padding-left:5px">${num}</div>
-				</div>
 				<div class="row border" style="margin-bottom:2px;">
 					<div class="d-flex " style="width:calc( 100% - 75px);">
 						<div style="width:100px: height:100px">
@@ -136,6 +113,6 @@ function OpenPlaylistControl(){
 			`;
 		}
 
-		$('#id_div_open_playlist_list').html(h);
+		$('#id_div_home_playlist_list').html(h);
 	};
 }

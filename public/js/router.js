@@ -12,16 +12,27 @@ function Router(){
 	};
 
 	this.GoHome = function(){
-		self.Go(`/${window._country_code}/top_rank.go`);
+		if(window._country_code == 'KR'){
+			self.Go('/');
+		}else{
+			self.Go(`/${window._country_code}/top_rank.go`);
+		}
 	};
 
 	this.LoadInitRoute = function(){
 		var pathname = document.location.pathname;
 		var search = document.location.search;
+
 		if(pathname == '/'){
-			var source_list = window._top_100_source.list[window._country_code];
-			var source = source_list[0].source;
-			self.Go(`/${window._country_code}/top_rank.go?s=${source}`);
+			//당분간은 한국만 home 화면을 지원함.
+			if(window._country_code == 'KR'){
+				console.log('go home ');
+				self.Go('/');
+			}else{
+				var source_list = window._top_100_source.list[window._country_code];
+				var source = source_list[0].source;
+				self.Go(`/${window._country_code}/top_rank.go?s=${source}`);	
+			}
 		}else{
 			var path = pathname + search;
 			self.Go(path);
@@ -49,6 +60,7 @@ function Router(){
 		var arg_list = self.ParseArgs(args);
 
 		{
+			$('#id_router-home').hide();
 			$('#id_router-top_rank').hide();
 			$('#id_router-artist').hide();
 			$('#id_router-my_playlist').hide();
@@ -66,6 +78,10 @@ function Router(){
 
 		console.log('Crossroad 3');
 		switch(feature){
+			case '':
+				$('#id_router-home').show();
+				self.GoTo_Home();				
+				break;
 			case 'top_rank.go':
 				$('#id_router-top_rank').show();
 				self.GoTo_TopRank(args, arg_list);
@@ -119,6 +135,12 @@ function Router(){
 				self.GoTo_EraChart(args, arg_list);
 				break;	
 			}
+	};
+
+	this.GoTo_Home = function(){
+		var target_div = 'id_router-home';
+		var route_url = '/home.vu';
+		self.LoadInnerView(target_div, route_url);
 	};
 
 	this.GoTo_TopRank = function(args, arg_list){

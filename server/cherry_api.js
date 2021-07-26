@@ -3,9 +3,32 @@ var url = require('url');
 var router = express.Router();
 var cherry_service = require('./cherry_service');
 var permission_service = require('./permission_service');
-// var sitemap_service = require('./sitemap_service');
 var cms_service = require('./cms_service');
 var auth_service = require('./auth_service');
+
+//===================================================
+// HOME
+//---------------------------------------------------
+{
+	router.post('/home/get_home_contents', async function(req, res){
+		try{
+			var country_code = req.body.country_code;
+			// var user_id = await permission_service.GetUserID(req);
+			// var music_list = await cms_service.GetTopRankReleaseData(country_code, source, user_id);
+			var playlist_list = await cherry_service.GetPlaylistList_Home(country_code);
+			res.send({
+				ok: 1,
+				playlist_list: playlist_list
+			});
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'Fail /home/get_home_contents'
+			});
+		}
+	});
+}
 
 //===================================================
 // TOP RANK

@@ -126,6 +126,11 @@ window.L_FOREIGN = [];{
 	L_FOREIGN[C_KR] = '해외';
 }
 
+window.L_RECENT_PLAYLIST = [];{
+	L_RECENT_PLAYLIST[C_US] = 'Recent Playlist';
+	L_RECENT_PLAYLIST[C_KR] = '최신 플레이리스트';
+}
+
 //================================================
 
 function TR(L){
