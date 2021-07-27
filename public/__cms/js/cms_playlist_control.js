@@ -405,6 +405,10 @@ function PlaylistControl(){
 	};
 
 	this.OnClickDeletePlaylist = function(playlist_uid){
+		if(confirm('Sure to delete?') == false){
+			return;
+		}
+
 		if(self._playlist_info != null && self._playlist_info.playlist_uid == playlist_uid){
 			self.OnPlaylistNewClick();
 		}
@@ -481,10 +485,9 @@ function PlaylistControl(){
 	this.DISP_PlaylistList = function(playlist_list){
 		var h = `
 		<table class="table table-sm table-striped small">
-		<tr>
+		<tr class="small">
 			<th>Title</th>
 			<th>Name</th>
-			<th>Like</th>
 			<th>Open</th>
 			<th></th>
 		</tr>
@@ -498,10 +501,9 @@ function PlaylistControl(){
 			var on_click_title = `window._playlist_control.OnClick_PlaylistMusicList('${p.playlist_uid}')`;
 
 			h += `
-			<tr style="cursor:pointer">
+			<tr class="" style="cursor:pointer">
 				<td onClick="${on_click_title}">${p.title}</td>
 				<td onClick="${on_click_title}">${p.user_name}</td>
-				<td onClick="${on_click_title}">${p.like_count}</td>
 				<td onClick="${on_click_title}">${p.is_open}</td>
 				<td>
 					<span class="badge badge-sm badge-primary border pointer" onClick="${on_click_delete}">
