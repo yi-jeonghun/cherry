@@ -171,8 +171,7 @@ function PlaylistControl(){
 				country_code:  window._country_selector.GetCountryCode(),
 				title:         title,
 				comment:       comment,
-				is_open:       is_open,
-				// music_uid_list: music_uid_list	
+				is_open:       is_open
 			},
 			hash_list: self._hash_list
 		};

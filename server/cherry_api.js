@@ -761,7 +761,8 @@ var auth_service = require('./auth_service');
 				return;
 			}
 	
-			var playlist_uid = await cherry_service.AddPlaylist(playlist, user_id);
+			var is_official = 'N';
+			var playlist_uid = await cherry_service.AddPlaylist(playlist, user_id, is_official);
 			await cherry_service.UpdatePlaylistHashList(playlist_uid, hash_list);
 			res.send({
 				ok: 1,
@@ -799,7 +800,8 @@ var auth_service = require('./auth_service');
 			// 	return;
 			// }
 	
-			await cherry_service.UpdatePlaylist(playlist, user_id);
+			var is_official = 'Y';
+			await cherry_service.UpdatePlaylist(playlist, user_id, is_official);
 			await cherry_service.UpdatePlaylistHashList(playlist.playlist_uid, hash_list);
 			res.send({
 				ok: 1

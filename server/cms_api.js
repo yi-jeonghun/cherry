@@ -163,7 +163,7 @@ const util = require('./util');
 				return;
 			}
 	
-			var playlist_list = await cherry_service.GetPlaylistList(country_code, mine_only, open_only, du_user_id);
+			var playlist_list = await cherry_service.GetPlaylistList_Official(country_code, mine_only, open_only, du_user_id);
 			res.send({
 				ok: 1,
 				playlist_list: playlist_list
@@ -181,7 +181,8 @@ const util = require('./util');
 			var dj_user_id = req.body.dj_user_id;
 			var playlist = req.body.playlist;
 			var hash_list = req.body.hash_list;
-			var playlist_uid = await cherry_service.AddPlaylist(playlist, dj_user_id);
+			var is_official = 'Y';
+			var playlist_uid = await cherry_service.AddPlaylist(playlist, dj_user_id, is_official);
 			// await cherry_service.UpdatePlaylistMusic(playlist_uid, playlist.music_uid_list);
 			await cherry_service.UpdatePlaylistHashList(playlist_uid, hash_list);
 			res.send({
@@ -202,7 +203,8 @@ const util = require('./util');
 			var playlist = req.body.playlist;
 			var hash_list = req.body.hash_list;
 			console.log('playlist id ' + playlist.playlist_uid);
-			await cherry_service.UpdatePlaylist(playlist, user_id);
+			var is_official = 'Y';
+			await cherry_service.UpdatePlaylist(playlist, user_id, is_official);
 			// await cherry_service.UpdatePlaylistMusic(playlist.playlist_uid, playlist.music_uid_list);
 			await cherry_service.UpdatePlaylistHashList(playlist.playlist_uid, hash_list);
 			res.send({

@@ -1864,18 +1864,18 @@ function CherryService(){
 				}
 			});
 		};
-		this.AddPlaylist = async function(playlist, user_id){
+		this.AddPlaylist = async function(playlist, user_id, is_official){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					var playlist_uid = await self.GetPlaylistUID();
 					conn = await db_conn.GetConnection();
 					var sql = `
-					INSERT INTO playlist(playlist_uid, country_code, user_id, title, comment, like_count, is_open, timestamp_created,   timestamp_updated) 
-					VALUES(              ?,            ?,            ?,        ?,    ?,       0,          ?,       CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() )
+					INSERT INTO playlist(playlist_uid, country_code, user_id, title, comment, like_count, is_open, is_official, timestamp_created,   timestamp_updated) 
+					VALUES(              ?,            ?,            ?,        ?,    ?,       0,          ?,       ?,           CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP() )
 					`;
 					var is_open = playlist.is_open == true ? 'Y' : 'N';
-					var val = [playlist_uid, playlist.country_code, user_id, playlist.title, playlist.title, is_open];
+					var val = [playlist_uid, playlist.country_code, user_id, playlist.title, playlist.title, is_open, is_official];
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);
@@ -1892,7 +1892,7 @@ function CherryService(){
 				}
 			});
 		};
-		this.UpdatePlaylist = async function(playlist, user_id){
+		this.UpdatePlaylist = async function(playlist, user_id, is_official){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
@@ -1905,6 +1905,7 @@ function CherryService(){
 							title: playlist.title,
 							comment: playlist.comment,
 							is_open: playlist.is_open == true ? 'Y':'N',
+							is_official: is_official
 						},
 						{
 							playlist_uid: playlist.playlist_uid
@@ -1982,6 +1983,34 @@ function CherryService(){
 						val.push(user_id);
 					}
 	
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService GetPlaylistList #0');
+						}else{
+							resolve(result);
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService GetPlaylistList #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.GetPlaylistList_Official = async function(country_code){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `
+					SELECT p.playlist_uid, p.country_code, p.user_id, u.name as user_name, p.title, p.comment, p.like_count, p.is_open, p.timestamp_created, p.timestamp_updated, p.video_id_list
+					FROM playlist p
+					JOIN user u ON u.user_id = p.user_id
+					WHERE p.country_code=? AND p.is_official='Y'
+					`;
+					var val = [country_code];	
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);
