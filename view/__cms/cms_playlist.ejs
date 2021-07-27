@@ -57,6 +57,15 @@
 					</div>
 				</div>
 				<div class="small d-flex border">
+					<div class="col-8">
+						<input class="w-100" type="text" id="id_input_cms_playlist_auto">
+					</div>
+					<div class="col-4">
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_AutoAT()">Artist-Title</span><br>
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_AutoTA()">Title-Artist</span>
+					</div>
+				</div>
+				<div class="small d-flex border">
 					<div class="col-5">
 						Artist<br>
 						<input class="w-100" type="text" id="id_input_cms_playlist_artist"><br>
@@ -67,6 +76,7 @@
 						<input class="w-100" type="text" id="id_input_cms_playlist_title"><br>
 					</div>
 					<div class="col-2">
+						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_Auto()">Auto</span>
 						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchArtist()">Artist</span>
 						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchMusic()">Music</span>
 						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchYoutube()">Youtube</span>

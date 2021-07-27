@@ -311,6 +311,98 @@ function PlaylistControl(){
 		window._elvis.SearchYoutube(keyword);
 	};
 
+	this.OnClick_AutoAT = function(){
+		if(self._playlist_info == null){
+			alert('select playlist.');
+			return;
+		}
+
+		var tmp = $('#id_input_cms_playlist_auto').val();
+		var arr = tmp.split('-');
+		var artist;
+		var title;
+		if(arr.length > 0) artist = arr[0].trim();
+		if(arr.length > 1) title = arr[1].trim();
+		$('#id_input_cms_playlist_artist').val(artist);
+		$('#id_input_cms_playlist_title').val(title);
+		self._artist_uid = null;
+		$('#id_label_cms_playlist_aid').val('');
+		self.AutoSearchArtistAndMusic(artist, title);
+	};
+
+	this.OnClick_AutoTA = function(){
+		if(self._playlist_info == null){
+			alert('select playlist.');
+			return;
+		}
+
+		var tmp = $('#id_input_cms_playlist_auto').val();
+		var arr = tmp.split('-');
+		var artist;
+		var title;
+		if(arr.length > 0) title = arr[0].trim();
+		if(arr.length > 1) artist = arr[1].trim();
+		$('#id_input_cms_playlist_artist').val(artist);
+		$('#id_input_cms_playlist_title').val(title);
+		self._artist_uid = null;
+		$('#id_label_cms_playlist_aid').val('');
+		self.AutoSearchArtistAndMusic(artist, title);
+	};
+
+	this.OnClick_Auto = function(){
+		if(self._playlist_info == null){
+			alert('select playlist.');
+			return;
+		}
+
+		var artist = $('#id_input_cms_playlist_artist').val().trim();
+		var title = $('#id_input_cms_playlist_title').val().trim();
+		console.log('artist ' + artist);
+		console.log('title ' + title);
+		self._artist_uid = null;
+		$('#id_label_cms_playlist_aid').val('');
+		self.AutoSearchArtistAndMusic(artist, title);
+	};
+
+	this.AutoSearchArtistAndMusic = function(artist, title){
+		console.log('start auto search ' );
+		var music_list = [];
+		music_list.push({
+			artist: artist,
+			title: title
+		});
+		var req_data = {
+			music_list: music_list
+		};
+
+		$.ajax({
+			url: '/__cms_api/top_rank/auto_search_artist_and_music_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					self._artist_uid = res.ret_music_list[0].artist_uid;
+					$('#id_label_cms_playlist_aid').val(self._artist_uid);
+					var music_uid = res.ret_music_list[0].music_uid;
+					var video_id = res.ret_music_list[0].video_id;
+					var music = {
+						music_uid: music_uid,
+						artist: artist,
+						title: title,
+						video_id: video_id
+					};
+					if(music_uid != null && music_uid != undefined){
+						self.CB_UseThisMusicID(music);
+					}
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
 	//-----------------------------------------------------------------------------
 
 	this.CB_SearchedArtistOK = function(artist_uid){
@@ -527,6 +619,7 @@ function PlaylistControl(){
 		var h = `
 		<table class="table table-sm table-striped small">
 		<tr>
+			<th>No</th>
 			<th></th>
 			<th>Artist</th>
 			<th>Title</th>
@@ -538,13 +631,14 @@ function PlaylistControl(){
 			h += '<tr><td colspan="4" class="text-center">No Result</td></tr>';
 		}
 
-		for(var i=0 ; i<self._playlist_music_list.length ; i++){
+		for(var i=self._playlist_music_list.length-1 ; i>=0 ; i--){
 			var m = self._playlist_music_list[i];
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
 			var on_click = `window._playlist_control.DeleteMusic(${i})`;
 
 			h += `
 			<tr>
+				<td>${i+1}</td>
 				<td><image style="height: 40px; width: 40px;" src="${img_src}"></td>
 				<td>${m.artist}</td>
 				<td>${m.title}</td>
