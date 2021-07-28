@@ -39,6 +39,7 @@ function PlaylistControl(){
 		}
 
 		self.InitHandle();
+		self.GetPlaylistList();
 		return self;
 	};
 
@@ -463,15 +464,8 @@ function PlaylistControl(){
 	//-----------------------------------------------------------------------------
 
 	this.GetPlaylistList = function(){
-		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
-		if(dj_user_id == null){
-			alert("Please Choose DJ");
-			return;
-		}
-
 		var req_data = {
-			country_code: window._country_selector.GetCountryCode(),
-			dj_user_id: dj_user_id
+			country_code: window._country_selector.GetCountryCode()
 		};
 		$.ajax({
 			url: '/__cms_api/get_playlist_list',
