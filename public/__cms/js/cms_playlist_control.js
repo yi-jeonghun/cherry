@@ -402,6 +402,23 @@ function PlaylistControl(){
 		self.DISP_PlaylistMusicList();
 	};
 
+	this.OnClick_AddMusic = function(){
+		var artist = $('#id_input_cms_playlist_artist').val();
+		var title = $('#id_input_cms_playlist_title').val();
+
+		var music = {
+			artist: artist,
+			title: title,
+			music_uid: null,
+			video_id: null
+		};
+		self._playlist_music_list.push(music);
+
+		$('#id_input_cms_playlist_artist').val('');
+		$('#id_input_cms_playlist_title').val('');
+		self.DISP_PlaylistMusicList();
+	};
+
 	//-----------------------------------------------------------------------------
 
 	this.CB_SearchedArtistOK = function(artist_uid){
