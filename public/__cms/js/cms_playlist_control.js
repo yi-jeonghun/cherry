@@ -279,7 +279,6 @@ function PlaylistControl(){
 				}
 			}
 		});
-
 	};
 
 	this.OnClick_SearchArtist = function(){
@@ -422,17 +421,22 @@ function PlaylistControl(){
 	};
 
 	this.CB_AutoMusicRegisterProcess = function(video_id){
+		if(self._playlist_music_list[self._working_idx].artist == null){
+			alert('choose artist first');
+			return;
+		}
+
 		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
 		if(dj_user_id == null){
 			alert('Choose DJ');
 			return;
 		}
-		var title = $('#id_input_cms_playlist_title').val().trim();
+
 		var req = {
 			dj_user_id: dj_user_id,
 			music:{
-				artist_uid: self._artist_uid,
-				title:      title,
+				artist_uid: self._playlist_music_list[self._working_idx].artist_uid,
+				title:      self._playlist_music_list[self._working_idx].title,
 				video_id:   video_id
 			}
 		};
@@ -440,7 +444,7 @@ function PlaylistControl(){
 			if(res.ok){
 				self.CB_UseThisMusicID(res.music_info);
 			}else{
-				alert(res.err);
+				alert(res.err_msg);
 			}
 		});
 	};
