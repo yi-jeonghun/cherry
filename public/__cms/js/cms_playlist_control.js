@@ -348,10 +348,7 @@ function PlaylistControl(){
 			return;
 		}
 
-		var b = `아이유-좋은날
-BTS-봄날
-`;
-		$('#id_text_bulk').val(b);
+		$('#id_text_bulk').val('');
 		$('#id_modal_playlist_bulk').modal('show');
 	};
 
@@ -425,10 +422,6 @@ BTS-봄날
 	};
 
 	this.CB_AutoMusicRegisterProcess = function(video_id){
-		if(self._artist_uid == null){
-			alert('choose artist first');
-			return;
-		}
 		var dj_user_id = window._dj_selector.API_Get_Choosed_DJs_UserID();
 		if(dj_user_id == null){
 			alert('Choose DJ');
