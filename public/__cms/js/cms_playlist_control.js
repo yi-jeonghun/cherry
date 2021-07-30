@@ -19,7 +19,7 @@ function PlaylistControl(){
 	this._playlist_music_list = [];
 	this._searched_music_list = [];
 	this._hash_list = [];
-	this._artist_uid = null;
+	// this._artist_uid = null;
 	this._elvis = null;
 
 	this.Init = function(){
@@ -39,12 +39,33 @@ function PlaylistControl(){
 		}
 
 		self.InitHandle();
+		self.InitKeyHandle();
 		self.GetPlaylistList();
 		return self;
 	};
 
 	this.InitHandle = function(){
 		$('#id_input_cms_playlist_hash').on('keypress', self.OnInput_Hash);
+	};
+
+	this.InitKeyHandle = function(){
+		document.addEventListener('keydown', function(e){
+			// console.log('key ' + e.keyCode);
+			switch(e.keyCode){
+				case 49://1
+					// self.SearchYoutube(self._working_idx);
+					self.OnClick_SearchYoutube();
+					break;
+				case 50://1
+					// self.SearchArtist(self._working_idx);
+					self.OnClick_SearchArtist();
+					break;
+				case 51://3
+					// self.SearchMusic(self._working_idx);
+					self.OnClick_SearchMusic();
+					break;
+			}
+		});
 	};
 
 	//-----------------------------------------------------------------------------
@@ -118,6 +139,7 @@ function PlaylistControl(){
 	};
 
 	this.OnClick_PlaylistMusicList = function(playlist_uid){
+		console.log('OnClick_PlaylistMusicList ' );
 		var req_data = {
 			playlist_uid: playlist_uid
 		};
@@ -132,6 +154,7 @@ function PlaylistControl(){
 				if(res.ok){
 					self.ColorSaveButton(SAVE_BTN.SAVED);
 					self._playlist_info = res.playlist_info;
+					// console.log('self._playlist_info ' + self._playlist_info);
 					self._playlist_music_list = res.music_list;
 					self._hash_list = res.hash_list;
 					self.DISP_PlaylistMusicList();
@@ -226,8 +249,13 @@ function PlaylistControl(){
 		var video_id_list = [];
 
 		for(var i=0 ; i<self._playlist_music_list.length ; i++){
-			music_uid_list.push(self._playlist_music_list[i].music_uid);
-			video_id_list.push(self._playlist_music_list[i].video_id);
+			var m = self._playlist_music_list[i];
+			if(m.music_uid == null || m.video_id == null){
+				continue;
+			}
+
+			music_uid_list.push(m.music_uid);
+			video_id_list.push(m.video_id);
 		}
 
 		var req_data = {
@@ -260,7 +288,7 @@ function PlaylistControl(){
 			return;
 		}
 
-		var artist_name = $('#id_input_cms_playlist_artist').val().trim();
+		var artist_name = self._playlist_music_list[self._working_idx].artist;
 		if(artist_name == ''){
 			return;
 		}
@@ -279,8 +307,10 @@ function PlaylistControl(){
 			}
 			
 			if(artist_uid_found != null){
-				self._artist_uid = artist_uid_found;
-				$('#id_label_cms_playlist_aid').html(artist_uid_found);
+				self._playlist_music_list[self._working_idx].artist_uid = artist_uid_found;
+				$(`#id_label_artist_uid_${self._working_idx}`).html(artist_uid_found);
+				// self._artist_uid = artist_uid_found;
+				// $('#id_label_cms_playlist_aid').html(artist_uid_found);
 			}
 		});
 	};
@@ -291,8 +321,8 @@ function PlaylistControl(){
 			return;
 		}
 
-		var artist_name = $('#id_input_cms_playlist_artist').val().trim();
-		var title = $('#id_input_cms_playlist_title').val().trim();
+		var artist_name = self._playlist_music_list[self._working_idx].artist;//$('#id_input_cms_playlist_artist').val().trim();
+		var title = self._playlist_music_list[self._working_idx].title;//$('#id_input_cms_playlist_title').val().trim();
 		window._elvis.SearchMusic(artist_name, title);
 	};
 
@@ -302,8 +332,8 @@ function PlaylistControl(){
 			return;
 		}
 
-		var artist_name = $('#id_input_cms_playlist_artist').val().trim();
-		var title = $('#id_input_cms_playlist_title').val().trim();
+		var artist_name = self._playlist_music_list[self._working_idx].artist;//$('#id_input_cms_playlist_artist').val().trim();
+		var title = self._playlist_music_list[self._working_idx].title;//$('#id_input_cms_playlist_title').val().trim();
 
 		var artist_name = artist_name.replace('&amp;', '');
 		var title = title.replace('&amp;', '').replace('?', '');
@@ -312,96 +342,68 @@ function PlaylistControl(){
 		window._elvis.SearchYoutube(keyword);
 	};
 
-	this.OnClick_AutoAT = function(){
+	this.OnClick_BulkOpen = function(){
 		if(self._playlist_info == null){
-			alert('select playlist.');
+			alert('choose playlist first');
 			return;
 		}
 
-		var tmp = $('#id_input_cms_playlist_auto').val();
-		var arr = tmp.split('-');
-		var artist;
-		var title;
-		if(arr.length > 0) artist = arr[0].trim();
-		if(arr.length > 1) title = arr[1].trim();
-		$('#id_input_cms_playlist_artist').val(artist);
-		$('#id_input_cms_playlist_title').val(title);
-		self._artist_uid = null;
-		$('#id_label_cms_playlist_aid').val('');
-		self.AutoSearchArtistAndMusic(artist, title);
+		var b = `아이유-좋은날
+BTS-봄날
+`;
+		$('#id_text_bulk').val(b);
+		$('#id_modal_playlist_bulk').modal('show');
 	};
 
-	this.OnClick_AutoTA = function(){
-		if(self._playlist_info == null){
-			alert('select playlist.');
-			return;
-		}
-
-		var tmp = $('#id_input_cms_playlist_auto').val();
-		var arr = tmp.split('-');
-		var artist;
-		var title;
-		if(arr.length > 0) title = arr[0].trim();
-		if(arr.length > 1) artist = arr[1].trim();
-		$('#id_input_cms_playlist_artist').val(artist);
-		$('#id_input_cms_playlist_title').val(title);
-		self._artist_uid = null;
-		$('#id_label_cms_playlist_aid').val('');
-		self.AutoSearchArtistAndMusic(artist, title);
-	};
-
-	this.OnClick_Auto = function(){
-		if(self._playlist_info == null){
-			alert('select playlist.');
-			return;
-		}
-
-		var artist = $('#id_input_cms_playlist_artist').val().trim();
-		var title = $('#id_input_cms_playlist_title').val().trim();
-		console.log('artist ' + artist);
-		console.log('title ' + title);
-		self._artist_uid = null;
-		$('#id_label_cms_playlist_aid').val('');
-		self.AutoSearchArtistAndMusic(artist, title);
-	};
-
-	this.AutoSearchArtistAndMusic = function(artist, title){
-		console.log('start auto search ' );
-		var music_list = [];
-		music_list.push({
-			artist: artist,
-			title: title
-		});
-		var req_data = {
-			music_list: music_list
-		};
-
-		$.ajax({
-			url: '/__cms_api/top_rank/auto_search_artist_and_music_list',
-			type: 'POST',
-			data: JSON.stringify(req_data),
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			success: function (res) {
-				if(res.ok){
-					self._artist_uid = res.ret_music_list[0].artist_uid;
-					$('#id_label_cms_playlist_aid').val(self._artist_uid);
-					var music_uid = res.ret_music_list[0].music_uid;
-					var video_id = res.ret_music_list[0].video_id;
-					var music = {
-						music_uid: music_uid,
-						artist: artist,
-						title: title,
-						video_id: video_id
-					};
-					if(music_uid != null && music_uid != undefined){
-						self.CB_UseThisMusicID(music);
-					}
-				}else{
-					alert(res.err);
-				}
+	this.OnClick_SaveBulk = function(type){
+		self._playlist_music_list = [];
+		var txt = $('#id_text_bulk').val();
+		var lines = txt.split('\n');
+		// console.log('lines  ' + lines.length);
+		for(var i=0 ; i<lines.length ; i++){
+			var line = lines[i].trim();
+			if(line == ''){
+				continue;
 			}
-		});	
+			// console.log('line ' + line);
+			var artist;
+			var title;
+			if(type == 'a_t'){
+				var arr = line.split('-');
+				artist = arr[0].trim();
+				if(arr.length > 0)
+					title = arr[1].trim();
+			}else if(type == 't_a'){
+				var arr = line.split('-');
+				title = arr[0].trim();
+				if(arr.length > 0)
+					artist = arr[1].trim();
+			}
+			var music = {
+				artist: artist,
+				artist_uid: null,
+				title: title,
+				music_uid: null,
+				video_id: null
+			};
+			self._playlist_music_list.push(music);
+		}
+		self.AutoSearchArtistAndMusic();
+		$('#id_modal_playlist_bulk').modal('hide');		
+	};
+
+	this.OnClick_UpdateSelectedMusic = function(){
+		var artist = $('#id_input_cms_playlist_artist').val();
+		var title = $('#id_input_cms_playlist_title').val();
+
+		self._playlist_music_list[self._working_idx].artist = artist;
+		self._playlist_music_list[self._working_idx].title = title;
+		self._playlist_music_list[self._working_idx].music_uid = null;
+		self._playlist_music_list[self._working_idx].video_id = null;
+
+		$('#id_input_cms_playlist_artist').val('');
+		$('#id_input_cms_playlist_title').val('');
+		self.DISP_PlaylistMusicList();
 	};
 
 	//-----------------------------------------------------------------------------
@@ -413,24 +415,13 @@ function PlaylistControl(){
 
 	this.CB_UseThisMusicID = function(music){
 		var m = music;
-
-		for(var i=0 ; i<self._playlist_music_list.length ; i++){
-			if(m.music_uid == self._playlist_music_list[i].music_uid){
-				alert('Already added');
-				return;
-			}
-		}
-
-		var copy = {
-			music_uid: m.music_uid,
-			artist:   m.artist,
-			title:    m.title,
-			video_id: m.video_id
-		};
-		self._playlist_music_list.push(copy);
-		self.ClearMusicInput();
+		self._playlist_music_list[self._working_idx].artist_uid = m.artist_uid;
+		self._playlist_music_list[self._working_idx].music_uid = m.music_uid;
+		self._playlist_music_list[self._working_idx].video_id = m.video_id;
+		$('#id_label_artist_uid_'+self._working_idx).html(m.artist_uid);
+		$('#id_label_music_uid_'+self._working_idx).html(m.music_uid);
+		self.DISP_VideoImage();
 		self.ColorSaveButton(SAVE_BTN.NEED_SAVE);
-		self.DISP_PlaylistMusicList();
 	};
 
 	this.CB_AutoMusicRegisterProcess = function(video_id){
@@ -535,6 +526,58 @@ function PlaylistControl(){
 		self._artist_uid = null;
 	};
 
+	this.AutoSearchArtistAndMusic = function(artist, title){
+		console.log('start auto search ' );
+		var music_list = [];
+		for(var i=0 ; i<self._playlist_music_list.length ; i++){
+			var m = self._playlist_music_list[i];
+			music_list.push({
+				artist: m.artist,
+				title: m.title
+			});				
+		}
+		var req_data = {
+			music_list: music_list
+		};
+
+		$.ajax({
+			url: '/__cms_api/top_rank/auto_search_artist_and_music_list',
+			type: 'POST',
+			data: JSON.stringify(req_data),
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			success: function (res) {
+				if(res.ok){
+					for(var i=0 ; i<res.ret_music_list.length ; i++){
+						var m = res.ret_music_list[i];
+						self._playlist_music_list[i].music_uid = m.music_uid;
+						self._playlist_music_list[i].artist_uid = m.artist_uid;
+						self._playlist_music_list[i].video_id = m.video_id;							
+					}
+					self.DISP_PlaylistMusicList();
+				}else{
+					alert(res.err);
+				}
+			}
+		});	
+	};
+
+	this.ChooseMusic = function(idx){
+		self._working_idx = idx;
+
+		for(var i=0 ; i<self._playlist_music_list.length ; i++){
+			if((i%2) == 0){
+				$(`#id_music_${i}`).css('background-color', '#eeeeee');
+			}else{
+				$(`#id_music_${i}`).css('background-color', 'white');
+			}
+		}
+
+		$(`#id_music_${idx}`).css('background-color', 'yellow');
+		$('#id_input_cms_playlist_artist').val(self._playlist_music_list[idx].artist);
+		$('#id_input_cms_playlist_title').val(self._playlist_music_list[idx].title);
+	};
+
 /////////////////////////////////////////////////////////////////////////
 
 	this.DISP_NewPlaylist = function(){
@@ -607,6 +650,7 @@ function PlaylistControl(){
 	};
 
 	this.DISP_PlaylistMusicList = function(){
+		// console.log('self._playlist_info ' + self._playlist_info);
 		$('#id_label_cms_playlist_title').html(self._playlist_info.title);
 		$('#id_label_cms_playlist_uid').html(self._playlist_info.playlist_uid);
 
@@ -616,7 +660,9 @@ function PlaylistControl(){
 			<th>No</th>
 			<th></th>
 			<th>Artist</th>
+			<th>AID</th>
 			<th>Title</th>
+			<th>MID</th>
 			<th></th>
 		</tr>
 		`;
@@ -628,16 +674,19 @@ function PlaylistControl(){
 		for(var i=self._playlist_music_list.length-1 ; i>=0 ; i--){
 			var m = self._playlist_music_list[i];
 			var img_src = `https://img.youtube.com/vi/${m.video_id}/0.jpg`;
-			var on_click = `window._playlist_control.DeleteMusic(${i})`;
+			var on_click_delete = `window._playlist_control.DeleteMusic(${i})`;
+			var on_click_choose = `window._playlist_control.ChooseMusic(${i})`;
 
 			h += `
-			<tr>
+			<tr id="id_music_${i}">
 				<td>${i+1}</td>
-				<td><image style="height: 40px; width: 40px;" src="${img_src}"></td>
-				<td>${m.artist}</td>
-				<td>${m.title}</td>
+				<td><image id="id_img_${i}" style="height: 40px; width: 40px;" src="${img_src}"></td>
+				<td class="pointer" onClick="${on_click_choose}">${m.artist}</td>
+				<td class="pointer" onClick="${on_click_choose}" id="id_label_artist_uid_${i}">${m.artist_uid==null?'-':m.artist_uid}</td>
+				<td class="pointer" onClick="${on_click_choose}">${m.title}</td>
+				<td class="pointer" onClick="${on_click_choose}" id="id_label_music_uid_${i}">${m.music_uid==null?'-':m.music_uid}</td>
 				<td>
-					<span class="badge badge-sm badge-primary pointer" onClick="${on_click}">
+					<span class="badge badge-sm badge-primary pointer" onClick="${on_click_delete}">
 						<i class="fas fa-trash-alt"></i>
 					</span>
 				</td>
@@ -663,5 +712,15 @@ function PlaylistControl(){
 			`;
 		}
 		$('#id_div_cms_playlist_hash_list').html(h);
+	};
+
+	this.DISP_VideoImage = function(){
+		var video_id = self._playlist_music_list[self._working_idx].video_id;
+		var img_url = '';
+		if(video_id != null && video_id != ''){
+			img_url = `https://img.youtube.com/vi/${video_id}/0.jpg`;
+		}
+		
+		$('#id_img_'+self._working_idx).attr('src', img_url);
 	};
 }

@@ -46,40 +46,28 @@
 			<!-- MUSIC LIST OF PLAYLIST -->
 			<div class="col-4 border" style="height: 100%; overflow: auto; padding: 0px">
 				<div class="small d-flex py-2 border">
-					<div class="col-8">
+					<div class="col-7">
 						Playlist : <span id="id_label_cms_playlist_title"></span>
 					</div>
 					<div class="col-2" id="id_label_cms_playlist_uid"></div>
-					<div class="col-2 text-right">
+					<div class="col-3 text-right">
+						<button type="button" class="btn btn-sm btn-primary small" 
+							onClick="window._playlist_control.OnClick_BulkOpen()">Bulk
+						</button>
 						<button id="id_btn_cms_playlist_save" type="button" class="btn btn-sm btn-primary small" 
 							onClick="window._playlist_control.OnClick_SaveMusicList()">Save
 						</button>
 					</div>
 				</div>
 				<div class="small d-flex border">
-					<div class="col-8">
-						<input class="w-100" type="text" id="id_input_cms_playlist_auto">
-					</div>
-					<div class="col-4">
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_AutoAT()">Artist-Title</span><br>
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_AutoTA()">Title-Artist</span>
-					</div>
-				</div>
-				<div class="small d-flex border">
 					<div class="col-5">
-						Artist<br>
-						<input class="w-100" type="text" id="id_input_cms_playlist_artist"><br>
-						Artist UID : <span id="id_label_cms_playlist_aid"></span>
+						<input class="form-control small" type="text" id="id_input_cms_playlist_artist" placeholder="Artist">
 					</div>
 					<div class="col-5">
-						Title<br>
-						<input class="w-100" type="text" id="id_input_cms_playlist_title"><br>
+						<input class="form-control small" type="text" id="id_input_cms_playlist_title" placeholder="Title">
 					</div>
 					<div class="col-2">
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_Auto()">Auto</span>
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchArtist()">Artist</span>
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchMusic()">Music</span>
-						<span class="badge badge-sm border pointer" onClick="window._playlist_control.OnClick_SearchYoutube()">Youtube</span>
+						<button type="button" class="btn btn-sm border my-auto" onClick="window._playlist_control.OnClick_UpdateSelectedMusic()">Update</button>
 					</div>
 				</div>
 				<div id="id_div_playlist_music_list"></div>
@@ -139,6 +127,26 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" onClick="window._playlist_control.OnClick_SavePlaylist()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="id_modal_playlist_bulk" class="modal small" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Input Playlist Bulk</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<textarea id="id_text_bulk" class="form-control small" style="height: 400px;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" onClick="window._playlist_control.OnClick_SaveBulk('t_a')">Title - Artist</button>
+        <button type="button" class="btn btn-sm btn-primary" onClick="window._playlist_control.OnClick_SaveBulk('a_t')">Artist - Title</button>
       </div>
     </div>
   </div>
