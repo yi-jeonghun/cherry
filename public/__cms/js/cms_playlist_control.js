@@ -422,8 +422,8 @@ function PlaylistControl(){
 	//-----------------------------------------------------------------------------
 
 	this.CB_SearchedArtistOK = function(artist_uid){
-		$('#id_label_cms_playlist_aid').html(artist_uid);
-		self._artist_uid = artist_uid;
+		self._playlist_music_list[self._working_idx].artist_uid = artist_uid;
+		$('#id_label_artist_uid_'+self._working_idx).html(artist_uid);
 	};
 
 	this.CB_UseThisMusicID = function(music){
