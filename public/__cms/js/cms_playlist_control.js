@@ -375,6 +375,10 @@ function PlaylistControl(){
 				if(arr.length > 0)
 					artist = arr[1].trim();
 			}
+
+			artist = artist.replace(/ \(/g, '(');
+			title = title.replace(/ \(/g, '(');
+
 			var music = {
 				artist: artist,
 				artist_uid: null,
