@@ -106,6 +106,7 @@ var auth_service = require('./auth_service');
 			}
 	
 			await cherry_service.UpdateLyrics(has_lyrics, music_uid, text);
+			await cherry_service.UpdateMusicTimestamp(music_uid);
 			res.send({
 				ok: 1
 			});

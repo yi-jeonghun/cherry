@@ -207,8 +207,6 @@ async function MakeMusicXML(){
 
 async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 	return new Promise(async function(resolve, reject){
-		var date_str = new Date().toISOString();
-
 		console.log('is_first ' + is_first + ' is_last ' + is_last);
 
 		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
@@ -222,6 +220,8 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 
 			for(var m=0 ; m<music_list.length ; m++){
 				var music_uid = music_list[m].music_uid;
+				var date_str = new Date(music_list[m].timestamp_updated).toISOString();
+
 				xml += `	<url>\n`;
 				xml += `		<loc>https://cherrymusic.io/${country_code}/music.go?mid=${music_uid}</loc>\n`;
 				xml += `		<lastmod>${date_str}</lastmod>\n`;

@@ -717,7 +717,7 @@ function CMS_Service(){
 				sql = `
 					SELECT *
 					FROM (
-						SELECT m.title, m.video_id, a.name as artist, m.music_uid, l.music_uid as lyrics_music_uid, 'N' as has_lyrics, m.is_diff_name
+						SELECT m.title, m.video_id, a.name as artist, m.music_uid, l.music_uid as lyrics_music_uid, 'N' as has_lyrics, m.is_diff_name, m.timestamp_updated
 						FROM music m
 						JOIN artist a ON m.artist_uid=a.artist_uid
 						LEFT JOIN lyrics l ON m.music_uid=l.music_uid
@@ -778,7 +778,7 @@ function CMS_Service(){
 		return new Promise(async function(resolve, reject){
 			try{
 				var sql = `
-				SELECT m.music_uid, m.title, a.name as artist, m.is_diff_name, m.org_music_uid
+				SELECT m.music_uid, m.title, a.name as artist, m.is_diff_name, m.org_music_uid, m.timestamp_updated
 				FROM music m
 				JOIN artist a ON m.artist_uid=a.artist_uid
 				LIMIT ? OFFSET ?

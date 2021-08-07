@@ -1126,8 +1126,8 @@ function CherryService(){
 				try{
 					var music_uid = await self.GetMusicUID();
 					conn = await db_conn.GetConnection();
-					var sql_register = 'INSERT INTO music(music_uid, artist_uid, title, video_id, user_id )' +
-						' VALUES (?, ?, ?, ?, ?)';
+					var sql_register = 'INSERT INTO music(music_uid, artist_uid, title, video_id, user_id, timestamp_updated)' +
+						' VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP())';
 					var val = [music_uid, music.artist_uid, music.title, music.video_id, user_id];
 					conn.query(sql_register, val, function(err, result){
 						if(err){
@@ -1150,7 +1150,7 @@ function CherryService(){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
-					var sql = 'UPDATE music SET ? WHERE ?';
+					var sql = 'UPDATE music SET ?, timestamp_updated=CURRENT_TIMESTAMP() WHERE ?';
 					var val = [
 						{
 							artist_uid: music.artist_uid,
@@ -1165,14 +1165,37 @@ function CherryService(){
 					conn.query(sql, val, function(err, result){
 						if(err){
 							console.error(err);
-							reject('FAIL CherryService AddMusic #0');
+							reject('FAIL CherryService UpdateMusic #0');
 						}else{
 							resolve(result.insertId);
 						}
 					});
 				}catch(err){
 					console.error(err);
-					reject('FAIL CherryService AddMusic #1');
+					reject('FAIL CherryService UpdateMusic #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
+		this.UpdateMusicTimestamp = async function(music_uid){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = 'UPDATE music SET timestamp_updated=CURRENT_TIMESTAMP() WHERE music_uid=?';
+					var val = [music_uid];	
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService UpdateMusicTimestamp #0');
+						}else{
+							resolve(result.insertId);
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService UpdateMusicTimestamp #1');
 				}finally{
 					if(conn) conn.release();
 				}
