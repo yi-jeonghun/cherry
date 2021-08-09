@@ -133,12 +133,12 @@ async function MakePlaylistXML(){
 
 async function MakePlaylistXMLByCountry(country_code, playlist_list){
 	return new Promise(async function(resolve, reject){
-		var date_str = new Date().toISOString();
 		var xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
 		xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
 		for(var k=0 ; k<playlist_list.length ; k++){
 			var p = playlist_list[k];
+			var date_str = new Date(p.timestamp_updated).toISOString();
 
 			xml += `	<url>\n`;
 			xml += `		<loc>https://cherrymusic.io/${country_code}/my_playlist_detail.go?pid=${p.playlist_uid}</loc>\n`;
