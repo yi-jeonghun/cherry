@@ -2,6 +2,7 @@ var fs = require('fs');
 var CONST = require('../public/js/const/country_code');
 var top_100_source = require('../public/js/const/top_100_source');
 var cherry_service = require('./cherry_service');
+var cms_service = require('./cms_service');
 const cms_service = require('./cms_service');
 
 var _xml_path_list = [];
@@ -17,7 +18,6 @@ async function UpdateXML(){
 		resolve();
 	});
 }
-
 async function MakeSitemapIndex(){
 	return new Promise(async function(resolve, reject){
 		var path = __dirname + '/../public/sitemap.xml';
@@ -35,7 +35,6 @@ async function MakeSitemapIndex(){
 		resolve();
 	});
 }
-
 async function MakeTopRankXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeTopRankXML');
@@ -48,18 +47,23 @@ async function MakeTopRankXML(){
 		xml += '		<priority>0.5</priority>\n';
 		xml += '	</url>\n';
 
-		for(var i=0 ; i<CONST.__COUNTRY_CODE_LIST.length ; i++){
-			var country_code = CONST.__COUNTRY_CODE_LIST[i];
-			var source_list = top_100_source.list[country_code];
+		var top_rank_release_list = cms_service.GetTopRankReleaseTime();
 
-			for(var s=0 ; s<source_list.length ; s++){
-				var source = source_list[s].source;
-				xml += '	<url>\n';
-				xml += `		<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>\n`;
-				xml += `		<lastmod>${date_str}</lastmod>\n`;
-				xml += '		<priority>0.8</priority>\n';
-				xml += '	</url>\n';
+		for(var i=0 ; i<top_rank_release_list.length ; i++){
+			var t = top_rank_release_list[i];
+			var country_code = t.country_code;
+			var source = t.source;
+			var release_time_str = new Date(t.release_time).toISOString();
+
+			if(source == null){
+				continue;
 			}
+
+			xml += '	<url>\n';
+			xml += `		<loc>https://cherrymusic.io/${country_code}/top_rank.go?s=${source}</loc>\n`;
+			xml += `		<lastmod>${release_time_str}</lastmod>\n`;
+			xml += '		<priority>0.8</priority>\n';
+			xml += '	</url>\n';
 		}
 
 		xml += '</urlset>\n';
@@ -69,7 +73,6 @@ async function MakeTopRankXML(){
 		resolve();
 	});
 }
-
 async function MakeArtistXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeArtistXML');
@@ -83,7 +86,6 @@ async function MakeArtistXML(){
 		resolve(xml_list);
 	});
 }
-
 async function MakeArtistXMLByCountry(country_code, artist_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
@@ -111,7 +113,6 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 		resolve();
 	});
 }
-
 async function MakePlaylistXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakePlaylistXML');
@@ -130,7 +131,6 @@ async function MakePlaylistXML(){
 		resolve();
 	});
 }
-
 async function MakePlaylistXMLByCountry(country_code, playlist_list){
 	return new Promise(async function(resolve, reject){
 		var xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -154,7 +154,6 @@ async function MakePlaylistXMLByCountry(country_code, playlist_list){
 		resolve();
 	});
 }
-
 async function MakeMusicXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeMusicXML');
@@ -204,7 +203,6 @@ async function MakeMusicXML(){
 		resolve();
 	});
 }
-
 async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 	return new Promise(async function(resolve, reject){
 		console.log('is_first ' + is_first + ' is_last ' + is_last);
@@ -246,7 +244,6 @@ async function MakeMusicXMLByCountry(music_list, file_count, is_first, is_last){
 		resolve();
 	});
 }
-
 async function MakeEraChartXML(){
 	return new Promise(async function(resolve, reject){
 		console.log('MakeEraChartXML');
@@ -262,7 +259,6 @@ async function MakeEraChartXML(){
 		resolve();
 	});
 }
-
 async function MakeEraChartXMLByCountry(country_code, year_list){
 	return new Promise(async function(resolve, reject){
 		var date_str = new Date().toISOString();
@@ -288,7 +284,6 @@ async function MakeEraChartXMLByCountry(country_code, year_list){
 		resolve();
 	});
 }
-
 async function WriteXML(path, xml){
 	return new Promise(function(resolve, reject){
 		fs.writeFile(path, xml, function (err) {
@@ -301,7 +296,6 @@ async function WriteXML(path, xml){
 		});
 	});
 }
-
 async function AppendXML(path, xml){
 	return new Promise(function(resolve, reject){
 		fs.appendFile(path, xml, function(err){
@@ -314,7 +308,6 @@ async function AppendXML(path, xml){
 		});
 	});
 }
-
 async function Main(){
 	console.log('Sitemap Update');
 
