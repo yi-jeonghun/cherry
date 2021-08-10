@@ -1135,7 +1135,7 @@ function CMS_Service(){
 			});
 		};
 		this.ERA_UpdateTimestamp = function(era_uid){
-			return new Promise(function(resolve, reject){
+			return new Promise(async function(resolve, reject){
 				var conn = null;
 				try{
 					conn = await db_conn.GetConnection();
@@ -1152,6 +1152,8 @@ function CMS_Service(){
 				}catch(err){
 					console.error(err);
 					reject('FAIL CMSService ERA_UpdateTimestamp #1');
+				}finally{
+					if(conn) conn.release();
 				}
 			});
 		};
