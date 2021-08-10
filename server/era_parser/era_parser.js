@@ -95,6 +95,7 @@ function EraParser(){
 		idx = tmp.indexOf(end);
 		tmp = tmp.substr(0, tmp.length - (tmp.length - idx));
 		tmp = util.UnEscapeHTML(tmp);
+		tmp = tmp.replace(/ \(/g, '(');
 		return tmp;
 	};
 
@@ -118,6 +119,7 @@ function EraParser(){
 			// console.log('arr ' + i + ' ' + arr[i]);
 			if(arr[i].includes(key)){
 				var artist = self.ExtractTitle(arr[i], key, '>', '<');
+				artist = artist.replace(/ \(/g, '(');
 				// console.log('artist ' + artist);
 				var found = false;
 				for(var j=0 ; j<artist_list.length ; j++){
