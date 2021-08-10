@@ -88,7 +88,6 @@ async function MakeArtistXML(){
 }
 async function MakeArtistXMLByCountry(country_code, artist_list){
 	return new Promise(async function(resolve, reject){
-		var date_str = new Date().toISOString();
 		var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
 		xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
@@ -98,6 +97,8 @@ async function MakeArtistXMLByCountry(country_code, artist_list){
 			if(artist.is_diff_name == 'Y'){
 				artist_uid = artist.org_artist_uid;	
 			}
+
+			var date_str = new Date(artist.timestamp_updated).toISOString();
 
 			xml += '	<url>\n';
 			xml += `		<loc>https://cherrymusic.io/${country_code}/artist.go?aid=${artist_uid}</loc>\n`;

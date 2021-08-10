@@ -657,6 +657,7 @@ const util = require('./util');
 				});
 			}else{
 				var music_uid = await cherry_service.AddMusic(music, dj_user_id);
+				await cherry_service.UpdateArtistTimestamp(music.artist_uid);
 				var music_info = await cherry_service.GetMusicInfo(music_uid);
 	
 				res.send({
