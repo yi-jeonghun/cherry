@@ -1088,6 +1088,7 @@ const util = require('./util');
 			console.log('era_uid ' + era_uid);
 			var music_list = req.body.music_list;
 			await cms_service.ERA_Release(era_uid, music_list);
+			await cms_service.ERA_UpdateTimestamp(era_uid);
 			res.send({
 				ok: 1
 			});

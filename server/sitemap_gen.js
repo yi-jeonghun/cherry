@@ -262,7 +262,6 @@ async function MakeEraChartXML(){
 }
 async function MakeEraChartXMLByCountry(country_code, year_list){
 	return new Promise(async function(resolve, reject){
-		var date_str = new Date().toISOString();
 		var xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
 		xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
@@ -270,6 +269,7 @@ async function MakeEraChartXMLByCountry(country_code, year_list){
 			var era_uid = year_list[k].era_uid;
 			var region = year_list[k].region;
 			var year = year_list[k].year;
+			var date_str = new Date(year_list[k].timestamp_updated).toISOString();
 
 			xml += `	<url>\n`;
 			xml += `		<loc>https://cherrymusic.io/${country_code}/era_chart.go?eid=${era_uid}&year=${year}&region=${region}</loc>\n`;

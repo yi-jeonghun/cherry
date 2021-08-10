@@ -1134,6 +1134,27 @@ function CMS_Service(){
 				}
 			});
 		};
+		this.ERA_UpdateTimestamp = function(era_uid){
+			return new Promise(function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `UPDATE era_chart SET timestamp_updated=CURRENT_TIMESTAMP() WHERE era_uid=?`;
+					var val = [era_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CMSService ERA_UpdateTimestamp #0');
+						}else{
+							resolve();
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CMSService ERA_UpdateTimestamp #1');
+				}
+			});
+		};
 		this.ERA_InsertDraftMusic = function(conn, era_uid, source, number, music){
 			return new Promise(function(resolve, reject){
 				try{

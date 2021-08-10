@@ -2696,7 +2696,7 @@ function CherryService(){
 				try{
 					conn = await db_conn.GetConnection();
 					var era_uid = await self.GetEraUID();
-					var sql = `INSERT INTO era_chart(era_uid, country_code, year, region) VALUES(?, ?, ?, ?)`;
+					var sql = `INSERT INTO era_chart(era_uid, country_code, year, region, timestamp_updated=CURRENT_TIMESTAMP() VALUES(?, ?, ?, ?)`;
 					var val = [era_uid, country_code, year, region];
 					conn.query(sql, val, function(err, result){
 						if(err){
