@@ -29,7 +29,6 @@ var auth_service = require('./auth_service');
 		}
 	});
 }
-
 //===================================================
 // TOP RANK
 //---------------------------------------------------
@@ -1176,6 +1175,22 @@ var auth_service = require('./auth_service');
 			res.send({
 				ok:0,
 				err:'Fail /era/get_music_list'
+			});
+		}
+	});
+	router.post('/era/get_era_info', async function(req, res){
+		try{
+			var era_uid = req.body.era_uid;
+			var era_info = await cherry_service.GetEraInfo(era_uid);
+			res.send({
+				ok: 1,
+				era_info: era_info
+			});	
+		}catch(err){
+			console.error(err);
+			res.send({
+				ok:0,
+				err:'Fail /era/get_era_info'
 			});
 		}
 	});

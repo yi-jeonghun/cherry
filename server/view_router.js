@@ -212,13 +212,9 @@ router.get('/era.vu', async function(req, res){
 
 router.get('/era_chart.vu', async function(req, res){
 	var era_uid = req.query.eid;
-	var year = req.query.year;
-	var region = req.query.region;
 	var data = {
 		dev_mode: _dev_mode,
-		era_uid:  era_uid,
-		year:     year,
-		region:   region
+		era_uid:  era_uid
 	};
 	res.render('era_chart', data);
 });

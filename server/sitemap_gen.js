@@ -3,7 +3,6 @@ var CONST = require('../public/js/const/country_code');
 var top_100_source = require('../public/js/const/top_100_source');
 var cherry_service = require('./cherry_service');
 var cms_service = require('./cms_service');
-const cms_service = require('./cms_service');
 
 var _xml_path_list = [];
 
@@ -267,12 +266,10 @@ async function MakeEraChartXMLByCountry(country_code, year_list){
 
 		for(var k=0 ; k<year_list.length ; k++){
 			var era_uid = year_list[k].era_uid;
-			var region = year_list[k].region;
-			var year = year_list[k].year;
 			var date_str = new Date(year_list[k].timestamp_updated).toISOString();
 
 			xml += `	<url>\n`;
-			xml += `		<loc>https://cherrymusic.io/${country_code}/era_chart.go?eid=${era_uid}&year=${year}&region=${region}</loc>\n`;
+			xml += `		<loc>https://cherrymusic.io/${country_code}/era_chart.go?eid=${era_uid}</loc>\n`;
 			xml += `		<lastmod>${date_str}</lastmod>\n`;
 			xml += `		<priority>0.8</priority>\n`;
 			xml += `	</url>\n`;

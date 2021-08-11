@@ -5,23 +5,13 @@ function EraChartControl(){
 	this._music_list = [];
 	this._year = 0;
 
-	this.Init = function(era_uid, year, region){
+	this.Init = function(era_uid){
 		self._era_uid = era_uid;
-		var l_region = '';
-		if(region == 'domestic'){
-			l_region = TR(L_DOMESTIC);
-		}else if(region == 'foreign'){
-			l_region = TR(L_FOREIGN);
-		}
-		var meta = year + ' ' + l_region;
-		window._router.UpdateMeta_EraChart(meta);
-
-		$('#id_label_era_chart_year').html(year);
-		$('#id_label_era_chart_region').html(l_region);
 
 		self.InitHandle();
+		self.GetEraInfo();
 		// self.GetYearList();
-		self.GetMusicList();
+		// self.GetMusicList();
 
 		return self;
 	};
@@ -50,6 +40,36 @@ function EraChartControl(){
 	};
 
 	//-----------------------------------------------------------------
+
+	this.GetEraInfo = function(){
+		var req = {
+			era_uid: self._era_uid
+		}
+		POST('/cherry_api/era/get_era_info', req, res=>{
+			if(res.ok)
+			{
+				var region = res.era_info.region;
+				var year = res.era_info.year;
+
+				var l_region = '';
+				if(region == 'domestic'){
+					l_region = TR(L_DOMESTIC);
+				}else if(region == 'foreign'){
+					l_region = TR(L_FOREIGN);
+				}
+				var meta = year + ' ' + l_region;
+				window._router.UpdateMeta_EraChart(meta);
+		
+				$('#id_label_era_chart_year').html(year);
+				$('#id_label_era_chart_region').html(l_region);
+				self.GetMusicList();
+			}
+			else
+			{
+				alert(res.err);
+			}
+		})
+	};
 
 	this.GetYearList = function(){
 		var req = {

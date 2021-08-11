@@ -2690,6 +2690,36 @@ function CherryService(){
 				}
 			});
 		};
+		this.GetEraInfo = function(era_uid){
+			return new Promise(async function(resolve, reject){
+				var conn = null;
+				try{
+					conn = await db_conn.GetConnection();
+					var sql = `SELECT * FROM era_chart WHERE era_uid=?`;
+					var val = [era_uid];
+					conn.query(sql, val, function(err, result){
+						if(err){
+							console.error(err);
+							reject('FAIL CherryService GetEraInfo #0');
+						}else{
+							if(result.length > 0)
+							{
+								resolve(result[0]);
+							}
+							else
+							{
+								reject('FAIL CherryService GetReaInfo - era_uid not found');
+							}
+						}
+					});
+				}catch(err){
+					console.error(err);
+					reject('FAIL CherryService GetEraInfo #1');
+				}finally{
+					if(conn) conn.release();
+				}
+			});
+		};
 		this.AddYear = function(country_code, year, region){
 			return new Promise(async function(resolve, reject){
 				var conn = null;
