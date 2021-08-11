@@ -361,18 +361,18 @@ function PlaylistControl(){
 			if(line == ''){
 				continue;
 			}
-			// console.log('line ' + line);
+			console.log('line ' + line);
 			var artist;
 			var title;
 			if(type == 'a_t'){
 				var arr = line.split('-');
 				artist = arr[0].trim();
-				if(arr.length > 0)
+				if(arr.length > 1)
 					title = arr[1].trim();
 			}else if(type == 't_a'){
 				var arr = line.split('-');
 				title = arr[0].trim();
-				if(arr.length > 0)
+				if(arr.length > 1)
 					artist = arr[1].trim();
 			}
 
