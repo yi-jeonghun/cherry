@@ -2,6 +2,12 @@ $('document').ready(function(){
 	window._elvis = new Elvis().Init();
 });
 
+const ELVIS_TAB = {
+	ARTIST:2,
+	MUSIC:3,
+	YOUTUBE:1
+}
+
 function Elvis(){
 	var self = this;
 	this._youtube = null;
@@ -20,6 +26,7 @@ function Elvis(){
 	};
 
 	this.SearchYoutube = function(keyword){
+		self.OnClick_NavTab(ELVIS_TAB.YOUTUBE);
 		self._youtube_searched_video_list = [];
 		self._keyword = keyword;
 		var is_next = false;
@@ -27,7 +34,7 @@ function Elvis(){
 	};
 
 	this.SearchArtist = function(keyword, cb){
-		self.OnClick_NavTab('artist');
+		self.OnClick_NavTab(ELVIS_TAB.ARTIST);
 		$('#id_input_cms_elvis_artist_search').val(keyword);
 
 		var req_data = {
@@ -56,7 +63,7 @@ function Elvis(){
 	};
 
 	this.SearchMusic = function(artist_name, title){
-		self.OnClick_NavTab('music');
+		self.OnClick_NavTab(ELVIS_TAB.MUSIC);
 		self._searched_music_list = [];
 		var req_data = {
 			artist_name: artist_name,
@@ -132,14 +139,21 @@ function Elvis(){
 	this.OnClick_NavTab = function(type){
 		$('#id_cms_elvis_nav_artist').removeClass('active');
 		$('#id_cms_elvis_nav_music').removeClass('active');
+		$('#id_cms_elvis_nav_youtube').removeClass('active');
+
 		$('#id_div_cms_elvis_music_search_result').hide();
 		$('#id_div_cms_elvis_artist_search_result').hide();
-		if(type == 'artist'){
+		$('#id_div_cms_elvis_youtube_search_result').hide();
+
+		if(type == ELVIS_TAB.ARTIST){
 			$('#id_cms_elvis_nav_artist').addClass('active');
 			$('#id_div_cms_elvis_artist_search_result').show();
-		}else if(type == 'music'){
+		}else if(type == ELVIS_TAB.MUSIC){
 			$('#id_cms_elvis_nav_music').addClass('active');
 			$('#id_div_cms_elvis_music_search_result').show();
+		}else if(type == ELVIS_TAB.YOUTUBE){
+			$('#id_cms_elvis_nav_youtube').addClass('active');
+			$('#id_div_cms_elvis_youtube_search_result').show();
 		}
 	};
 
@@ -364,7 +378,7 @@ function Elvis(){
 		for(var i=0 ; i<video_list.length ; i++){
 			self._youtube_searched_video_list.push(video_list[i]);
 		}
-		$('#id_div_elvis_youtube_search_result').empty();
+		$('#id_div_cms_elvis_youtube_search_result').empty();
 
 		var h = `
 		<div class="container-fluid small">
@@ -416,7 +430,7 @@ function Elvis(){
 		</div>
 		`;
 
-		$('#id_div_elvis_youtube_search_result').html(h);
+		$('#id_div_cms_elvis_youtube_search_result').html(h);
 		self.HighlightChoosedYoutubeVideo();
 	};
 

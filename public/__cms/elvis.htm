@@ -7,7 +7,7 @@
 	<div class="border" style="width: 100%;">
 		<div class="border" style="width: 100%; height: 40px; padding-top: 5px;">
 			<div class="slider_filler border" id=""></div>
-			<input class="border slider" style="height: 20px;" type="range" min="0" max="10000" value="0" id="id_slider_range">
+			<input class="border slider" style="width:100%; height: 20px;" type="range" min="0" max="10000" value="0" id="id_slider_range">
 		</div>
 		<div class="d-flex" style="width: 100%;">
 			<div class="col-6">
@@ -25,19 +25,22 @@
 </div>
 
 <!-- ARTIST SEARCH / MUSIC SEARCH -->
-<div class="border" style="height: 200px; overflow: auto">
-	<div class="d-flex">
-		<div class="col-4">
+<div class="border" style="height: calc( 100% - 100px);">
+	<div class="d-flex" style="height: 40px">
+		<div class="col-5">
 			<ul class="nav nav-tabs small" style="font-size: 0.5em;">
 				<li class="nav-item">
-					<a class="nav-link active" style="cursor: pointer;" id="id_cms_elvis_nav_artist" onClick="window._elvis.OnClick_NavTab('artist')">Artist</a>
+					<a class="nav-link" style="cursor: pointer;" id="id_cms_elvis_nav_youtube" onClick="window._elvis.OnClick_NavTab(ELVIS_TAB.YOUTUBE)">Youtube[1]</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" style="cursor: pointer;" id="id_cms_elvis_nav_music" onClick="window._elvis.OnClick_NavTab('music')">Music</a>
+					<a class="nav-link active" style="cursor: pointer;" id="id_cms_elvis_nav_artist" onClick="window._elvis.OnClick_NavTab(ELVIS_TAB.ARTIST)">Artist[2]</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" style="cursor: pointer;" id="id_cms_elvis_nav_music" onClick="window._elvis.OnClick_NavTab(ELVIS_TAB.MUSIC)">Music[3]</a>
 				</li>
 			</ul>	
 		</div>
-		<div class="col-5">
+		<div class="col-4">
 			<input class="small my-auto" style="width: 100%;" type="text" id="id_input_cms_elvis_artist_search">
 		</div>
 		<div class="col-3 text-right">
@@ -46,12 +49,13 @@
 			<span class="badge badge-sm badge-primary" style="cursor: pointer;" onClick="window._elvis.OnClick_SearchArtist()">Search</span>
 		</div>
 	</div>
-	<div id="id_div_cms_elvis_artist_search_result"></div>
-	<div id="id_div_cms_elvis_music_search_result" style="display: none;"></div>
+	<div id="id_div_cms_elvis_artist_search_result" style="height: calc( 100% - 40px); overflow: auto"></div>
+	<div id="id_div_cms_elvis_music_search_result" style="height: calc( 100% - 40px); overflow: auto; display: none;"></div>
+	<div id="id_div_cms_elvis_youtube_search_result" style="height: calc( 100% - 40px); overflow: auto; display: none;"></div>
 </div>
 
 <!-- YOUTUBE SEARCH -->
-<div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_elvis_youtube_search_result"></div>
+<!-- <div class="border" style="height: calc( 100% - 300px); overflow: auto; " id="id_div_elvis_youtube_search_result"></div> -->
 
 <!-- MUSIC EDIT MODAL -->
 <div id="id_modal_cms_elvis_music_edit" class="modal small" tabindex="-1">
